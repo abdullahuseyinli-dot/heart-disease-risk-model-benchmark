@@ -1,0 +1,14 @@
+numpy
+pandas
+matplotlib
+scikit-learn
+lightgbm
+xgboost
+shap
+tabulate
+joblib
+pyarrow
+psutil
+jupyter
+nbconvert
+nbformat

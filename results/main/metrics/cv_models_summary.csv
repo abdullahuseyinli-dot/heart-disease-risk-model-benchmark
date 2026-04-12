@@ -1,0 +1,5 @@
+model,cv_type,mean_auc,std_auc,mean_f1,std_f1,mean_accuracy,std_accuracy
+Logistic Regression,10x10 nested,0.896,0.031,0.841,0.045,0.823,0.047
+LightGBM,10x10 nested,0.893,0.039,0.844,0.033,0.826,0.035
+XGBoost,10-fold CV,0.881,0.037,0.843,0.033,0.824,0.035
+CatBoost,10-fold CV,0.892,0.036,0.847,0.027,0.828,0.025

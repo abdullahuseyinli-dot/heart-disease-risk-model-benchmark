@@ -1,0 +1,19 @@
+|--- cp_asymptomatic <= 0.50
+|   |--- age <= 56.50
+|   |   |--- chol <= 70.50
+|   |   |   |--- class: 1
+|   |   |--- chol >  70.50
+|   |   |   |--- class: 0
+|   |--- age >  56.50
+|   |   |--- sex <= 0.50
+|   |   |   |--- class: 0
+|   |   |--- sex >  0.50
+|   |   |   |--- class: 1
+|--- cp_asymptomatic >  0.50
+|   |--- exang <= 0.50
+|   |   |--- chol <= 167.50
+|   |   |   |--- class: 1
+|   |   |--- chol >  167.50
+|   |   |   |--- class: 1
+|   |--- exang >  0.50
+|   |   |--- class: 1
