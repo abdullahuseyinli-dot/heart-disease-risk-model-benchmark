@@ -25,3 +25,7 @@ notebooks/
 
 notebooks/
 .venv/
+
+# Edge deployment bundle
+deployment_bundle/*.joblib
+!deployment_bundle/README.md
