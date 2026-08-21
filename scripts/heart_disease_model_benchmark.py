@@ -1,7 +1,5 @@
 #!/usr/bin/env python
-# coding: utf-8
-
-# In[ ]:
+"""Run the end-to-end heart-disease model benchmark and export its evidence."""
 
 
 import os
@@ -35,7 +33,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils import resample
 from sklearn.tree import DecisionTreeClassifier, export_text
-from sklearn.base import clone  # <--- NEW: robust cloning for CV
+from sklearn.base import clone
 
 from xgboost import XGBClassifier
 from lightgbm import LGBMClassifier
@@ -43,6 +41,13 @@ from sklearn.linear_model import LogisticRegression
 
 import shap
 from tabulate import tabulate
+
+try:
+    from IPython.display import display
+except ImportError:
+    def display(value):
+        """Console fallback used outside IPython."""
+        print(value)
 
 
 try:
@@ -75,10 +80,8 @@ RANDOM_STATE = 42
 np.random.seed(RANDOM_STATE)
 
 
-# In[ ]:
 
-
-PROJECT_ROOT = Path(".").resolve()
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = PROJECT_ROOT / "data"
 RESULTS_DIR = PROJECT_ROOT / "results"
 FIG_DIR = RESULTS_DIR / "figures"
@@ -164,8 +167,6 @@ def plot_and_save_confusion(y_true, y_proba, model_name, subfolder="model_perfor
     save_ascii_table(report_df, f"{model_name}_classification_report", "test")
 
 
-# In[ ]:
-
 
 DATA_PATH = PROJECT_ROOT / "heart_disease_uci.csv"  
 
@@ -224,8 +225,6 @@ print("Positive class proportion:", y.mean())
 
 df_model.to_parquet(DATA_DIR / "heart_disease_processed.parquet")
 
-
-# In[ ]:
 
 
 def eda_plots(df_model):
@@ -304,8 +303,6 @@ def eda_plots(df_model):
 
 eda_plots(df_model)
 
-
-# In[ ]:
 
 
 def cv_evaluate(model, X, y, model_name="model", n_splits=10):
@@ -395,8 +392,6 @@ def nested_cv(model, param_grid, X, y,
                      f"{model_name}_nestedCV_summary", "nested_cv")
     return df_nested
 
-
-# In[ ]:
 
 
 xgb_base = XGBClassifier(
@@ -493,8 +488,6 @@ else:
     print("CatBoost not installed – skipping CatBoost CV.")
 
 
-# In[ ]:
-
 
 lgb_nested_model = LGBMClassifier(
     objective="binary",
@@ -589,8 +582,6 @@ if optuna is not None:
 else:
     print("Optuna not installed – skipping Bayesian optimisation.")
 
-
-# In[ ]:
 
 
 X_train, X_test, y_train, y_test = train_test_split(
@@ -753,8 +744,6 @@ save_csv(df_auc_ci, "holdout_auc_bootstrap_ci", "test")
 save_ascii_table(df_auc_ci, "holdout_auc_bootstrap_ci", "test")
 
 
-# In[ ]:
-
 
 def _bootstrap_metric_ci(y_true, y_proba, metric_fn, n_boot=1000, 
                          alpha=0.95, random_state=RANDOM_STATE):
@@ -822,8 +811,6 @@ save_csv(df_boot, "holdout_bootstrap_ci", "test")
 save_ascii_table(df_boot, "holdout_bootstrap_ci", "test")
 
 
-# In[ ]:
-
 
 def lgb_parallelism_comparison():
     configs = [("single_thread", 1), ("multi_thread", -1)]
@@ -876,8 +863,6 @@ def lgb_parallelism_comparison():
 
 lgb_parallelism_comparison()
 
-
-# In[ ]:
 
 
 from dask.distributed import Client
@@ -1025,8 +1010,6 @@ else:
           "parallel vs single-thread experiments for the report.")
 
 
-
-# In[ ]:
 
 
 def plot_training_curves_xgb():
@@ -1195,8 +1178,6 @@ plot_training_curves_lgbm()
 
 
 
-# In[ ]:
-
 
 def estimate_latency(model, X_input, n_runs=30, name="model"):
     
@@ -1282,8 +1263,6 @@ plt.title("Latency vs AUC across models")
 save_fig("models_latency_vs_auc", "model_performance")
 
 
-# In[ ]:
-
 
 def plot_roc_pr_calibration_and_confusion():
 
@@ -1356,8 +1335,6 @@ def plot_roc_pr_calibration_and_confusion():
 
 plot_roc_pr_calibration_and_confusion()
 
-
-# In[ ]:
 
 
 from sklearn.linear_model import LogisticRegression  
@@ -1463,8 +1440,6 @@ save_fig("brier_decomposition_components", "model_performance")
 
 
 
-# In[ ]:
-
 
 def threshold_grid_analysis(y_true, y_proba, cost_fn=5.0, cost_fp=1.0):
     """
@@ -1521,8 +1496,6 @@ plt.ylabel("Expected cost (FN cost=5, FP cost=1)")
 plt.title("LightGBM – cost-sensitive risk vs threshold")
 save_fig("lgbm_cost_vs_threshold", "model_performance")
 
-
-# In[ ]:
 
 
 def model_comparison_stats_and_fairness():
@@ -1633,8 +1606,6 @@ model_comparison_stats_and_fairness()
 
 
 
-# In[ ]:
-
 
 shap.initjs()
 
@@ -1725,8 +1696,6 @@ save_csv(
 
 
 
-# In[ ]:
-
 
 X_train_scaled = lr_final.named_steps["scaler"].transform(X_train)
 X_test_scaled = lr_final.named_steps["scaler"].transform(X_test)
@@ -1755,8 +1724,6 @@ force_plot_lr = shap.force_plot(
     X_test_lr.iloc[i_example, :],
 )
 
-
-# In[ ]:
 
 
 mean_abs_shap_lgb = np.mean(np.abs(shap_values_lgb), axis=0)
@@ -1798,8 +1765,6 @@ with open(RESULTS_DIR / "surrogate_tree_lgbm_rules.txt", "w") as f:
     f.write(rules_text)
 print("Surrogate tree rules saved to results/surrogate_tree_lgbm_rules.txt")
 
-
-# In[ ]:
 
 
 def simple_counterfactual(model, x, feature_columns,
@@ -1869,8 +1834,6 @@ with open(RESULTS_DIR / "counterfactual_examples.json", "w") as f:
 print("Counterfactual examples saved to results/counterfactual_examples.json")
 
 
-# In[ ]:
-
 
 metric_cols = ["accuracy", "precision", "recall", "f1", "auc", "brier", "train_time"]
 df_plot = df_holdout.copy()
@@ -1896,8 +1859,6 @@ save_fig("models_bar_latency", "model_performance")
 
 print("Pipeline completed. All metrics, tables, SHAP plots, and counterfactuals saved under 'results/'.")
 
-
-# In[ ]:
 
 
 import matplotlib.pyplot as plt
@@ -1931,8 +1892,6 @@ plt.savefig(out_path, dpi=200)
 plt.close()
 print("Saved:", out_path)
 
-
-# In[ ]:
 
 
 import matplotlib.pyplot as plt
@@ -1970,8 +1929,6 @@ plt.close()
 print("Saved:", out_path)
 
 
-# In[ ]:
-
 
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
@@ -1999,8 +1956,6 @@ plt.savefig(out_path, dpi=200)
 plt.close()
 print("Saved:", out_path)
 
-
-# In[ ]:
 
 
 import pandas as pd
@@ -2081,8 +2036,6 @@ with open(ASCII_DIR / f"{out_name}.txt", "w") as f:
     f.write(ascii_txt + "\n")
 
 
-# In[ ]:
-
 
 if TabNetClassifier is not None and torch is not None:
     def tabnet_cv_evaluate():
@@ -2125,8 +2078,6 @@ if TabNetClassifier is not None and torch is not None:
 
 
 
-# In[ ]:
-
 
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
@@ -2168,8 +2119,6 @@ plt.close()
 print("Saved:", out_path)
 
 
-
-# In[ ]:
 
 
 def plot_training_curves_xgb():
@@ -2332,8 +2281,6 @@ def plot_training_curves_lgbm():
 
 
 
-# In[ ]:
-
 
 single_node_row_main = {
     "model": "LightGBM_single_node",
@@ -2348,7 +2295,7 @@ single_node_row_main = {
 
 df_lgb_single_main = pd.DataFrame([single_node_row_main])
 
-print("Single-node LightGBM summary from main notebook:")
+print("Single-node LightGBM summary from the benchmark run:")
 display(df_lgb_single_main)
 
 
@@ -2357,8 +2304,6 @@ save_ascii_table(df_lgb_single_main,
                  "lightgbm_single_node_summary",
                  subfolder="test")
 
-
-# In[ ]:
 
 
 def repeated_cv_evaluate(model, X, y, model_name="model",
@@ -2415,8 +2360,6 @@ xgb_10x10 = repeated_cv_evaluate(xgb_base, X, y, "XGBoost")
 lgb_10x10 = repeated_cv_evaluate(lgb_base, X, y, "LightGBM")
 lr_10x10  = repeated_cv_evaluate(lr_pipe, X, y, "LogisticRegression")
 
-
-# In[ ]:
 
 
 def plot_training_curves_xgb():
@@ -2584,8 +2527,6 @@ plot_training_curves_xgb()
 plot_training_curves_lgbm()
 
 
-# In[ ]:
-
 
 from pathlib import Path
 import joblib
@@ -2611,13 +2552,9 @@ print("Number of features:", len(feature_names))
 
 
 
-# In[ ]:
-
 
 get_ipython().system('pip install psutil')
 
-
-# In[ ]:
 
 
 import os
@@ -2689,8 +2626,6 @@ save_fig("lgbm_deployment_latency_hist", subfolder="model_performance")
 plt.close()
 
 
-# In[ ]:
-
 
 import pandas as pd
 
@@ -2720,8 +2655,6 @@ df_lat["stage"] = pd.cut(
 
 df_lat.head()
 
-
-# In[ ]:
 
 
 mean_ms = df_lat["latency_ms"].mean()
@@ -2779,8 +2712,6 @@ print(f"Mean jitter        : {jitter_mean:.3f} ms")
 print(f"95th percentile    : {jitter_p95:.3f} ms")
 
 
-# In[ ]:
-
 
 plt.figure(figsize=(8, 4))
 plt.plot(df_lat["request_idx"], df_lat["latency_ms"], marker=".", linestyle="-", alpha=0.6)
@@ -2792,8 +2723,6 @@ plt.tight_layout()
 save_fig("lgbm_latency_over_time", subfolder="model_performance")
 plt.close()
 
-
-# In[ ]:
 
 
 plt.figure(figsize=(5, 4))
@@ -2807,8 +2736,6 @@ save_fig("lgbm_latency_warmup_vs_steady", subfolder="model_performance")
 plt.close()
 
 
-# In[ ]:
-
 
 plt.figure(figsize=(5, 4))
 df_lat.boxplot(column="latency_ms", by="stage")
@@ -2820,8 +2747,6 @@ plt.tight_layout()
 save_fig("lgbm_latency_by_stage", subfolder="model_performance")
 plt.close()
 
-
-# In[ ]:
 
 
 import joblib

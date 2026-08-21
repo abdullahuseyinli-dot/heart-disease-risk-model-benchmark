@@ -1,42 +1,140 @@
 # Heart Disease Risk Model Benchmark
 
-Benchmarking heart disease risk models with calibration, fairness analysis, distributed training comparisons, interpretability, and edge inference latency evaluation.
+[![CI](https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark/actions/workflows/ci.yml/badge.svg)](https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark/actions/workflows/ci.yml)
 
-## Overview
+A reproducible comparison of linear, gradient-boosted, and neural tabular
+classifiers on the processed UCI Heart Disease dataset. The project evaluates
+discrimination, calibration, threshold behavior, uncertainty, subgroup
+performance, explainability, distributed-training overhead, and edge-style
+inference latency.
 
-This repository presents a cleaned portfolio version of a heart disease prediction project built on tabular clinical data. The work compares Logistic Regression, LightGBM, XGBoost, and TabNet, then extends the analysis with calibration diagnostics, fairness checks, SHAP-based interpretability, a distributed LightGBM comparison, and a lightweight edge inference simulation.
+> This is a technical benchmark, not a medical device. Its outputs must not be
+> used for diagnosis, treatment, or individual clinical decisions.
 
-## Key results
+![Holdout model comparison](results/main/figures/model_performance/models_bar_metrics_panel.png)
 
-- On the hold-out set, TabNet achieved the strongest AUC at **0.930** and the lowest Brier score at **0.107**.
-- XGBoost achieved the strongest hold-out **F1 score of 0.877**.
-- Logistic Regression achieved a hold-out **AUC of 0.908** and remained a strong transparent baseline.
-- LightGBM provided a strong balance between predictive performance, calibration, efficiency, and deployment suitability.
-- In the distributed comparison, Dask-based LightGBM underperformed on this dataset, with **AUC ≈ 0.533** versus **0.896** for the single-node model.
-- In the edge inference simulation, the exported LightGBM pipeline showed **mean latency of 14.61 ms**, **p95 latency of 33.25 ms**, and **throughput of about 91 requests per second**.
-- SHAP rankings for LightGBM and Logistic Regression remained strongly aligned, with **Spearman rho = 0.771**.
+## Evaluation snapshot
 
-## Methods
+The table below is read from the tracked 20% stratified holdout results in
+[`holdout_models.csv`](results/main/metrics/test/holdout_models.csv).
 
-- Logistic Regression
-- LightGBM
-- XGBoost
-- TabNet
-- Dask-based LightGBM comparison
-- Edge inference latency simulation
+| Model | Accuracy | F1 | ROC-AUC | Brier score |
+| --- | ---: | ---: | ---: | ---: |
+| Logistic regression | 0.8370 | 0.8585 | 0.9083 | 0.1183 |
+| LightGBM | 0.8424 | 0.8638 | 0.8962 | 0.1192 |
+| XGBoost | **0.8587** | **0.8774** | 0.9010 | 0.1151 |
+| TabNet | 0.8533 | 0.8744 | **0.9302** | **0.1066** |
 
-## Repository structure
+Bootstrap intervals keep the small-sample uncertainty visible:
+
+| Model | ROC-AUC 95% interval | F1 95% interval |
+| --- | ---: | ---: |
+| Logistic regression | [0.8633, 0.9495] | [0.8041, 0.9065] |
+| LightGBM | [0.8450, 0.9406] | [0.8098, 0.9083] |
+| XGBoost | [0.8497, 0.9447] | [0.8235, 0.9202] |
+| TabNet | [0.8876, 0.9645] | [0.8203, 0.9148] |
+
+These intervals overlap. The repository therefore reports different leaders by
+metric instead of presenting a single model as conclusively superior.
+
+## Experiment design
+
+- **Dataset:** 920 processed records and 28 columns; `num > 0` is the positive
+  class.
+- **Split:** stratified 80/20 holdout with random seed 42.
+- **Model selection:** nested cross-validation for logistic regression and
+  LightGBM; cross-validation summaries are retained for all tree baselines.
+- **Probability quality:** Brier decomposition, calibration slope/intercept,
+  calibration curves, and threshold analysis.
+- **Uncertainty:** 1,000 holdout bootstrap resamples.
+- **Interpretability:** SHAP summaries, a depth-three surrogate tree,
+  counterfactual examples, and cross-model SHAP rank agreement.
+- **Subgroups:** accuracy, recall, F1, AUC, TPR, and FPR by recorded sex.
+
+The strongest tracked cross-validation mean AUC is 0.896 for logistic
+regression. SHAP rankings from LightGBM and logistic regression have Spearman
+correlation 0.771 on the retained comparison.
+
+## Systems experiments
+
+The repository includes two deliberately separate systems checks:
+
+- A local FastAPI benchmark recorded 2,760 requests at 14.61 ms mean latency,
+  33.25 ms p95, and 91.06 requests/second.
+- The Dask LightGBM run reached 0.533 ROC-AUC versus 0.896 for the single-node
+  baseline and took substantially longer on this small dataset. This is a useful
+  negative result: distributed execution adds overhead and is not justified at
+  this scale.
+
+Hardware, process placement, and background load affect latency. The tracked
+numbers characterize one recorded run, not a deployment service-level
+objective.
+
+## Reproduce the benchmark
+
+Python 3.10 or newer is recommended.
+
+```bash
+python -m venv .venv
+# Windows: .venv\Scripts\activate
+# macOS/Linux: source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+The public repository includes the processed parquet dataset. Full regeneration
+also requires the original `heart_disease_uci.csv` at the repository root:
+
+```bash
+python scripts/heart_disease_model_benchmark.py
+```
+
+Optional experiments have isolated dependencies:
+
+```bash
+python -m pip install -r requirements-optional.txt
+python -m pip install -r requirements-edge.txt
+```
+
+The edge service expects a local
+`deployment_bundle/lgbm_deployment_bundle.joblib`. The bundle is intentionally
+excluded; [`deployment_bundle/README.md`](deployment_bundle/README.md) documents
+the contract.
+
+## Quality checks
+
+The CI job avoids expensive retraining and verifies that the published tables,
+figures, and README remain consistent:
+
+```bash
+python -m compileall -q scripts tools
+python tools/validate_repository.py
+```
+
+## Repository layout
 
 ```text
-heart-disease-risk-model-benchmark/
-├── scripts/
-├── data/
+.
+├── data/                         # Processed modeling table
+├── deployment_bundle/            # Local edge artifact contract
 ├── results/
-│   ├── main/
-│   ├── dask/
-│   └── edge/
-├── deployment_bundle/
-├── requirements.txt
-├── requirements-optional.txt
-├── requirements-edge.txt
-└── README.md
+│   ├── main/                     # Holdout, CV, calibration, SHAP, subgroup
+│   ├── dask/                     # Distributed comparison
+│   └── edge/                     # Latency samples and summaries
+├── scripts/                      # Benchmark, visualization, API, latency runner
+├── requirements*.txt             # Core and optional environments
+└── tools/validate_repository.py  # Release-evidence checks
+```
+
+## Limitations
+
+- The sample is small and combines records collected in different clinical
+  settings; external validity is not established.
+- The holdout is used for final comparison, while the overlapping bootstrap
+  intervals limit claims about model ranking.
+- Sex is represented as a binary field in the source data. The subgroup analysis
+  is incomplete and must not be interpreted as a comprehensive fairness audit.
+- Missing values are imputed and indicated, which cannot recover information
+  absent from the source records.
+- Counterfactual examples describe model sensitivity, not actionable medical
+  advice or causal effects.

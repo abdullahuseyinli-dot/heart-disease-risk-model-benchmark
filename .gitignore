@@ -1,31 +1,31 @@
+# Python and tooling
 __pycache__/
 *.py[cod]
-*.pyo
-*.pyd
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
 
+# Environments and packaging
 .venv/
 venv/
 env/
-
-.ipynb_checkpoints/
-
 build/
 dist/
 *.egg-info/
 
+# Editors and operating systems
 .DS_Store
 Thumbs.db
-.vscode/
 .idea/
+.vscode/
 
+# Local source data and execution output
+heart_disease_uci.csv
 *.log
 *.zip
-
 notebooks/
 
-notebooks/
-.venv/
-
-# Edge deployment bundle
+# The deployment bundle is generated locally
 deployment_bundle/*.joblib
 !deployment_bundle/README.md

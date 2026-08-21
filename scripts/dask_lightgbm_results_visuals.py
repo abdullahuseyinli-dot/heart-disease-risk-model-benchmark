@@ -1,11 +1,6 @@
 #!/usr/bin/env python
-# coding: utf-8
+"""Render the retained single-node versus Dask LightGBM comparison."""
 
-# In[ ]:
-
-
-# %% Visuals from Colab LightGBM distributed summary
-# Run this in your DASK_DISTRIBUTED notebook
 
 import pandas as pd
 import numpy as np
@@ -17,8 +12,8 @@ from pathlib import Path
 # 0. Paths and helper
 # ---------------------------------------------------------------------
 
-PROJECT_ROOT = Path(".").resolve()
-RESULTS_DIR = PROJECT_ROOT / "results"
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+RESULTS_DIR = PROJECT_ROOT / "results" / "dask"
 FIG_DIR = RESULTS_DIR / "figures" / "model_performance"
 FIG_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -34,7 +29,6 @@ def save_fig(name: str) -> None:
 # Try a couple of common locations
 candidates = [
     PROJECT_ROOT / "lightgbm_distributed_summary_colab.csv",
-    RESULTS_DIR / "metrics" / "test" / "lightgbm_distributed_summary_colab.csv",
     RESULTS_DIR / "metrics" / "lightgbm_distributed_summary_colab.csv",
 ]
 
@@ -56,7 +50,7 @@ if df.empty:
     raise ValueError("lightgbm_distributed_summary_colab.csv is empty.")
 
 print("Loaded summary from:", summary_path)
-display(df)
+print(df.to_string(index=False))
 
 # Human-friendly labels
 label_map = {

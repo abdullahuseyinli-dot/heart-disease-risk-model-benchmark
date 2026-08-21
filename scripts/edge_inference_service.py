@@ -20,7 +20,7 @@ if not BUNDLE_PATH.exists():
 
 bundle = joblib.load(BUNDLE_PATH)
 
-# Saved from your notebook as {"pipeline": lgb_final, "feature_names": ...}
+# Bundle contract: {"pipeline": fitted_pipeline, "feature_names": [...]}.
 MODEL = bundle["pipeline"]
 FEATURE_NAMES = bundle["feature_names"]
 
