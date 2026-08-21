@@ -11,7 +11,7 @@ inference latency.
 > This is a technical benchmark, not a medical device. Its outputs must not be
 > used for diagnosis, treatment, or individual clinical decisions.
 
-![Holdout model comparison](results/main/figures/model_performance/models_bar_metrics_panel.png)
+![Holdout ROC-AUC and F1 with bootstrap intervals](assets/holdout_performance_intervals.png)
 
 ## Evaluation snapshot
 
