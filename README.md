@@ -138,3 +138,9 @@ python tools/validate_repository.py
   absent from the source records.
 - Counterfactual examples describe model sensitivity, not actionable medical
   advice or causal effects.
+
+## License
+
+Original source code and documentation are licensed under the [MIT License](LICENSE).
+The processed UCI dataset remains under CC BY 4.0; attribution and transformation
+details are recorded in [the third-party notices](THIRD_PARTY_NOTICES.md).

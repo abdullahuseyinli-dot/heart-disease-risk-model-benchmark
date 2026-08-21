@@ -13,7 +13,9 @@ from urllib.parse import unquote
 ROOT = Path(__file__).resolve().parents[1]
 
 REQUIRED_FILES = (
+    "LICENSE",
     "README.md",
+    "THIRD_PARTY_NOTICES.md",
     "data/heart_disease_processed.parquet",
     "results/main/metrics/test/holdout_models.csv",
     "results/main/metrics/test/holdout_bootstrap_ci.csv",
@@ -129,6 +131,21 @@ def validate_readme() -> None:
         require((ROOT / local).exists(), f"broken README link: {target}")
 
 
+def validate_licensing() -> None:
+    license_text = (ROOT / "LICENSE").read_text(encoding="utf-8")
+    for marker in (
+        "MIT License",
+        "Copyright (c) 2026 Abdulla Huseyinli",
+        "Permission is hereby granted, free of charge",
+        'THE SOFTWARE IS PROVIDED "AS IS"',
+    ):
+        require(marker in license_text, f"LICENSE is missing: {marker}")
+
+    notices = (ROOT / "THIRD_PARTY_NOTICES.md").read_text(encoding="utf-8")
+    for marker in ("CC BY 4.0", "10.24432/C52P4X", "heart+disease"):
+        require(marker in notices, f"dataset notice is missing: {marker}")
+
+
 def validate_public_paths() -> None:
     marker = "c:" + chr(92) + "users"
     for path in ROOT.rglob("*"):
@@ -143,6 +160,7 @@ def main() -> None:
     validate_holdout_results()
     validate_system_results()
     validate_readme()
+    validate_licensing()
     validate_public_paths()
     print("Repository validation passed.")
 
