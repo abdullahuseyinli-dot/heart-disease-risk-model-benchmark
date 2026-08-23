@@ -1,0 +1,8 @@
+protocol_version: uci-readmission-v1
+raw_archive: data/raw/uci_diabetes_readmission/doi-10.24432-C5230J/diabetes-130-us-hospitals.zip
+raw_csv: data/raw/uci_diabetes_readmission/doi-10.24432-C5230J/extracted/diabetic_data.csv
+outputs:
+  canonical: data/processed/uci_readmission_canonical_v1.parquet
+  tableshift_split: data/splits/uci_readmission_tableshift_v1.parquet
+  patient_split: data/splits/uci_readmission_patient_grouped_v1.parquet
+  profile: data/processed/uci_readmission_profile_v1.json

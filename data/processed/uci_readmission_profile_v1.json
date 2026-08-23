@@ -1,0 +1,247 @@
+{
+  "archive_sha256": "F82AC129DA2DDD2299391FF6FBAE3A6A58B3EDCF59AC9D7BD480C00FE453112A",
+  "canonical_sha256": "10BAEBB6CC4E016DAF6AF54A9E3826F43100822D14B3C229DD7F4C56B5535398",
+  "categorical_features": [
+    "race",
+    "gender",
+    "age",
+    "weight",
+    "admission_type_id",
+    "discharge_disposition_id",
+    "payer_code",
+    "medical_specialty",
+    "diag_1",
+    "diag_2",
+    "diag_3",
+    "max_glu_serum",
+    "A1Cresult",
+    "metformin",
+    "repaglinide",
+    "nateglinide",
+    "chlorpropamide",
+    "glimepiride",
+    "acetohexamide",
+    "glipizide",
+    "glyburide",
+    "tolbutamide",
+    "pioglitazone",
+    "rosiglitazone",
+    "acarbose",
+    "miglitol",
+    "troglitazone",
+    "tolazamide",
+    "examide",
+    "citoglipton",
+    "insulin",
+    "glyburide-metformin",
+    "glipizide-metformin",
+    "glimepiride-pioglitazone",
+    "metformin-rosiglitazone",
+    "metformin-pioglitazone",
+    "change",
+    "diabetesMed"
+  ],
+  "continuous_features": [
+    "time_in_hospital",
+    "num_lab_procedures",
+    "num_procedures",
+    "num_medications",
+    "number_outpatient",
+    "number_emergency",
+    "number_inpatient",
+    "number_diagnoses"
+  ],
+  "csv_sha256": "0689E7EC031237DC63031B938805C48377748761A3B26ACAB621567AFA24DF97",
+  "doi": "10.24432/C5230J",
+  "features": [
+    "race",
+    "gender",
+    "age",
+    "weight",
+    "admission_type_id",
+    "discharge_disposition_id",
+    "time_in_hospital",
+    "payer_code",
+    "medical_specialty",
+    "num_lab_procedures",
+    "num_procedures",
+    "num_medications",
+    "number_outpatient",
+    "number_emergency",
+    "number_inpatient",
+    "diag_1",
+    "diag_2",
+    "diag_3",
+    "number_diagnoses",
+    "max_glu_serum",
+    "A1Cresult",
+    "metformin",
+    "repaglinide",
+    "nateglinide",
+    "chlorpropamide",
+    "glimepiride",
+    "acetohexamide",
+    "glipizide",
+    "glyburide",
+    "tolbutamide",
+    "pioglitazone",
+    "rosiglitazone",
+    "acarbose",
+    "miglitol",
+    "troglitazone",
+    "tolazamide",
+    "examide",
+    "citoglipton",
+    "insulin",
+    "glyburide-metformin",
+    "glipizide-metformin",
+    "glimepiride-pioglitazone",
+    "metformin-rosiglitazone",
+    "metformin-pioglitazone",
+    "change",
+    "diabetesMed"
+  ],
+  "patient_grouped": {
+    "evaluated_patient_overlaps": [],
+    "protocol": "patient_grouped_admission_source_shift_v1",
+    "splits": [
+      {
+        "any_readmission_prevalence": 0.3205627057767136,
+        "encounters": 3341,
+        "patients": 2888,
+        "readmission_30d_prevalence": 0.07542651900628554,
+        "split": "id_test"
+      },
+      {
+        "any_readmission_prevalence": 0.4951713579083736,
+        "encounters": 50946,
+        "patients": 36709,
+        "readmission_30d_prevalence": 0.11720252816707886,
+        "split": "ood_test"
+      },
+      {
+        "any_readmission_prevalence": 0.4943721421034119,
+        "encounters": 5686,
+        "patients": 4079,
+        "readmission_30d_prevalence": 0.11836088638761871,
+        "split": "ood_validation"
+      },
+      {
+        "any_readmission_prevalence": 0.7889320832380516,
+        "encounters": 8746,
+        "patients": 6300,
+        "readmission_30d_prevalence": 0.2068374113880631,
+        "split": "quarantined_cross_domain"
+      },
+      {
+        "any_readmission_prevalence": 0.3301269156212282,
+        "encounters": 27341,
+        "patients": 23104,
+        "readmission_30d_prevalence": 0.08020920961193811,
+        "split": "train"
+      },
+      {
+        "any_readmission_prevalence": 0.33236236527818236,
+        "encounters": 3433,
+        "patients": 2888,
+        "readmission_30d_prevalence": 0.07893970288377512,
+        "split": "validation"
+      }
+    ]
+  },
+  "patients": 71518,
+  "rows": 101766,
+  "tableshift": {
+    "evaluated_patient_overlaps": [
+      {
+        "first": "id_test",
+        "patients": 759,
+        "second": "ood_test"
+      },
+      {
+        "first": "id_test",
+        "patients": 122,
+        "second": "ood_validation"
+      },
+      {
+        "first": "id_test",
+        "patients": 1020,
+        "second": "train"
+      },
+      {
+        "first": "id_test",
+        "patients": 196,
+        "second": "validation"
+      },
+      {
+        "first": "ood_test",
+        "patients": 2155,
+        "second": "ood_validation"
+      },
+      {
+        "first": "ood_test",
+        "patients": 4983,
+        "second": "train"
+      },
+      {
+        "first": "ood_test",
+        "patients": 819,
+        "second": "validation"
+      },
+      {
+        "first": "ood_validation",
+        "patients": 872,
+        "second": "train"
+      },
+      {
+        "first": "ood_validation",
+        "patients": 161,
+        "second": "validation"
+      },
+      {
+        "first": "train",
+        "patients": 1061,
+        "second": "validation"
+      }
+    ],
+    "protocol": "tableshift_reproduction_fca9429",
+    "splits": [
+      {
+        "any_readmission_prevalence": 0.41614182411943085,
+        "encounters": 4287,
+        "patients": 4177,
+        "readmission_30d_prevalence": 0.09680429204571962,
+        "split": "id_test"
+      },
+      {
+        "any_readmission_prevalence": 0.4938392716998901,
+        "encounters": 50968,
+        "patients": 37591,
+        "readmission_30d_prevalence": 0.1167987757024015,
+        "split": "ood_test"
+      },
+      {
+        "any_readmission_prevalence": 0.5063559322033898,
+        "encounters": 5664,
+        "patients": 5352,
+        "readmission_30d_prevalence": 0.12199858757062147,
+        "split": "ood_validation"
+      },
+      {
+        "any_readmission_prevalence": 0.4242300513299113,
+        "encounters": 34288,
+        "patients": 29000,
+        "readmission_30d_prevalence": 0.10718035464302379,
+        "split": "train"
+      },
+      {
+        "any_readmission_prevalence": 0.4218385440970602,
+        "encounters": 4286,
+        "patients": 4168,
+        "readmission_30d_prevalence": 0.10149323378441437,
+        "split": "validation"
+      }
+    ]
+  },
+  "tableshift_commit": "fca9429814703a07e3902d005d46563a207b7f0a"
+}

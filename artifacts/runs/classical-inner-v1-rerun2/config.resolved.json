@@ -1,0 +1,171 @@
+{
+  "data": {
+    "canonical_path": "data/processed/uci_heart_canonical_v1.parquet",
+    "inner_manifest": "data/splits/uci_heart_inner_loho_v1.parquet",
+    "outer_manifest": "data/splits/uci_heart_outer_loho_v1.parquet"
+  },
+  "models": [
+    {
+      "grid": {
+        "C": [
+          0.1,
+          1.0,
+          10.0
+        ],
+        "l1_ratio": [
+          0.0
+        ]
+      },
+      "name": "logistic",
+      "weighting": "pooled"
+    },
+    {
+      "grid": {
+        "C": [
+          0.1,
+          1.0,
+          10.0
+        ],
+        "l1_ratio": [
+          0.0
+        ]
+      },
+      "name": "core_logistic",
+      "weighting": "pooled"
+    },
+    {
+      "grid": {
+        "C": [
+          0.1,
+          1.0,
+          10.0
+        ],
+        "l1_ratio": [
+          0.0
+        ]
+      },
+      "name": "mask_logistic",
+      "weighting": "pooled"
+    },
+    {
+      "grid": {
+        "C": [
+          0.1,
+          1.0,
+          10.0
+        ],
+        "l1_ratio": [
+          0.0
+        ]
+      },
+      "name": "logistic",
+      "weighting": "site_class_balanced"
+    },
+    {
+      "grid": {
+        "alpha": [
+          0.0001,
+          0.001,
+          0.01
+        ],
+        "l1_ratio": [
+          0.1,
+          0.5,
+          0.9
+        ]
+      },
+      "name": "elastic_net_logistic",
+      "weighting": "site_class_balanced"
+    },
+    {
+      "grid": {
+        "max_depth": [
+          3,
+          null
+        ],
+        "min_samples_leaf": [
+          5,
+          20
+        ],
+        "n_estimators": [
+          500
+        ]
+      },
+      "name": "random_forest",
+      "weighting": "site_class_balanced"
+    },
+    {
+      "grid": {
+        "l2_regularization": [
+          1.0,
+          10.0
+        ],
+        "max_leaf_nodes": [
+          7,
+          15
+        ],
+        "min_samples_leaf": [
+          20
+        ]
+      },
+      "name": "hist_gradient_boosting",
+      "weighting": "site_class_balanced"
+    },
+    {
+      "grid": {
+        "learning_rate": [
+          0.03,
+          0.1
+        ],
+        "max_depth": [
+          2,
+          3
+        ],
+        "n_estimators": [
+          300
+        ]
+      },
+      "name": "xgboost",
+      "weighting": "site_class_balanced"
+    },
+    {
+      "grid": {
+        "min_child_samples": [
+          20,
+          50
+        ],
+        "n_estimators": [
+          300
+        ],
+        "num_leaves": [
+          7,
+          15
+        ]
+      },
+      "name": "lightgbm",
+      "weighting": "site_class_balanced"
+    },
+    {
+      "grid": {
+        "depth": [
+          4,
+          6
+        ],
+        "iterations": [
+          300
+        ],
+        "l2_leaf_reg": [
+          3.0,
+          10.0
+        ]
+      },
+      "name": "catboost",
+      "weighting": "site_class_balanced"
+    }
+  ],
+  "protocol_version": "classical-inner-v1",
+  "seed": 5062,
+  "selection": {
+    "metric": "0.5_mean_plus_0.5_worst_balanced_log_loss"
+  }
+}

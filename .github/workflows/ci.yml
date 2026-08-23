@@ -15,7 +15,18 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: "3.11"
+      - uses: astral-sh/setup-uv@v7
+      - name: Install locked test environment
+        run: uv sync --frozen --extra dev
       - name: Compile Python sources
-        run: python -m compileall -q scripts tools
-      - name: Validate published evidence
-        run: python tools/validate_repository.py
+        run: uv run python -m compileall -q src scripts tools
+      - name: Lint
+        run: uv run ruff check src tests
+      - name: Type check
+        run: uv run mypy src/heartshift
+      - name: Unit and data-contract tests
+        run: uv run pytest -q
+      - name: Validate canonical research evidence
+        run: uv run heartshift-validate --repo-root .
+      - name: Validate preserved legacy evidence
+        run: uv run python tools/validate_repository.py

@@ -1,0 +1,9 @@
+outer_target,model,weighting,parameter_id,parameters_json,mean_balanced_log_loss,worst_balanced_log_loss,mean_roc_auc,selection_score
+cleveland,ebm,site_class_balanced,0,"{""interactions"": 0, ""max_bins"": 64, ""max_rounds"": 5000, ""outer_bags"": 8}",0.5823793797473297,0.6743988197804345,0.7826424846132675,0.6283890997638821
+cleveland,tabpfn,pooled,1,"{""device"": ""cuda"", ""n_estimators"": 8, ""version"": ""v2""}",0.6215340184520387,0.682440105214466,0.7803646976015709,0.6519870618332524
+hungary,ebm,site_class_balanced,0,"{""interactions"": 0, ""max_bins"": 64, ""max_rounds"": 5000, ""outer_bags"": 8}",0.7280754176272496,1.0139610833302182,0.6769108777217855,0.8710182504787338
+hungary,tabpfn,pooled,1,"{""device"": ""cuda"", ""n_estimators"": 8, ""version"": ""v2""}",0.8147222838833948,1.0269594817028032,0.7329583587965999,0.920840882793099
+switzerland,ebm,site_class_balanced,0,"{""interactions"": 0, ""max_bins"": 64, ""max_rounds"": 5000, ""outer_bags"": 8}",0.6413675481708071,0.8198528429156283,0.8224488267660814,0.7306101955432177
+switzerland,tabpfn,pooled,1,"{""device"": ""cuda"", ""n_estimators"": 8, ""version"": ""v2""}",0.5112732824778763,0.6615098393735375,0.8320166777735437,0.5863915609257069
+va_long_beach,ebm,site_class_balanced,0,"{""interactions"": 0, ""max_bins"": 64, ""max_rounds"": 5000, ""outer_bags"": 8}",0.5698050297019169,0.5810490994542069,0.8029568472638808,0.5754270645780619
+va_long_beach,tabpfn,pooled,1,"{""device"": ""cuda"", ""n_estimators"": 8, ""version"": ""v2""}",0.527327634935603,0.5887433334000339,0.8342073892474708,0.5580354841678185

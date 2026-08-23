@@ -1,0 +1,49 @@
+{
+  "common_parameters": {
+    "brier_beta": 0.0,
+    "d_model": 16,
+    "dro_lambda": 0.5,
+    "dro_tau": 0.2,
+    "dropout": 0.0,
+    "evaluation_interval": 1,
+    "learning_rate": 0.001,
+    "max_epochs": 2,
+    "n_heads": 4,
+    "n_layers": 1,
+    "patience_evaluations": 2,
+    "validation_mask_replicates": 1,
+    "weight_decay": 0.001
+  },
+  "data": {
+    "canonical_path": "data/processed/uci_heart_canonical_v1.parquet",
+    "inner_manifest": "data/splits/uci_heart_inner_loho_v1.parquet",
+    "outer_manifest": "data/splits/uci_heart_outer_loho_v1.parquet"
+  },
+  "device": "cuda",
+  "experiments": [
+    {
+      "name": "smoke_v2",
+      "variant": "v2"
+    }
+  ],
+  "features": [
+    "age",
+    "sex",
+    "cp",
+    "trestbps",
+    "chol",
+    "fbs",
+    "restecg",
+    "thalach",
+    "exang",
+    "oldpeak",
+    "slope",
+    "ca",
+    "thal"
+  ],
+  "inner_mask_replicates": 1,
+  "protocol_version": "psmask-smoke-nonconfirmatory",
+  "seeds": [
+    17
+  ]
+}

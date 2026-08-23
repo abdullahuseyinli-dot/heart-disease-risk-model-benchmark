@@ -1,0 +1,25 @@
+{
+  "argv": [
+    "C:\\Users\\DELL\\Desktop\\Thesis\\heart-disease-risk-model-benchmark\\src\\heartshift\\cli\\benchmark.py",
+    "--repo-root",
+    ".",
+    "--config",
+    "configs\\benchmark\\classical_inner_v1.yaml",
+    "--phase",
+    "inner",
+    "--run-name",
+    "classical-inner-v1-rerun2"
+  ],
+  "canonical_data_sha256": "BE5A34195D605FB02047313DBF9ABF8B638DFFE55A03F74E5D05646149378D5F",
+  "config_sha256": "2f607827584f94baa85d33e40cfd22613bee8a11b631d2621aa1625f11df65b9",
+  "created_utc": "2026-08-23T20:38:45.089449+00:00",
+  "cuda_available": true,
+  "cuda_version": "13.0",
+  "git_commit": "551d4706b02538e9a096b4a4b5b544f0484091a5",
+  "git_status_porcelain": "M .gitignore\n?? AGENTS.md\n?? artifacts/\n?? configs/\n?? data/manifests/\n?? data/processed/\n?? data/raw/\n?? data/splits/\n?? docs/\n?? pyproject.toml\n?? src/\n?? tests/\n?? uv.lock",
+  "gpu": "NVIDIA RTX PRO 3000 Blackwell Generation Laptop GPU",
+  "phase": "inner_source_only",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "python": "3.11.9 (main, Aug 14 2024, 04:18:20) [MSC v.1929 64 bit (AMD64)]",
+  "torch": "2.13.0+cu130"
+}

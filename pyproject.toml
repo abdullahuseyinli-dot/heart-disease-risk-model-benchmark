@@ -1,0 +1,95 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "heartshift"
+version = "0.1.0"
+description = "Leakage-safe clinical tabular benchmarks under hospital, prevalence, and measurement-policy shift"
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+license = { file = "LICENSE" }
+authors = [{ name = "Abdulla Huseyinli" }]
+dependencies = [
+  "joblib>=1.5",
+  "matplotlib>=3.10",
+  "numpy>=2.0,<3",
+  "pandas>=2.2,<4",
+  "pyarrow>=16",
+  "pyyaml>=6",
+  "scikit-learn>=1.5",
+  "scipy>=1.13",
+  "seaborn>=0.13",
+]
+
+[project.optional-dependencies]
+models = [
+  "catboost>=1.2",
+  "lightgbm>=4.5",
+  "optuna>=4",
+  "torch>=2.7",
+  "xgboost>=3",
+]
+modern = [
+  "interpret>=0.7",
+  "pytabkit>=1.7.3",
+  "skorch>=1.4.0",
+  "tabicl>=2.1.1",
+  "tabm>=0.0.3",
+  "tabpfn>=6",
+]
+dev = [
+  "coverage[toml]>=7.6",
+  "mypy>=1.15",
+  "pytest>=8.3",
+  "pytest-cov>=6",
+  "ruff>=0.11",
+  "torch>=2.7",
+]
+
+[project.scripts]
+heartshift-prepare = "heartshift.cli.prepare:main"
+heartshift-prepare-readmission = "heartshift.cli.prepare_readmission:main"
+heartshift-benchmark = "heartshift.cli.benchmark:main"
+heartshift-psmask = "heartshift.cli.psmask:main"
+heartshift-readmission = "heartshift.cli.readmission:main"
+heartshift-report-heart = "heartshift.cli.report_heart:main"
+heartshift-report-readmission = "heartshift.cli.report_readmission:main"
+heartshift-synthetic = "heartshift.cli.synthetic:main"
+heartshift-freeze = "heartshift.cli.freeze:main"
+heartshift-validate = "heartshift.cli.validate:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/heartshift"]
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cu130", marker = "sys_platform == 'win32'" },
+]
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-config --strict-markers"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+packages = ["heartshift"]

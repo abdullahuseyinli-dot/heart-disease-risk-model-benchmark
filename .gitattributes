@@ -1,1 +1,5 @@
-results/** linguist-generated
+# Preserve downloaded and extracted raw evidence byte-for-byte.
+data/raw/** -text -diff
+
+# Columnar evidence is binary and must never receive line-ending conversion.
+*.parquet -text

@@ -20,11 +20,32 @@ Thumbs.db
 .idea/
 .vscode/
 
+# Credentials stay outside version control
+.env
+.env.*
+!.env.example
+secrets/
+auth_token
+*tabpfn*token*
+
 # Local source data and execution output
 heart_disease_uci.csv
 *.log
 *.zip
 notebooks/
+
+# The official UCI source archive is deliberately retained as raw evidence.
+!data/raw/**/*.zip
+
+# Research outputs: lightweight evidence is tracked; large caches/checkpoints are local.
+artifacts/cache/
+artifacts/checkpoints/
+artifacts/tmp/
+*.ckpt
+*.pt
+*.pth
+wandb/
+mlruns/
 
 # The deployment bundle is generated locally
 deployment_bundle/*.joblib

@@ -1,0 +1,110 @@
+protocol_version: readmission-independent-inner-v1
+device: cuda
+seeds: [7201, 7202, 7203]
+data:
+  canonical_path: data/processed/uci_readmission_canonical_v1.parquet
+  profile_path: data/processed/uci_readmission_profile_v1.json
+  split_path: data/splits/uci_readmission_patient_grouped_v1.parquet
+  target: target_tableshift_any_readmission
+  source_splits: [train]
+  validation_split: validation
+mask_replicates: 2
+mask_policies:
+  - {name: natural, kind: natural}
+  - {name: mcar_10, kind: mcar, rate: 0.10}
+  - {name: mcar_30, kind: mcar, rate: 0.30}
+  - {name: mcar_50, kind: mcar, rate: 0.50}
+  - name: drop_demographics
+    kind: panel
+    columns: [race, gender, age, weight]
+  - name: drop_diagnoses
+    kind: panel
+    columns: [diag_1, diag_2, diag_3]
+  - name: drop_tests
+    kind: panel
+    columns: [num_lab_procedures, num_procedures, max_glu_serum, A1Cresult]
+  - name: drop_medications
+    kind: panel
+    columns: [metformin, repaglinide, nateglinide, chlorpropamide, glimepiride, acetohexamide, glipizide, glyburide, tolbutamide, pioglitazone, rosiglitazone, acarbose, miglitol, troglitazone, tolazamide, examide, citoglipton, insulin, glyburide-metformin, glipizide-metformin, glimepiride-pioglitazone, metformin-rosiglitazone, metformin-pioglitazone]
+common_parameters:
+  d_model: 32
+  n_heads: 4
+  n_layers: 1
+  dropout: 0.1
+  weight_decay: 0.001
+  batch_size: 384
+  inference_batch_size: 1024
+  max_epochs: 30
+  evaluation_interval: 2
+  patience_evaluations: 4
+  validation_mask_replicates: 2
+  minimum_environment_size: 500
+  dro_tau: 0.2
+  dro_lambda: 0.5
+  brier_beta: 0.0
+experiments:
+  - name: logistic_pooled
+    backend: classical
+    model: logistic
+    weighting: pooled
+    grid:
+      C: [0.1, 1.0]
+  - name: logistic_environment_class_balanced
+    backend: classical
+    model: logistic
+    weighting: environment_class_balanced
+    grid:
+      C: [0.1, 1.0]
+  - name: lightgbm_environment_class_balanced
+    backend: classical
+    model: lightgbm
+    weighting: environment_class_balanced
+    parameters:
+      n_estimators: 500
+      learning_rate: 0.03
+      min_child_samples: 50
+      reg_lambda: 5.0
+      subsample: 0.8
+      colsample_bytree: 0.8
+    grid:
+      num_leaves: [15, 31]
+  - name: catboost_environment_class_balanced
+    backend: classical
+    model: catboost
+    weighting: environment_class_balanced
+    parameters:
+      iterations: 500
+      learning_rate: 0.03
+      l2_leaf_reg: 5.0
+    grid:
+      depth: [5, 7]
+  - name: pooled_erm
+    backend: neural
+    variant: pooled
+    grid:
+      learning_rate: [0.0005]
+  - name: prior_separated
+    backend: neural
+    variant: prior_separated
+    grid:
+      learning_rate: [0.0005]
+  - name: mirrams_equation9
+    backend: neural
+    variant: mirrams
+    parameters:
+      mirrams_lambda_1: 15.0
+      mirrams_lambda_2: 15.0
+      mirrams_confidence: 0.95
+      mirrams_mask_rate: 0.2
+    grid:
+      learning_rate: [0.0001, 0.0005]
+  - name: ps_maskdro
+    backend: neural
+    variant: ps_maskdro
+    grid:
+      learning_rate: [0.0005]
+  - name: ps_maskdro_ane
+    backend: neural
+    variant: ps_maskdro_ane
+    grid:
+      learning_rate: [0.0005]

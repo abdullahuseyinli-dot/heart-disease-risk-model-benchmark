@@ -26,7 +26,12 @@ REQUIRED_FILES = (
 
 EXPECTED_HOLDOUT = {
     "LightGBM": (0.842391304347826, 0.863849765258216, 0.8962219033955046, 0.11916372256997074),
-    "LogisticRegression": (0.8369565217391305, 0.8584905660377359, 0.9082974653275945, 0.11828327559659454),
+    "LogisticRegression": (
+        0.8369565217391305,
+        0.8584905660377359,
+        0.9082974653275945,
+        0.11828327559659454,
+    ),
     "XGBoost": (0.8586956521739131, 0.8773584905660378, 0.9010043041606887, 0.11509418536924956),
     "TabNet": (0.8532608695652174, 0.8744186046511628, 0.9301769488283118, 0.10658166429997569),
 }
@@ -79,7 +84,10 @@ def validate_holdout_results() -> None:
     for model, expected in EXPECTED_HOLDOUT.items():
         actual = tuple(float(rows[model][name]) for name in ("accuracy", "f1", "auc", "brier"))
         require(
-            all(math.isclose(a, e, rel_tol=0.0, abs_tol=1e-12) for a, e in zip(actual, expected)),
+            all(
+                math.isclose(a, e, rel_tol=0.0, abs_tol=1e-12)
+                for a, e in zip(actual, expected, strict=True)
+            ),
             f"holdout metrics changed for {model}",
         )
 
@@ -94,11 +102,15 @@ def validate_holdout_results() -> None:
             low = float(row[f"{metric}_ci_low"])
             mean = float(row[f"{metric}_mean"])
             high = float(row[f"{metric}_ci_high"])
-            require(0.0 <= low <= mean <= high <= 1.0, f"invalid {metric} interval for {row['model']}")
+            require(
+                0.0 <= low <= mean <= high <= 1.0, f"invalid {metric} interval for {row['model']}"
+            )
 
 
 def validate_system_results() -> None:
-    edge = json.loads((ROOT / "results/edge/metrics/latency_summary.json").read_text(encoding="utf-8"))
+    edge = json.loads(
+        (ROOT / "results/edge/metrics/latency_summary.json").read_text(encoding="utf-8")
+    )
     expected_edge = {
         "n_requests": 2760,
         "mean_ms": 14.610648687317054,
@@ -106,11 +118,23 @@ def validate_system_results() -> None:
         "throughput_rps": 91.05737784979893,
     }
     for key, expected in expected_edge.items():
-        require(math.isclose(float(edge[key]), expected, rel_tol=0.0, abs_tol=1e-12), f"edge metric changed: {key}")
+        require(
+            math.isclose(float(edge[key]), expected, rel_tol=0.0, abs_tol=1e-12),
+            f"edge metric changed: {key}",
+        )
 
-    dask = {row["model"]: row for row in read_csv("results/dask/metrics/lightgbm_distributed_summary_colab.csv")}
-    require(math.isclose(float(dask["LightGBM_single_node"]["auc"]), 0.8962219033955046), "single-node AUC changed")
-    require(math.isclose(float(dask["LightGBM_DaskClassifier"]["auc"]), 0.5329985652797704), "Dask AUC changed")
+    dask = {
+        row["model"]: row
+        for row in read_csv("results/dask/metrics/lightgbm_distributed_summary_colab.csv")
+    }
+    require(
+        math.isclose(float(dask["LightGBM_single_node"]["auc"]), 0.8962219033955046),
+        "single-node AUC changed",
+    )
+    require(
+        math.isclose(float(dask["LightGBM_DaskClassifier"]["auc"]), 0.5329985652797704),
+        "Dask AUC changed",
+    )
 
     shap = read_csv("results/main/metrics/test/shap_lgb_vs_lr_spearman.csv")
     require(len(shap) == 1, "expected one SHAP agreement row")
@@ -148,8 +172,15 @@ def validate_licensing() -> None:
 
 def validate_public_paths() -> None:
     marker = "c:" + chr(92) + "users"
+    excluded_directories = {".git", ".venv", ".mypy_cache", ".pytest_cache", ".ruff_cache"}
     for path in ROOT.rglob("*"):
-        if not path.is_file() or ".git" in path.parts or path.suffix.lower() not in {".md", ".py", ".txt"}:
+        relative_parts = path.relative_to(ROOT).parts
+        if (
+            not path.is_file()
+            or any(part in excluded_directories for part in relative_parts)
+            or relative_parts[:2] == ("artifacts", "cache")
+            or path.suffix.lower() not in {".md", ".py", ".txt"}
+        ):
             continue
         text = path.read_text(encoding="utf-8", errors="ignore").lower()
         require(marker not in text, f"local user path in {path.relative_to(ROOT)}")
