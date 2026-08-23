@@ -6,12 +6,28 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
+from heartshift.config import load_yaml
 from heartshift.data.uci import sha256_file
 from heartshift.research.gates import (
     evaluate_psmask_confirmation_gate,
     validate_source_only_run,
     verify_frozen_candidate,
 )
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+
+
+def test_confirmation_configs_freeze_developmental_selections() -> None:
+    expected = {
+        "classical_inner_confirm_v1.yaml": "artifacts/runs/classical-inner-v1-rerun3",
+        "modern_inner_confirm_v1.yaml": "artifacts/runs/modern-inner-v1",
+        "tabpfn_v3_inner_confirm_v1.yaml": "artifacts/runs/tabpfn-v3-inner-v1",
+        "mirrams_inner_confirm_v1.yaml": "artifacts/runs/mirrams-inner-v1",
+        "psmask_inner_confirm_v1.yaml": "artifacts/runs/psmask-inner-v1",
+    }
+    for filename, selection_run in expected.items():
+        config = load_yaml(REPO_ROOT / "configs" / "benchmark" / filename)
+        assert config["fixed_selection_run"] == selection_run
 
 
 def test_source_gate_rejects_outer_target_predictions(tmp_path: Path) -> None:
