@@ -1,0 +1,126 @@
+{
+  "evaluated_run": "artifacts/runs/psmask-inner-confirm-v1",
+  "gate_config": "configs/release/freeze_v1.yaml#psmask_acceptance_gates",
+  "passed": false,
+  "protocol_version": "psmask-confirmation-gate-v1",
+  "checks": [
+    {
+      "finite": true,
+      "name": "minimum_confirmation_seeds",
+      "observed": 3,
+      "operator": ">=",
+      "passed": true,
+      "threshold": 3
+    },
+    {
+      "finite": true,
+      "name": "prior_separation_macro_improvement",
+      "observed": 0.0495746037755157,
+      "operator": ">=",
+      "passed": true,
+      "threshold": 0.01
+    },
+    {
+      "finite": true,
+      "name": "dro_macro_noninferiority",
+      "observed": -0.0039007048844028613,
+      "operator": "<=",
+      "passed": true,
+      "threshold": 0.01
+    },
+    {
+      "finite": true,
+      "name": "dro_worst_cell_improvement",
+      "observed": 0.0008961841578860597,
+      "operator": ">=",
+      "passed": true,
+      "threshold": 0.0
+    },
+    {
+      "finite": true,
+      "name": "joint_dro_axis_macro_noninferiority",
+      "observed": 0.009253441747245295,
+      "operator": "<=",
+      "passed": true,
+      "threshold": 0.01
+    },
+    {
+      "finite": true,
+      "name": "joint_dro_axis_worst_cell_improvement",
+      "observed": -0.031183519637394297,
+      "operator": ">=",
+      "passed": false,
+      "threshold": 0.0
+    },
+    {
+      "finite": true,
+      "name": "ane_natural_auroc_loss",
+      "observed": 0.006060783675986059,
+      "operator": "<=",
+      "passed": true,
+      "threshold": 0.01
+    }
+  ],
+  "summary": [
+    {
+      "experiment": "v0_pooled_erm",
+      "macro_natural_roc_auc": 0.7977224289519795,
+      "macro_site_worst_balanced_log_loss": 0.6910917584019737,
+      "worst_site_policy_balanced_log_loss": 0.8211771898219087
+    },
+    {
+      "experiment": "v1_site_balanced",
+      "macro_natural_roc_auc": 0.7965645141971838,
+      "macro_site_worst_balanced_log_loss": 0.6910792518314886,
+      "worst_site_policy_balanced_log_loss": 0.7750642113715469
+    },
+    {
+      "experiment": "v2_prior_separated",
+      "macro_natural_roc_auc": 0.7977729910467182,
+      "macro_site_worst_balanced_log_loss": 0.641517154626458,
+      "worst_site_policy_balanced_log_loss": 0.6883934221995349
+    },
+    {
+      "experiment": "v3_mcar_augmentation",
+      "macro_natural_roc_auc": 0.8032765169983953,
+      "macro_site_worst_balanced_log_loss": 0.6250368790745201,
+      "worst_site_policy_balanced_log_loss": 0.675192709293433
+    },
+    {
+      "experiment": "v4_structured_policy_bank",
+      "macro_natural_roc_auc": 0.8043388721403719,
+      "macro_site_worst_balanced_log_loss": 0.6312203023985828,
+      "worst_site_policy_balanced_log_loss": 0.682178091072337
+    },
+    {
+      "experiment": "v5_mask_only_dro",
+      "macro_natural_roc_auc": 0.8048122962723134,
+      "macro_site_worst_balanced_log_loss": 0.6180661557669347,
+      "worst_site_policy_balanced_log_loss": 0.6500983872770566
+    },
+    {
+      "experiment": "v5_site_mask_dro",
+      "macro_natural_roc_auc": 0.8029234875226057,
+      "macro_site_worst_balanced_log_loss": 0.6269103137634314,
+      "worst_site_policy_balanced_log_loss": 0.6810448877933817
+    },
+    {
+      "experiment": "v5_site_mask_dro_brier",
+      "macro_natural_roc_auc": 0.8027186384610425,
+      "macro_site_worst_balanced_log_loss": 0.62731959751418,
+      "worst_site_policy_balanced_log_loss": 0.6812819069144509
+    },
+    {
+      "experiment": "v5_site_only_dro",
+      "macro_natural_roc_auc": 0.8031215113755069,
+      "macro_site_worst_balanced_log_loss": 0.6206531146573229,
+      "worst_site_policy_balanced_log_loss": 0.6516941210754137
+    },
+    {
+      "experiment": "v7_ane",
+      "macro_natural_roc_auc": 0.7966578547850565,
+      "macro_site_worst_balanced_log_loss": 0.6298954916495828,
+      "worst_site_policy_balanced_log_loss": 0.6592647691316789
+    }
+  ]
+}
