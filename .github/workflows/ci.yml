@@ -69,7 +69,7 @@ jobs:
         run: uv run ruff format --check src tests tools
 
       - name: Type-check
-        run: uv run mypy src/heartshift
+        run: uv run mypy --python-version ${{ matrix.python }} src/heartshift
 
       - name: Smoke-test installed command
         run: uv run heartshift-validate --help
