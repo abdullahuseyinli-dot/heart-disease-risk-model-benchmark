@@ -63,9 +63,9 @@ def test_router_alignment_rejects_equal_fraction_but_different_exact_masks(
         neural[f"observed__{feature}"] = index < 6
         anchor[f"observed__{feature}"] = 1 <= index < 7
     pd.DataFrame([neural]).to_parquet(neural_dir / "inner_predictions.parquet")
-    pd.DataFrame(
-        [{"outer_target": "outer", "experiment": "candidate", "parameter_id": 0}]
-    ).to_csv(neural_dir / "selected_configurations.csv", index=False)
+    pd.DataFrame([{"outer_target": "outer", "experiment": "candidate", "parameter_id": 0}]).to_csv(
+        neural_dir / "selected_configurations.csv", index=False
+    )
     pd.DataFrame([anchor]).to_parquet(control_dir / "inner_predictions.parquet")
     pd.DataFrame(
         [

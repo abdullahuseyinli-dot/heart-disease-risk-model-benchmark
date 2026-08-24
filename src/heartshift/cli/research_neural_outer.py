@@ -31,20 +31,13 @@ def main() -> None:
         "code_smoke_not_scientific_result",
     }:
         raise SystemExit(
-            "Research neural outer evaluation requires status "
-            "consumed_uci_development_only"
+            "Research neural outer evaluation requires status consumed_uci_development_only"
         )
     timestamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
-    run_name = args.run_name or (
-        f"research-neural-outer-{timestamp}-{config_hash(config)[:12]}"
-    )
+    run_name = args.run_name or (f"research-neural-outer-{timestamp}-{config_hash(config)[:12]}")
     run_dir = repo_root / "artifacts" / "runs" / run_name
     outputs = run_neural_outer(repo_root, config, run_dir)
-    hashes = {
-        path.name: sha256_file(path)
-        for path in outputs.values()
-        if path.is_file()
-    }
+    hashes = {path.name: sha256_file(path) for path in outputs.values() if path.is_file()}
     audit_path = run_dir / "evidence_audit.json"
     audit_path.write_text(
         json.dumps(

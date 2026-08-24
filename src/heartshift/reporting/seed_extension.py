@@ -71,8 +71,7 @@ def exact_seed_reproduction(
         "epochs",
     )
     mismatch_counts = {
-        column: int(historical[column].ne(extension[column]).sum())
-        for column in exact_columns
+        column: int(historical[column].ne(extension[column]).sum()) for column in exact_columns
     }
     fraction_difference = np.abs(
         historical["observed_fraction"].to_numpy(dtype=np.float64)
@@ -93,18 +92,14 @@ def exact_seed_reproduction(
         "rows": len(historical),
         "historical_seeds": list(historical_seeds),
         "mismatch_counts": mismatch_counts,
-        "maximum_observed_fraction_difference": float(
-            fraction_difference.max(initial=0.0)
-        ),
+        "maximum_observed_fraction_difference": float(fraction_difference.max(initial=0.0)),
         "maximum_probability_difference": float(score_difference.max(initial=0.0)),
     }
 
 
 def _rename_neural_namespace(frame: pd.DataFrame, namespace: str) -> pd.DataFrame:
     result = frame.copy()
-    result["method"] = result["method"].str.replace(
-        "neural:", f"{namespace}:", regex=False
-    )
+    result["method"] = result["method"].str.replace("neural:", f"{namespace}:", regex=False)
     return result
 
 
@@ -193,9 +188,9 @@ def multiplicity_sensitivity(
 ) -> pd.DataFrame:
     """Add Bonferroni percentile and joint max-error descriptive intervals."""
     family = replicates.loc[replicates["contrast_id"].eq(contrast_id)].copy()
-    observed = intervals.loc[intervals["contrast_id"].eq(contrast_id)].set_index(
-        "method"
-    )["observed_difference"]
+    observed = intervals.loc[intervals["contrast_id"].eq(contrast_id)].set_index("method")[
+        "observed_difference"
+    ]
     methods = tuple(sorted(str(value) for value in family["method"].unique()))
     if not methods or set(methods) != set(observed.index.astype(str)):
         raise AssertionError("Multiplicity family and observed contrasts are misaligned")
@@ -221,12 +216,8 @@ def multiplicity_sensitivity(
                 "method": method,
                 "family_size": family_size,
                 "alpha": alpha,
-                "bonferroni_percentile_ci_lower": float(
-                    values.quantile(lower_probability)
-                ),
-                "bonferroni_percentile_ci_upper": float(
-                    values.quantile(upper_probability)
-                ),
+                "bonferroni_percentile_ci_lower": float(values.quantile(lower_probability)),
+                "bonferroni_percentile_ci_upper": float(values.quantile(upper_probability)),
                 "simultaneous_max_error_critical_value": joint_critical_value,
                 "simultaneous_max_error_ci_lower": point - joint_critical_value,
                 "simultaneous_max_error_ci_upper": point + joint_critical_value,
@@ -254,12 +245,8 @@ def build_seed_extension_report(
         extension_run / "outer_seed_predictions.parquet",
         historical_seeds,
     )
-    historical = _rename_neural_namespace(
-        _normalise_neural(historical_run, {}), "psmask3"
-    )
-    extension = _rename_neural_namespace(
-        _normalise_neural(extension_run, {}), "psmask10"
-    )
+    historical = _rename_neural_namespace(_normalise_neural(historical_run, {}), "psmask3")
+    extension = _rename_neural_namespace(_normalise_neural(extension_run, {}), "psmask10")
     historical = historical.loc[
         historical["method"].isin(f"psmask3:{value}" for value in experiments)
     ]
@@ -275,9 +262,7 @@ def build_seed_extension_report(
     metrics = cell_metrics(predictions)
     primary = primary_estimands(metrics)
     comparison = _three_vs_ten(primary)
-    extension_seed_frame = pd.read_parquet(
-        extension_run / "outer_seed_predictions.parquet"
-    )
+    extension_seed_frame = pd.read_parquet(extension_run / "outer_seed_predictions.parquet")
     seed_sensitivity = _seed_primary(
         extension_seed_frame,
         namespace="psmask10",

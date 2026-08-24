@@ -74,12 +74,10 @@ def _save_figure(figure: plt.Figure, output_dir: Path, stem: str) -> list[Path]:
 
 
 def _heart_site_worst(metrics: pd.DataFrame, methods: list[str]) -> pd.DataFrame:
-    selected = metrics.loc[
-        metrics["track"].eq("dg_zero_shot") & metrics["method"].isin(methods)
-    ]
-    policy_means = selected.groupby(
-        ["method", "outer_target", "policy"], as_index=False
-    ).agg(balanced_log_loss=("balanced_log_loss", "mean"))
+    selected = metrics.loc[metrics["track"].eq("dg_zero_shot") & metrics["method"].isin(methods)]
+    policy_means = selected.groupby(["method", "outer_target", "policy"], as_index=False).agg(
+        balanced_log_loss=("balanced_log_loss", "mean")
+    )
     site_worst = policy_means.groupby(["method", "outer_target"], as_index=False).agg(
         worst_policy_balanced_log_loss=("balanced_log_loss", "max")
     )
@@ -111,9 +109,7 @@ def _research_adaptation(predictions: pd.DataFrame) -> pd.DataFrame:
         ["experiment", "track", "outer_target", "policy"], as_index=False
     ).agg(balanced_log_loss=("balanced_log_loss", "mean"))
     summaries = []
-    for (experiment, track), group in policy_means.groupby(
-        ["experiment", "track"], sort=False
-    ):
+    for (experiment, track), group in policy_means.groupby(["experiment", "track"], sort=False):
         summaries.append(
             {
                 "experiment": experiment,
@@ -122,9 +118,7 @@ def _research_adaptation(predictions: pd.DataFrame) -> pd.DataFrame:
                 "macro_site_worst_balanced_log_loss": float(
                     group.groupby("outer_target")["balanced_log_loss"].max().mean()
                 ),
-                "worst_site_policy_balanced_log_loss": float(
-                    group["balanced_log_loss"].max()
-                ),
+                "worst_site_policy_balanced_log_loss": float(group["balanced_log_loss"].max()),
             }
         )
     return pd.DataFrame(summaries)
@@ -297,9 +291,7 @@ def build_publication_figures(
             {
                 "status": "posthoc_descriptive_publication_figures",
                 "protocol_version": config["protocol_version"],
-                "input_sha256": {
-                    name: sha256_file(path) for name, path in input_paths.items()
-                },
+                "input_sha256": {name: sha256_file(path) for name, path in input_paths.items()},
                 "output_sha256": output_hashes,
                 "caution": (
                     "Figures summarize locked results; research-only adaptation scoring is "

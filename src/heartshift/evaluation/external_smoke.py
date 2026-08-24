@@ -101,9 +101,7 @@ def _classical_predictions(
             frame["mask_replicate"] = replicate
             frame["y_score"] = pipeline.predict_proba(masked.loc[:, feature_columns])[:, 1]
             frame["observed_fraction"] = observed.mean(axis=1)
-            frame["observed_mask_sha256"] = observed_mask_hashes(
-                observed, feature_columns
-            )
+            frame["observed_mask_sha256"] = observed_mask_hashes(observed, feature_columns)
             frame["experiment"] = f"classical:{model_name}"
             records.append(frame)
     return pd.concat(records, ignore_index=True)
@@ -185,9 +183,7 @@ def run_external_demo_smoke(
         prediction_records.append(predictions)
     predictions = pd.concat(prediction_records, ignore_index=True)
     metric_records = []
-    for keys, group in predictions.groupby(
-        ["experiment", "policy", "mask_replicate"], sort=False
-    ):
+    for keys, group in predictions.groupby(["experiment", "policy", "mask_replicate"], sort=False):
         metric_records.append(
             {
                 "experiment": keys[0],

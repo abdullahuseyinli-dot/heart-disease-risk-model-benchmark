@@ -14,9 +14,7 @@ def _weighted_balanced_loss(
     weight: np.ndarray,
 ) -> float:
     probability = np.clip(score, 1e-7, 1 - 1e-7)
-    point_loss = -(
-        target * np.log(probability) + (1 - target) * np.log(1 - probability)
-    )
+    point_loss = -(target * np.log(probability) + (1 - target) * np.log(1 - probability))
     class_means = []
     for label in (0, 1):
         selected = target == label
@@ -32,9 +30,7 @@ def _method_hospital_score(
     patient_counts: dict[Any, int],
 ) -> float:
     cells = []
-    for (policy, replicate), cell in method_rows.groupby(
-        ["policy", "mask_replicate"], sort=False
-    ):
+    for (policy, replicate), cell in method_rows.groupby(["policy", "mask_replicate"], sort=False):
         del policy, replicate
         weights = cell["patient_id"].map(patient_counts).fillna(0).to_numpy(dtype=np.float64)
         cells.append(
@@ -127,16 +123,14 @@ def hierarchical_hospital_patient_bootstrap(
     key_columns = ["sample_id", "hospital_id", "policy", "mask_replicate"]
     if "training_seed" in selected:
         key_columns.append("training_seed")
-    reference_keys = selected.loc[
-        selected["method"].eq(reference_method), key_columns
-    ].sort_values(key_columns)
+    reference_keys = selected.loc[selected["method"].eq(reference_method), key_columns].sort_values(
+        key_columns
+    )
     for method in comparison_methods:
         candidate_keys = selected.loc[selected["method"].eq(method), key_columns].sort_values(
             key_columns
         )
-        if not reference_keys.reset_index(drop=True).equals(
-            candidate_keys.reset_index(drop=True)
-        ):
+        if not reference_keys.reset_index(drop=True).equals(candidate_keys.reset_index(drop=True)):
             raise AssertionError(f"Hierarchical paired keys differ for {method}")
     observed = _observed_primary(_ensemble_seed_predictions(selected))
     observed_differences = {
@@ -161,17 +155,13 @@ def hierarchical_hospital_patient_bootstrap(
     for bootstrap_replicate in range(repetitions):
         sampled_seed = int(rng.choice(seeds)) if seeds else None
         current = (
-            base.loc[base["training_seed"].eq(sampled_seed)]
-            if sampled_seed is not None
-            else base
+            base.loc[base["training_seed"].eq(sampled_seed)] if sampled_seed is not None else base
         )
         hospital_draws = rng.choice(hospitals, size=len(hospitals), replace=True)
         method_estimates: dict[str, list[float]] = {method: [] for method in methods}
         for hospital in hospital_draws:
             hospital_rows = current.loc[current["hospital_id"].eq(hospital)]
-            reference_rows = hospital_rows.loc[
-                hospital_rows["method"].eq(reference_method)
-            ]
+            reference_rows = hospital_rows.loc[hospital_rows["method"].eq(reference_method)]
             patient_labels = reference_rows.groupby("patient_id")["target"].max()
             patient_counts: dict[Any, int] = {}
             for label in (0, 1):
@@ -185,12 +175,8 @@ def hierarchical_hospital_patient_bootstrap(
                 patient_counts.update(dict(zip(unique, counts, strict=True)))
             for method in methods:
                 method_rows = hospital_rows.loc[hospital_rows["method"].eq(method)]
-                method_estimates[method].append(
-                    _method_hospital_score(method_rows, patient_counts)
-                )
-        estimates = {
-            method: float(np.mean(values)) for method, values in method_estimates.items()
-        }
+                method_estimates[method].append(_method_hospital_score(method_rows, patient_counts))
+        estimates = {method: float(np.mean(values)) for method, values in method_estimates.items()}
         for method in comparison_methods:
             replicate_records.append(
                 {

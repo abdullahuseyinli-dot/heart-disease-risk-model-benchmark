@@ -118,9 +118,7 @@ def test_joint_omnibus_uses_aligned_empirical_null_draws() -> None:
         0.1,
         np.asarray([0.4, 0.8, 80.0]),
     )
-    result = joint_omnibus_prevalence_set(
-        {"raw": first, "scaled": second}, joint
-    )
+    result = joint_omnibus_prevalence_set({"raw": first, "scaled": second}, joint)
     assert joint.view_scales.shape == (2, 3)
     assert joint.critical_values.shape == (3,)
     assert result.discrepancies.shape == (3,)

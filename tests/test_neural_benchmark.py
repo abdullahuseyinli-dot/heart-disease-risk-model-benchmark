@@ -93,18 +93,23 @@ def test_non_adaptable_outer_does_not_require_source_predictions() -> None:
 
     assert adapted["adaptation_status"].eq("not_applicable").all()
     assert not adapted["adaptation_allowed"].any()
-    assert adapted[
-        [
-            "calibrated_evidence_logit",
-            "y_score_calibrated_equal_prior",
-            "estimated_target_prevalence_mlls",
-            "estimated_target_prevalence_soft_bbse",
-            "y_score_uda_mlls_research",
-            "y_score_uda_soft_bbse_research",
-            "y_score_uda_mlls",
-            "y_score_uda_soft_bbse",
+    assert (
+        adapted[
+            [
+                "calibrated_evidence_logit",
+                "y_score_calibrated_equal_prior",
+                "estimated_target_prevalence_mlls",
+                "estimated_target_prevalence_soft_bbse",
+                "y_score_uda_mlls_research",
+                "y_score_uda_soft_bbse_research",
+                "y_score_uda_mlls",
+                "y_score_uda_soft_bbse",
+            ]
         ]
-    ].isna().all().all()
+        .isna()
+        .all()
+        .all()
+    )
     assert diagnostics.empty
     assert summary.empty
 

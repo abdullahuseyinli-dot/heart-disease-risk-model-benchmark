@@ -181,9 +181,7 @@ def _cell_metrics(predictions: pd.DataFrame) -> pd.DataFrame:
 def _select_nested_controls(metrics: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     selections = []
     for (outer_target, control), candidates in metrics.groupby(["outer_target", "control"]):
-        summary = candidates.groupby(
-            ["parameter_id", "parameters_json"], as_index=False
-        ).agg(
+        summary = candidates.groupby(["parameter_id", "parameters_json"], as_index=False).agg(
             mean_balanced_log_loss=("balanced_log_loss", "mean"),
             worst_balanced_log_loss=("balanced_log_loss", "max"),
             mean_roc_auc=("roc_auc", "mean"),
@@ -329,9 +327,7 @@ def run_research_control_benchmark(
             filters=[("site", "==", outer_target)],
         )
         empirical_pool = source.loc[:, FEATURE_COLUMNS].notna().to_numpy(dtype=bool)
-        evaluation_seed = policy_seed(
-            evaluation_seed_base, f"{outer_target}|outer_evaluation", 0
-        )
+        evaluation_seed = policy_seed(evaluation_seed_base, f"{outer_target}|outer_evaluation", 0)
         for seed in seeds:
             fit_seed = policy_seed(seed, f"{outer_target}|{control_name}|outer_fit", 0)
             pipeline = _fit_control(

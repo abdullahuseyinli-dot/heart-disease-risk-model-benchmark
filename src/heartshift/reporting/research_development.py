@@ -99,13 +99,9 @@ def _normalise_neural(
         if audit["experiment_count"].ne(len(experiments)).any():
             raise AssertionError(f"Neural ensemble {ensemble_name} is incomplete")
         if audit["target_values"].ne(1).any() or audit["mask_values"].ne(1).any():
-            raise AssertionError(
-                f"Neural ensemble {ensemble_name} disagrees on endpoints or masks"
-            )
+            raise AssertionError(f"Neural ensemble {ensemble_name} disagrees on endpoints or masks")
         if (audit["fraction_max"] - audit["fraction_min"]).max() > 1e-12:
-            raise AssertionError(
-                f"Neural ensemble {ensemble_name} disagrees on observed fractions"
-            )
+            raise AssertionError(f"Neural ensemble {ensemble_name} disagrees on observed fractions")
         selected["expert_logit"] = logit(
             np.clip(selected["score"].to_numpy(dtype=np.float64), 1e-6, 1 - 1e-6)
         )
@@ -186,9 +182,7 @@ def _seed_primary(
                     "site": site,
                     "policy": policy,
                     "replicate": replicate,
-                    "balanced_log_loss": balanced_log_loss(
-                        cell["target"], cell[score_column]
-                    ),
+                    "balanced_log_loss": balanced_log_loss(cell["target"], cell[score_column]),
                 }
             )
         cell_frame = pd.DataFrame(cells)
@@ -247,9 +241,7 @@ def build_research_development_report(
                 neural_outer_run,
                 {
                     str(name): tuple(str(value) for value in experiments)
-                    for name, experiments in config.get(
-                        "neural_logit_ensembles", {}
-                    ).items()
+                    for name, experiments in config.get("neural_logit_ensembles", {}).items()
                 },
             ),
             _normalise_router(

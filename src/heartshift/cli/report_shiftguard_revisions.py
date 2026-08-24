@@ -22,9 +22,7 @@ def main() -> None:
     repo_root = args.repo_root.resolve()
     config_path = args.config if args.config.is_absolute() else repo_root / args.config
     output_dir = args.output_dir if args.output_dir.is_absolute() else repo_root / args.output_dir
-    outputs = compare_shiftguard_revisions(
-        repo_root, load_yaml(config_path), output_dir
-    )
+    outputs = compare_shiftguard_revisions(repo_root, load_yaml(config_path), output_dir)
     for name, path in outputs.items():
         print(f"{name}: {path}")
 

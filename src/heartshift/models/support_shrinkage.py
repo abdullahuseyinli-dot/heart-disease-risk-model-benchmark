@@ -87,9 +87,10 @@ def _probability_matrix(values: Any) -> np.ndarray:
     probabilities = np.asarray(values, dtype=np.float64)
     if probabilities.ndim != 2 or probabilities.shape[0] == 0 or probabilities.shape[1] < 2:
         raise ValueError("Expert probabilities require at least two experts")
-    if not np.isfinite(probabilities).all() or not (
-        (probabilities >= 0.0) & (probabilities <= 1.0)
-    ).all():
+    if (
+        not np.isfinite(probabilities).all()
+        or not ((probabilities >= 0.0) & (probabilities <= 1.0)).all()
+    ):
         raise ValueError("Expert probabilities must be finite and lie in [0, 1]")
     return np.clip(probabilities, PROBABILITY_EPSILON, 1.0 - PROBABILITY_EPSILON)
 
@@ -250,11 +251,7 @@ def support_router_objective(
     for expert_index in range(expert_logits.shape[1]):
         expert_risks = _group_risks(expert_losses[:, expert_index], group_codes)
         expert_robust.append(
-            dro_tau
-            * (
-                torch.logsumexp(expert_risks / dro_tau, dim=0)
-                - math.log(len(expert_risks))
-            )
+            dro_tau * (torch.logsumexp(expert_risks / dro_tau, dim=0) - math.log(len(expert_risks)))
         )
     best_expert_robust = torch.stack(expert_robust).min().detach()
     regret = torch.relu(robust_risk - best_expert_robust)
@@ -265,9 +262,7 @@ def support_router_objective(
     else:
         natural_loss = mixed_logits.sum() * 0.0
         natural_penalty = mixed_logits.sum() * 0.0
-    routing_entropy = -torch.sum(
-        weights * torch.log(torch.clamp(weights, min=1e-8)), dim=1
-    ).mean()
+    routing_entropy = -torch.sum(weights * torch.log(torch.clamp(weights, min=1e-8)), dim=1).mean()
     objective = (
         (1.0 - dro_lambda) * mean_risk
         + dro_lambda * robust_risk
@@ -308,12 +303,8 @@ def _evaluation_score(
             torch.tensor(labels, dtype=torch.float32, device=device),
             reduction="none",
         )
-        risks = _group_risks(
-            losses, torch.tensor(group_codes, dtype=torch.long, device=device)
-        )
-        robust = dro_tau * (
-            torch.logsumexp(risks / dro_tau, dim=0) - math.log(len(risks))
-        )
+        risks = _group_risks(losses, torch.tensor(group_codes, dtype=torch.long, device=device))
+        robust = dro_tau * (torch.logsumexp(risks / dro_tau, dim=0) - math.log(len(risks)))
     return float(robust.cpu())
 
 
@@ -355,9 +346,7 @@ def fit_support_aware_router(
         == len(training_natural_array)
     ):
         raise ValueError("Training router arrays do not align")
-    if not (
-        len(validation_probability) == len(validation_label) == len(validation_group)
-    ):
+    if not (len(validation_probability) == len(validation_label) == len(validation_group)):
         raise ValueError("Validation router arrays do not align")
     if set(np.unique(training_label)) != {0, 1} or set(np.unique(validation_label)) != {0, 1}:
         raise ValueError("Training and validation require both outcome classes")
@@ -385,20 +374,14 @@ def fit_support_aware_router(
     max_epochs = int(parameters.get("max_epochs", 500))
     patience = int(parameters.get("patience", 50))
     dro_tau = float(parameters.get("dro_tau", 0.2))
-    train_support_tensor = torch.tensor(
-        training_support, dtype=torch.float32, device=torch_device
-    )
+    train_support_tensor = torch.tensor(training_support, dtype=torch.float32, device=torch_device)
     train_expert_tensor = torch.tensor(
         np.log(training_probability / (1.0 - training_probability)),
         dtype=torch.float32,
         device=torch_device,
     )
-    train_labels_tensor = torch.tensor(
-        training_label, dtype=torch.long, device=torch_device
-    )
-    train_groups_tensor = torch.tensor(
-        training_group, dtype=torch.long, device=torch_device
-    )
+    train_labels_tensor = torch.tensor(training_label, dtype=torch.long, device=torch_device)
+    train_groups_tensor = torch.tensor(training_group, dtype=torch.long, device=torch_device)
     train_natural_tensor = torch.tensor(
         training_natural_array, dtype=torch.bool, device=torch_device
     )

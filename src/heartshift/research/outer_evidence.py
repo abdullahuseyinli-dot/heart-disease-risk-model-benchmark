@@ -65,9 +65,7 @@ def _assert_frames_match(
         extra = sorted(set(observed.columns) - set(expected.columns))
         raise AssertionError(f"Frame columns differ; missing={missing}, extra={extra}")
     observed_ordered = (
-        observed.loc[:, expected.columns]
-        .sort_values(sort_by, kind="stable")
-        .reset_index(drop=True)
+        observed.loc[:, expected.columns].sort_values(sort_by, kind="stable").reset_index(drop=True)
     )
     expected_ordered = expected.sort_values(sort_by, kind="stable").reset_index(drop=True)
     if not check_dtype:
@@ -238,15 +236,14 @@ def audit_heart_classical_outer(
     )
     if not predictions["site"].eq(predictions["outer_target"]).all():
         raise AssertionError("A heart outer prediction is not from its declared held-out site")
-    if not np.isfinite(predictions["y_score"]).all() or not predictions["y_score"].between(
-        0.0, 1.0
-    ).all():
+    if (
+        not np.isfinite(predictions["y_score"]).all()
+        or not predictions["y_score"].between(0.0, 1.0).all()
+    ):
         raise AssertionError("A heart outer score is non-finite or outside [0, 1]")
 
     ensemble_key = [
-        column
-        for column in unlabelled.columns
-        if column not in {"y_score", "observed_fraction"}
+        column for column in unlabelled.columns if column not in {"y_score", "observed_fraction"}
     ]
     if unlabelled.duplicated(ensemble_key).any():
         raise AssertionError("Duplicate heart ensemble prediction keys detected")
@@ -410,16 +407,15 @@ def audit_readmission_outer(
         ]
     )
     test_patients = set(
-        patient_split.loc[
-            patient_split["split"].isin(config["data"]["test_splits"]), "patient_nbr"
-        ]
+        patient_split.loc[patient_split["split"].isin(config["data"]["test_splits"]), "patient_nbr"]
     )
     patient_overlap = refit_patients & test_patients
     if patient_overlap:
         raise AssertionError("Readmission refit and test patients overlap")
-    if not np.isfinite(predictions["y_score"]).all() or not predictions["y_score"].between(
-        0.0, 1.0
-    ).all():
+    if (
+        not np.isfinite(predictions["y_score"]).all()
+        or not predictions["y_score"].between(0.0, 1.0).all()
+    ):
         raise AssertionError("A readmission score is non-finite or outside [0, 1]")
     prediction_key = ["experiment", "sample_id", "policy", "mask_replicate"]
     if predictions.duplicated(prediction_key).any():
@@ -539,9 +535,10 @@ def audit_heart_neural_outer(
     )
     if not predictions["site"].eq(predictions["outer_target"]).all():
         raise AssertionError("A neural prediction is not from its declared held-out site")
-    if not np.isfinite(predictions["y_score_zero_shot"]).all() or not predictions[
-        "y_score_zero_shot"
-    ].between(0.0, 1.0).all():
+    if (
+        not np.isfinite(predictions["y_score_zero_shot"]).all()
+        or not predictions["y_score_zero_shot"].between(0.0, 1.0).all()
+    ):
         raise AssertionError("A neural zero-shot score is non-finite or outside [0, 1]")
 
     adaptable_variants = {str(value) for value in config["adaptable_variants"]}
@@ -559,9 +556,11 @@ def audit_heart_neural_outer(
         raise AssertionError("An accepted neural cell lacks deployment adaptation scores")
     if predictions.loc[~accepted, deployment_columns].notna().any().any():
         raise AssertionError("A rejected/non-applicable neural cell exposes deployment scores")
-    if not predictions.loc[adaptable, "adaptation_status"].isin(
-        ["accepted", "diagnostic_rejected"]
-    ).all():
+    if (
+        not predictions.loc[adaptable, "adaptation_status"]
+        .isin(["accepted", "diagnostic_rejected"])
+        .all()
+    ):
         raise AssertionError("An adaptable neural cell has an invalid adaptation status")
 
     ensemble_grouping = [

@@ -464,18 +464,18 @@ def evaluate_psmask_nested_pivot_selection(
         seed_count = int(
             context_fits.groupby(["inner_validation", "experiment"])["seed"].nunique().min()
         )
-        policy_means = context_metrics.groupby(
-            ["experiment", "policy"], as_index=False
-        ).agg(
+        policy_means = context_metrics.groupby(["experiment", "policy"], as_index=False).agg(
             balanced_log_loss=("balanced_log_loss", "mean"),
             roc_auc=("roc_auc", "mean"),
         )
         summary = policy_means.groupby("experiment", as_index=False).agg(
             worst_policy_balanced_log_loss=("balanced_log_loss", "max")
         )
-        natural = policy_means.loc[policy_means["policy"].eq("natural")].loc[
-            :, ["experiment", "roc_auc"]
-        ].rename(columns={"roc_auc": "natural_roc_auc"})
+        natural = (
+            policy_means.loc[policy_means["policy"].eq("natural")]
+            .loc[:, ["experiment", "roc_auc"]]
+            .rename(columns={"roc_auc": "natural_roc_auc"})
+        )
         summary = summary.merge(natural, on="experiment", validate="one_to_one").set_index(
             "experiment"
         )
@@ -732,9 +732,7 @@ def validate_completed_outer_evidence(run_dir: Path) -> dict[str, Any]:
     if not audit_path.is_file() or not validation_path.is_file():
         raise FileNotFoundError(f"Completed outer evidence is missing its audit: {run_dir}")
     audit = cast(dict[str, Any], json.loads(audit_path.read_text(encoding="utf-8")))
-    validation = cast(
-        dict[str, Any], json.loads(validation_path.read_text(encoding="utf-8"))
-    )
+    validation = cast(dict[str, Any], json.loads(validation_path.read_text(encoding="utf-8")))
     if audit.get("audit_status") != "complete_locked_outer_evidence":
         raise AssertionError(f"Outer audit is not complete: {audit_path}")
     if validation.get("status") != "passed_independent_reconstruction":

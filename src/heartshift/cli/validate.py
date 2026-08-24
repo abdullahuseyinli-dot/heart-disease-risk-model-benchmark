@@ -89,25 +89,16 @@ def validate_repository(repo_root: Path) -> None:
         "report": repo_root / "configs/reporting/heart_research_development_v1.yaml",
     }
     if all(path.is_file() for path in router_configs.values()):
-        validate_router_development_contract(
-            *(load_yaml(path) for path in router_configs.values())
-        )
+        validate_router_development_contract(*(load_yaml(path) for path in router_configs.values()))
         for superseded_name in ("support_router_v1.yaml", "support_router_v2.yaml"):
             superseded = load_yaml(repo_root / "configs/research" / superseded_name)
-            if not str(superseded.get("status", "")).startswith(
-                "superseded_before_full_run"
-            ):
+            if not str(superseded.get("status", "")).startswith("superseded_before_full_run"):
                 raise AssertionError(f"Unsafe source-meta router remains active: {superseded_name}")
 
     seed_extension_configs = {
         "control": repo_root / "configs/research/heart_controls_v1.yaml",
-        "extension": (
-            repo_root / "configs/research/historical_psmask_seed_extension_v1.yaml"
-        ),
-        "report": (
-            repo_root
-            / "configs/reporting/historical_psmask_seed_extension_v1.yaml"
-        ),
+        "extension": (repo_root / "configs/research/historical_psmask_seed_extension_v1.yaml"),
+        "report": (repo_root / "configs/reporting/historical_psmask_seed_extension_v1.yaml"),
     }
     if all(path.is_file() for path in seed_extension_configs.values()):
         validate_historical_seed_extension_contract(

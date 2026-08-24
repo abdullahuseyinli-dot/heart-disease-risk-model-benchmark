@@ -77,9 +77,7 @@ def validate_source_inner_artifact_audit(run_dir: Path) -> dict[str, Any]:
     if set(current) != set(expected):
         missing = sorted(set(expected) - set(current))
         extra = sorted(set(current) - set(expected))
-        raise AssertionError(
-            f"Source-only artifact tree changed; missing={missing}, extra={extra}"
-        )
+        raise AssertionError(f"Source-only artifact tree changed; missing={missing}, extra={extra}")
     for relative, expected_hash in expected.items():
         path = _resolve_audited_path(run_dir, relative)
         if not path.is_file() or sha256_file(path) != expected_hash:

@@ -46,9 +46,11 @@ def site_worst_contrasts(
     reference_method: str,
     comparison_methods: list[str],
 ) -> pd.DataFrame:
-    policy = metrics.loc[metrics["track"].eq(PRIMARY_TRACK)].groupby(
-        ["method", "outer_target", "policy"], as_index=False
-    ).agg(balanced_log_loss=("balanced_log_loss", "mean"))
+    policy = (
+        metrics.loc[metrics["track"].eq(PRIMARY_TRACK)]
+        .groupby(["method", "outer_target", "policy"], as_index=False)
+        .agg(balanced_log_loss=("balanced_log_loss", "mean"))
+    )
     worst = policy.groupby(["method", "outer_target"], as_index=False).agg(
         site_worst_balanced_log_loss=("balanced_log_loss", "max")
     )
@@ -75,9 +77,11 @@ def site_worst_contrasts(
 
 
 def leave_one_site_out_ranking(metrics: pd.DataFrame) -> pd.DataFrame:
-    policy = metrics.loc[metrics["track"].eq(PRIMARY_TRACK)].groupby(
-        ["method", "outer_target", "policy"], as_index=False
-    ).agg(balanced_log_loss=("balanced_log_loss", "mean"))
+    policy = (
+        metrics.loc[metrics["track"].eq(PRIMARY_TRACK)]
+        .groupby(["method", "outer_target", "policy"], as_index=False)
+        .agg(balanced_log_loss=("balanced_log_loss", "mean"))
+    )
     worst = policy.groupby(["method", "outer_target"], as_index=False).agg(
         site_worst_balanced_log_loss=("balanced_log_loss", "max")
     )
@@ -218,9 +222,9 @@ def build_heart_sensitivity_report(
     ).to_csv(outputs["site_contrasts"], index=False)
     leave_one_site_out_ranking(metrics).to_csv(outputs["site_jackknife"], index=False)
     site_policy_class_losses(predictions).to_csv(outputs["class_losses"], index=False)
-    seed_level_primary_estimands(
-        repo_root, config["seed_prediction_runs"], primary
-    ).to_csv(outputs["seed_sensitivity"], index=False)
+    seed_level_primary_estimands(repo_root, config["seed_prediction_runs"], primary).to_csv(
+        outputs["seed_sensitivity"], index=False
+    )
     outputs["manifest"].write_text(
         json.dumps(
             {

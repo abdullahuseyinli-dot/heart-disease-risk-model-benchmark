@@ -98,9 +98,7 @@ def test_v4_freeze_is_a_neural_only_mechanical_recovery() -> None:
         "tabpfn_v3",
         "readmission_v3",
     }
-    assert config["failed_outer_runs"] == {
-        "mirrams_v3": "artifacts/runs/mirrams-outer-v3"
-    }
+    assert config["failed_outer_runs"] == {"mirrams_v3": "artifacts/runs/mirrams-outer-v3"}
     assert config["outer_configs"] == [
         "configs/benchmark/mirrams_outer_v4.yaml",
         "configs/benchmark/psmask_outer_v4.yaml",
@@ -111,9 +109,10 @@ def test_v4_freeze_is_a_neural_only_mechanical_recovery() -> None:
         assert str(outer["locked_run_name"]).endswith("-v4")
     psmask = load_yaml(REPO_ROOT / "configs/benchmark/psmask_outer_v4.yaml")
     assert set(psmask["adaptable_variants"]) == {"v2", "v5_mask"}
-    assert psmask["diagnostic"] == load_yaml(
-        REPO_ROOT / "configs/benchmark/psmask_outer_v3.yaml"
-    )["diagnostic"]
+    assert (
+        psmask["diagnostic"]
+        == load_yaml(REPO_ROOT / "configs/benchmark/psmask_outer_v3.yaml")["diagnostic"]
+    )
 
 
 def test_source_gate_rejects_outer_target_predictions(tmp_path: Path) -> None:
@@ -236,9 +235,7 @@ def test_frozen_candidate_binds_completed_outer_artifact_tree(tmp_path: Path) ->
                 "git_commit": "unavailable",
                 "frozen_files": [],
                 "source_evidence": {},
-                "prior_outer_evidence": {
-                    "completed": {"run_dir": "completed", **evidence}
-                },
+                "prior_outer_evidence": {"completed": {"run_dir": "completed", **evidence}},
             }
         ),
         encoding="utf-8",
@@ -275,9 +272,7 @@ def test_frozen_candidate_binds_failed_pre_endpoint_run(tmp_path: Path) -> None:
                 "git_commit": "unavailable",
                 "frozen_files": [],
                 "source_evidence": {},
-                "failed_outer_evidence": {
-                    "failed": {"run_dir": "failed", **evidence}
-                },
+                "failed_outer_evidence": {"failed": {"run_dir": "failed", **evidence}},
             }
         ),
         encoding="utf-8",

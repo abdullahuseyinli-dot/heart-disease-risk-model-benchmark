@@ -65,20 +65,13 @@ def test_router_development_contract_rejects_seed_drift() -> None:
 def _seed_extension_contract_configs():
     return [
         load_yaml(REPO_ROOT / "configs/research/heart_controls_v1.yaml"),
-        load_yaml(
-            REPO_ROOT / "configs/research/historical_psmask_seed_extension_v1.yaml"
-        ),
-        load_yaml(
-            REPO_ROOT
-            / "configs/reporting/historical_psmask_seed_extension_v1.yaml"
-        ),
+        load_yaml(REPO_ROOT / "configs/research/historical_psmask_seed_extension_v1.yaml"),
+        load_yaml(REPO_ROOT / "configs/reporting/historical_psmask_seed_extension_v1.yaml"),
     ]
 
 
 def test_historical_seed_extension_contract_is_explicit_and_aligned() -> None:
-    result = validate_historical_seed_extension_contract(
-        *_seed_extension_contract_configs()
-    )
+    result = validate_historical_seed_extension_contract(*_seed_extension_contract_configs())
     assert result["status"] == "passed_historical_seed_extension_contract"
     assert result["seed_count"] == 10
     assert result["historical_seed_count"] == 3

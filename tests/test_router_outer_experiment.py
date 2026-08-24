@@ -35,9 +35,7 @@ def test_source_selection_chooses_score_then_smaller_backbone() -> None:
             },
         ]
     )
-    selected = select_neural_experiments(
-        selections, {"prior": ("attention", "deepsets")}
-    )
+    selected = select_neural_experiments(selections, {"prior": ("attention", "deepsets")})
     assert selected.loc[0, "selected_experiment"] == "deepsets"
     assert selected.loc[0, "expert_name"] == "prior"
 
@@ -102,12 +100,8 @@ def test_router_gate_uses_strongest_fixed_comparator() -> None:
                         "score": confidence if target else 1 - confidence,
                     }
                 )
-    weights = pd.DataFrame(
-        {"weight__a": [0.6, 0.4], "weight__b": [0.4, 0.6]}
-    )
-    gate = _router_gate(
-        pd.DataFrame(records), weights, natural_auroc_margin=0.01
-    )
+    weights = pd.DataFrame({"weight__a": [0.6, 0.4], "weight__b": [0.4, 0.6]})
+    gate = _router_gate(pd.DataFrame(records), weights, natural_auroc_margin=0.01)
     robust = gate["checks"]["descriptive_robust_improvement_over_strongest_fixed"]
     assert robust["strongest_method"] == "fixed_strong"
     assert not robust["passed"]

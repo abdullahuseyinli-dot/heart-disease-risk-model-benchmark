@@ -35,9 +35,7 @@ def _affected_probability(mechanism: str, prevalence: float) -> float:
 def _log_loss(target: pd.Series, score: pd.Series) -> float:
     labels = target.to_numpy(dtype=np.int8)
     probability = np.clip(score.to_numpy(dtype=np.float64), 1e-7, 1 - 1e-7)
-    return float(
-        -np.mean(labels * np.log(probability) + (1 - labels) * np.log(1 - probability))
-    )
+    return float(-np.mean(labels * np.log(probability) + (1 - labels) * np.log(1 - probability)))
 
 
 def _sample_derived_log_losses(samples: pd.DataFrame) -> pd.DataFrame:
@@ -46,12 +44,8 @@ def _sample_derived_log_losses(samples: pd.DataFrame) -> pd.DataFrame:
         records.append(
             {
                 "episode_id": episode_id,
-                "zero_shot_log_loss_rebuilt": _log_loss(
-                    group["target"], group["zero_shot_score"]
-                ),
-                "gated_log_loss_rebuilt": _log_loss(
-                    group["target"], group["gated_score"]
-                ),
+                "zero_shot_log_loss_rebuilt": _log_loss(group["target"], group["zero_shot_score"]),
+                "gated_log_loss_rebuilt": _log_loss(group["target"], group["gated_score"]),
             }
         )
     return pd.DataFrame(records)
@@ -113,9 +107,7 @@ def compare_shiftguard_revisions(
                         - primary_episodes.loc[invalid, "zero_shot_log_loss_rebuilt"]
                     ).mean()
                 ),
-                "concept_acceptance": float(
-                    primary_episodes.loc[concept, "accepted"].mean()
-                ),
+                "concept_acceptance": float(primary_episodes.loc[concept, "accepted"].mean()),
                 "concept_gated_minus_zero_log_loss": float(
                     (
                         primary_episodes.loc[concept, "gated_log_loss_rebuilt"]
@@ -163,9 +155,7 @@ def compare_shiftguard_revisions(
             power["mechanism"], power["nominal_latent_prevalence"], strict=True
         )
     ]
-    power["expected_affected_rows"] = (
-        power["batch_size"] * power["affected_probability"]
-    )
+    power["expected_affected_rows"] = power["batch_size"] * power["affected_probability"]
     power["probability_fewer_than_five_affected"] = [
         float(binom.cdf(4, int(size), float(probability)))
         for size, probability in zip(
@@ -185,14 +175,10 @@ def compare_shiftguard_revisions(
             "cells": len(group),
             "spearman_expected_affected_vs_acceptance": float(correlation.statistic),
             "acceptance_expected_affected_below_five": float(
-                group.loc[
-                    group["expected_affected_rows"] < 5.0, "acceptance_rate"
-                ].mean()
+                group.loc[group["expected_affected_rows"] < 5.0, "acceptance_rate"].mean()
             ),
             "acceptance_expected_affected_at_least_twenty": float(
-                group.loc[
-                    group["expected_affected_rows"] >= 20.0, "acceptance_rate"
-                ].mean()
+                group.loc[group["expected_affected_rows"] >= 20.0, "acceptance_rate"].mean()
             ),
         }
     power_summary_path = output_dir / "power_feasibility_summary.json"

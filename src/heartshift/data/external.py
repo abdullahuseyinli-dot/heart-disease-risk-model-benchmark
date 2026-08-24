@@ -93,9 +93,7 @@ class ExternalDatasetContract:
 
 
 def _hospital_role(contract: ExternalDatasetContract, hospital_id: Any) -> str:
-    digest = hashlib.sha256(
-        f"{contract.split_salt}|{hospital_id}".encode()
-    ).digest()
+    digest = hashlib.sha256(f"{contract.split_salt}|{hospital_id}".encode()).digest()
     uniform = int.from_bytes(digest[:8], "big") / float(2**64)
     if uniform < contract.development_fraction:
         return "development"
@@ -179,14 +177,9 @@ def validate_hospital_disjoint_manifest(
     if not required <= set(manifest):
         raise KeyError(f"External manifest columns are missing: {sorted(required - set(manifest))}")
     active = manifest.loc[
-        manifest["split"].isin(
-            ["development", "architecture_selection", "locked_confirmation"]
-        )
+        manifest["split"].isin(["development", "architecture_selection", "locked_confirmation"])
     ]
-    roles = {
-        role: group
-        for role, group in active.groupby("split", sort=True)
-    }
+    roles = {role: group for role, group in active.groupby("split", sort=True)}
     expected_roles = {"development", "architecture_selection", "locked_confirmation"}
     if set(roles) != expected_roles:
         raise AssertionError(f"External split lacks roles: {sorted(expected_roles - set(roles))}")
@@ -248,9 +241,7 @@ def prepare_external_dataset(
         raise KeyError(f"External raw file misses contracted columns: {sorted(missing)}")
     selected = frame.loc[:, list(required)].copy()
     selected[contract.target_column] = selected[contract.target_column].astype(np.int8)
-    selected["sample_id"] = (
-        contract.name + ":" + selected[contract.encounter_id_column].astype(str)
-    )
+    selected["sample_id"] = contract.name + ":" + selected[contract.encounter_id_column].astype(str)
     selected["environment"] = selected[contract.hospital_id_column].astype(str)
     selected["target"] = selected[contract.target_column]
     manifest = build_hospital_disjoint_manifest(selected, contract)
@@ -357,26 +348,22 @@ def load_eicu_demo_relational_table(raw_directory: Path) -> pd.DataFrame:
         raise ValueError("eICU demo patient table duplicates unit stays")
     if physiology["patientunitstayid"].duplicated().any():
         raise ValueError("eICU demo APACHE physiology table duplicates unit stays")
-    outcome_consistency = result.groupby("patientunitstayid")[
-        "actualhospitalmortality"
-    ].nunique(dropna=True)
+    outcome_consistency = result.groupby("patientunitstayid")["actualhospitalmortality"].nunique(
+        dropna=True
+    )
     if outcome_consistency.gt(1).any():
         raise ValueError("eICU demo APACHE versions disagree on actual hospital mortality")
     result = result.copy()
     result["version_priority"] = result["apacheversion"].map({"IVa": 0, "IV": 1}).fillna(2)
     result = (
-        result.sort_values(
-            ["patientunitstayid", "version_priority", "apachepatientresultsid"]
-        )
+        result.sort_values(["patientunitstayid", "version_priority", "apachepatientresultsid"])
         .drop_duplicates("patientunitstayid", keep="first")
         .loc[:, ["patientunitstayid", "actualhospitalmortality", "apacheversion"]]
     )
     joined = patient.merge(physiology, on="patientunitstayid", validate="one_to_one").merge(
         result, on="patientunitstayid", validate="one_to_one"
     )
-    joined = joined.loc[
-        joined["actualhospitalmortality"].isin(["ALIVE", "EXPIRED"])
-    ].copy()
+    joined = joined.loc[joined["actualhospitalmortality"].isin(["ALIVE", "EXPIRED"])].copy()
     joined["hospital_death"] = joined["actualhospitalmortality"].eq("EXPIRED").astype("int8")
     joined["age"] = pd.to_numeric(joined["age"].replace({"> 89": "90"}), errors="coerce")
     physiology_features = required_physiology - {"patientunitstayid"}
@@ -412,9 +399,7 @@ def prepare_eicu_demo_dataset(
     if missing:
         raise KeyError(f"Prepared eICU demo table misses contracted columns: {sorted(missing)}")
     selected = frame.loc[:, list(required)].copy()
-    selected["sample_id"] = contract.name + ":" + selected[
-        contract.encounter_id_column
-    ].astype(str)
+    selected["sample_id"] = contract.name + ":" + selected[contract.encounter_id_column].astype(str)
     selected["environment"] = selected[contract.hospital_id_column].astype(str)
     selected["target"] = selected[contract.target_column].astype("int8")
     manifest = build_hospital_disjoint_manifest(selected, contract)

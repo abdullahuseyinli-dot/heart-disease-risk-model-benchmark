@@ -80,9 +80,7 @@ def test_multiplicity_sensitivity_returns_familywise_intervals() -> None:
         }
     )
 
-    result = multiplicity_sensitivity(
-        replicates, intervals, contrast_id="family", alpha=0.05
-    )
+    result = multiplicity_sensitivity(replicates, intervals, contrast_id="family", alpha=0.05)
 
     assert set(result["method"]) == {"a", "b"}
     assert result["family_size"].eq(2).all()

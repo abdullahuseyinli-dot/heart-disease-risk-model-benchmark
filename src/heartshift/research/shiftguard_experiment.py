@@ -64,9 +64,7 @@ def _balanced_log_loss(target: np.ndarray, score: np.ndarray) -> float:
 def _ordinary_log_loss(target: np.ndarray, score: np.ndarray) -> float:
     probability = np.clip(np.asarray(score, dtype=np.float64), 1e-7, 1 - 1e-7)
     labels = np.asarray(target, dtype=np.int8)
-    return float(
-        -np.mean(labels * np.log(probability) + (1 - labels) * np.log(1 - probability))
-    )
+    return float(-np.mean(labels * np.log(probability) + (1 - labels) * np.log(1 - probability)))
 
 
 def _diagnostic_views(
@@ -204,14 +202,10 @@ def _multi_size_calibration(
         raise ValueError("At least 20 calibration repetitions are required")
     if set(reference_embeddings) != set(pool_embeddings):
         raise ValueError("Reference and calibration representations differ")
-    reducers = discrepancy_reducers or {
-        name: "mean_square" for name in reference_embeddings
-    }
+    reducers = discrepancy_reducers or {name: "mean_square" for name in reference_embeddings}
     if set(reducers) != set(reference_embeddings):
         raise ValueError("Every calibrated representation requires one discrepancy reducer")
-    regularizations = discrepancy_regularizations or {
-        name: 0.05 for name in reference_embeddings
-    }
+    regularizations = discrepancy_regularizations or {name: 0.05 for name in reference_embeddings}
     if set(regularizations) != set(reference_embeddings):
         raise ValueError("Every calibrated representation requires one regularization value")
     for name in reference_embeddings:
@@ -224,9 +218,7 @@ def _multi_size_calibration(
     positive_pool = np.flatnonzero(pool_labels == 1)
     negative_pool = np.flatnonzero(pool_labels == 0)
     critical_samples = {
-        (name, size): np.empty(
-            (len(prior_grid), repetitions_per_prior), dtype=np.float64
-        )
+        (name, size): np.empty((len(prior_grid), repetitions_per_prior), dtype=np.float64)
         for name in reference_embeddings
         for size in batch_sizes
     }
@@ -287,9 +279,7 @@ def _multi_size_calibration(
                         / target_mean.shape[1]
                     )
                 else:
-                    raise KeyError(
-                        f"Unknown ShiftGuard discrepancy reducer: {reducers[name]}"
-                    )
+                    raise KeyError(f"Unknown ShiftGuard discrepancy reducer: {reducers[name]}")
                 critical_samples[(name, size)][prior_index] = discrepancy
     calibrations = {}
     for (name, size), values in critical_samples.items():
@@ -317,9 +307,7 @@ def _target_mean_discrepancy_matrix(
     """Evaluate every resampled target mean against every candidate prior."""
     negative = reference_embedding[reference_labels == 0].mean(axis=0)
     positive = reference_embedding[reference_labels == 1].mean(axis=0)
-    mixtures = negative[None, :] + calibration.prior_grid[:, None] * (
-        positive - negative
-    )[None, :]
+    mixtures = negative[None, :] + calibration.prior_grid[:, None] * (positive - negative)[None, :]
     residual = target_means[:, None, :] - mixtures[None, :, :]
     squared = np.square(residual)
     if calibration.discrepancy_reducer == "mean_square":
@@ -330,16 +318,12 @@ def _target_mean_discrepancy_matrix(
         precision = calibration.precision_matrices
         if precision is None:
             raise ValueError("Global guard lacks spectral-ridge precision matrices")
-        quadratic = np.einsum(
-            "rpi,pij,rpj->rp", residual, precision, residual, optimize=True
-        )
+        quadratic = np.einsum("rpi,pij,rpj->rp", residual, precision, residual, optimize=True)
         return np.asarray(
             calibration.target_size * quadratic / reference_embedding.shape[1],
             dtype=np.float64,
         )
-    raise KeyError(
-        f"Unknown ShiftGuard discrepancy reducer: {calibration.discrepancy_reducer}"
-    )
+    raise KeyError(f"Unknown ShiftGuard discrepancy reducer: {calibration.discrepancy_reducer}")
 
 
 def calibrate_global_compatibility_guard(
@@ -383,8 +367,7 @@ def calibrate_global_compatibility_guard(
         ]
         indices = np.where(target_labels, positive_draws, negative_draws)
         cumulative = {
-            name: np.cumsum(pool_embeddings[name][indices], axis=1)
-            for name in view_names
+            name: np.cumsum(pool_embeddings[name][indices], axis=1) for name in view_names
         }
         for size in batch_sizes:
             normalized_views = []
@@ -398,8 +381,7 @@ def calibrate_global_compatibility_guard(
                     calibration,
                 )
                 normalized_views.append(
-                    discrepancies
-                    / np.maximum(calibration.critical_values[None, :], 1e-12)
+                    discrepancies / np.maximum(calibration.critical_values[None, :], 1e-12)
                 )
             combined = np.max(np.stack(normalized_views), axis=0)
             guard_samples[size].append(np.min(combined, axis=1))
@@ -407,9 +389,7 @@ def calibrate_global_compatibility_guard(
     records = []
     for size, chunks in guard_samples.items():
         values = np.concatenate(chunks)
-        threshold = float(
-            np.quantile(values, minimum_valid_acceptance, method="higher")
-        )
+        threshold = float(np.quantile(values, minimum_valid_acceptance, method="higher"))
         thresholds[size] = threshold
         records.append(
             {
@@ -435,8 +415,10 @@ def _wilson_interval(
     proportion = successes / total
     denominator = 1.0 + z * z / total
     center = (proportion + z * z / (2.0 * total)) / denominator
-    half = z / denominator * np.sqrt(
-        proportion * (1.0 - proportion) / total + z * z / (4.0 * total * total)
+    half = (
+        z
+        / denominator
+        * np.sqrt(proportion * (1.0 - proportion) / total + z * z / (4.0 * total * total))
     )
     return float(center - half), float(center + half)
 
@@ -470,12 +452,9 @@ def _episode_metrics(
             else np.nan
         ),
         "best_prior": prevalence.best_prior,
-        "best_prior_absolute_error": abs(
-            prevalence.best_prior - true_population_prevalence
-        ),
+        "best_prior_absolute_error": abs(prevalence.best_prior - true_population_prevalence),
         "prior_covered": any(
-            np.isclose(value, true_population_prevalence)
-            for value in prevalence.accepted_priors
+            np.isclose(value, true_population_prevalence) for value in prevalence.accepted_priors
         ),
         "zero_shot_balanced_log_loss": _balanced_log_loss(target, zero_score),
         "always_point_balanced_log_loss": _balanced_log_loss(target, point_score),
@@ -539,12 +518,7 @@ def _evaluate_gates(episodes: pd.DataFrame, config: dict[str, Any]) -> dict[str,
     valid_acceptance = float(valid["accepted"].mean())
     invalid_acceptance = float(invalid["accepted"].mean())
     valid_uninformative = float(1.0 - valid["selective_coverage"].mean())
-    invalid_harm = float(
-        (
-            invalid["gated_log_loss"]
-            - invalid["zero_shot_log_loss"]
-        ).mean()
-    )
+    invalid_harm = float((invalid["gated_log_loss"] - invalid["zero_shot_log_loss"]).mean())
     valid_ci = _wilson_interval(int(valid["accepted"].sum()), len(valid))
     invalid_ci = _wilson_interval(int(invalid["accepted"].sum()), len(invalid))
     thresholds = config["acceptance"]
@@ -553,8 +527,7 @@ def _evaluate_gates(episodes: pd.DataFrame, config: dict[str, Any]) -> dict[str,
             "observed": valid_acceptance,
             "wilson_95": valid_ci,
             "threshold": float(thresholds["minimum_valid_shift_acceptance"]),
-            "passed": valid_acceptance
-            >= float(thresholds["minimum_valid_shift_acceptance"]),
+            "passed": valid_acceptance >= float(thresholds["minimum_valid_shift_acceptance"]),
         },
         "observable_invalid_false_acceptance": {
             "observed": invalid_acceptance,
@@ -572,8 +545,7 @@ def _evaluate_gates(episodes: pd.DataFrame, config: dict[str, Any]) -> dict[str,
         "harmful_invalid_adaptation_delta_log_loss": {
             "observed": invalid_harm,
             "threshold": float(thresholds.get("maximum_invalid_harm_delta", 0.0)),
-            "passed": invalid_harm
-            <= float(thresholds.get("maximum_invalid_harm_delta", 0.0)),
+            "passed": invalid_harm <= float(thresholds.get("maximum_invalid_harm_delta", 0.0)),
         },
     }
     return {
@@ -587,10 +559,7 @@ def _evaluate_gates(episodes: pd.DataFrame, config: dict[str, Any]) -> dict[str,
         "unidentifiable_concept_control": {
             "acceptance_rate": float(concept["accepted"].mean()),
             "mean_gated_minus_zero_shot_bll": float(
-                (
-                    concept["gated_balanced_log_loss"]
-                    - concept["zero_shot_balanced_log_loss"]
-                ).mean()
+                (concept["gated_balanced_log_loss"] - concept["zero_shot_balanced_log_loss"]).mean()
             ),
             "mean_gated_minus_zero_shot_log_loss": float(
                 (concept["gated_log_loss"] - concept["zero_shot_log_loss"]).mean()
@@ -728,9 +697,7 @@ def joint_omnibus_prevalence_set(
     if discrepancies.shape != expected:
         raise ValueError("Joint omnibus discrepancy grids differ")
     combined = np.max(discrepancies / calibration.view_scales, axis=0)
-    accepted_priors = calibration.prior_grid[
-        combined <= calibration.critical_values
-    ]
+    accepted_priors = calibration.prior_grid[combined <= calibration.critical_values]
     best_index = int(np.argmin(combined / np.maximum(calibration.critical_values, 1e-12)))
     return PrevalenceSet(
         accepted=bool(len(accepted_priors)),
@@ -760,9 +727,7 @@ def run_shiftguard_synthetic_experiment(
     primary_representation = str(config["primary_representation"])
     intersection_name = str(config.get("intersection_name", ""))
     intersection_views = tuple(str(value) for value in config.get("intersection_views", []))
-    intersection_calibration_mode = str(
-        config.get("intersection_calibration", "bonferroni")
-    )
+    intersection_calibration_mode = str(config.get("intersection_calibration", "bonferroni"))
     if primary_representation not in representations_requested and (
         not intersection_name or primary_representation != intersection_name
     ):
@@ -777,21 +742,15 @@ def run_shiftguard_synthetic_experiment(
     alpha = float(config["alpha"])
     calibration_repetitions = int(config["calibration_repetitions_per_prior"])
     discrepancy_reducers = {
-        name: str(value)
-        for name, value in config.get("discrepancy_reducers", {}).items()
+        name: str(value) for name, value in config.get("discrepancy_reducers", {}).items()
     }
     if not discrepancy_reducers:
-        discrepancy_reducers = {
-            name: "mean_square" for name in representations_requested
-        }
+        discrepancy_reducers = {name: "mean_square" for name in representations_requested}
     discrepancy_regularizations = {
-        name: float(value)
-        for name, value in config.get("discrepancy_regularizations", {}).items()
+        name: float(value) for name, value in config.get("discrepancy_regularizations", {}).items()
     }
     if not discrepancy_regularizations:
-        discrepancy_regularizations = {
-            name: 0.05 for name in representations_requested
-        }
+        discrepancy_regularizations = {name: 0.05 for name in representations_requested}
     device = str(config["device"])
     episode_records: list[dict[str, Any]] = []
     sample_records: list[pd.DataFrame] = []
@@ -904,10 +863,7 @@ def run_shiftguard_synthetic_experiment(
         joint_calibrations = (
             {
                 size: fit_joint_omnibus_calibration(
-                    {
-                        name: intersection_calibrations[(name, size)]
-                        for name in intersection_views
-                    },
+                    {name: intersection_calibrations[(name, size)] for name in intersection_views},
                     alpha=alpha,
                 )
                 for size in batch_sizes
@@ -932,9 +888,7 @@ def run_shiftguard_synthetic_experiment(
                 prior_grid=prior_grid,
                 batch_sizes=batch_sizes,
                 repetitions_per_prior=int(guard_config["repetitions_per_prior"]),
-                minimum_valid_acceptance=float(
-                    guard_config["minimum_valid_acceptance"]
-                ),
+                minimum_valid_acceptance=float(guard_config["minimum_valid_acceptance"]),
                 seed=seed + 47,
             )
             guard_records.extend({"seed": seed, **row} for row in seed_guard_records)
@@ -968,9 +922,7 @@ def run_shiftguard_synthetic_experiment(
                         if mechanism == CONCEPT_FAILURE_CONTROL
                         else nominal_prior
                     )
-                    episode_id = (
-                        f"s{seed}-n{batch_size}-{mechanism}-e{episode_index}"
-                    )
+                    episode_id = f"s{seed}-n{batch_size}-{mechanism}-e{episode_index}"
                     prevalence_sets = {
                         representation: shiftguard_prevalence_set(
                             reference_embeddings[representation],
@@ -1005,8 +957,7 @@ def run_shiftguard_synthetic_experiment(
                         global_guard_passed = True
                         if guard_thresholds:
                             global_guard_passed = bool(
-                                pre_guard_set.best_discrepancy
-                                <= guard_thresholds[batch_size]
+                                pre_guard_set.best_discrepancy <= guard_thresholds[batch_size]
                             )
                             if not global_guard_passed:
                                 prevalence_sets[intersection_name] = PrevalenceSet(
@@ -1102,9 +1053,7 @@ def run_shiftguard_synthetic_experiment(
     pd.DataFrame(history_records).to_csv(paths["history"], index=False)
     if guard_records:
         pd.DataFrame(guard_records).to_csv(paths["guard_calibration"], index=False)
-    paths["gates"].write_text(
-        json.dumps(gates, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-    )
+    paths["gates"].write_text(json.dumps(gates, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     hashes = {
         path.name: sha256_file(path)
         for name, path in paths.items()

@@ -65,9 +65,7 @@ def test_prevalence_set_accepts_label_shift_and_rejects_large_support_shift() ->
     target_labels = rng.random(128) < 0.7
     target = np.empty((128, source.shape[1]))
     target[target_labels] = positive[rng.integers(0, len(positive), target_labels.sum())]
-    target[~target_labels] = negative[
-        rng.integers(0, len(negative), (~target_labels).sum())
-    ]
+    target[~target_labels] = negative[rng.integers(0, len(negative), (~target_labels).sum())]
     accepted = shiftguard_prevalence_set(source, labels, target, calibration)
     rejected = shiftguard_prevalence_set(source, labels, target + 8.0, calibration)
     assert accepted.accepted
@@ -95,9 +93,7 @@ def test_posterior_set_produces_selective_abstention() -> None:
         repetitions_per_prior=calibration.repetitions_per_prior,
     )
     prevalence = shiftguard_prevalence_set(source, labels, source[:64], calibration)
-    lower, upper = posterior_interval_from_prevalence_set(
-        np.asarray([-5.0, 0.0, 5.0]), prevalence
-    )
+    lower, upper = posterior_interval_from_prevalence_set(np.asarray([-5.0, 0.0, 5.0]), prevalence)
     decisions = selective_decisions(lower, upper, threshold=0.5)
     assert decisions.tolist() == [0, -1, 1]
 

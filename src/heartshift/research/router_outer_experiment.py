@@ -113,9 +113,7 @@ def _audit_seed_bank(
         raise AssertionError("An expert seed bank disagrees on exact masks")
     if audit["seed_count"].ne(expected_seed_count).any():
         raise AssertionError("An expert evaluation key is missing a declared seed")
-    if (
-        audit["observed_fraction_max"] - audit["observed_fraction_min"]
-    ).max() > 1e-12:
+    if (audit["observed_fraction_max"] - audit["observed_fraction_min"]).max() > 1e-12:
         raise AssertionError("An expert seed bank used different evaluation masks")
     if endpoint_required and audit["target_values"].ne(1).any():
         raise AssertionError("An expert seed bank disagrees on source endpoints")
@@ -241,8 +239,10 @@ def _align_expert_frames(
         base_columns.append("record_sha256")
     if endpoint_required:
         base_columns.append("target")
-    table = frames[first_name].loc[:, [*base_columns, "y_score"]].rename(
-        columns={"y_score": f"expert__{first_name}"}
+    table = (
+        frames[first_name]
+        .loc[:, [*base_columns, "y_score"]]
+        .rename(columns={"y_score": f"expert__{first_name}"})
     )
     if table.duplicated(list(key_columns)).any():
         raise AssertionError(f"Expert {first_name} has duplicate evaluation keys")
@@ -312,18 +312,14 @@ def assemble_source_experts(
     """Assemble source-OOF experts and record all source-only selections."""
     selections = pd.read_csv(neural_run_dir / "selected_configurations.csv")
     selected_experiments = select_neural_experiments(selections, experiment_groups)
-    neural = _ensemble_neural_source(
-        neural_run_dir, selected_experiments, prediction_seeds
-    )
+    neural = _ensemble_neural_source(neural_run_dir, selected_experiments, prediction_seeds)
     frames = {
         expert_name: neural.loc[neural["expert_name"].eq(expert_name)].copy()
         for expert_name in experiment_groups
     }
     anchor, anchors = _ensemble_anchor_source(control_run_dir, prediction_seeds)
     frames["stable_anchor"] = anchor
-    table = _align_expert_frames(
-        frames, key_columns=KEY_COLUMNS, endpoint_required=True
-    )
+    table = _align_expert_frames(frames, key_columns=KEY_COLUMNS, endpoint_required=True)
     return table, tuple(frames), selected_experiments, anchors
 
 
@@ -414,9 +410,7 @@ def assemble_outer_experts(
         )
         for name in expert_names
     }
-    return _align_expert_frames(
-        frames, key_columns=OUTER_KEY_COLUMNS, endpoint_required=False
-    )
+    return _align_expert_frames(frames, key_columns=OUTER_KEY_COLUMNS, endpoint_required=False)
 
 
 def _router_extra_features(
@@ -464,9 +458,7 @@ def _normalise_outer_predictions(predictions: pd.DataFrame) -> pd.DataFrame:
         "score",
     ]
     result = normalised.loc[:, columns]
-    if result.duplicated(
-        ["sample_id", "outer_target", "policy", "mask_replicate", "method"]
-    ).any():
+    if result.duplicated(["sample_id", "outer_target", "policy", "mask_replicate", "method"]).any():
         raise AssertionError("An outer method has duplicate paired evaluation keys")
     if not np.isfinite(result["score"]).all():
         raise AssertionError("An outer method produced a non-finite probability")
@@ -497,21 +489,17 @@ def _router_gate(
 ) -> dict[str, Any]:
     metrics = cell_metrics(normalised)
     primary = primary_estimands(metrics).set_index("method")
-    natural = metrics.loc[
-        metrics["track"].eq(PRIMARY_TRACK) & metrics["policy"].eq("natural")
-    ].groupby("method", as_index=True)["roc_auc"].mean()
+    natural = (
+        metrics.loc[metrics["track"].eq(PRIMARY_TRACK) & metrics["policy"].eq("natural")]
+        .groupby("method", as_index=True)["roc_auc"]
+        .mean()
+    )
     router_name = "support_aware_router"
-    router_bll = float(
-        primary.loc[router_name, "macro_site_worst_mask_balanced_log_loss"]
-    )
+    router_bll = float(primary.loc[router_name, "macro_site_worst_mask_balanced_log_loss"])
     fixed_primary = primary.drop(index=router_name)
-    strongest_method = str(
-        fixed_primary["macro_site_worst_mask_balanced_log_loss"].idxmin()
-    )
+    strongest_method = str(fixed_primary["macro_site_worst_mask_balanced_log_loss"].idxmin())
     reference_bll = float(
-        fixed_primary.loc[
-            strongest_method, "macro_site_worst_mask_balanced_log_loss"
-        ]
+        fixed_primary.loc[strongest_method, "macro_site_worst_mask_balanced_log_loss"]
     )
     maximum_weight = ensemble_weights[
         [column for column in ensemble_weights if column.startswith("weight__")]
@@ -529,8 +517,7 @@ def _router_gate(
             "reference": float(natural[strongest_method]),
             "margin": natural_auroc_margin,
             "passed": bool(
-                natural[router_name]
-                >= natural[strongest_method] - natural_auroc_margin
+                natural[router_name] >= natural[strongest_method] - natural_auroc_margin
             ),
         },
         "router_not_collapsed": {
@@ -777,8 +764,7 @@ def run_outer_router_experiment(
             parameter_count=("parameter_count", "first"),
         )
         summary["selection_score"] = 0.5 * (
-            summary["mean_balanced_validation_score"]
-            + summary["worst_balanced_validation_score"]
+            summary["mean_balanced_validation_score"] + summary["worst_balanced_validation_score"]
         )
         selected_candidate = summary.sort_values(
             ["selection_score", "parameter_count", "router_candidate"]
@@ -790,9 +776,7 @@ def run_outer_router_experiment(
     all_members = pd.concat(member_predictions, ignore_index=True)
     all_weights = pd.concat(member_weights, ignore_index=True)
     candidate_selections = pd.DataFrame(candidate_selection_records)
-    selected_keys = candidate_selections.loc[
-        :, ["outer_target", "router_candidate"]
-    ]
+    selected_keys = candidate_selections.loc[:, ["outer_target", "router_candidate"]]
     selected_members = all_members.merge(
         selected_keys,
         on=["outer_target", "router_candidate"],
@@ -833,9 +817,7 @@ def run_outer_router_experiment(
         ["sample_id", "outer_target", "policy", "mask_replicate", "observed_mask_code"],
         as_index=False,
     )[weight_columns].mean()
-    endpoint_free_predictions = pd.concat(
-        [*fixed_records, router_ensemble], ignore_index=True
-    )
+    endpoint_free_predictions = pd.concat([*fixed_records, router_ensemble], ignore_index=True)
 
     paths = {
         "source_experts": source_path,
@@ -923,20 +905,14 @@ def run_outer_router_experiment(
                         strict=True,
                     )
                 ),
-                "site_worst_balanced_log_loss": _robust_score(
-                    group, group["y_score"].to_numpy()
-                ),
-                "natural_roc_auc": binary_metrics(
-                    natural["target"], natural["y_score"]
-                )["roc_auc"],
+                "site_worst_balanced_log_loss": _robust_score(group, group["y_score"].to_numpy()),
+                "natural_roc_auc": binary_metrics(natural["target"], natural["y_score"])["roc_auc"],
             }
         )
     pd.DataFrame(member_summary_records).to_csv(paths["member_summary"], index=False)
 
     reference_method = str(config["inference"]["reference_method"])
-    comparison_methods = [
-        str(value) for value in config["inference"]["comparison_methods"]
-    ]
+    comparison_methods = [str(value) for value in config["inference"]["comparison_methods"]]
     bootstrap_replicates, bootstrap_intervals = paired_primary_stratified_bootstrap(
         normalised,
         reference_method=reference_method,
@@ -946,19 +922,15 @@ def run_outer_router_experiment(
     )
     bootstrap_replicates.to_parquet(paths["bootstrap_replicates"], index=False)
     bootstrap_intervals.to_csv(paths["bootstrap_intervals"], index=False)
-    hierarchical_input = normalised.rename(
-        columns={"outer_target": "hospital_id"}
-    ).copy()
+    hierarchical_input = normalised.rename(columns={"outer_target": "hospital_id"}).copy()
     hierarchical_input["patient_id"] = hierarchical_input["sample_id"]
-    hierarchical_replicates, hierarchical_intervals = (
-        hierarchical_hospital_patient_bootstrap(
-            hierarchical_input,
-            reference_method=reference_method,
-            comparison_methods=comparison_methods,
-            repetitions=int(config["inference"]["hierarchical_repetitions"]),
-            seed=int(config["inference"]["seed"]),
-            include_training_seed_layer=False,
-        )
+    hierarchical_replicates, hierarchical_intervals = hierarchical_hospital_patient_bootstrap(
+        hierarchical_input,
+        reference_method=reference_method,
+        comparison_methods=comparison_methods,
+        repetitions=int(config["inference"]["hierarchical_repetitions"]),
+        seed=int(config["inference"]["seed"]),
+        include_training_seed_layer=False,
     )
     hierarchical_replicates.to_parquet(paths["hierarchical_replicates"], index=False)
     hierarchical_intervals.to_csv(paths["hierarchical_intervals"], index=False)
@@ -967,9 +939,7 @@ def run_outer_router_experiment(
         ensemble_weights,
         natural_auroc_margin=float(config["natural_auroc_margin"]),
     )
-    paths["gates"].write_text(
-        json.dumps(gates, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-    )
+    paths["gates"].write_text(json.dumps(gates, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     hashes = {
         path.name: sha256_file(path)
         for name, path in paths.items()

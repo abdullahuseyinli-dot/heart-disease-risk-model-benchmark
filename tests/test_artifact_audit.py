@@ -16,10 +16,7 @@ def _source_only_run(tmp_path):
     run_dir.mkdir()
     config_hash = "config-hash"
     (run_dir / "run_manifest.json").write_text(
-        json.dumps(
-            {"phase": "psmask_inner_source_only", "config_sha256": config_hash}
-        )
-        + "\n",
+        json.dumps({"phase": "psmask_inner_source_only", "config_sha256": config_hash}) + "\n",
         encoding="utf-8",
     )
     sites = ("cleveland", "hungary", "switzerland", "va_long_beach")
@@ -64,8 +61,6 @@ def test_source_inner_artifact_audit_hashes_the_exact_tree(tmp_path) -> None:
 def test_source_inner_artifact_audit_detects_changed_evidence(tmp_path) -> None:
     run_dir = _source_only_run(tmp_path)
     write_source_inner_artifact_audit(run_dir)
-    (run_dir / "prediction_shards/preserved.txt").write_text(
-        "changed\n", encoding="utf-8"
-    )
+    (run_dir / "prediction_shards/preserved.txt").write_text("changed\n", encoding="utf-8")
     with pytest.raises(AssertionError, match="hash failed"):
         validate_source_inner_artifact_audit(run_dir)

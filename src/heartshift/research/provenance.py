@@ -27,9 +27,7 @@ def write_post_run_source_snapshot(
     if output.exists():
         raise FileExistsError(f"Post-run source snapshot already exists: {output}")
     declared = [run_dir / "run_manifest.json", run_dir / "config.resolved.json"]
-    declared.extend(
-        path if path.is_absolute() else repo_root / path for path in source_files
-    )
+    declared.extend(path if path.is_absolute() else repo_root / path for path in source_files)
     records = []
     for path in declared:
         resolved = path.resolve()

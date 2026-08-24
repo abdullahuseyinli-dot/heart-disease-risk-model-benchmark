@@ -135,9 +135,7 @@ def validate_router_development_contract(
         raise ValueError("Control and neural outer mask replicate counts differ")
     if int(control["outer_evaluation_seed"]) != int(neural_inner["inner_evaluation_seed"]):
         raise ValueError("Control and neural evaluation-mask seeds differ")
-    configured_experiments = {
-        str(experiment["name"]) for experiment in neural_inner["experiments"]
-    }
+    configured_experiments = {str(experiment["name"]) for experiment in neural_inner["experiments"]}
     grouped_experiments = {
         str(experiment)
         for values in router["neural_experiment_groups"].values()
@@ -145,9 +143,7 @@ def validate_router_development_contract(
     }
     if grouped_experiments != configured_experiments:
         raise ValueError("Router neural groups do not cover the equal-budget experiment set")
-    feature_modes = {
-        str(candidate["feature_mode"]) for candidate in router["router_candidates"]
-    }
+    feature_modes = {str(candidate["feature_mode"]) for candidate in router["router_candidates"]}
     required_modes = {
         "support_only",
         "expert_logit_context",
@@ -193,9 +189,7 @@ def validate_historical_seed_extension_contract(
         "consumed_uci_post_outcome_seed_extension_sensitivity"
     ):
         raise ValueError("The seed extension must disclose its post-outcome timing")
-    if str(report.get("status")) != (
-        "post_outcome_consumed_uci_seed_sensitivity_only"
-    ):
+    if str(report.get("status")) != ("post_outcome_consumed_uci_seed_sensitivity_only"):
         raise ValueError("The seed-extension report cannot be relabelled as confirmation")
 
     control_seeds = tuple(int(value) for value in control["seeds"])
@@ -209,15 +203,11 @@ def validate_historical_seed_extension_contract(
     historical_seeds = tuple(int(value) for value in report["historical_seeds"])
     if len(historical_seeds) != 3 or historical_seeds != extension_seeds[:3]:
         raise ValueError("Historical seeds must be the exact three-seed prefix")
-    if int(extension["outer_mask_replicates"]) != int(
-        control["outer_mask_replicates"]
-    ):
+    if int(extension["outer_mask_replicates"]) != int(control["outer_mask_replicates"]):
         raise ValueError("Control and extension outer mask replicate counts differ")
     if list(extension.get("adaptable_variants", [])):
         raise ValueError("Unlabelled-target adaptation is prohibited in this DG sensitivity")
-    if str(extension["data"]["canonical_path"]) != str(
-        control["data"]["canonical_path"]
-    ):
+    if str(extension["data"]["canonical_path"]) != str(control["data"]["canonical_path"]):
         raise ValueError("Control and extension canonical datasets differ")
 
     experiments = tuple(str(value) for value in report["experiments"])

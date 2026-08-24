@@ -69,9 +69,7 @@ def audit_heart_outer_report(
         sort_by=metric_key,
     )
     expected_primary = primary_estimands(expected_metrics)
-    stored_primary = pd.read_csv(
-        report_dir / "primary_estimands.csv", float_precision="round_trip"
-    )
+    stored_primary = pd.read_csv(report_dir / "primary_estimands.csv", float_precision="round_trip")
     primary_difference = _assert_frames_match(
         stored_primary,
         expected_primary,
@@ -100,9 +98,7 @@ def audit_heart_outer_report(
     expected_replicates, expected_intervals = paired_primary_bootstrap(
         expected_predictions,
         reference_method=str(config["bootstrap"]["reference_method"]),
-        comparison_methods=[
-            str(value) for value in config["bootstrap"]["comparison_methods"]
-        ],
+        comparison_methods=[str(value) for value in config["bootstrap"]["comparison_methods"]],
         repetitions=int(config["bootstrap"]["repetitions"]),
         seed=int(config["bootstrap"]["seed"]),
     )

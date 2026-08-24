@@ -99,9 +99,7 @@ class RandomFourierDiagnostic:
         projection = standardized @ self.frequencies + self.phases
         rff = np.sqrt(2.0 / len(self.phases)) * np.cos(projection)
         if self.include_linear:
-            return np.concatenate(
-                [standardized / np.sqrt(standardized.shape[1]), rff], axis=1
-            )
+            return np.concatenate([standardized / np.sqrt(standardized.shape[1]), rff], axis=1)
         return np.asarray(rff, dtype=np.float64)
 
 
@@ -149,12 +147,11 @@ class QuantileCopulaDiagnostic:
 
     def _raw_bank(self, matrix: np.ndarray) -> np.ndarray:
         continuous = matrix[:, : self.continuous_feature_count]
-        univariate = (
-            continuous[:, :, None] <= self.univariate_thresholds[None, :, :]
-        ).reshape(len(matrix), -1)
+        univariate = (continuous[:, :, None] <= self.univariate_thresholds[None, :, :]).reshape(
+            len(matrix), -1
+        )
         left = (
-            continuous[:, self.pair_rows, None, None]
-            <= self.pair_left_thresholds[None, :, :, None]
+            continuous[:, self.pair_rows, None, None] <= self.pair_left_thresholds[None, :, :, None]
         )
         right = (
             continuous[:, self.pair_columns, None, None]
@@ -162,9 +159,7 @@ class QuantileCopulaDiagnostic:
         )
         pairwise = (left & right).reshape(len(matrix), -1)
         remainder = matrix[:, self.continuous_feature_count :]
-        return np.concatenate([univariate, pairwise, remainder], axis=1).astype(
-            np.float64
-        )
+        return np.concatenate([univariate, pairwise, remainder], axis=1).astype(np.float64)
 
     def transform(self, features: Any) -> np.ndarray:
         matrix = np.asarray(features, dtype=np.float64)
@@ -326,9 +321,7 @@ def fit_quantile_copula_diagnostic(
     ):
         raise ValueError("Quantile-copula levels must lie inside (0, 1)")
     continuous = matrix[:, :continuous_feature_count]
-    univariate_thresholds = np.quantile(
-        continuous, np.asarray(univariate_levels), axis=0
-    ).T
+    univariate_thresholds = np.quantile(continuous, np.asarray(univariate_levels), axis=0).T
     pair_rows, pair_columns = np.triu_indices(continuous_feature_count, k=1)
     pair_quantiles = np.quantile(continuous, np.asarray(pair_levels), axis=0).T
     diagnostic = QuantileCopulaDiagnostic(
@@ -633,11 +626,16 @@ def fit_shiftguard(
         target_size=target_size,
         valid_fraction=float(parameters.get("valid_fraction", 0.5)),
         seed=seed + 1000,
-        invalid_mechanisms=tuple(parameters.get("training_invalid_mechanisms", (
-            "conditional_translation",
-            "outcome_dependent_dropout",
-            "support_translation",
-        ))),
+        invalid_mechanisms=tuple(
+            parameters.get(
+                "training_invalid_mechanisms",
+                (
+                    "conditional_translation",
+                    "outcome_dependent_dropout",
+                    "support_translation",
+                ),
+            )
+        ),
         mask_feature_indices=training_mask_feature_indices,
     )
     validation_episodes = generate_shift_episodes(
@@ -647,10 +645,15 @@ def fit_shiftguard(
         target_size=min(target_size, len(validation)),
         valid_fraction=0.5,
         seed=seed + 2000,
-        invalid_mechanisms=tuple(parameters.get("validation_invalid_mechanisms", (
-            "conditional_scale",
-            "outcome_dependent_dropout",
-        ))),
+        invalid_mechanisms=tuple(
+            parameters.get(
+                "validation_invalid_mechanisms",
+                (
+                    "conditional_scale",
+                    "outcome_dependent_dropout",
+                ),
+            )
+        ),
         mask_feature_indices=validation_mask_feature_indices,
     )
     torch_device = torch.device(device)
@@ -667,12 +670,8 @@ def fit_shiftguard(
     )
     training_tensor = torch.tensor(training_scaled, dtype=torch.float32, device=torch_device)
     training_label_tensor = torch.tensor(training_label, dtype=torch.long, device=torch_device)
-    validation_tensor = torch.tensor(
-        validation_scaled, dtype=torch.float32, device=torch_device
-    )
-    validation_label_tensor = torch.tensor(
-        validation_label, dtype=torch.long, device=torch_device
-    )
+    validation_tensor = torch.tensor(validation_scaled, dtype=torch.float32, device=torch_device)
+    validation_label_tensor = torch.tensor(validation_label, dtype=torch.long, device=torch_device)
     max_epochs = int(parameters.get("max_epochs", 300))
     patience = int(parameters.get("patience", 40))
     invalid_margin = float(parameters.get("invalid_margin", 0.05))
@@ -788,9 +787,7 @@ def _embedding_discrepancies(
         if precisions.shape != expected_shape or not np.isfinite(precisions).all():
             raise ValueError("ShiftGuard precision matrices do not align")
         residual = target[None, :] - mixtures
-        quadratic = np.einsum(
-            "pi,pij,pj->p", residual, precisions, residual, optimize=True
-        )
+        quadratic = np.einsum("pi,pij,pj->p", residual, precisions, residual, optimize=True)
         return np.asarray(
             len(target_embedding) * quadratic / source_embedding.shape[1],
             dtype=np.float64,
@@ -814,11 +811,7 @@ def fit_mixture_precision_matrices(
     embedding = np.asarray(source_embedding, dtype=np.float64)
     labels = np.asarray(source_labels, dtype=np.int64)
     priors = np.asarray(prior_grid, dtype=np.float64)
-    if (
-        embedding.ndim != 2
-        or len(embedding) != len(labels)
-        or set(np.unique(labels)) != {0, 1}
-    ):
+    if embedding.ndim != 2 or len(embedding) != len(labels) or set(np.unique(labels)) != {0, 1}:
         raise ValueError("Precision fitting requires aligned binary source embeddings")
     if priors.ndim != 1 or not ((priors > 0.0) & (priors < 1.0)).all():
         raise ValueError("Precision fitting requires interior prevalence values")

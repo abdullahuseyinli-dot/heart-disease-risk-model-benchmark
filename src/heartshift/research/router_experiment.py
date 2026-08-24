@@ -68,9 +68,7 @@ def _selected_neural_predictions(
         )
         if audit["target_values"].ne(1).any() or audit["mask_values"].ne(1).any():
             raise AssertionError("Neural expert seeds disagree on endpoints or exact masks")
-        if (
-            audit["observed_fraction_max"] - audit["observed_fraction_min"]
-        ).max() > 1e-12:
+        if (audit["observed_fraction_max"] - audit["observed_fraction_min"]).max() > 1e-12:
             raise AssertionError(
                 "Neural expert seeds used different evaluation masks; ensembling is invalid"
             )
@@ -135,9 +133,7 @@ def assemble_router_table(
     prediction_seeds: tuple[int, ...],
 ) -> tuple[pd.DataFrame, tuple[str, ...], pd.DataFrame]:
     """Align neural experts and retain all nested anchor candidates."""
-    neural = _selected_neural_predictions(
-        neural_run_dir, neural_experiments, prediction_seeds
-    )
+    neural = _selected_neural_predictions(neural_run_dir, neural_experiments, prediction_seeds)
     neural_names = tuple(neural_experiments)
     if not neural_names:
         raise ValueError("At least one fixed neural expert is required")
@@ -167,9 +163,7 @@ def assemble_router_table(
             table["observed_fraction"], table[f"observed_fraction__{name}"], atol=1e-12
         ):
             raise AssertionError(f"Expert {name} evaluation masks do not align")
-        if not table["observed_mask_code"].eq(
-            table[f"observed_mask_code__{name}"]
-        ).all():
+        if not table["observed_mask_code"].eq(table[f"observed_mask_code__{name}"]).all():
             raise AssertionError(f"Expert {name} exact mask codes do not align")
         for column in [f"observed__{feature}" for feature in FEATURE_COLUMNS]:
             if not table[column].eq(table[f"{column}__{name}"]).all():
@@ -180,18 +174,14 @@ def assemble_router_table(
                 f"site__{name}",
                 f"observed_fraction__{name}",
                 f"observed_mask_code__{name}",
-                *[
-                    f"observed__{feature}__{name}" for feature in FEATURE_COLUMNS
-                ],
+                *[f"observed__{feature}__{name}" for feature in FEATURE_COLUMNS],
             ]
         )
     anchor_candidates = _anchor_candidate_predictions(control_run_dir, prediction_seeds)
     expected_rows = len(neural[first_name])
     if len(table) != expected_rows:
         raise AssertionError("Neural expert alignment dropped evaluation rows")
-    neural_key_masks = table.loc[
-        :, [*KEY_COLUMNS, "observed_mask_code"]
-    ].drop_duplicates()
+    neural_key_masks = table.loc[:, [*KEY_COLUMNS, "observed_mask_code"]].drop_duplicates()
     anchor_key_masks = anchor_candidates.loc[
         :, [*KEY_COLUMNS, "observed_mask_code"]
     ].drop_duplicates()
@@ -202,9 +192,12 @@ def assemble_router_table(
         suffixes=("__neural", "__anchor"),
         indicator=True,
     )
-    if not mask_audit["_merge"].eq("both").all() or not mask_audit[
-        "observed_mask_code__neural"
-    ].eq(mask_audit["observed_mask_code__anchor"]).all():
+    if (
+        not mask_audit["_merge"].eq("both").all()
+        or not mask_audit["observed_mask_code__neural"]
+        .eq(mask_audit["observed_mask_code__anchor"])
+        .all()
+    ):
         raise AssertionError("Neural and anchor-candidate exact mask banks do not align")
     return table, neural_names, anchor_candidates
 
@@ -248,9 +241,7 @@ def _fixed_blend_selection(
 ) -> tuple[np.ndarray, int]:
     grid = _simplex_grid(probabilities.shape[1], step)
     expert_logits = logit(np.clip(probabilities, 1e-6, 1 - 1e-6))
-    scores = [
-        _robust_score(validation, expit(expert_logits @ weights)) for weights in grid
-    ]
+    scores = [_robust_score(validation, expit(expert_logits @ weights)) for weights in grid]
     selected = int(np.argmin(scores))
     return grid[selected], selected
 
@@ -291,24 +282,25 @@ def _router_gate(metrics: pd.DataFrame, weights: pd.DataFrame) -> dict[str, Any]
     summary = robust.groupby("method", as_index=False).agg(
         mean_site_worst_bll=("worst_policy_bll", "mean")
     )
-    natural = policy.loc[policy["policy"].eq("natural")].groupby(
-        "method", as_index=False
-    ).agg(natural_auroc=("roc_auc", "mean"))
+    natural = (
+        policy.loc[policy["policy"].eq("natural")]
+        .groupby("method", as_index=False)
+        .agg(natural_auroc=("roc_auc", "mean"))
+    )
     summary = summary.merge(natural, on="method", validate="one_to_one").set_index("method")
     router = summary.loc["support_aware_router"]
     competitors = summary.drop(index="support_aware_router")
     strongest = competitors["mean_site_worst_bll"].idxmin()
-    maximum_weight = weights[
-        [column for column in weights if column.startswith("weight__")]
-    ].max(axis=1)
+    maximum_weight = weights[[column for column in weights if column.startswith("weight__")]].max(
+        axis=1
+    )
     checks: dict[str, dict[str, Any]] = {
         "robust_improvement_over_strongest_fixed": {
             "router": float(router["mean_site_worst_bll"]),
             "strongest_method": str(strongest),
             "strongest": float(competitors.loc[strongest, "mean_site_worst_bll"]),
             "passed": bool(
-                router["mean_site_worst_bll"]
-                < competitors.loc[strongest, "mean_site_worst_bll"]
+                router["mean_site_worst_bll"] < competitors.loc[strongest, "mean_site_worst_bll"]
             ),
         },
         "natural_auroc_noninferiority": {
@@ -316,8 +308,7 @@ def _router_gate(metrics: pd.DataFrame, weights: pd.DataFrame) -> dict[str, Any]
             "strongest": float(competitors.loc[strongest, "natural_auroc"]),
             "margin": 0.01,
             "passed": bool(
-                router["natural_auroc"]
-                >= competitors.loc[strongest, "natural_auroc"] - 0.01
+                router["natural_auroc"] >= competitors.loc[strongest, "natural_auroc"] - 0.01
             ),
         },
         "router_not_collapsed": {
@@ -346,8 +337,7 @@ def run_router_experiment(
         repo_root / str(config["neural_run"]),
         repo_root / str(config["control_run"]),
         neural_experiments={
-            str(name): str(experiment)
-            for name, experiment in config["neural_experiments"].items()
+            str(name): str(experiment) for name, experiment in config["neural_experiments"].items()
         },
         prediction_seeds=tuple(int(value) for value in config["prediction_seeds"]),
     )
@@ -411,9 +401,7 @@ def run_router_experiment(
             )
             selected_anchor_predictions = outer_anchor_candidates.loc[
                 outer_anchor_candidates["control"].eq(selected_anchor["control"])
-                & outer_anchor_candidates["parameter_id"].eq(
-                    selected_anchor["parameter_id"]
-                )
+                & outer_anchor_candidates["parameter_id"].eq(selected_anchor["parameter_id"])
             ].rename(
                 columns={
                     "y_score": "expert__stable_anchor",
@@ -421,10 +409,7 @@ def run_router_experiment(
                     "site": "site__stable_anchor",
                     "observed_fraction": "observed_fraction__stable_anchor",
                     "observed_mask_code": "observed_mask_code__stable_anchor",
-                    **{
-                        column: f"{column}__stable_anchor"
-                        for column in mask_columns
-                    },
+                    **{column: f"{column}__stable_anchor" for column in mask_columns},
                 }
             )
             cycle_context = context.merge(
@@ -446,20 +431,19 @@ def run_router_experiment(
             )
             if len(cycle_context) != len(context):
                 raise AssertionError("Nested anchor selection dropped source OOF rows")
-            if not cycle_context["target"].eq(
-                cycle_context["target__stable_anchor"]
-            ).all() or not cycle_context["site"].eq(
-                cycle_context["site__stable_anchor"]
-            ).all():
+            if (
+                not cycle_context["target"].eq(cycle_context["target__stable_anchor"]).all()
+                or not cycle_context["site"].eq(cycle_context["site__stable_anchor"]).all()
+            ):
                 raise AssertionError("Nested anchor endpoints or hospitals do not align")
-            if not cycle_context["observed_mask_code"].eq(
-                cycle_context["observed_mask_code__stable_anchor"]
-            ).all():
+            if (
+                not cycle_context["observed_mask_code"]
+                .eq(cycle_context["observed_mask_code__stable_anchor"])
+                .all()
+            ):
                 raise AssertionError("Nested anchor exact mask codes do not align")
             for column in mask_columns:
-                if not cycle_context[column].eq(
-                    cycle_context[f"{column}__stable_anchor"]
-                ).all():
+                if not cycle_context[column].eq(cycle_context[f"{column}__stable_anchor"]).all():
                     raise AssertionError("Nested anchor feature-level masks do not align")
             cycle_context = cycle_context.drop(
                 columns=[
@@ -470,9 +454,7 @@ def run_router_experiment(
                     *[f"{column}__stable_anchor" for column in mask_columns],
                 ]
             )
-            training = cycle_context.loc[
-                cycle_context["inner_validation"].eq(training_site)
-            ].copy()
+            training = cycle_context.loc[cycle_context["inner_validation"].eq(training_site)].copy()
             early_stop = cycle_context.loc[
                 cycle_context["inner_validation"].eq(early_stop_site)
             ].copy()
@@ -591,9 +573,7 @@ def run_router_experiment(
     metrics.to_csv(paths["metrics"], index=False)
     pd.DataFrame(history_records).to_csv(paths["history"], index=False)
     pd.DataFrame(anchor_selection_records).to_csv(paths["anchor_selections"], index=False)
-    paths["gates"].write_text(
-        json.dumps(gates, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-    )
+    paths["gates"].write_text(json.dumps(gates, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     hashes = {
         path.name: sha256_file(path)
         for name, path in paths.items()
