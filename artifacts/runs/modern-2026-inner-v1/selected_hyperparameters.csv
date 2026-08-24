@@ -1,0 +1,17 @@
+outer_target,model,weighting,parameter_id,parameters_json,mean_balanced_log_loss,worst_balanced_log_loss,mean_roc_auc,selection_score
+cleveland,ft_transformer,pooled,0,"{""batch_size"": 128, ""device"": ""cuda"", ""max_epochs"": 200, ""patience"": 20}",0.6561383128848942,0.7640352374868851,0.7840649218087956,0.7100867751858897
+cleveland,realmlp,pooled,0,"{""batch_size"": 128, ""device"": ""cuda"", ""n_epochs"": 256}",0.6795094241136583,0.8705996504874212,0.7913167695989125,0.7750545373005397
+cleveland,tabicl,pooled,0,"{""batch_size"": 8, ""checkpoint_version"": ""tabicl-classifier-v2-20260212.ckpt"", ""device"": ""cuda"", ""n_estimators"": 4}",0.6077491997362698,0.6875421203303871,0.7899429887865599,0.6476456600333285
+cleveland,tabm,pooled,0,"{""batch_size"": 128, ""device"": ""cuda"", ""n_epochs"": 256, ""patience"": 20, ""tabm_k"": 16}",0.7579678753761844,1.0802643398419347,0.7633776480622164,0.9191161076090595
+hungary,ft_transformer,pooled,0,"{""batch_size"": 128, ""device"": ""cuda"", ""max_epochs"": 200, ""patience"": 20}",0.851079397311777,1.2252697535735617,0.7394963748175314,1.0381745754426692
+hungary,realmlp,pooled,0,"{""batch_size"": 128, ""device"": ""cuda"", ""n_epochs"": 256}",0.8658564383501738,1.0776962824289764,0.6813104980714209,0.971776360389575
+hungary,tabicl,pooled,0,"{""batch_size"": 8, ""checkpoint_version"": ""tabicl-classifier-v2-20260212.ckpt"", ""device"": ""cuda"", ""n_estimators"": 4}",0.7645265373197094,0.9240286276912952,0.7316998955498638,0.8442775825055023
+hungary,tabm,pooled,0,"{""batch_size"": 128, ""device"": ""cuda"", ""n_epochs"": 256, ""patience"": 20, ""tabm_k"": 16}",1.1171976874080767,1.6969158400377966,0.7024673011306725,1.4070567637229368
+switzerland,ft_transformer,pooled,0,"{""batch_size"": 128, ""device"": ""cuda"", ""max_epochs"": 200, ""patience"": 20}",0.5354225938581669,0.6953464762526034,0.8302571038680879,0.6153845350553852
+switzerland,realmlp,pooled,0,"{""batch_size"": 128, ""device"": ""cuda"", ""n_epochs"": 256}",0.560916112068158,0.6948626522690198,0.8203049434050423,0.6278893821685889
+switzerland,tabicl,pooled,1,"{""batch_size"": 8, ""checkpoint_version"": ""tabicl-classifier-v2-20260212.ckpt"", ""device"": ""cuda"", ""n_estimators"": 8}",0.5094224398063143,0.6768160095250348,0.83199780548656,0.5931192246656746
+switzerland,tabm,pooled,0,"{""batch_size"": 128, ""device"": ""cuda"", ""n_epochs"": 256, ""patience"": 20, ""tabm_k"": 16}",0.5999993276381215,0.916868102827205,0.835759070143397,0.7584337152326632
+va_long_beach,ft_transformer,pooled,0,"{""batch_size"": 128, ""device"": ""cuda"", ""max_epochs"": 200, ""patience"": 20}",0.5885657835989029,0.7615143373800166,0.8301066247218358,0.6750400604894597
+va_long_beach,realmlp,pooled,0,"{""batch_size"": 128, ""device"": ""cuda"", ""n_epochs"": 256}",0.7278037698157321,1.0635696757933433,0.8216026727364752,0.8956867228045378
+va_long_beach,tabicl,pooled,1,"{""batch_size"": 8, ""checkpoint_version"": ""tabicl-classifier-v2-20260212.ckpt"", ""device"": ""cuda"", ""n_estimators"": 8}",0.534152477565121,0.6442645441529036,0.8240969925840884,0.5892085108590123
+va_long_beach,tabm,pooled,0,"{""batch_size"": 128, ""device"": ""cuda"", ""n_epochs"": 256, ""patience"": 20, ""tabm_k"": 16}",0.8053450697101958,1.528263610426478,0.7955696882256341,1.166804340068337
