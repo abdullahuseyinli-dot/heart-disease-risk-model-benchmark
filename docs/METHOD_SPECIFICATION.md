@@ -1,4 +1,4 @@
-# PS-MaskDRO method specification
+# Prior-Separated Measurement-Policy DRO method specification
 
 This document fixes the mathematical object implemented by the code. It is a
 research hypothesis, not a declaration of novelty or clinical validity.
@@ -47,16 +47,41 @@ R_{\mathrm{robust}}=\tau\left[\log\sum_{k=1}^{K}
 \exp(R_k/\tau)-\log K\right].
 \]
 
-The PS-MaskDRO objective is
+For the protocol-v1 joint candidate, the PS-MaskDRO objective is
 
 \[
 \mathcal L=(1-\lambda)\bar R+\lambda R_{\mathrm{robust}}
 +\beta\bar B,
 \]
 
-where (ar B) is the mean class-balanced Brier risk. Gradient clipping,
+where (\bar B) is the mean class-balanced Brier risk. Gradient clipping,
 AdamW, early stopping, model dimension, dropout, and every value of
 ((\lambda,\tau,\beta)) are configuration-controlled.
+
+Protocol v2 selects the mask-axis objective. First average each policy risk over
+source hospitals,
+
+\[
+R_p=|S|^{-1}\sum_{s\in S}R_{s,p},
+\]
+
+then apply smooth DRO only across the measurement-policy axis,
+
+\[
+R_{\mathrm{mask}}=\tau\left[\log\sum_{p\in P}
+\exp(R_p/\tau)-\log|P|\right].
+\]
+
+Its training loss is
+
+\[
+\mathcal L_{\mathrm{PS\text{-}MP\text{-}DRO}}
+=(1-\lambda)|P|^{-1}\sum_{p\in P}R_p+\lambda R_{\mathrm{mask}}.
+\]
+
+This is implemented by `v5_mask_only_dro`. Hospital identity still defines
+source folds and balanced cell risks, but it is not a prediction feature and is
+not an adversarial axis in the selected robust term.
 
 ## Controlled ablations
 
@@ -75,6 +100,26 @@ MIRRAMS Equation 9 is implemented on the same backbone as an external method
 control: natural supervised CE plus weighted randomly masked supervised CE plus a
 confidence-gated pseudo-label consistency term. It is not relabelled as a
 HeartShift invention.
+
+The registered joint-axis source gate failed because joint DRO was worse than the
+best single-axis candidate in the worst site-policy cell. The joint variants are
+therefore controls in protocol v2, not the primary method.
+
+## Source-out-of-fold probability calibration
+
+For each outer hospital, baseline model, and seed, let (q_i) be the raw probability
+for a source patient predicted when that patient's hospital was excluded from
+training. A monotone Platt map is fitted as
+
+\[
+\tilde q_i=\sigma(a+\exp(c)\operatorname{logit}(q_i)),
+\]
+
+using equal total weight for each source-hospital-by-outcome cell. The positive
+slope preserves within-model ranking. The same source-fitted map is applied to
+the corresponding frozen outer model's raw scores, and raw and calibrated
+outputs are retained as distinct methods. No unlabelled or labelled outer score
+is used to estimate (a) or (c).
 
 ## Assumption-gated prevalence adaptation
 
@@ -101,10 +146,11 @@ are fixed.
 
 ## Falsifiable novelty boundary
 
-The contribution under test is the combination of prior separation, structured
-site-by-policy DRO, same-mask ANE centering, and diagnostic-gated target-prior
-adaptation on an observed-set backbone. Each component has related prior work. A
-positive novelty claim requires broader search, source-only ablations, synthetic
-success and rejection regimes, one-time outer evidence, and independent-task
-replication. If those fail, the scientifically valid result is a benchmark or
-negative-results contribution.
+The contribution under test is an observed-set benchmark and the combination of
+prior separation, structured measurement-policy training, mask-axis DRO, and
+diagnostic-gated target-prior adaptation. The v1 joint objective and ANE are
+preserved negative/ablation evidence. Each component has related prior work. A
+positive novelty claim requires a documented literature search, source-only
+ablations, synthetic success and rejection regimes, one-time outer evidence, and
+independent-task replication. If those fail, the scientifically valid result is
+a benchmark or negative-results contribution.

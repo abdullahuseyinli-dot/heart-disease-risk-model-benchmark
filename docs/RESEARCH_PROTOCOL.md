@@ -1,20 +1,25 @@
 # HeartShift confirmatory research protocol
 
-Protocol version: 0.1.0
+Protocol version: 0.2.0
 
-Status: development; outer targets locked
-Primary method working name: Prior-Separated Site x Mask Distributionally Robust Learning (`PS-MaskDRO`)
+Status: protocol-v2 source selection; synthetic and independent-source gates pending;
+outer targets locked
+Primary method working name: Prior-Separated Measurement-Policy DRO
+(`PS-MP-DRO`, implemented as `v5_mask_only_dro`)
 
 ## Scientific question
 
-Can a prevalence-separated evidence model trained robustly across hospital and measurement-policy environments improve worst-environment clinical tabular prediction without concealing failures under nonignorable missingness or conditional shift?
+Can a prevalence-separated observed-set model trained robustly across measurement
+policies improve worst-policy clinical tabular prediction without concealing
+failures under nonignorable missingness or conditional shift?
 
 The UCI outcome is `num > 0`, an angiographic disease-status endpoint in historical referred cohorts. Results are not estimates of future population risk and are not clinical-device evidence.
 
 ## Confirmatory hypotheses
 
 - H1: class-balanced prior separation improves worst-hospital balanced log loss over pooled ERM.
-- H2: structured site x mask DRO improves worst-mask balanced log loss and the missingness-degradation curve over random mask augmentation.
+- H2-v1: structured site x mask DRO improves worst-mask balanced log loss and the missingness-degradation curve over random mask augmentation. This hypothesis failed its registered source-confirmation gate and is retained as a negative result.
+- H2-v2: among source-only candidates that do not regress versus the structured-policy reference on worst-cell balanced log loss or lose more than 0.01 natural AUROC, deterministic ranking selects the lowest macro site-worst balanced log loss. This rule selected measurement-policy-only DRO (`v5_mask_only_dro`) before outer access.
 - H3: when a label-shift mixture diagnostic is accepted, target-prior adaptation improves calibration and log loss without material ranking change.
 - H4: the mixture diagnostic detects simulated conditional-shift and outcome-dependent missingness violations and prevents harmful automatic adaptation.
 - H5, initially exploratory: Acquisition-Neutral Evidence centering reduces mask-only shortcut use without more than 0.01 absolute in-distribution AUROC loss.
@@ -23,9 +28,12 @@ The UCI outcome is `num > 0`, an angiographic disease-status endpoint in histori
 
 1. Outer leave-one-hospital-out evaluation over Cleveland, Hungary, Switzerland, and VA Long Beach.
 2. Inner leave-one-source-hospital-out model selection using only the other three hospitals.
-3. All preprocessing, early stopping, hyperparameter choice, calibration, thresholds, and error-auditor fitting occur inside source-only folds.
+3. All preprocessing, early stopping, hyperparameter choice, source calibration,
+   thresholds, and error-auditor fitting occur inside source-only folds.
 4. Predictions are stored with immutable `sample_id`, outer site, mask policy, mask replicate, model, seed, and configuration hash.
 5. Pooled nested CV is a labelled historical reference, never the headline result.
+6. Protocol-v1 failure evidence and the protocol-v2 pivot record are immutable
+   freeze inputs. Neither can be replaced by a more favourable retrospective gate.
 
 ## Deployment tracks
 
@@ -87,6 +95,26 @@ Adaptation baselines: BBSE, calibrated maximum-likelihood label shift, DistPFN f
 
 Site grouping, mask grouping, structured masking, prior adaptation, mask-signal access, and backbone choice are also tested factorially.
 
+The protocol-v2 primary candidate is V5-mask. V5-joint, V5-joint+Brier, V5-site,
+V7, and the remaining ablations stay in the locked benchmark as prespecified
+comparators; they cannot replace the primary candidate after outer labels are
+opened.
+
+## Source-only calibration sensitivity track
+
+Every classical and modern outer model emits its original probability and a
+separate `source_oof_platt` probability. For each outer hospital, model, and
+training seed, a positive-slope Platt map is fitted only to the selected model's
+hospital-held-out predictions from the other three hospitals. The fitting weights
+hospital-outcome cells equally. Duplicate samples, inconsistent fold provenance,
+non-probability scores, missing outcome classes, and any outer-hospital row are
+hard failures. The fitted maps are written before the outer endpoint is loaded.
+
+The raw probability remains an official result. Source calibration is a
+prespecified sensitivity method, not target recalibration, and its transport from
+natural source observations to synthetically masked target observations is an
+assumption to be tested rather than asserted.
+
 ## Assumptions and falsification
 
 The prior-separated interpretation requires stable class-conditionals and ignorable site-specific missingness. Synthetic experiments independently vary prevalence, MAR measurement policy, conditional covariate shift, concept shift, and outcome-dependent MNAR missingness.
@@ -112,7 +140,8 @@ UCI Heart is the historical case study. A general method claim additionally requ
 2. Official raw files, checksums, deterministic parsing, schema tests, and immutable splits validate in a clean environment.
 3. Leakage-safe baselines and row-level prediction artifacts validate before candidate development.
 4. Synthetic experiments confirm expected success and failure regimes.
-5. Candidate configuration is frozen using source-only evidence.
+5. Candidate configuration is frozen using source-only evidence, the preserved
+   failed v1 gate, the deterministic v2 pivot record, and passed mechanism gates.
 6. Locked outer UCI evaluation runs once.
 7. Independent-dataset evidence and limitations are complete.
 8. Tests, lint, manifests, reporting checklists, data/model cards, and aggregate-from-prediction validation pass before release.
@@ -128,3 +157,27 @@ hyperparameter search. Because the numerical source thresholds were informed by
 developmental source results, they are not represented as an independent
 preregistration. The outer targets remain untouched and provide the independent
 test of the frozen choices.
+
+## Protocol-v1 result and protocol-v2 amendment
+
+The three-seed source confirmation completed before any outer target was opened.
+Six of seven registered checks passed. The joint site-by-policy candidate failed
+`joint_dro_axis_worst_cell_improvement`: observed improvement was
+`-0.031183519637394297` against a required value of at least zero. The exact
+record is retained at
+`artifacts/runs/psmask-inner-confirm-v1/acceptance_gate_v1.json`; protocol v1
+therefore never authorized an outer run.
+
+After that failure, still using source data only, protocol v2 declared a
+deterministic benchmark-selection rule. Candidates had to lose no more than 0.01
+natural AUROC and show no worst-cell regression relative to V4, then were ranked
+by macro site-worst balanced log loss, worst cell, AUROC, and name. The rule
+selected V5-mask. Relative to V4, its source-only natural AUROC loss was
+`-0.00047342413194151334` (a small improvement) and its worst-cell regression was
+`-0.03207970379528036` (also an improvement). The exact record is
+`artifacts/runs/psmask-inner-confirm-v1/pivot_selection_v2.json`.
+
+This amendment is model selection informed by source confirmation results. It is
+not an independent confirmation of V5-mask. Only the once-run locked outer tests
+can supply held-out evidence, and all multiplicity and small-site limitations
+remain.

@@ -56,6 +56,38 @@ def _selected_parameters(row: pd.Series) -> tuple[dict[str, Any], int]:
     return parameters, epochs
 
 
+def _load_heart_outer_frames(
+    data_path: Path,
+    *,
+    outer_target: str,
+    feature_columns: tuple[str, ...],
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Load source endpoints without bringing the locked target endpoint into memory."""
+    source = pd.read_parquet(data_path, filters=[("site", "!=", outer_target)])
+    target_columns = [
+        "sample_id",
+        "site",
+        "record_sha256",
+        *feature_columns,
+    ]
+    target_unlabelled = pd.read_parquet(
+        data_path,
+        columns=list(dict.fromkeys(target_columns)),
+        filters=[("site", "==", outer_target)],
+    )
+    if source.empty or target_unlabelled.empty:
+        raise AssertionError(f"Outer split is empty for {outer_target}")
+    if source["site"].eq(outer_target).any():
+        raise AssertionError("Outer-target rows leaked into the labelled source frame")
+    if not target_unlabelled["site"].eq(outer_target).all():
+        raise AssertionError("Unlabelled outer frame contains a non-target hospital")
+    if "target" in target_unlabelled:
+        raise AssertionError("Locked outer endpoint was loaded before prediction")
+    if target_unlabelled["sample_id"].duplicated().any():
+        raise AssertionError("Unlabelled outer frame contains duplicate sample IDs")
+    return source, target_unlabelled
+
+
 def _target_mask_pools(
     target_unlabelled: pd.DataFrame,
     source_mask_pool: np.ndarray,
@@ -374,7 +406,6 @@ def run_neural_outer(
     run_dir.mkdir(parents=True, exist_ok=False)
     write_run_manifest(repo_root, run_dir, config, "locked_outer_psmask")
     data_path = repo_root / config["data"]["canonical_path"]
-    data = pd.read_parquet(data_path)
     selections = pd.read_csv(repo_root / config["inner_run"] / "selected_configurations.csv")
     seeds = tuple(int(seed) for seed in config["seeds"])
     units = evaluation_units(int(config["outer_mask_replicates"]))
@@ -390,8 +421,14 @@ def run_neural_outer(
         shard.mkdir()
         parameters, epochs = _selected_parameters(selected)
         parameters["feature_columns"] = list(config["features"])
-        source = data.loc[data["site"].ne(outer_target)].copy()
-        target_unlabelled = data.loc[data["site"].eq(outer_target)].copy()
+        feature_columns = tuple(str(value) for value in config["features"])
+        source, target_unlabelled = _load_heart_outer_frames(
+            data_path,
+            outer_target=outer_target,
+            feature_columns=feature_columns,
+        )
+        # Prediction helpers retain a target column in their generic output contract.
+        # This sentinel is created only after the locked endpoint-free frame is loaded.
         target_unlabelled["target"] = 0
         source_mask_pool = source.loc[:, config["features"]].notna().to_numpy()
         evaluation_seed = policy_seed(seeds[0], f"{outer_target}|outer_evaluation", 0)

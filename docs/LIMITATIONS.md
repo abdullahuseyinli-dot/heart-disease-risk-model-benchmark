@@ -31,6 +31,17 @@
     sites and keep site-specific estimates visible.
 12. Excellent discrimination would still not establish calibration, net benefit,
     fairness, causal validity, robustness to changing care, or safety in use.
+13. Protocol v2 was selected after the registered protocol-v1 joint-DRO gate
+    failed. Although no outer labels were accessed, the v2 source comparison is
+    selection evidence rather than independent confirmation. The failed gate,
+    selection rule, candidate set, and pivot output must be reported together.
+14. Source-OOF Platt scaling assumes that a monotone map learned on natural
+    source-hospital folds transports to the target hospital and to imposed mask
+    policies. That assumption can fail. Raw scores remain visible and calibration
+    must not be described as target calibration.
+15. The benchmark compares many methods. A strong outer rank after source-driven
+    selection is hypothesis-generating unless it also survives the prespecified
+    paired contrasts, mechanism tests, and independent task.
 
 The appropriate fallback is a transparent benchmark or negative-results paper if
 the proposed method fails its synthetic gates or does not improve robust outcomes

@@ -1,0 +1,117 @@
+{
+  "evaluated_run": "artifacts/runs/psmask-inner-confirm-v1",
+  "selection_config": "configs/release/freeze_v2.yaml#psmask_pivot_selection",
+  "protocol_version": "psmask-measurement-policy-pivot-v2",
+  "selection_mode": "post_v1_gate_source_only_pre_outer",
+  "selected_experiment": "v5_mask_only_dro",
+  "reference_experiment": "v4_structured_policy_bank",
+  "eligible_experiments": [
+    "v5_mask_only_dro",
+    "v5_site_only_dro",
+    "v3_mcar_augmentation",
+    "v5_site_mask_dro",
+    "v5_site_mask_dro_brier",
+    "v7_ane",
+    "v4_structured_policy_bank"
+  ],
+  "passed": true,
+  "checks": [
+    {
+      "name": "minimum_confirmation_seeds",
+      "observed": 3,
+      "operator": ">=",
+      "threshold": 3,
+      "finite": true,
+      "passed": true
+    },
+    {
+      "name": "selected_natural_auroc_loss",
+      "observed": -0.00047342413194151334,
+      "operator": "<=",
+      "threshold": 0.01,
+      "finite": true,
+      "passed": true
+    },
+    {
+      "name": "selected_worst_cell_regression",
+      "observed": -0.03207970379528036,
+      "operator": "<=",
+      "threshold": 0.0,
+      "finite": true,
+      "passed": true
+    },
+    {
+      "name": "declared_selected_experiment",
+      "observed": "v5_mask_only_dro",
+      "operator": "==",
+      "threshold": "v5_mask_only_dro",
+      "finite": true,
+      "passed": true
+    }
+  ],
+  "candidate_summary": [
+    {
+      "experiment": "v3_mcar_augmentation",
+      "macro_site_worst_balanced_log_loss": 0.6250368790745201,
+      "worst_site_policy_balanced_log_loss": 0.675192709293433,
+      "macro_natural_roc_auc": 0.8032765169983953,
+      "natural_auroc_loss_vs_reference": 0.001062355141976612,
+      "worst_cell_regression_vs_reference": -0.006985381778903954,
+      "eligible": true
+    },
+    {
+      "experiment": "v4_structured_policy_bank",
+      "macro_site_worst_balanced_log_loss": 0.6312203023985828,
+      "worst_site_policy_balanced_log_loss": 0.682178091072337,
+      "macro_natural_roc_auc": 0.8043388721403719,
+      "natural_auroc_loss_vs_reference": 0.0,
+      "worst_cell_regression_vs_reference": 0.0,
+      "eligible": true
+    },
+    {
+      "experiment": "v5_site_only_dro",
+      "macro_site_worst_balanced_log_loss": 0.6206531146573229,
+      "worst_site_policy_balanced_log_loss": 0.6516941210754137,
+      "macro_natural_roc_auc": 0.8031215113755069,
+      "natural_auroc_loss_vs_reference": 0.0012173607648650053,
+      "worst_cell_regression_vs_reference": -0.030483969996923266,
+      "eligible": true
+    },
+    {
+      "experiment": "v5_mask_only_dro",
+      "macro_site_worst_balanced_log_loss": 0.6180661557669347,
+      "worst_site_policy_balanced_log_loss": 0.6500983872770566,
+      "macro_natural_roc_auc": 0.8048122962723134,
+      "natural_auroc_loss_vs_reference": -0.00047342413194151334,
+      "worst_cell_regression_vs_reference": -0.03207970379528036,
+      "eligible": true
+    },
+    {
+      "experiment": "v5_site_mask_dro",
+      "macro_site_worst_balanced_log_loss": 0.6269103137634314,
+      "worst_site_policy_balanced_log_loss": 0.6810448877933817,
+      "macro_natural_roc_auc": 0.8029234875226057,
+      "natural_auroc_loss_vs_reference": 0.0014153846177662466,
+      "worst_cell_regression_vs_reference": -0.0011332032789552748,
+      "eligible": true
+    },
+    {
+      "experiment": "v5_site_mask_dro_brier",
+      "macro_site_worst_balanced_log_loss": 0.62731959751418,
+      "worst_site_policy_balanced_log_loss": 0.6812819069144509,
+      "macro_natural_roc_auc": 0.8027186384610425,
+      "natural_auroc_loss_vs_reference": 0.001620233679329397,
+      "worst_cell_regression_vs_reference": -0.0008961841578860597,
+      "eligible": true
+    },
+    {
+      "experiment": "v7_ane",
+      "macro_site_worst_balanced_log_loss": 0.6298954916495828,
+      "worst_site_policy_balanced_log_loss": 0.6592647691316789,
+      "macro_natural_roc_auc": 0.7966578547850565,
+      "natural_auroc_loss_vs_reference": 0.007681017355315456,
+      "worst_cell_regression_vs_reference": -0.022913321940658093,
+      "eligible": true
+    }
+  ]
+}

@@ -15,7 +15,9 @@ from typing import Any
 
 import numpy as np
 import pandas as pd
+from scipy.special import expit, logit
 
+from heartshift.adaptation import EvidenceCalibrator, fit_evidence_calibrator
 from heartshift.config import config_hash
 from heartshift.data.uci import sha256_file
 from heartshift.masks import (
@@ -26,6 +28,9 @@ from heartshift.masks import (
 )
 from heartshift.metrics import binary_metrics
 from heartshift.models.classical import build_classical_pipeline, sample_weights, selected_features
+
+RAW_CALIBRATION = "raw"
+SOURCE_OOF_PLATT = "source_oof_platt"
 
 
 def _parameter_grid(grid: dict[str, list[Any]]) -> list[dict[str, Any]]:
@@ -147,6 +152,96 @@ def _fit_predict(
     if len(probabilities) != len(validation):
         raise AssertionError("Prediction count changed during evaluation")
     return np.asarray(probabilities, dtype=np.float64)
+
+
+def _fit_source_oof_calibrators(
+    inner_predictions: pd.DataFrame,
+    *,
+    outer_target: str,
+    model_name: str,
+    weighting: str,
+    parameters_json: str,
+    seeds: tuple[int, ...],
+) -> tuple[dict[int, EvidenceCalibrator], list[dict[str, Any]]]:
+    """Fit target-free balanced Platt maps from hospital-held-out source predictions."""
+    required = {
+        "sample_id",
+        "outer_target",
+        "inner_validation",
+        "site",
+        "target",
+        "model",
+        "weighting",
+        "parameters_json",
+        "seed",
+        "y_score",
+    }
+    missing = required - set(inner_predictions.columns)
+    if missing:
+        raise AssertionError(f"Inner predictions miss calibration columns: {sorted(missing)}")
+    selected = inner_predictions.loc[
+        inner_predictions["outer_target"].eq(outer_target)
+        & inner_predictions["model"].eq(model_name)
+        & inner_predictions["weighting"].eq(weighting)
+        & inner_predictions["parameters_json"].eq(parameters_json)
+    ].copy()
+    if selected.empty:
+        raise AssertionError("No source OOF predictions match the selected outer model")
+    if selected["site"].eq(outer_target).any():
+        raise AssertionError("Outer-target rows cannot be used for source calibration")
+    if not selected["site"].eq(selected["inner_validation"]).all():
+        raise AssertionError("Source calibration rows are not hospital-held-out predictions")
+    if not selected["target"].isin([0, 1]).all():
+        raise AssertionError("Source calibration rows contain an invalid endpoint")
+    scores = selected["y_score"].to_numpy(dtype=float)
+    if not np.isfinite(scores).all() or ((scores < 0.0) | (scores > 1.0)).any():
+        raise AssertionError("Source calibration scores must be finite probabilities")
+
+    calibrators: dict[int, EvidenceCalibrator] = {}
+    records: list[dict[str, Any]] = []
+    expected_samples: frozenset[str] | None = None
+    for seed in seeds:
+        seed_rows = selected.loc[selected["seed"].eq(seed)]
+        if seed_rows.empty or seed_rows["site"].nunique() < 2:
+            raise AssertionError(f"Insufficient source OOF calibration evidence for seed {seed}")
+        if seed_rows["sample_id"].duplicated().any():
+            raise AssertionError(f"Source OOF calibration rows are duplicated for seed {seed}")
+        sample_ids = frozenset(seed_rows["sample_id"].astype(str))
+        if expected_samples is None:
+            expected_samples = sample_ids
+        elif sample_ids != expected_samples:
+            raise AssertionError("Source OOF calibration sample coverage differs across seeds")
+        site_class_counts = seed_rows.groupby("site")["target"].nunique()
+        if not site_class_counts.eq(2).all():
+            raise AssertionError("Every source calibration hospital must contain both outcomes")
+        probability = np.clip(seed_rows["y_score"].to_numpy(dtype=float), 1e-6, 1 - 1e-6)
+        calibrator = fit_evidence_calibrator(
+            logit(probability),
+            seed_rows["target"],
+            seed_rows["site"],
+        )
+        if not (
+            np.isfinite(calibrator.intercept)
+            and np.isfinite(calibrator.slope)
+            and calibrator.slope > 0.0
+        ):
+            raise AssertionError("Source OOF calibration produced an invalid monotone map")
+        calibrators[seed] = calibrator
+        records.append(
+            {
+                "outer_target": outer_target,
+                "model": model_name,
+                "weighting": weighting,
+                "parameters_json": parameters_json,
+                "seed": seed,
+                "source_rows": len(seed_rows),
+                "source_samples": int(seed_rows["sample_id"].nunique()),
+                "source_sites": int(seed_rows["site"].nunique()),
+                "intercept": calibrator.intercept,
+                "slope": calibrator.slope,
+            }
+        )
+    return calibrators, records
 
 
 def run_inner_benchmark(
@@ -305,6 +400,13 @@ def run_outer_benchmark(
     write_run_manifest(repo_root, run_dir, config, "locked_outer_loho")
     data_path = repo_root / config["data"]["canonical_path"]
     selections = pd.read_csv(inner_run_dir / "selected_hyperparameters.csv")
+    use_source_calibration = bool(config.get("source_oof_platt_calibration", False))
+    inner_predictions = (
+        pd.read_parquet(inner_run_dir / "inner_predictions.parquet")
+        if use_source_calibration
+        else pd.DataFrame()
+    )
+    calibrator_records: list[dict[str, Any]] = []
     seed_prediction_records: list[pd.DataFrame] = []
     seeds = tuple(int(value) for value in config.get("seeds", [config.get("seed", 5062)]))
     outer_mask_replicates = int(config.get("outer_mask_replicates", 1))
@@ -312,7 +414,8 @@ def run_outer_benchmark(
     for _, selected in selections.iterrows():
         outer_target = str(selected["outer_target"])
         model_name = str(selected["model"])
-        parameters = json.loads(str(selected["parameters_json"]))
+        parameters_json = str(selected["parameters_json"])
+        parameters = json.loads(parameters_json)
         weighting = str(selected["weighting"])
         source = pd.read_parquet(data_path, filters=[("site", "!=", outer_target)])
         target_unlabelled = pd.read_parquet(
@@ -330,6 +433,17 @@ def run_outer_benchmark(
             f"{outer_target}|outer_evaluation",
             0,
         )
+        calibrators: dict[int, EvidenceCalibrator] = {}
+        if use_source_calibration:
+            calibrators, records = _fit_source_oof_calibrators(
+                inner_predictions,
+                outer_target=outer_target,
+                model_name=model_name,
+                weighting=weighting,
+                parameters_json=parameters_json,
+                seeds=seeds,
+            )
+            calibrator_records.extend(records)
         for seed in seeds:
             fit_seed = policy_seed(seed, f"{outer_target}|{model_name}|{weighting}|outer_fit", 0)
             pipeline = build_classical_pipeline(model_name, parameters, fit_seed)
@@ -382,11 +496,21 @@ def run_outer_benchmark(
                     fold_predictions["training_seed"] = seed
                     fold_predictions["fit_seed"] = fit_seed
                     fold_predictions["y_score"] = probabilities
+                    fold_predictions["calibration"] = RAW_CALIBRATION
                     fold_predictions["policy"] = policy.name
                     fold_predictions["mask_replicate"] = replicate
                     fold_predictions["observed_fraction"] = observed.mean(axis=1)
                     fold_predictions["config_sha256"] = config_hash(config)
                     seed_prediction_records.append(fold_predictions)
+                    if use_source_calibration:
+                        calibrated = fold_predictions.copy()
+                        calibrated["y_score"] = expit(
+                            calibrators[seed].transform(
+                                logit(np.clip(probabilities, 1e-6, 1 - 1e-6))
+                            )
+                        )
+                        calibrated["calibration"] = SOURCE_OOF_PLATT
+                        seed_prediction_records.append(calibrated)
 
     seed_predictions = pd.concat(seed_prediction_records, ignore_index=True)
     grouping = [
@@ -396,6 +520,7 @@ def run_outer_benchmark(
         "outer_target",
         "model",
         "weighting",
+        "calibration",
         "policy",
         "mask_replicate",
         "config_sha256",
@@ -404,6 +529,13 @@ def run_outer_benchmark(
         y_score=("y_score", "mean"),
         observed_fraction=("observed_fraction", "mean"),
     )
+    calibrators_path = run_dir / "source_oof_calibrators.csv"
+    if use_source_calibration:
+        pd.DataFrame(calibrator_records).to_csv(calibrators_path, index=False)
+    unlabelled_predictions_path = run_dir / "unlabelled_outer_predictions.parquet"
+    unlabelled_seed_predictions_path = run_dir / "unlabelled_outer_seed_predictions.parquet"
+    predictions.to_parquet(unlabelled_predictions_path, index=False)
+    seed_predictions.to_parquet(unlabelled_seed_predictions_path, index=False)
     # Labels are loaded only after every model and mask-policy prediction is fixed.
     labels = pd.read_parquet(data_path, columns=["sample_id", "target"])
     predictions = predictions.merge(labels, on="sample_id", how="left", validate="many_to_one")
@@ -413,14 +545,29 @@ def run_outer_benchmark(
     if predictions["target"].isna().any() or seed_predictions["target"].isna().any():
         raise AssertionError("An outer prediction is missing its endpoint")
     metric_records = []
-    for (outer_target, model_name, weighting, policy, replicate), group in predictions.groupby(
-        ["outer_target", "model", "weighting", "policy", "mask_replicate"]
+    for (
+        outer_target,
+        model_name,
+        weighting,
+        calibration,
+        policy,
+        replicate,
+    ), group in predictions.groupby(
+        [
+            "outer_target",
+            "model",
+            "weighting",
+            "calibration",
+            "policy",
+            "mask_replicate",
+        ]
     ):
         metric_records.append(
             {
                 "outer_target": outer_target,
                 "model": model_name,
                 "weighting": weighting,
+                "calibration": calibration,
                 "policy": policy,
                 "mask_replicate": replicate,
                 **binary_metrics(group["target"], group["y_score"]),
@@ -433,8 +580,13 @@ def run_outer_benchmark(
     predictions.to_parquet(predictions_path, index=False)
     seed_predictions.to_parquet(seed_predictions_path, index=False)
     metrics.to_csv(metrics_path, index=False)
-    return {
+    outputs = {
         "predictions": predictions_path,
         "seed_predictions": seed_predictions_path,
         "metrics": metrics_path,
+        "unlabelled_predictions": unlabelled_predictions_path,
+        "unlabelled_seed_predictions": unlabelled_seed_predictions_path,
     }
+    if use_source_calibration:
+        outputs["calibrators"] = calibrators_path
+    return outputs

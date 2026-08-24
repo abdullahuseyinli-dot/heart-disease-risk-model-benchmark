@@ -85,11 +85,8 @@ def evaluate_synthetic_gates(
     }
 
 
-def evaluate_psmask_confirmation_gate(
-    run_dir: Path,
-    gate_config: dict[str, Any],
-) -> dict[str, Any]:
-    """Evaluate source-only architecture gates declared before confirmation."""
+def _psmask_confirmation_summary(run_dir: Path) -> tuple[pd.DataFrame, int]:
+    """Reconstruct the registered PS-MaskDRO estimands from prediction metrics."""
     metrics = pd.read_csv(run_dir / "inner_metrics.csv")
     fits = pd.read_csv(run_dir / "fit_summaries.csv")
     selections = pd.read_csv(run_dir / "selected_configurations.csv")
@@ -124,14 +121,23 @@ def evaluate_psmask_confirmation_gate(
         .agg(macro_natural_roc_auc=("roc_auc", "mean"))
     )
     summary = primary.merge(natural, on="experiment", validate="one_to_one").set_index("experiment")
+    minimum_seed_count = int(
+        fits.groupby(["outer_target", "inner_validation", "experiment"])["seed"].nunique().min()
+    )
+    return summary, minimum_seed_count
+
+
+def evaluate_psmask_confirmation_gate(
+    run_dir: Path,
+    gate_config: dict[str, Any],
+) -> dict[str, Any]:
+    """Evaluate source-only architecture gates declared before confirmation."""
+    summary, minimum_seed_count = _psmask_confirmation_summary(run_dir)
     required = set(str(value) for value in gate_config["required_experiments"])
     if not required <= set(summary.index):
         raise ValueError(
             f"PS-MaskDRO confirmation misses experiments: {sorted(required - set(summary.index))}"
         )
-    minimum_seed_count = int(
-        fits.groupby(["outer_target", "inner_validation", "experiment"])["seed"].nunique().min()
-    )
     pooled = summary.loc["v0_pooled_erm"]
     prior = summary.loc["v2_prior_separated"]
     structured = summary.loc["v4_structured_policy_bank"]
@@ -219,6 +225,95 @@ def evaluate_psmask_confirmation_gate(
     }
 
 
+def evaluate_psmask_pivot_selection(
+    run_dir: Path,
+    selection_config: dict[str, Any],
+) -> dict[str, Any]:
+    """Select a post-gate pivot on source data only, before any outer label is opened."""
+    summary, minimum_seed_count = _psmask_confirmation_summary(run_dir)
+    candidates = [str(value) for value in selection_config["candidate_experiments"]]
+    missing = set(candidates) - set(summary.index)
+    if missing:
+        raise ValueError(f"Pivot selection misses candidates: {sorted(missing)}")
+    reference_name = str(selection_config["reference_experiment"])
+    if reference_name not in summary.index:
+        raise ValueError(f"Pivot reference is unavailable: {reference_name}")
+    reference = summary.loc[reference_name]
+    eligible = summary.loc[candidates].reset_index().copy()
+    eligible["natural_auroc_loss_vs_reference"] = (
+        float(reference["macro_natural_roc_auc"]) - eligible["macro_natural_roc_auc"]
+    )
+    eligible["worst_cell_regression_vs_reference"] = eligible[
+        "worst_site_policy_balanced_log_loss"
+    ] - float(reference["worst_site_policy_balanced_log_loss"])
+    eligible["eligible"] = eligible["natural_auroc_loss_vs_reference"].le(
+        float(selection_config["maximum_natural_auroc_loss"])
+    ) & eligible["worst_cell_regression_vs_reference"].le(
+        float(selection_config["maximum_worst_cell_regression"])
+    )
+    ranked = eligible.loc[eligible["eligible"]].sort_values(
+        [
+            "macro_site_worst_balanced_log_loss",
+            "worst_site_policy_balanced_log_loss",
+            "macro_natural_roc_auc",
+            "experiment",
+        ],
+        ascending=[True, True, False, True],
+    )
+    if ranked.empty:
+        raise AssertionError("No robust source candidate satisfies the pivot eligibility rule")
+    selected = ranked.iloc[0]
+    expected = str(selection_config["expected_selected_experiment"])
+    checks: list[dict[str, Any]] = [
+        {
+            "name": "minimum_confirmation_seeds",
+            "observed": minimum_seed_count,
+            "operator": ">=",
+            "threshold": int(selection_config["minimum_confirmation_seeds"]),
+        },
+        {
+            "name": "selected_natural_auroc_loss",
+            "observed": float(selected["natural_auroc_loss_vs_reference"]),
+            "operator": "<=",
+            "threshold": float(selection_config["maximum_natural_auroc_loss"]),
+        },
+        {
+            "name": "selected_worst_cell_regression",
+            "observed": float(selected["worst_cell_regression_vs_reference"]),
+            "operator": "<=",
+            "threshold": float(selection_config["maximum_worst_cell_regression"]),
+        },
+        {
+            "name": "declared_selected_experiment",
+            "observed": str(selected["experiment"]),
+            "operator": "==",
+            "threshold": expected,
+        },
+    ]
+    for check in checks:
+        if check["operator"] == "==":
+            check["finite"] = True
+            check["passed"] = check["observed"] == check["threshold"]
+            continue
+        observed = float(check["observed"])
+        threshold = float(check["threshold"])
+        check["finite"] = bool(np.isfinite(observed))
+        check["passed"] = bool(
+            check["finite"]
+            and (observed >= threshold if check["operator"] == ">=" else observed <= threshold)
+        )
+    return {
+        "protocol_version": str(selection_config["protocol_version"]),
+        "selection_mode": "post_v1_gate_source_only_pre_outer",
+        "selected_experiment": str(selected["experiment"]),
+        "reference_experiment": reference_name,
+        "eligible_experiments": ranked["experiment"].astype(str).tolist(),
+        "passed": all(bool(check["passed"]) for check in checks),
+        "checks": checks,
+        "candidate_summary": eligible.to_dict(orient="records"),
+    }
+
+
 def validate_source_only_run(run_dir: Path) -> dict[str, Any]:
     """Prove that an inner run contains predictions only from source hospitals."""
     manifest_path = run_dir / "run_manifest.json"
@@ -282,6 +377,13 @@ def validate_source_only_run(run_dir: Path) -> dict[str, Any]:
         "selections_sha256": sha256_file(selection_path),
         "manifest_sha256": sha256_file(manifest_path),
     }
+    additional_artifacts = {}
+    for name in ("config.resolved.json", "inner_metrics.csv", "fit_summaries.csv"):
+        path = run_dir / name
+        if path.is_file():
+            additional_artifacts[name] = sha256_file(path)
+    if additional_artifacts:
+        evidence["additional_artifacts_sha256"] = additional_artifacts
     provenance_path = run_dir / "selection_provenance.json"
     if provenance_path.is_file():
         evidence["selection_provenance_sha256"] = sha256_file(provenance_path)
@@ -351,6 +453,13 @@ def _validate_readmission_source_only_run(
         "selections_sha256": sha256_file(selection_path),
         "manifest_sha256": sha256_file(run_dir / "run_manifest.json"),
     }
+    additional_artifacts = {}
+    for name in ("config.resolved.json", "validation_metrics.csv", "fit_summaries.csv"):
+        path = run_dir / name
+        if path.is_file():
+            additional_artifacts[name] = sha256_file(path)
+    if additional_artifacts:
+        evidence["additional_artifacts_sha256"] = additional_artifacts
     provenance_path = run_dir / "selection_provenance.json"
     if provenance_path.is_file():
         evidence["selection_provenance_sha256"] = sha256_file(provenance_path)
@@ -398,15 +507,64 @@ def freeze_candidate(
     source_evidence = {}
     for name, relative in freeze_config["source_runs"].items():
         source_evidence[str(name)] = validate_source_only_run(repo_root / str(relative))
-    psmask_gate = evaluate_psmask_confirmation_gate(
-        repo_root / str(freeze_config["source_runs"]["psmask"]),
-        freeze_config["psmask_acceptance_gates"],
-    )
-    if not bool(psmask_gate["passed"]):
-        raise AssertionError(
-            "Source-only PS-MaskDRO confirmation gate failed; "
-            "locked outer evaluation remains closed"
+    psmask_run = repo_root / str(freeze_config["source_runs"]["psmask"])
+    psmask_gate: dict[str, Any] | None = None
+    psmask_v1_gate: dict[str, Any] | None = None
+    psmask_pivot: dict[str, Any] | None = None
+    v1_gate_record_path: Path | None = None
+    pivot_record_path: Path | None = None
+    if "psmask_pivot_selection" in freeze_config:
+        psmask_v1_gate = evaluate_psmask_confirmation_gate(
+            psmask_run,
+            freeze_config["psmask_v1_acceptance_gates"],
         )
+        v1_gate_record_path = repo_root / str(freeze_config["psmask_v1_gate_record"])
+        stored_v1_gate = json.loads(v1_gate_record_path.read_text(encoding="utf-8"))
+        if bool(psmask_v1_gate["passed"]):
+            raise AssertionError("Pivot protocol requires the preserved v1 gate to have failed")
+        if (
+            stored_v1_gate.get("passed") != psmask_v1_gate["passed"]
+            or stored_v1_gate.get("checks") != psmask_v1_gate["checks"]
+            or stored_v1_gate.get("summary") != psmask_v1_gate["summary"]
+        ):
+            raise AssertionError(
+                "Stored v1 gate failure does not match deterministic recomputation"
+            )
+        psmask_pivot = evaluate_psmask_pivot_selection(
+            psmask_run,
+            freeze_config["psmask_pivot_selection"],
+        )
+        if not bool(psmask_pivot["passed"]):
+            raise AssertionError(
+                "Source-only post-gate pivot selection failed; "
+                "locked outer evaluation remains closed"
+            )
+        pivot_record_path = repo_root / str(freeze_config["psmask_pivot_record"])
+        stored_pivot = json.loads(pivot_record_path.read_text(encoding="utf-8"))
+        pivot_fields = (
+            "protocol_version",
+            "selection_mode",
+            "selected_experiment",
+            "reference_experiment",
+            "eligible_experiments",
+            "passed",
+            "checks",
+            "candidate_summary",
+        )
+        if any(stored_pivot.get(field) != psmask_pivot[field] for field in pivot_fields):
+            raise AssertionError(
+                "Stored source-only pivot selection does not match deterministic recomputation"
+            )
+    else:
+        psmask_gate = evaluate_psmask_confirmation_gate(
+            psmask_run,
+            freeze_config["psmask_acceptance_gates"],
+        )
+        if not bool(psmask_gate["passed"]):
+            raise AssertionError(
+                "Source-only PS-MaskDRO confirmation gate failed; "
+                "locked outer evaluation remains closed"
+            )
     synthetic_run = repo_root / str(freeze_config["synthetic_run"])
     synthetic_gate_path = synthetic_run / "acceptance_gate.json"
     if not synthetic_gate_path.is_file():
@@ -422,11 +580,16 @@ def freeze_candidate(
         raise AssertionError("Candidate freeze requires a clean, committed worktree")
 
     freeze_files = []
-    for relative in freeze_config["outer_configs"]:
+    configured_freeze_files = (
+        freeze_config["frozen_files"]
+        if "frozen_files" in freeze_config
+        else freeze_config["outer_configs"]
+    )
+    for relative in configured_freeze_files:
         freeze_files.append(repo_root / str(relative))
     freeze_files.extend((repo_root / "src/heartshift").rglob("*.py"))
     method_hash, file_records = _tree_hash(freeze_files, repo_root)
-    lock = {
+    lock: dict[str, Any] = {
         "created_utc": datetime.now(UTC).isoformat(),
         "status": "frozen_pre_outer",
         "legacy_tag": tag,
@@ -436,11 +599,21 @@ def freeze_candidate(
         "method_tree_sha256": method_hash,
         "frozen_files": file_records,
         "source_evidence": source_evidence,
-        "psmask_confirmation_gate": psmask_gate,
         "synthetic_gate": synthetic_gate,
         "synthetic_gate_path": str(synthetic_gate_path.relative_to(repo_root)),
         "synthetic_gate_sha256": sha256_file(synthetic_gate_path),
     }
+    if psmask_pivot is not None:
+        if psmask_v1_gate is None or v1_gate_record_path is None or pivot_record_path is None:
+            raise AssertionError("Pivot freeze state is incomplete")
+        lock["psmask_v1_confirmation_gate"] = psmask_v1_gate
+        lock["psmask_v1_gate_record"] = str(v1_gate_record_path.relative_to(repo_root))
+        lock["psmask_v1_gate_record_sha256"] = sha256_file(v1_gate_record_path)
+        lock["psmask_pivot_selection"] = psmask_pivot
+        lock["psmask_pivot_record"] = str(pivot_record_path.relative_to(repo_root))
+        lock["psmask_pivot_record_sha256"] = sha256_file(pivot_record_path)
+    else:
+        lock["psmask_confirmation_gate"] = psmask_gate
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(lock, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return lock
@@ -486,9 +659,23 @@ def verify_frozen_candidate(repo_root: Path, lock_path: Path) -> dict[str, Any]:
         for hash_name, path in evidence_files.items():
             if not path.is_file() or sha256_file(path) != evidence[hash_name]:
                 raise AssertionError(f"Frozen source evidence changed: {path}")
+        for name, expected_hash in evidence.get("additional_artifacts_sha256", {}).items():
+            path = evidence_dir / str(name)
+            if not path.is_file() or sha256_file(path) != expected_hash:
+                raise AssertionError(f"Frozen source evidence changed: {path}")
     expected_synthetic_hash = lock.get("synthetic_gate_sha256")
     if expected_synthetic_hash:
         gate_path = repo_root / str(lock["synthetic_gate_path"])
         if not gate_path.is_file() or sha256_file(gate_path) != expected_synthetic_hash:
             raise AssertionError("Synthetic acceptance evidence changed after freeze")
+    expected_v1_gate_hash = lock.get("psmask_v1_gate_record_sha256")
+    if expected_v1_gate_hash:
+        v1_gate_path = repo_root / str(lock["psmask_v1_gate_record"])
+        if not v1_gate_path.is_file() or sha256_file(v1_gate_path) != expected_v1_gate_hash:
+            raise AssertionError("Preserved PS-MaskDRO v1 gate evidence changed after freeze")
+    expected_pivot_hash = lock.get("psmask_pivot_record_sha256")
+    if expected_pivot_hash:
+        pivot_path = repo_root / str(lock["psmask_pivot_record"])
+        if not pivot_path.is_file() or sha256_file(pivot_path) != expected_pivot_hash:
+            raise AssertionError("Preserved PS-MaskDRO pivot evidence changed after freeze")
     return lock

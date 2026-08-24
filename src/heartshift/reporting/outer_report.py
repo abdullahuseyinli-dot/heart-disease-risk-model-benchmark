@@ -17,8 +17,18 @@ MCAR_RATES = {"natural": 0.0, "mcar_10": 0.1, "mcar_30": 0.3, "mcar_50": 0.5}
 
 def _normalise_classical(path: Path, namespace: str) -> pd.DataFrame:
     frame = pd.read_parquet(path).copy()
-    frame["method"] = (
+    base_method = (
         namespace + ":" + frame["model"].astype(str) + ":" + frame["weighting"].astype(str)
+    )
+    calibration = (
+        frame["calibration"].astype(str)
+        if "calibration" in frame
+        else pd.Series("raw", index=frame.index, dtype="string")
+    )
+    frame["method"] = np.where(
+        calibration.eq("raw"),
+        base_method,
+        base_method + ":" + calibration,
     )
     frame["track"] = PRIMARY_TRACK
     frame["score"] = frame["y_score"].astype(float)

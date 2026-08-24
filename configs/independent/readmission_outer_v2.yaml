@@ -1,0 +1,55 @@
+protocol_version: readmission-independent-outer-v2-post-pivot
+freeze_lock: artifacts/locks/heartshift_candidate_v2.json
+locked_run_name: readmission-outer-v2
+device: cuda
+inner_run: artifacts/runs/readmission-inner-v1
+seeds: [7201, 7202, 7203]
+evaluation_seed: 17201
+mask_replicates: 5
+data:
+  canonical_path: data/processed/uci_readmission_canonical_v1.parquet
+  profile_path: data/processed/uci_readmission_profile_v1.json
+  split_path: data/splits/uci_readmission_patient_grouped_v1.parquet
+  target: target_tableshift_any_readmission
+  refit_splits: [train, validation]
+  test_splits: [id_test, ood_test]
+mask_policies:
+  - {name: natural, kind: natural}
+  - {name: mcar_10, kind: mcar, rate: 0.10}
+  - {name: mcar_30, kind: mcar, rate: 0.30}
+  - {name: mcar_50, kind: mcar, rate: 0.50}
+  - name: drop_demographics
+    kind: panel
+    columns: [race, gender, age, weight]
+  - name: drop_diagnoses
+    kind: panel
+    columns: [diag_1, diag_2, diag_3]
+  - name: drop_tests
+    kind: panel
+    columns: [num_lab_procedures, num_procedures, max_glu_serum, A1Cresult]
+  - name: drop_medications
+    kind: panel
+    columns:
+      - metformin
+      - repaglinide
+      - nateglinide
+      - chlorpropamide
+      - glimepiride
+      - acetohexamide
+      - glipizide
+      - glyburide
+      - tolbutamide
+      - pioglitazone
+      - rosiglitazone
+      - acarbose
+      - miglitol
+      - troglitazone
+      - tolazamide
+      - examide
+      - citoglipton
+      - insulin
+      - glyburide-metformin
+      - glipizide-metformin
+      - glimepiride-pioglitazone
+      - metformin-rosiglitazone
+      - metformin-pioglitazone

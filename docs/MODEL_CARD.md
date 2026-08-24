@@ -1,12 +1,13 @@
-# PS-MaskDRO research model card
+# Prior-Separated Measurement-Policy DRO research model card
 
 Status: experimental research candidate; not a medical device and not approved for
 clinical use.
 
 ## Intended scientific use
 
-PS-MaskDRO tests whether a predictor can retain useful evidence under simultaneous
-hospital, outcome-prevalence, and measurement-policy shifts. The intended use is
+PS-MP-DRO tests whether a predictor can retain useful evidence under hospital,
+outcome-prevalence, and measurement-policy shifts by optimizing robustness over
+the policy axis. The intended use is
 benchmark research, mechanism falsification, and comparison with strong tabular
 baselines. It must not be used to diagnose a person, allocate treatment, or claim
 prospective risk.
@@ -24,10 +25,12 @@ The ablation path is:
 3. hospital-by-outcome balancing to encourage equal-prior evidence;
 4. random measurement deletion;
 5. a structured natural/MCAR/MAR/panel/empirical policy bank;
-6. smooth entropic DRO over hospital-by-policy risks, with the two outcome
-   classes averaged equally inside each risk; and
-7. Acquisition-Neutral Evidence (ANE), subtracting a fold-local balanced-reference
-   score evaluated under the same observed-feature set.
+6. smooth entropic DRO over policy risks after averaging source hospitals, with
+   the two outcome classes averaged equally inside each hospital-policy risk.
+
+Joint hospital-by-policy DRO and Acquisition-Neutral Evidence are retained as
+prespecified controls. The joint candidate failed its registered source gate;
+that negative result is part of the model card rather than being hidden.
 
 The separated adaptation layer calibrates source out-of-fold evidence, estimates
 an unlabelled target prevalence with MLLS or soft BBSE, and emits adapted
@@ -55,6 +58,11 @@ in ways this method cannot identify from unlabelled data. ANE may remove useful
 acquisition information. Small historical cohorts make neural comparisons noisy.
 The adaptation diagnostic has finite power and is an abstention guard, not proof
 that label shift holds.
+
+The protocol-v2 candidate was chosen with a deterministic rule after observing
+the protocol-v1 source-confirmation failure. Its source metrics are therefore
+selection evidence. Source-OOF Platt calibration may also fail to transport under
+hospital or missingness shift; uncalibrated probabilities remain reportable.
 
 ## Reproducibility and access
 

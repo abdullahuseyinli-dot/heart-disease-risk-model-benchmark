@@ -1,15 +1,52 @@
-# Heart Disease Risk Model Benchmark
+# HeartShift: hospital and missingness-shift benchmark
 
 [![CI](https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark/actions/workflows/ci.yml/badge.svg)](https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark/actions/workflows/ci.yml)
 
-A reproducible comparison of linear, gradient-boosted, and neural tabular
-classifiers on the processed UCI Heart Disease dataset. The project evaluates
-discrimination, calibration, threshold behavior, uncertainty, subgroup
-performance, explainability, distributed-training overhead, and edge-style
-inference latency.
+A leakage-audited research benchmark for hospital shift, measurement-policy
+shift, and missing clinical features in the four-centre UCI Heart Disease
+collection. The endpoint is historical angiographic disease status (`num > 0`),
+not prospective cardiovascular risk.
 
 > This is a technical benchmark, not a medical device. Its outputs must not be
 > used for diagnosis, treatment, or individual clinical decisions.
+
+## Current HeartShift study
+
+The active study uses outer leave-one-hospital-out evaluation, inner
+leave-one-source-hospital-out selection, deterministic structured mask policies,
+three-seed model confirmation, prediction-level evidence, paired uncertainty,
+and an independent patient-disjoint UCI diabetes-readmission task. Hospital
+identity defines splits and robustness groups but is never a prediction feature.
+
+Strong comparators include regularized linear and tree ensembles, EBM, TabPFN v2
+and v3, TabICL, TabM, RealMLP, FT-Transformer, a MIRRAMS reproduction, and the
+observed-set PS-MaskDRO ablation family. Classical and modern methods retain both
+raw probabilities and a separately named source-out-of-fold Platt sensitivity
+track. Zero-shot domain generalization and diagnostic-gated unlabelled-target
+adaptation are never merged into one leaderboard.
+
+The registered protocol-v1 joint site-by-policy DRO gate failed one of seven
+source-only criteria. That failure is preserved. Before any outer label access,
+a deterministic protocol-v2 rule selected the measurement-policy-only DRO
+variant (`v5_mask_only_dro`) for the locked benchmark. This is explicitly
+source-informed model selection, not an independent confirmation result. The
+outer study remains closed until the synthetic, independent-source, repository,
+and freeze gates pass.
+
+Research documentation:
+
+- [Research protocol](docs/RESEARCH_PROTOCOL.md)
+- [Method specification](docs/METHOD_SPECIFICATION.md)
+- [Reproducibility runbook](docs/REPRODUCIBILITY.md)
+- [Data card](docs/DATA_CARD.md)
+- [Model card](docs/MODEL_CARD.md)
+- [Limitations](docs/LIMITATIONS.md)
+
+## Preserved legacy benchmark
+
+The material below describes the original student benchmark and its historical
+20% holdout evidence. It is retained for provenance and is not the confirmatory
+HeartShift design.
 
 ![Holdout ROC-AUC and F1 with bootstrap intervals](assets/holdout_performance_intervals.png)
 
