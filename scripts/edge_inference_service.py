@@ -1,4 +1,4 @@
-"""FastAPI service for edge-style latency simulation of the heart disease risk model."""
+"""Archived, non-clinical FastAPI latency simulation for the v1 classifier."""
 
 from pathlib import Path
 from typing import Dict, List
@@ -44,8 +44,8 @@ THRESHOLD = 0.30  # decision threshold chosen during evaluation
 # -------------------------------------------------------------------
 
 app = FastAPI(
-    title="Heart Disease Risk Edge API",
-    description="Edge inference simulation for LightGBM-based heart disease risk prediction.",
+    title="Archived Heart Classifier Latency Simulation",
+    description="Non-clinical systems benchmark for a historical LightGBM classifier.",
     version="1.0.0",
 )
 

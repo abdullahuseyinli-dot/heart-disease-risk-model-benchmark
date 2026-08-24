@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import pandas as pd
@@ -42,3 +43,13 @@ def test_canonical_table_round_trip_after_prepare() -> None:
         frame = pd.read_parquet(canonical)
         assert len(frame) == 920
         assert frame["sample_id"].is_unique
+
+
+def test_split_manifest_paths_are_repository_relative() -> None:
+    manifest_path = REPO_ROOT / "data/splits/uci_heart_loho_v2.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+
+    for key in ("inner_manifest", "outer_manifest"):
+        path = Path(manifest[key]["path"])
+        assert not path.is_absolute()
+        assert (REPO_ROOT / path).is_file()

@@ -33,7 +33,7 @@ do not alter the registered analyses.
 
 The primary estimand is the mean across the four held-out hospitals of each
 hospital's worst measurement-policy balanced log loss. Lower is better. Bootstrap
-intervals are paired over patients within each observed hospital and are
+intervals are paired over records within each observed hospital and are
 conditional on these four hospitals; `P(better)` is the fraction of replicates
 with candidate-minus-logistic difference below zero, not a frequentist p-value.
 
@@ -65,8 +65,8 @@ versus robustness/calibration trade-off.
 ## Adaptation abstention result
 
 The acquisition-aware diagnostic accepted 0 of 432 evaluated adaptable
-method-site-policy-replicate cells. The deployable report therefore contains only
-the zero-shot DG track and no automatic UDA probabilities. This is an intended
+method-site-policy-replicate cells. The automatic-output report therefore contains
+only the zero-shot DG track and no automatic UDA probabilities. This is an intended
 abstention outcome, not missing result data.
 
 After endpoints were opened, an explicitly post-hoc safety analysis scored the
@@ -76,11 +76,11 @@ equal-prior calibration, 1.687476 with ungated soft-BBSE, and 1.929936 with
 ungated MLLS. For V5-mask the corresponding values were 0.625949, 0.626195,
 1.879558, and 2.014169. The gate therefore prevented severe degradation in this
 experiment. This label-informed analysis is explanatory and must not be promoted
-to a deployable UDA comparison.
+to an automatic UDA comparison.
 
 ## Scientific conclusion
 
-The supported heart finding is a professional hospital/measurement-shift
+The supported heart finding is an auditable hospital/measurement-shift
 benchmark plus a strong prior-separated observed-set model and an effective
 adaptation-abstention mechanism. The registered new mask-axis DRO objective is a
 negative/non-confirmatory heart result, not a superiority claim. MIRRAMS is also

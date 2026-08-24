@@ -42,12 +42,12 @@ point probability.
 
 - Hyperparameters and epoch counts are selected on source hospitals only.
 - Outer predictions use a frozen commit, frozen configurations, and fixed seeds.
-- Every method sees the same patient-level stochastic masks.
-- Zero-shot domain generalization, unlabelled-target adaptation, and any future
-  labelled-target calibration are reported separately.
+- Every method sees the same record-level stochastic masks.
+- Zero-shot domain generalization, unlabelled-target adaptation, and
+  labelled-target calibration are separate protocols.
 - Primary claims use balanced proper scores and worst environment/policy outcomes;
   AUROC is secondary.
-- Patient bootstrap intervals are paired within each observed hospital. They do
+- Record bootstrap intervals are paired within each observed hospital. They do
   not imply sampling inference over a population of hospitals.
 
 ## Known failure modes
@@ -91,3 +91,6 @@ Resolved configurations, package versions, GPU identity, Git state, data hashes,
 fit histories, prediction-level artifacts, failed runs, selection tables, and the
 pre-outer candidate lock are retained. TabPFN checkpoints require the upstream
 licence and are not redistributed. Credentials remain outside the repository.
+TabICL automatic checkpoint retrieval is disabled in the estimator factory;
+optional model weights must be acquired explicitly under their upstream terms
+before a benchmark run.

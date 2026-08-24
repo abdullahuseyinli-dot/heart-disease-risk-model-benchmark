@@ -1,4 +1,4 @@
-"""HeartShift: leakage-safe clinical tabular shift research."""
+"""Auditable clinical tabular shift benchmarks."""
 
 from __future__ import annotations
 

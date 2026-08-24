@@ -1,27 +1,32 @@
 # Reporting and bias-audit checklist
 
-This project uses TRIPOD+AI- and PROBAST-AI-informed fields as an internal audit;
-completion does not imply formal compliance or low risk of bias.
+This checklist follows the structure of TRIPOD+AI and PROBAST+AI for internal
+reporting review. It is not a declaration of formal compliance or low risk of
+bias.
 
-| Item | Evidence | Status before locked evaluation |
+| Item | Repository evidence | Current assessment |
 | --- | --- | --- |
-| Scientific question and estimand | `docs/RESEARCH_PROTOCOL.md` | Complete |
-| Data origin, licence, dates, sites, endpoint | `docs/DATA_CARD.md`, raw `SOURCE.md` files | Complete |
-| Participant/record flow and exclusions | canonical profiles and split manifests | Complete |
+| Scientific question and estimand | `docs/RESEARCH_PROTOCOL.md` | Defined |
+| Data origin, license, dates, sites, and endpoint | `docs/DATA_CARD.md`, raw source records, third-party notices | Complete |
+| Record flow and exclusions | canonical profiles and split manifests | Complete |
 | Outcome and predictor definitions | parsers, profiles, data card | Complete |
 | Missing-data handling | fold-fitted preprocessors and policy bank | Complete |
-| Sample-size rationale | all eligible public records; site counts reported | Complete with limitation |
-| Leakage controls | nested source-only selection, endpoint-free outer loaders, and candidate lock | Complete in code; final lock pending |
-| Model specification and hyperparameters | resolved YAML, selection tables, failed-v1 gate, pivot-v2 record | Heart source runs complete; independent source run pending |
-| Comparator tuning parity | source-only grids and prediction artifacts | Heart source comparisons complete; readmission pending |
-| Calibration/adaptation separation | raw outputs, source-OOF sensitivity calibration, and assumption-gated UDA | Complete in code; outer evidence pending |
-| Discrimination and proper scores | prediction-derived reporting code | Pending outer predictions |
-| Site/policy subgroup results | cell-level output contract | Pending outer predictions |
-| Uncertainty | paired patient bootstrap; site estimates retained | Complete in code |
-| Fairness analysis | sex-stratified descriptive analysis | Pending outer predictions |
-| Decision-curve analysis | only for an explicitly calibrated track | Not yet applicable |
-| Synthetic success/failure mechanisms | immutable protocol-v2 failure and registered v3 mechanism separation | V2 failed; v3 pending |
-| Independent evidence | patient-disjoint UCI readmission task | Source test pending |
-| Data/code availability | hashes, environment lock, commands | Complete in code; release pending |
-| Clinical-use limitations | model card and limitations | Complete |
-| Conflicts/funding/author roles | manuscript metadata | Requires author input |
+| Sample-size rationale | all eligible public records; site counts reported | Complete with small-site limitation |
+| Leakage controls | nested source-only selection, endpoint-isolated loaders, candidate locks | Implemented and tested |
+| Model specification and hyperparameters | resolved configurations, selection tables, gate and pivot records | Complete for reported methods |
+| Comparator tuning parity | source-only grids, compute records, and prediction artifacts | Reported; unavailable methods remain explicit omissions |
+| Calibration and adaptation separation | raw outputs, source-OOF calibration, gated unlabelled adaptation | Complete |
+| Discrimination and proper scores | prediction-derived report tables | Complete |
+| Site and policy results | cell-level outputs and site-worst summaries | Complete |
+| Uncertainty | paired record bootstrap; site estimates retained | Complete, conditional on observed sites and fitted models |
+| Recorded-sex analysis | descriptive stratum tables | Available; not a comprehensive fairness analysis |
+| Decision-curve analysis | restricted to probability tracks with an applicable calibration interpretation | Not used for the headline claim |
+| Synthetic mechanism tests | preserved protocol-v2 failure and registered protocol-v3 result | Complete |
+| Independent evidence | patient-disjoint UCI readmission task | Complete |
+| Data and code availability | hashes, lockfile, commands, LFS inventory | Available; no DOI release claimed |
+| Clinical-use limitations | model card, benchmark card, and limitations | Complete |
+| Conflicts, funding, and author roles | manuscript declarations | Not recorded in the software repository |
+
+The heart outcomes are consumed, the ten-seed analysis is post-outcome, and the
+readmission direct PS-MaskDRO-versus-ERM contrast is exploratory. Those labels
+must accompany the corresponding result in any manuscript or derivative table.

@@ -6,11 +6,12 @@ The support-aware router does **not** advance as a superior method. It passed it
 natural-AUROC noninferiority and no-collapse checks but failed the required robust
 loss improvement over the strongest fixed blend.
 
-The most promising result is instead a simpler one: marginalizing training-seed
-and objective uncertainty is materially better than relying on a single fit or a
+The most promising observation is instead a simpler one: averaging the observed
+fixed fits lowered the robust-loss point estimate relative to a single fit or a
 hard source-only architecture choice. In an explicitly post-outcome exact seed
 extension, the ten-seed structured-policy PS-MaskDRO ensemble has the best point
-estimate in this repository, but it is not a new confirmatory result.
+estimate in this repository, but its intervals do not establish superiority and
+it is not a new confirmatory result.
 
 ## Evidence boundary
 
@@ -38,10 +39,10 @@ The completed evidence packages contain:
   with all 16 endpoint-free target/architecture shards written before labels;
 - router study: 360 source-validation fits, 4,471,200 endpoint-free member
   predictions, 49,680 aligned base keys, normalized expert weights, 12,000
-  conditional-bootstrap rows, and 3,000 exploratory hospital/patient-bootstrap
+  conditional-bootstrap rows, and 3,000 exploratory hospital/record-bootstrap
   rows;
 - combined report: 794,880 predictions, exactly 16 methods on every one of 49,680
-  patient/mask keys, 3,456 metric cells, and 24,000 paired-bootstrap rows;
+  record/mask keys, 3,456 metric cells, and 24,000 paired-bootstrap rows;
 - historical seed extension: 4,968,000 individual predictions across ten frozen
   PS-MaskDRO variants and ten seeds; and
 - seed-extension stability report: 1,092,960 predictions, 22 methods per exact
@@ -174,31 +175,6 @@ A paper may report the router as a prespecified negative result and the exact
 ten-seed extension as post-outcome stability analysis. It must not relabel the
 0.600458 point estimate as a preregistered or externally confirmed state of the
 art.
-
-## Next research experiment
-
-The next algorithm should replace hard selection with an
-**uncertainty-marginalized policy ensemble** developed without further UCI target
-tuning. A concrete candidate is source-cross-fitted logit pooling with weights
-optimized for worst hospital/policy log loss, a KL/Dirichlet shrinkage penalty
-toward uniform weights, and a stability gate that falls back to uniform averaging
-when leave-one-source-hospital weights disagree. Training-seed members must be
-part of the ensemble, not discarded after model selection.
-
-That candidate should be developed on synthetic mechanisms and the independent
-readmission task, then frozen against:
-
-- ten-seed V4 structured policy bank;
-- ten-seed V2 prior separation;
-- equal-logit architecture/objective averaging;
-- natural random forest and logistic controls; and
-- the failed support-aware router.
-
-The primary endpoint, hospital identifier, missingness policies, seed count,
-weight-shrinkage grid, acceptance gate, and multiplicity strategy must be fixed
-before a genuinely untouched external multi-hospital cohort is opened. eICU demo
-data prove code execution only; they do not provide a heart-disease endpoint or
-an external confirmation result.
 
 ## Reproduction entry points
 

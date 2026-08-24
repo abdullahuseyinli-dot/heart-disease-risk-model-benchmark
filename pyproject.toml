@@ -1,15 +1,36 @@
 [build-system]
-requires = ["hatchling>=1.27"]
+requires = ["hatchling>=1.27,<2"]
 build-backend = "hatchling.build"
 
 [project]
 name = "heartshift"
 version = "0.1.0"
-description = "Leakage-safe clinical tabular benchmarks under hospital, prevalence, and measurement-policy shift"
+description = "Auditable clinical tabular benchmarks under hospital and measurement-policy shift"
 readme = "README.md"
 requires-python = ">=3.11,<3.13"
-license = { file = "LICENSE" }
-authors = [{ name = "Abdulla Huseyinli" }]
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+  { name = "Abdulla Huseyinli" },
+]
+keywords = [
+  "clinical-machine-learning",
+  "distribution-shift",
+  "missing-data",
+  "tabular-classification",
+  "reproducible-research",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Typing :: Typed",
+]
 dependencies = [
   "joblib>=1.5",
   "matplotlib>=3.10",
@@ -21,6 +42,12 @@ dependencies = [
   "scipy>=1.13",
   "seaborn>=0.13",
 ]
+
+[project.urls]
+Homepage = "https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark"
+Repository = "https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark"
+Issues = "https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark/issues"
+Documentation = "https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark/tree/main/docs"
 
 [project.optional-dependencies]
 models = [
@@ -45,6 +72,11 @@ dev = [
   "pytest-cov>=6",
   "ruff>=0.11",
   "torch>=2.7",
+]
+
+[dependency-groups]
+release = [
+  "pip-licenses==5.5.5",
 ]
 
 [project.scripts]
@@ -80,6 +112,17 @@ heartshift-validate = "heartshift.cli.validate:main"
 [tool.hatch.build.targets.wheel]
 packages = ["src/heartshift"]
 
+[tool.hatch.build.targets.sdist]
+include = [
+  "/src/heartshift",
+  "/CHANGELOG.md",
+  "/CITATION.cff",
+  "/LICENSE",
+  "/README.md",
+  "/THIRD_PARTY_NOTICES.md",
+  "/pyproject.toml",
+]
+
 [[tool.uv.index]]
 name = "pytorch-cu130"
 url = "https://download.pytorch.org/whl/cu130"
@@ -94,15 +137,27 @@ torch = [
 addopts = "-ra --strict-config --strict-markers"
 testpaths = ["tests"]
 
+[tool.coverage.run]
+source = ["heartshift"]
+
+[tool.coverage.report]
+fail_under = 45
+show_missing = true
+skip_covered = true
+
 [tool.ruff]
 line-length = 100
 target-version = "py311"
+src = ["src", "tests"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["S101"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["heartshift"]
 
 [tool.mypy]
 python_version = "3.11"

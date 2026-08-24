@@ -247,7 +247,7 @@ def _estimator(name: str, parameters: dict[str, Any], seed: int) -> Any:
             ),
             device=str(parameters.get("device", "cuda")),
             batch_size=int(parameters.get("batch_size", 8)),
-            allow_auto_download=True,
+            allow_auto_download=False,
             random_state=seed,
             verbose=False,
         )

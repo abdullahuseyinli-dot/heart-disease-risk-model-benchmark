@@ -1,0 +1,53 @@
+name: Full evidence audit
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  HEARTSHIFT_OFFLINE: "1"
+  HF_DATASETS_OFFLINE: "1"
+  HF_HUB_OFFLINE: "1"
+  TRANSFORMERS_OFFLINE: "1"
+  WANDB_MODE: offline
+  WANDB_DISABLED: "true"
+  UV_FROZEN: "1"
+  UV_NO_PROGRESS: "1"
+
+jobs:
+  evidence:
+    name: LFS evidence and reconstruction contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Check out complete evidence without credentials
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          lfs: true
+          persist-credentials: false
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.11"
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e
+        with:
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+
+      - name: Install locked development environment
+        run: uv sync --locked --extra dev
+
+      - name: Verify Git LFS objects
+        run: git lfs fsck
+
+      - name: Validate current benchmark evidence
+        run: uv run heartshift-validate --repo-root .
+
+      - name: Validate archived v1 evidence
+        run: uv run python tools/validate_repository.py

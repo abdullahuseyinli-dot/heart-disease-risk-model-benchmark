@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import sys
 from pathlib import Path
+from types import SimpleNamespace
 
 import numpy as np
 import pandas as pd
@@ -9,6 +11,7 @@ import pytest
 from heartshift.data.uci import FEATURE_COLUMNS, load_uci_heart
 from heartshift.evaluation.classical_benchmark import _fit_source_oof_calibrators
 from heartshift.models.classical import (
+    _estimator,
     build_classical_pipeline,
     build_generic_classical_pipeline,
     group_sample_weights,
@@ -17,6 +20,22 @@ from heartshift.models.classical import (
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 EXTRACTED = REPO_ROOT / "data/raw/uci_heart/doi-10.24432-C52P4X/extracted"
+
+
+def test_tabicl_estimator_never_downloads_a_checkpoint(monkeypatch: pytest.MonkeyPatch) -> None:
+    class StubTabICLClassifier:
+        def __init__(self, **parameters: object) -> None:
+            self.parameters = parameters
+
+    monkeypatch.setitem(
+        sys.modules,
+        "tabicl",
+        SimpleNamespace(TabICLClassifier=StubTabICLClassifier),
+    )
+    estimator = _estimator("tabicl", {}, seed=17)
+
+    assert estimator.parameters["allow_auto_download"] is False
+    assert estimator.parameters["checkpoint_version"] == "tabicl-classifier-v2-20260212.ckpt"
 
 
 def test_fold_pipeline_predicts_without_nan_or_row_reordering() -> None:

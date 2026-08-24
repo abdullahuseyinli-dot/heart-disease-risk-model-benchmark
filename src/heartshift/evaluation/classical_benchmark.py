@@ -52,6 +52,25 @@ def _git_value(repo_root: Path, *args: str) -> str:
     return process.stdout.strip() if process.returncode == 0 else "unavailable"
 
 
+def _portable_argv(repo_root: Path, argv: list[str]) -> list[str]:
+    """Retain command provenance without serializing workstation root paths."""
+    resolved_root = repo_root.resolve()
+    portable: list[str] = []
+    for argument in argv:
+        path = Path(argument)
+        if not path.is_absolute():
+            portable.append(argument)
+            continue
+        resolved = path.resolve()
+        try:
+            relative = resolved.relative_to(resolved_root)
+        except ValueError:
+            portable.append(f"<external>/{resolved.name}")
+        else:
+            portable.append(relative.as_posix() or ".")
+    return portable
+
+
 def write_run_manifest(
     repo_root: Path,
     run_dir: Path,
@@ -73,7 +92,7 @@ def write_run_manifest(
         "git_status_porcelain": _git_value(repo_root, "status", "--porcelain"),
         "python": sys.version,
         "platform": platform.platform(),
-        "argv": sys.argv,
+        "argv": _portable_argv(repo_root, sys.argv),
         "packages": {},
     }
     for package in (

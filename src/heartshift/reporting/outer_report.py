@@ -33,15 +33,15 @@ def _normalise_classical(path: Path, namespace: str) -> pd.DataFrame:
     frame["track"] = PRIMARY_TRACK
     frame["score"] = frame["y_score"].astype(float)
     columns = [
-            "sample_id",
-            "outer_target",
-            "target",
-            "policy",
-            "mask_replicate",
-            "observed_fraction",
-            "method",
-            "track",
-            "score",
+        "sample_id",
+        "outer_target",
+        "target",
+        "policy",
+        "mask_replicate",
+        "observed_fraction",
+        "method",
+        "track",
+        "score",
     ]
     for identity_column in ("observed_mask_code", "observed_mask_sha256"):
         if identity_column in frame:
@@ -69,15 +69,15 @@ def _normalise_neural(path: Path, namespace: str) -> pd.DataFrame:
         selected["track"] = track
         selected["score"] = selected[score_column].astype(float)
         columns = [
-                    "sample_id",
-                    "outer_target",
-                    "target",
-                    "policy",
-                    "mask_replicate",
-                    "observed_fraction",
-                    "method",
-                    "track",
-                    "score",
+            "sample_id",
+            "outer_target",
+            "target",
+            "policy",
+            "mask_replicate",
+            "observed_fraction",
+            "method",
+            "track",
+            "score",
         ]
         for identity_column in ("observed_mask_code", "observed_mask_sha256"):
             if identity_column in selected:
@@ -145,9 +145,7 @@ def load_heart_outer_predictions(
             ["sample_id", "outer_target", "policy", "mask_replicate"], sort=False
         )[identity_column].nunique(dropna=False)
         if identity_audit.gt(1).any():
-            raise AssertionError(
-                f"Methods disagree on exact patient masks in {identity_column}"
-            )
+            raise AssertionError(f"Methods disagree on exact patient masks in {identity_column}")
     return predictions
 
 
@@ -315,7 +313,7 @@ def paired_primary_bootstrap(
     repetitions: int,
     seed: int,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
-    """Paired patient bootstrap conditional on the four observed hospitals."""
+    """Paired record bootstrap conditional on the four observed hospitals."""
     zero_shot = predictions.loc[predictions["track"].eq(PRIMARY_TRACK)].copy()
     methods = [reference_method, *comparison_methods]
     selected = zero_shot.loc[zero_shot["method"].isin(methods)]
@@ -438,9 +436,9 @@ def paired_primary_stratified_bootstrap(
         raise KeyError(f"Bootstrap methods missing from predictions: {sorted(missing)}")
 
     key_columns = ["sample_id", "outer_target", "policy", "mask_replicate"]
-    reference_keys = selected.loc[
-        selected["method"].eq(reference_method), key_columns
-    ].sort_values(key_columns)
+    reference_keys = selected.loc[selected["method"].eq(reference_method), key_columns].sort_values(
+        key_columns
+    )
     for method in comparison_methods:
         method_keys = selected.loc[selected["method"].eq(method), key_columns].sort_values(
             key_columns
@@ -448,16 +446,12 @@ def paired_primary_stratified_bootstrap(
         if not reference_keys.reset_index(drop=True).equals(method_keys.reset_index(drop=True)):
             raise AssertionError(f"Paired bootstrap keys differ for method {method}")
 
-    endpoint_audit = selected.groupby(["outer_target", "sample_id"], sort=False)[
-        "target"
-    ].nunique()
+    endpoint_audit = selected.groupby(["outer_target", "sample_id"], sort=False)["target"].nunique()
     if endpoint_audit.ne(1).any():
         raise AssertionError("A record has inconsistent endpoint values")
     reference_rows = selected.loc[selected["method"].eq(reference_method)]
     site_class_samples: dict[tuple[str, int], np.ndarray] = {}
-    for (site, label), group in reference_rows.groupby(
-        ["outer_target", "target"], sort=False
-    ):
+    for (site, label), group in reference_rows.groupby(["outer_target", "target"], sort=False):
         sample_ids = group["sample_id"].drop_duplicates().to_numpy()
         if not len(sample_ids):
             raise ValueError(f"Site {site} has no records for outcome class {label}")

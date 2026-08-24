@@ -242,12 +242,19 @@ def prepare_uci_heart(repo_root: Path) -> dict[str, Path]:
     build_inner_manifest(data).to_parquet(inner_path, index=False)
 
     split_manifest = {
-        "schema_version": SCHEMA_VERSION,
-        "outer_manifest": {"path": outer_path.as_posix(), "sha256": sha256_file(outer_path)},
-        "inner_manifest": {"path": inner_path.as_posix(), "sha256": sha256_file(inner_path)},
+        "schema_version": "heartshift-split-manifest-v2",
+        "dataset_schema_version": SCHEMA_VERSION,
+        "outer_manifest": {
+            "path": outer_path.relative_to(repo_root).as_posix(),
+            "sha256": sha256_file(outer_path),
+        },
+        "inner_manifest": {
+            "path": inner_path.relative_to(repo_root).as_posix(),
+            "sha256": sha256_file(inner_path),
+        },
         "rule": "outer leave-one-hospital-out; inner leave-one-source-hospital-out",
     }
-    split_json = splits_dir / "uci_heart_loho_v1.json"
+    split_json = splits_dir / "uci_heart_loho_v2.json"
     split_json.write_text(
         json.dumps(split_manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
