@@ -1,0 +1,7 @@
+title = "HeartShift repository secret scan"
+
+[extend]
+useDefault = true
+
+# Reviewed false positives belong in .gitleaksignore as exact fingerprints.
+# Broad path, rule, commit, or regular-expression allowlists are not accepted.

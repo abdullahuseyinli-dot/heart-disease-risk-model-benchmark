@@ -1,0 +1,24 @@
+protocol_version: historical-psmask-seed-extension-report-v1
+status: post_outcome_consumed_uci_seed_sensitivity_only
+historical_run: artifacts/runs/psmask-outer-v5
+extension_run: artifacts/runs/historical-psmask-ten-seed-sensitivity-v1
+control_run: artifacts/runs/heart-controls-development-v2-aligned
+historical_seeds: [5062, 5063, 5064]
+seeds: [5062, 5063, 5064, 5065, 5066, 5067, 5068, 5069, 5070, 5071]
+experiments:
+  - v0_pooled_erm
+  - v1_site_balanced
+  - v2_prior_separated
+  - v3_mcar_augmentation
+  - v4_structured_policy_bank
+  - v5_site_only_dro
+  - v5_mask_only_dro
+  - v5_site_mask_dro
+  - v5_site_mask_dro_brier
+  - v7_ane
+control_methods:
+  - control:random_forest_natural
+  - control:logistic_natural
+bootstrap:
+  repetitions: 2000
+  seed: 5062

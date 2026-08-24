@@ -1,0 +1,30 @@
+protocol_version: mirrams-inner-v1
+device: cuda
+seeds: [5062]
+inner_mask_replicates: 2
+features: [age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]
+data:
+  canonical_path: data/processed/uci_heart_canonical_v1.parquet
+  outer_manifest: data/splits/uci_heart_outer_loho_v1.parquet
+  inner_manifest: data/splits/uci_heart_inner_loho_v1.parquet
+selection:
+  metric: 0.5_mean_plus_0.5_worst_policy_balanced_log_loss
+common_parameters:
+  d_model: 64
+  n_heads: 4
+  n_layers: 2
+  dropout: 0.1
+  weight_decay: 0.001
+  max_epochs: 120
+  evaluation_interval: 5
+  patience_evaluations: 8
+  validation_mask_replicates: 2
+  mirrams_lambda_1: 15.0
+  mirrams_lambda_2: 15.0
+  mirrams_confidence: 0.95
+experiments:
+  - name: mirrams_equation9
+    variant: mirrams
+    grid:
+      learning_rate: [0.0001, 0.0005]
+      mirrams_mask_rate: [0.1, 0.2, 0.3]

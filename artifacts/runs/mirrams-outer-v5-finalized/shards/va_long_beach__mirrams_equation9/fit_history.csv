@@ -1,0 +1,10 @@
+stage,outer_target,inner_validation,experiment,variant,training_seed,fit_seed,epoch,objective,natural_supervised_risk,masked_supervised_risk,consistency_risk,confident_fraction
+outer_final,va_long_beach,,mirrams_equation9,mirrams,5062,3186746204,5.0,11.775307655334473,0.7291005849838257,0.736413836479187,-0.0,0.0
+outer_final,va_long_beach,,mirrams_equation9,mirrams,5062,3186746204,10.0,10.693134307861328,0.6523126363754272,0.6693881154060364,0.0,0.0
+outer_final,va_long_beach,,mirrams_equation9,mirrams,5062,3186746204,15.0,9.834657669067383,0.593920886516571,0.6160491108894348,0.0,0.0
+outer_final,va_long_beach,,mirrams_equation9,mirrams,5063,541108725,5.0,10.51907730102539,0.6503999829292297,0.6579118371009827,-0.0,0.0
+outer_final,va_long_beach,,mirrams_equation9,mirrams,5063,541108725,10.0,9.557997703552246,0.5717328786849976,0.5990843772888184,-0.0,0.0
+outer_final,va_long_beach,,mirrams_equation9,mirrams,5063,541108725,15.0,8.48527717590332,0.5116437077522278,0.5315755605697632,-0.0,0.0
+outer_final,va_long_beach,,mirrams_equation9,mirrams,5064,961293265,5.0,10.535170555114746,0.6389776468276978,0.6597461700439453,0.0,0.0
+outer_final,va_long_beach,,mirrams_equation9,mirrams,5064,961293265,10.0,9.584383010864258,0.5871455073356628,0.5998157858848572,-0.0,0.0
+outer_final,va_long_beach,,mirrams_equation9,mirrams,5064,961293265,15.0,8.800431251525879,0.5203160047531128,0.5520076751708984,0.0,0.0

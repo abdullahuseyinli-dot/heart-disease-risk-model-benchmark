@@ -1,0 +1,4 @@
+stage,outer_target,inner_validation,experiment,variant,training_seed,fit_seed,epoch,objective,mean_group_risk,robust_group_risk,mean_group_brier
+outer_final,va_long_beach,,v0_pooled_erm,v0,5062,159985961,5.0,0.4398958384990692,0.4398958384990692,0.4398958384990692,0.1353994756937027
+outer_final,va_long_beach,,v0_pooled_erm,v0,5063,660215116,5.0,0.5192254185676575,0.5192254185676575,0.5192254185676575,0.16843974590301514
+outer_final,va_long_beach,,v0_pooled_erm,v0,5064,75798450,5.0,0.39626991748809814,0.39626991748809814,0.39626991748809814,0.12260685116052628

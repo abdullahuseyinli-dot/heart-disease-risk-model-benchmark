@@ -1,0 +1,18 @@
+{
+  "status": "blocked_before_data_download",
+  "date": "2026-08-24",
+  "dataset": "GOSSIS-1-eICU",
+  "protected_file_http_status": 403,
+  "credential_or_dua_token_found": false,
+  "authorized_raw_file_present": false,
+  "raw_file_expected": "data/raw/gossis-1-eicu/1.0.0/gossis-1-eicu-only.csv.gz",
+  "work_completed_without_protected_data": [
+    "data_contract",
+    "hospital_hash_split",
+    "cross_role_patient_quarantine",
+    "public_eicu_demo_schema_smoke",
+    "synthetic_success_and_failure_experiments",
+    "future_hospital_hierarchical_inference_code"
+  ],
+  "resolution_required": "An authorized user must place the DUA-governed raw file at the contracted path; credentials must not be committed."
+}

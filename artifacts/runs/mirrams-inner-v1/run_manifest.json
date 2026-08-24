@@ -1,0 +1,38 @@
+{
+  "argv": [
+    "C:\\Users\\DELL\\Desktop\\Thesis\\heart-disease-risk-model-benchmark\\src\\heartshift\\cli\\psmask.py",
+    "--repo-root",
+    ".",
+    "--config",
+    "configs\\benchmark\\mirrams_inner_v1.yaml",
+    "--phase",
+    "inner",
+    "--run-name",
+    "mirrams-inner-v1"
+  ],
+  "canonical_data_sha256": "BE5A34195D605FB02047313DBF9ABF8B638DFFE55A03F74E5D05646149378D5F",
+  "config_sha256": "f2ccc1937612db773b0e63e5a888998b889bbc5c5de3bedf0395c012a9e90e48",
+  "created_utc": "2026-08-23T22:33:22.539164+00:00",
+  "cuda_available": true,
+  "cuda_version": "13.0",
+  "git_commit": "551d4706b02538e9a096b4a4b5b544f0484091a5",
+  "git_status_porcelain": "M .gitignore\n M THIRD_PARTY_NOTICES.md\n?? AGENTS.md\n?? artifacts/\n?? configs/\n?? data/manifests/\n?? data/processed/\n?? data/raw/\n?? data/splits/\n?? docs/\n?? pyproject.toml\n?? src/\n?? tests/\n?? uv.lock",
+  "gpu": "NVIDIA RTX PRO 3000 Blackwell Generation Laptop GPU",
+  "packages": {
+    "catboost": "1.2.10",
+    "interpret": "0.7.8",
+    "lightgbm": "4.7.0",
+    "numpy": "2.4.6",
+    "pandas": "3.0.5",
+    "pyarrow": "25.0.1",
+    "scikit-learn": "1.9.0",
+    "scipy": "1.17.1",
+    "tabpfn": "8.4.0",
+    "torch": "2.13.0+cu130",
+    "xgboost": "3.2.0"
+  },
+  "phase": "psmask_inner_source_only",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "python": "3.11.9 (main, Aug 14 2024, 04:18:20) [MSC v.1929 64 bit (AMD64)]",
+  "torch": "2.13.0+cu130"
+}

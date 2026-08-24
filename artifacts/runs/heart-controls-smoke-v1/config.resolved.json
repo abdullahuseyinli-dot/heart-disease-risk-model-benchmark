@@ -1,0 +1,37 @@
+{
+  "controls": [
+    {
+      "augmentation": "natural",
+      "grid": {
+        "C": [
+          1.0
+        ]
+      },
+      "model": "logistic",
+      "name": "logistic_natural",
+      "weighting": "site_class_balanced"
+    },
+    {
+      "augmentation": "structured_policy_bank",
+      "grid": {
+        "C": [
+          1.0
+        ]
+      },
+      "model": "logistic",
+      "name": "logistic_structured"
+    }
+  ],
+  "data": {
+    "canonical_path": "data/processed/uci_heart_canonical_v1.parquet"
+  },
+  "inner_mask_replicates": 1,
+  "outer_evaluation_seed": 5062,
+  "outer_mask_replicates": 1,
+  "protocol_version": "heart-controls-code-smoke-v1",
+  "seeds": [
+    5062
+  ],
+  "status": "code_smoke_not_scientific_result",
+  "training_mask_replicates": 1
+}

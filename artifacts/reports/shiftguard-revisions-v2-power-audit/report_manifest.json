@@ -1,0 +1,28 @@
+{
+  "balanced_log_loss_not_used_as_prevalence_adaptation_success_metric": true,
+  "ordinary_log_loss_rebuilt_for_every_revision": true,
+  "selection_status": "iterative_mechanism_development_not_confirmation",
+  "source_sha256": {
+    "v1_learned_mean": {
+      "episode_results.parquet": "6D772A6BA909277E7F989B0496C4184D9F8B8A5C7467453B46E8C6D9E667DDE3",
+      "sample_predictions.parquet": "69ACD32D9802758A03BC452EC0081832FD4EE99A5B871072DBEE940C61F873EC",
+      "synthetic_gates.json": "87038DDF0420EBED7504393CF26C28F17E20BD018598A4AC55C7ED8F692A9D3F"
+    },
+    "v2_omnibus_mean": {
+      "episode_results.parquet": "69DB7614DB2337D18110577A2CDCAC340E71B484C328C4EE9F5776B07CB8CD5F",
+      "sample_predictions.parquet": "40BBD63C3CBE84FC35842DFBB21927ACE1B19532CF03875B2F11E66ACBEBA308",
+      "synthetic_gates.json": "323396EC08D5471E356E7AB04A5F95536A98CA98B428A71E9EBB63A1BB0F8F05"
+    },
+    "v3_max_moment": {
+      "episode_results.parquet": "7863F64788B7702696A0D798143D466838DB607BB1031ACE5DF2627C2665BF56",
+      "sample_predictions.parquet": "AB1732B0B5EFB78A9A319AF5840348D8BE0ABA08649B8F32BE8058FD8DBAC241",
+      "synthetic_gates.json": "25BC0E84F0D0480DFE9F3AD9AFA56189B20DF3FBAB40BAE618B3B45C5FCB84F3"
+    },
+    "v4_spectral_ridge": {
+      "episode_results.parquet": "8FC4DE5707018F16B9080B66CF83D830B30E84230932AAAD182CD2DCA5CCC0D4",
+      "sample_predictions.parquet": "47545E074D80BAC503C1E37BCC8EBFCA9CA9653B905E65EBD02129B8F677B3F1",
+      "synthetic_gates.json": "DA4736A7A71DD68BF382A22CD4D353CF1142B78E01779D261E545FBB11F01FAA"
+    }
+  },
+  "status": "sample_reconstructed_synthetic_revision_comparison"
+}

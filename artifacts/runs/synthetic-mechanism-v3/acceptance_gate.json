@@ -1,0 +1,79 @@
+{
+  "adaptation_experiments": [
+    "mask_only_dro",
+    "prior_separated"
+  ],
+  "checks": [
+    {
+      "finite": true,
+      "name": "required_seeds_per_cell",
+      "observed": 3,
+      "operator": ">=",
+      "passed": true,
+      "threshold": 3
+    },
+    {
+      "finite": true,
+      "name": "label_only_diagnostic_acceptance",
+      "observed": 1.0,
+      "operator": ">=",
+      "passed": true,
+      "threshold": 0.6666666666666666
+    },
+    {
+      "finite": true,
+      "name": "label_only_mlls_prevalence_error",
+      "observed": 0.006960348185073517,
+      "operator": "<=",
+      "passed": true,
+      "threshold": 0.12
+    },
+    {
+      "finite": true,
+      "name": "label_only_adapted_log_loss_delta",
+      "observed": -0.02317157300696454,
+      "operator": "<=",
+      "passed": true,
+      "threshold": 0.0
+    },
+    {
+      "finite": true,
+      "name": "mar_policy_maskdro_balanced_log_loss_delta",
+      "observed": 0.013700261439534706,
+      "operator": "<=",
+      "passed": true,
+      "threshold": 0.02
+    },
+    {
+      "finite": true,
+      "name": "mar_policy_shift_diagnostic_acceptance",
+      "observed": 0.0,
+      "operator": "<=",
+      "passed": true,
+      "threshold": 0.5
+    },
+    {
+      "finite": true,
+      "name": "conditional_only_diagnostic_acceptance",
+      "observed": 0.0,
+      "operator": "<=",
+      "passed": true,
+      "threshold": 0.5
+    },
+    {
+      "finite": true,
+      "name": "mnar_outcome_only_diagnostic_acceptance",
+      "observed": 0.0,
+      "operator": "<=",
+      "passed": true,
+      "threshold": 0.5
+    }
+  ],
+  "passed": true,
+  "protocol": "synthetic-mechanism-v3",
+  "required_experiments": [
+    "mask_only_dro",
+    "prior_separated",
+    "structured_policy_bank"
+  ]
+}

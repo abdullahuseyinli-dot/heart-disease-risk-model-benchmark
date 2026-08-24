@@ -1,0 +1,64 @@
+protocol_version: shiftguard-method-registry-v2
+generated_date: 2026-08-24
+claim_status: release_method_inventory_not_a_result
+implemented_and_tested:
+  - balanced_logistic
+  - random_forest
+  - histogram_gradient_boosting
+  - catboost
+  - lightgbm
+  - xgboost
+  - ebm
+  - tabm
+  - realmlp
+  - ft_transformer
+  - tabpfn_v2_v3
+  - tabicl_v2
+  - mirrams_equation9
+  - prior_separated_observed_set
+  - structured_policy_dro
+  - attention_observed_set
+  - deepsets_observed_set
+  - structured_mask_augmented_classical
+  - support_aware_router
+  - support_aware_router_support_only
+  - support_aware_router_expert_logit_context
+  - support_aware_router_anchor_relative_context
+  - source_selected_convex_logit_stacking
+  - random_fourier_label_shift_diagnostic
+  - polynomial_moment_label_shift_diagnostic
+  - covariance_regularized_rff_label_shift_diagnostic
+  - quantile_copula_label_shift_diagnostic
+  - source_calibrated_global_compatibility_guard
+  - set_valued_shiftguard
+  - bbse
+  - mlls
+implemented_but_requires_authorized_external_data:
+  - hospital_patient_hierarchical_bootstrap
+  - refit_seed_uncertainty_layer
+  - locked_hospital_confirmation
+named_omissions:
+  - method: neumiss_neumise
+    status: omitted_no_frozen_faithful_implementation
+    release_rationale: no audited author implementation was integrated
+  - method: missingness_avoiding_trees
+    status: omitted_no_vetted_implementation
+    release_rationale: no implementation passed provenance and fidelity review
+  - method: groupdro_rex_coral_irm
+    status: omitted_from_current_comparison
+    release_rationale: the available four-site task is insufficient for the intended comparison
+  - method: caustab
+    status: omitted_author_release_not_pinned
+    release_rationale: no versioned implementation and license were bound to this release
+  - method: distpfn
+    status: omitted_release_not_pinned
+    release_rationale: no versioned implementation was bound to this release
+  - method: conformal_missingness_conditional
+    status: excluded_from_current_benchmark_scope
+    release_rationale: labelled-target selective calibration is a separate evaluation track
+prohibited_shortcuts:
+  - do_not_substitute_generic_mlp_and_label_it_neumiss
+  - do_not_claim_unavailable_comparators_were_beaten
+  - do_not_tune_omissions_using_locked_confirmation_outcomes
+  - do_not_call_cross_fitted_source_stacking_a_fully_nested_meta_evaluation
+  - do_not_call_consumed_uci_outer_results_new_confirmation

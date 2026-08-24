@@ -1,0 +1,57 @@
+{
+  "adaptation_experiments": [
+    "prior_separated",
+    "mask_only_dro"
+  ],
+  "checks": [
+    {
+      "finite": true,
+      "name": "required_seeds_per_cell",
+      "observed": 3,
+      "operator": ">=",
+      "passed": true,
+      "threshold": 3
+    },
+    {
+      "finite": true,
+      "name": "label_mar_diagnostic_acceptance",
+      "observed": 0.0,
+      "operator": ">=",
+      "passed": false,
+      "threshold": 0.5
+    },
+    {
+      "finite": true,
+      "name": "label_mar_mlls_prevalence_error",
+      "observed": 0.024447601162017423,
+      "operator": "<=",
+      "passed": true,
+      "threshold": 0.12
+    },
+    {
+      "finite": true,
+      "name": "label_mar_adapted_log_loss_delta",
+      "observed": -0.05279868817840344,
+      "operator": "<=",
+      "passed": true,
+      "threshold": 0.0
+    },
+    {
+      "finite": true,
+      "name": "conditional_shift_diagnostic_acceptance",
+      "observed": 0.6666666666666666,
+      "operator": "<=",
+      "passed": false,
+      "threshold": 0.5
+    },
+    {
+      "finite": true,
+      "name": "mnar_outcome_diagnostic_acceptance",
+      "observed": 0.3333333333333333,
+      "operator": "<=",
+      "passed": true,
+      "threshold": 0.5
+    }
+  ],
+  "passed": false
+}

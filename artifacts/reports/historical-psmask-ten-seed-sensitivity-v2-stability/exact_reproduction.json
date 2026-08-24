@@ -1,0 +1,31 @@
+{
+  "historical_seeds": [
+    5062,
+    5063,
+    5064
+  ],
+  "maximum_observed_fraction_difference": 0.0,
+  "maximum_probability_difference": 0.0,
+  "mismatch_counts": {
+    "epochs": 0,
+    "fit_seed": 0,
+    "observed__age": 0,
+    "observed__ca": 0,
+    "observed__chol": 0,
+    "observed__cp": 0,
+    "observed__exang": 0,
+    "observed__fbs": 0,
+    "observed__oldpeak": 0,
+    "observed__restecg": 0,
+    "observed__sex": 0,
+    "observed__slope": 0,
+    "observed__thal": 0,
+    "observed__thalach": 0,
+    "observed__trestbps": 0,
+    "observed_mask_code": 0,
+    "record_sha256": 0,
+    "target": 0
+  },
+  "rows": 1490400,
+  "status": "exact_value_reproduction"
+}

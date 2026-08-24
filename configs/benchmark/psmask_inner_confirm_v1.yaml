@@ -1,0 +1,26 @@
+protocol_version: psmask-inner-fixed-confirmation-v1
+device: cuda
+fixed_selection_run: artifacts/runs/psmask-inner-v1
+fixed_selection_runs:
+  v5_site_only_dro: artifacts/runs/psmask-factorial-inner-v1
+  v5_mask_only_dro: artifacts/runs/psmask-factorial-inner-v1
+seeds: [5062, 5063, 5064]
+inner_mask_replicates: 5
+features: [age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]
+data:
+  canonical_path: data/processed/uci_heart_canonical_v1.parquet
+  outer_manifest: data/splits/uci_heart_outer_loho_v1.parquet
+  inner_manifest: data/splits/uci_heart_inner_loho_v1.parquet
+selection:
+  metric: 0.5_mean_plus_0.5_worst_policy_balanced_log_loss
+experiments:
+  - {name: v0_pooled_erm, variant: v0}
+  - {name: v1_site_balanced, variant: v1}
+  - {name: v2_prior_separated, variant: v2}
+  - {name: v3_mcar_augmentation, variant: v3}
+  - {name: v4_structured_policy_bank, variant: v4}
+  - {name: v5_site_only_dro, variant: v5_site}
+  - {name: v5_mask_only_dro, variant: v5_mask}
+  - {name: v5_site_mask_dro, variant: v5}
+  - {name: v5_site_mask_dro_brier, variant: v5}
+  - {name: v7_ane, variant: v7}

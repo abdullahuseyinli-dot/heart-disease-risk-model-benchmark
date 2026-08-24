@@ -1,0 +1,40 @@
+{
+  "checks": {
+    "harmful_invalid_adaptation_delta_log_loss": {
+      "observed": 0.0007312331443286405,
+      "passed": false,
+      "threshold": 0.0
+    },
+    "observable_invalid_false_acceptance": {
+      "observed": 0.10714285714285714,
+      "passed": false,
+      "threshold": 0.05,
+      "wilson_95": [
+        0.0810434891652807,
+        0.14036349419543317
+      ]
+    },
+    "uninformative_interval_fraction": {
+      "observed": 0.30126953125,
+      "passed": true,
+      "threshold": 0.8
+    },
+    "valid_shift_acceptance": {
+      "observed": 1.0,
+      "passed": true,
+      "threshold": 0.9,
+      "wilson_95": [
+        0.93982814785791,
+        0.9999999999999998
+      ]
+    }
+  },
+  "primary_representation": "omnibus_intersection",
+  "status": "failed_one_or_more_synthetic_gates",
+  "unidentifiable_concept_control": {
+    "acceptance_rate": 1.0,
+    "expected_interpretation": "Acceptance is not a defect claim: the unlabelled distribution is constructed to be indistinguishable from valid label shift.",
+    "mean_gated_minus_zero_shot_bll": 0.11575373833682875,
+    "mean_gated_minus_zero_shot_log_loss": 0.5132074771213014
+  }
+}

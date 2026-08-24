@@ -1,21 +1,87 @@
-name: quality-gates
+name: CI
 
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  HEARTSHIFT_OFFLINE: "1"
+  HF_DATASETS_OFFLINE: "1"
+  HF_HUB_OFFLINE: "1"
+  TRANSFORMERS_OFFLINE: "1"
+  WANDB_MODE: offline
+  WANDB_DISABLED: "true"
+  UV_NO_PROGRESS: "1"
+
 jobs:
-  validate:
-    runs-on: ubuntu-latest
+  quality:
+    name: Quality (${{ matrix.os }}, Python ${{ matrix.python }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            python: "3.11"
+          - os: windows-latest
+            python: "3.12"
+
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-python@v7
+      - name: Check out source without credentials
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
-          python-version: "3.11"
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          version: "0.11.29"
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+
+      - name: Install locked development environment
+        run: uv sync --locked --extra dev
+
       - name: Compile Python sources
-        run: python -m compileall -q scripts tools
-      - name: Validate published evidence
-        run: python tools/validate_repository.py
+        run: uv run python -m compileall -q src scripts tools
+
+      - name: Run tests
+        run: uv run pytest -q --cov=heartshift --cov-report=term-missing --cov-report=xml --cov-fail-under=45
+
+      - name: Lint
+        run: uv run ruff check src tests tools
+
+      - name: Check formatting
+        run: uv run ruff format --check src tests tools
+
+      - name: Type-check
+        run: uv run mypy --python-version ${{ matrix.python }} src/heartshift
+
+      - name: Smoke-test installed command
+        run: uv run heartshift-validate --help
+
+      - name: Validate public repository surface
+        run: uv run python tools/validate_repository.py
+
+      - name: Build wheel and source distribution
+        run: uv build
+
+      - name: Validate distribution contents
+        run: uv run python tools/validate_distribution.py
+
+      - name: Smoke-test clean wheel installation
+        run: uv run python tools/smoke_install_distribution.py

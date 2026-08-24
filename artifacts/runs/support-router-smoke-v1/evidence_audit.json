@@ -1,0 +1,13 @@
+{
+  "config_sha256": "246552f383a658bd33138e19c1ccccf101bab20adaefd744988436f4f4a5fcd1",
+  "new_confirmatory_claim_allowed": false,
+  "sha256": {
+    "aligned_source_oof_experts.parquet": "1DD45238BF2ECFC379AFD28F111551D8DEC559D3D6F33337A45595EB96CDE450",
+    "router_gates.json": "5F6D3018E5E4BB94BEAD56F86052FC4391D2AE146EA545E2463DF95D3CBF6709",
+    "router_training_history.csv": "BB82FD48585E858486B7A50C1797052ECB1F599C77EF5B188FC8CAA3E2005337",
+    "routing_weights.parquet": "C9567AC18151DB7D8994B06AE6A1B040D45DC7F2216DB69AD2FFB4A48C427E54",
+    "source_meta_evaluation_metrics.csv": "7A65C12037A16EBAE9F869FBF4B7EFFC26F961CEE795FD0F12CF616AB95C886E",
+    "source_meta_evaluation_predictions.parquet": "6190C384FF2823868E16CFE70F16A1C944754839ECF29E62D6B9EC2406C04925"
+  },
+  "status": "complete_consumed_source_oof_development_only"
+}

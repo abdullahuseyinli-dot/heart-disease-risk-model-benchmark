@@ -1,0 +1,14 @@
+{
+  "command_intent": "start the observed-backbone code smoke test",
+  "failure_kind": "operator_config_path_typo_before_run_creation",
+  "incorrect_config": "configs/research/observed_backbones_smoke_v1.yaml",
+  "exception": "FileNotFoundError",
+  "raw_or_endpoint_data_loaded": false,
+  "run_directory_created": false,
+  "recovery": {
+    "correct_config": "configs/research/observed_backbones_smoke.yaml",
+    "run_directory": "artifacts/runs/observed-backbones-smoke-v1",
+    "status": "completed"
+  },
+  "status": "preserved_non_scientific_execution_failure"
+}

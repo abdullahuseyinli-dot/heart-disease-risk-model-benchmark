@@ -1,0 +1,9 @@
+outer_target,expert_name,selected_experiment,variant,parameter_id,selection_score,mean_parameter_count,candidate_experiments
+cleveland,prior_separated,v2_deepsets_equal_budget,v2,0,0.6312660620394377,54550.333333333336,"[""v2_attention_equal_budget"", ""v2_deepsets_equal_budget""]"
+cleveland,joint_policy_dro,v5_deepsets_equal_budget,v5,0,0.6299523952478074,54550.333333333336,"[""v5_attention_equal_budget"", ""v5_deepsets_equal_budget""]"
+hungary,prior_separated,v2_deepsets_equal_budget,v2,0,0.6668212162800089,54635.66666666666,"[""v2_attention_equal_budget"", ""v2_deepsets_equal_budget""]"
+hungary,joint_policy_dro,v5_deepsets_equal_budget,v5,0,0.6605283869554386,54635.66666666666,"[""v5_attention_equal_budget"", ""v5_deepsets_equal_budget""]"
+switzerland,prior_separated,v2_deepsets_equal_budget,v2,0,0.6217650373191173,54593.0,"[""v2_attention_equal_budget"", ""v2_deepsets_equal_budget""]"
+switzerland,joint_policy_dro,v5_deepsets_equal_budget,v5,0,0.6151745933786232,54593.0,"[""v5_attention_equal_budget"", ""v5_deepsets_equal_budget""]"
+va_long_beach,prior_separated,v2_deepsets_equal_budget,v2,0,0.620096412116909,54635.66666666666,"[""v2_attention_equal_budget"", ""v2_deepsets_equal_budget""]"
+va_long_beach,joint_policy_dro,v5_deepsets_equal_budget,v5,0,0.6152419248453593,54635.66666666666,"[""v5_attention_equal_budget"", ""v5_deepsets_equal_budget""]"

@@ -1,0 +1,5 @@
+outer_target,model,weighting,parameter_id,parameters_json,mean_balanced_log_loss,worst_balanced_log_loss,mean_roc_auc,selection_score
+cleveland,tabpfn,pooled,0,"{""device"": ""cuda"", ""n_estimators"": 8, ""version"": ""v3""}",0.6039530351706055,0.6769221133134851,0.7910097437901435,0.6404375742420453
+hungary,tabpfn,pooled,0,"{""device"": ""cuda"", ""n_estimators"": 8, ""version"": ""v3""}",0.8077256353227674,0.9953800812830121,0.727027318058811,0.9015528583028898
+switzerland,tabpfn,pooled,0,"{""device"": ""cuda"", ""n_estimators"": 4, ""version"": ""v3""}",0.5196864551330823,0.7067873838983016,0.83149873937943,0.6132369195156919
+va_long_beach,tabpfn,pooled,0,"{""device"": ""cuda"", ""n_estimators"": 4, ""version"": ""v3""}",0.5592515926430264,0.6520556746011754,0.8195405928509941,0.6056536336221009

@@ -1,0 +1,16 @@
+{
+  "bootstrap_interval_max_abs_difference": 0.0,
+  "bootstrap_replicates_per_comparison": 2000,
+  "bootstrap_rows": 10000,
+  "bootstrap_unit": "patient_cluster",
+  "comparison_count": 5,
+  "endpoint": "any_readmission_TableShift_compatibility",
+  "interval_rows": 5,
+  "metric_max_abs_difference": 0.0,
+  "metric_rows": 360,
+  "prediction_rows": 9771660,
+  "primary_estimand_max_abs_difference": 0.0,
+  "primary_estimand_rows": 9,
+  "source_predictions": "artifacts/runs/readmission-outer-v3/test_predictions.parquet",
+  "status": "passed_independent_report_reconstruction"
+}

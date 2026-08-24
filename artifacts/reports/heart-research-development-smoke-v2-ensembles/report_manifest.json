@@ -1,0 +1,11 @@
+{
+  "config_sha256": "22c98ef0128aef1c87b22bc5e682329f03cc9ef96bd40b07e06d6c7916269877",
+  "exact_cross_method_mask_identity_required": true,
+  "individual_seed_predictions_retained": true,
+  "inference": "conditional on four observed hospitals and fitted models; post-outcome descriptive only",
+  "method_count": 8,
+  "new_confirmatory_claim_allowed": false,
+  "outer_outcomes_historically_consumed": true,
+  "prediction_rows": 66240,
+  "status": "code_smoke_not_scientific_result"
+}

@@ -1,0 +1,37 @@
+{
+  "epochs": 3,
+  "experiment": "v2_deepsets_smoke",
+  "outer_target": "switzerland",
+  "parameters": {
+    "backbone": "deepsets",
+    "brier_beta": 0.0,
+    "d_model": 16,
+    "dro_lambda": 0.5,
+    "dro_tau": 0.2,
+    "dropout": 0.0,
+    "evaluation_interval": 1,
+    "feature_columns": [
+      "age",
+      "sex",
+      "cp",
+      "trestbps",
+      "chol",
+      "fbs",
+      "restecg",
+      "thalach",
+      "exang",
+      "oldpeak",
+      "slope",
+      "ca",
+      "thal"
+    ],
+    "learning_rate": 0.001,
+    "max_epochs": 3,
+    "n_heads": 4,
+    "n_layers": 1,
+    "patience_evaluations": 2,
+    "validation_mask_replicates": 1,
+    "weight_decay": 0.001
+  },
+  "variant": "v2"
+}

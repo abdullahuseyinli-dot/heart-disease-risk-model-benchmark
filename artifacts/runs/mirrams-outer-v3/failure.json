@@ -1,0 +1,16 @@
+{
+  "status": "failed_preserved",
+  "protocol_version": "mirrams-outer-v3-mechanism-gated",
+  "git_commit": "e787c199b59ef77b839f22c8415375b83f573074",
+  "freeze_lock": "artifacts/locks/heartshift_candidate_v3.json",
+  "command": ".venv\\Scripts\\python.exe -m heartshift.cli.psmask --repo-root . --config configs/benchmark/mirrams_outer_v3.yaml --phase outer --confirmation RUN_LOCKED_OUTER_ONCE",
+  "failure_stage": "unlabelled_adaptation_orchestration",
+  "exception_type": "KeyError",
+  "exception_message": "evaluation_policy",
+  "source_location": "src/heartshift/evaluation/neural_outer.py:_adapt_predictions",
+  "cause": "The non-adaptable MIRRAMS control supplied an empty source-calibration DataFrame, but _adapt_predictions accessed the evaluation_policy column before checking adaptable.",
+  "target_endpoint_loaded": false,
+  "target_endpoint_evidence": "The exception occurred inside _adapt_predictions for the first shard. The endpoint-loading block in run_neural_outer occurs only after every shard has completed, and no labelled or unlabelled prediction artifact was written in this shard.",
+  "rerun_under_same_protocol_or_name": false,
+  "recovery_requirement": "Preserve this directory and use a newly versioned, frozen mechanical bug-fix protocol. Do not reinterpret this run as completed."
+}

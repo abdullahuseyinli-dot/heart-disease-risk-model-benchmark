@@ -1,0 +1,29 @@
+method,outer_target,worst_policy_balanced_log_loss,method_label
+classical:logistic:site_class_balanced,cleveland,0.66816630766556,Logistic reference
+classical:logistic:site_class_balanced,hungary,0.5583177636115452,Logistic reference
+classical:logistic:site_class_balanced,switzerland,0.6232444340534636,Logistic reference
+classical:logistic:site_class_balanced,va_long_beach,0.6886362201498166,Logistic reference
+classical:random_forest:site_class_balanced,cleveland,0.6166053737225791,Random forest
+classical:random_forest:site_class_balanced,hungary,0.605340805289938,Random forest
+classical:random_forest:site_class_balanced,switzerland,0.6259843001730764,Random forest
+classical:random_forest:site_class_balanced,va_long_beach,0.6601947308845928,Random forest
+mirrams:mirrams_equation9,cleveland,0.6341601429396494,MIRRAMS Eq. 9
+mirrams:mirrams_equation9,hungary,0.7090104893759308,MIRRAMS Eq. 9
+mirrams:mirrams_equation9,switzerland,0.73140281019681,MIRRAMS Eq. 9
+mirrams:mirrams_equation9,va_long_beach,0.6718986681436405,MIRRAMS Eq. 9
+psmask:v2_prior_separated,cleveland,0.5403202643559458,V2 prior-separated
+psmask:v2_prior_separated,hungary,0.5274823364989838,V2 prior-separated
+psmask:v2_prior_separated,switzerland,0.6483541684929341,V2 prior-separated
+psmask:v2_prior_separated,va_long_beach,0.6938785648208381,V2 prior-separated
+psmask:v4_structured_policy_bank,cleveland,0.618103063091627,V4 structured policies
+psmask:v4_structured_policy_bank,hungary,0.5145558771895998,V4 structured policies
+psmask:v4_structured_policy_bank,switzerland,0.6634283341800715,V4 structured policies
+psmask:v4_structured_policy_bank,va_long_beach,0.676198140288547,V4 structured policies
+psmask:v5_mask_only_dro,cleveland,0.5842264764484201,V5 mask-axis DRO
+psmask:v5_mask_only_dro,hungary,0.5406102536029158,V5 mask-axis DRO
+psmask:v5_mask_only_dro,switzerland,0.699206911466918,V5 mask-axis DRO
+psmask:v5_mask_only_dro,va_long_beach,0.6797505221504695,V5 mask-axis DRO
+psmask:v5_site_mask_dro_brier,cleveland,0.5850119325475377,V5 joint DRO + Brier
+psmask:v5_site_mask_dro_brier,hungary,0.5127379997590824,V5 joint DRO + Brier
+psmask:v5_site_mask_dro_brier,switzerland,0.6970241266884594,V5 joint DRO + Brier
+psmask:v5_site_mask_dro_brier,va_long_beach,0.6709929526121161,V5 joint DRO + Brier

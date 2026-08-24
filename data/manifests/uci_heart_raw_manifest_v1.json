@@ -1,0 +1,128 @@
+{
+  "dataset": "UCI Heart Disease",
+  "doi": "10.24432/C52P4X",
+  "files": [
+    {
+      "bytes": 587,
+      "path": "extracted/ask-detrano",
+      "sha256": "9C6FD6DA312D211B92686E999D31472D9DF375E5961003D975E2B1B4ADFBA732"
+    },
+    {
+      "bytes": 6737,
+      "path": "extracted/bak",
+      "sha256": "256CE8ACEBD722879C364199B4B62B94ABC9DD9373A0C15C7677508F1E1AAFD1"
+    },
+    {
+      "bytes": 23941,
+      "path": "extracted/cleve.mod",
+      "sha256": "A1D2A0369D138B45A761522E897F34DC49D779A1B8F7C323DD9732D632ECC83D"
+    },
+    {
+      "bytes": 60669,
+      "path": "extracted/cleveland.data",
+      "sha256": "9278214845D1CF45CDCE6404038B232CE23DEDAF801709650712F6D145D1B7B7"
+    },
+    {
+      "bytes": 185,
+      "path": "extracted/costs/heart-disease.cost",
+      "sha256": "D7DD7D4E6988E0FD372CDE12807BB274EE7FFC9F806FB284E018B1FBCEB562A6"
+    },
+    {
+      "bytes": 234,
+      "path": "extracted/costs/heart-disease.delay",
+      "sha256": "3AB763060EE82642A50043F21CD6F2B5A6AF1AD27B879DE6737447B4DA415811"
+    },
+    {
+      "bytes": 279,
+      "path": "extracted/costs/heart-disease.expense",
+      "sha256": "1A760067BE382086895A6FE3BC6A4C1F532D5F06B4C201C6654FCE28AF73DAFE"
+    },
+    {
+      "bytes": 94,
+      "path": "extracted/costs/heart-disease.group",
+      "sha256": "5304099521B34BA089857A8E1550221FC32F16D537CAE080848A6A958AA37770"
+    },
+    {
+      "bytes": 2558,
+      "path": "extracted/costs/heart-disease.README",
+      "sha256": "2EABBF5BA4931BDAD358FB724D85F1145216179FAD6D969EB712612E24AB1EC5"
+    },
+    {
+      "bytes": 250,
+      "path": "extracted/costs/Index",
+      "sha256": "0F6A2A6E449C0897B66BB4AD6743052416B6D0FD1785D75DA2CBCBFE4E9721A3"
+    },
+    {
+      "bytes": 10060,
+      "path": "extracted/heart-disease.names",
+      "sha256": "EC7ED5AA4ED8321097808F47B836301C2A0C36F3BB09C40B8B43B622363E6B61"
+    },
+    {
+      "bytes": 62192,
+      "path": "extracted/hungarian.data",
+      "sha256": "B8E4BBD06B9BF9EC831C992BA397639F22815E525C43B489E1A6E75B3BE29A75"
+    },
+    {
+      "bytes": 644,
+      "path": "extracted/Index",
+      "sha256": "D41AF1035979B6068DD812C7ACF3533DFF92195F060B71B805D0CF476DC129CC"
+    },
+    {
+      "bytes": 39892,
+      "path": "extracted/long-beach-va.data",
+      "sha256": "16D44B28CCB139D07509EE17F22C51FCD568CAEA8BEB607D1503E4A679133353"
+    },
+    {
+      "bytes": 389771,
+      "path": "extracted/new.data",
+      "sha256": "2A75652DB155D77B76C506B172848D73A58869CB707943474D265F8415DE6C4C"
+    },
+    {
+      "bytes": 18461,
+      "path": "extracted/processed.cleveland.data",
+      "sha256": "A74B7EFA387BC9D108D7D0115D831FE9B414B29AE7124F331B622B4EFA0427C8"
+    },
+    {
+      "bytes": 10263,
+      "path": "extracted/processed.hungarian.data",
+      "sha256": "D1AD108F785768CD3D7E82DC522E6F5A61EEA93CCCFB3A46EE8076F73FC3D796"
+    },
+    {
+      "bytes": 4109,
+      "path": "extracted/processed.switzerland.data",
+      "sha256": "834A405CCF5B66AB4056BB77794ADC8DF0B7125186454C0A1D002D33C6C3B314"
+    },
+    {
+      "bytes": 6737,
+      "path": "extracted/processed.va.data",
+      "sha256": "E7C93D8D0D2ACDADFA4C5E8DE768E2191E7F618B952E29623F1F0D5949FF6B8F"
+    },
+    {
+      "bytes": 11058,
+      "path": "extracted/reprocessed.hungarian.data",
+      "sha256": "B699122EF9F81FD06363083AB2646BCB225A3775ABE801EDB81C3093C8F92819"
+    },
+    {
+      "bytes": 24674,
+      "path": "extracted/switzerland.data",
+      "sha256": "FE1618A50EC2FC99F57EC1CA3FA93BD1FCAD93B9DAF92D49704476E3A3E4D0B2"
+    },
+    {
+      "bytes": 407,
+      "path": "extracted/WARNING",
+      "sha256": "01AE7CB6AB43A387B206F7127CE81869639D9D3076D447C12D7DF17AD583F954"
+    },
+    {
+      "bytes": 128894,
+      "path": "heart-disease.zip",
+      "sha256": "B17CD273DA9CE1CAA4710FCE80227EA454D4DBF9FCBC8E6A9121672751563ADC"
+    },
+    {
+      "bytes": 795,
+      "path": "SOURCE.md",
+      "sha256": "BF9CBE80E8254A6DEFF368C486C42964A171715C39B67B8D47E12B37B3466A1C"
+    }
+  ],
+  "schema_version": "uci-heart-canonical-v1",
+  "source_url": "https://archive.ics.uci.edu/static/public/45/heart+disease.zip"
+}

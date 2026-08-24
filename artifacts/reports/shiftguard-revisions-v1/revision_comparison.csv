@@ -1,0 +1,4 @@
+revision,protocol_version,primary_representation,valid_acceptance,observable_invalid_acceptance,valid_gated_minus_zero_log_loss,invalid_gated_minus_zero_log_loss,concept_acceptance,concept_gated_minus_zero_log_loss
+v1_learned_mean,shiftguard-synthetic-development-v1,hybrid,0.999,0.548,-0.09481889586867602,-0.049436077529344154,1.0,0.6687663358373201
+v2_omnibus_mean,shiftguard-synthetic-development-v2-omnibus,omnibus_intersection,0.998,0.2742,-0.09367651791363021,-0.0268021302251113,0.997,0.679756197720455
+v3_max_moment,shiftguard-synthetic-development-v3-max-moment,omnibus_intersection,0.996,0.21257142857142858,-0.09175379675064162,-0.021203943171964276,0.997,0.672857723232133

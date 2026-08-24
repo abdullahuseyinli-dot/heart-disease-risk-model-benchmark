@@ -1,146 +1,166 @@
-# Heart Disease Risk Model Benchmark
+# HeartShift
+
+*An auditable benchmark for hospital and measurement-policy shift in clinical tabular prediction*
 
 [![CI](https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark/actions/workflows/ci.yml/badge.svg)](https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark/actions/workflows/ci.yml)
+[![Python](https://img.shields.io/badge/Python-3.11%20%7C%203.12-3776AB.svg)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/code%20license-MIT-2ea44f.svg)](LICENSE)
 
-A reproducible comparison of linear, gradient-boosted, and neural tabular
-classifiers on the processed UCI Heart Disease dataset. The project evaluates
-discrimination, calibration, threshold behavior, uncertainty, subgroup
-performance, explainability, distributed-training overhead, and edge-style
-inference latency.
+HeartShift evaluates clinical tabular models when both the patient population and
+the recorded feature panel change between sites. The primary task uses the four
+hospital cohorts in the UCI Heart Disease collection. The endpoint is historical
+angiographic disease status (`num > 0`), not prospective cardiovascular risk.
 
-> This is a technical benchmark, not a medical device. Its outputs must not be
-> used for diagnosis, treatment, or individual clinical decisions.
+Hospital identity defines splits and audit groups. It is never supplied to a
+disease classifier. Preprocessing, model selection, early stopping, calibration,
+and threshold selection use source hospitals only.
 
-![Holdout ROC-AUC and F1 with bootstrap intervals](assets/holdout_performance_intervals.png)
+> HeartShift is research software, not a medical device. Its outputs are not
+> suitable for diagnosis, treatment, or individual clinical decisions.
 
-## Evaluation snapshot
+## Results at a glance
 
-The table below is read from the tracked 20% stratified holdout results in
-[`holdout_models.csv`](results/main/metrics/test/holdout_models.csv).
+The primary heart metric is macro hospital worst-policy balanced log loss; lower
+is better. It gives each hospital and outcome class equal weight and evaluates a
+fixed bank of measurement-deletion policies.
 
-| Model | Accuracy | F1 | ROC-AUC | Brier score |
-| --- | ---: | ---: | ---: | ---: |
-| Logistic regression | 0.8370 | 0.8585 | 0.9083 | 0.1183 |
-| LightGBM | 0.8424 | 0.8638 | 0.8962 | 0.1192 |
-| XGBoost | **0.8587** | **0.8774** | 0.9010 | 0.1151 |
-| TabNet | 0.8533 | 0.8744 | **0.9302** | **0.1066** |
+| Evidence track | Main observation | Status |
+| --- | --- | --- |
+| Locked heart evaluation | V2 prior-separated training recorded the lowest primary loss among 45 methods: **0.602509**. The preselected V5 mask-axis DRO candidate recorded 0.625949 and did not confirm superiority over the logistic reference. | Locked outcomes consumed; conditional on four historical hospitals. |
+| Ten-seed stability analysis | The V4 structured-policy ensemble recorded the lowest later point estimate, **0.600458**, versus 0.625463 for random forest. Familywise intervals cross zero. | Post-outcome sensitivity result, not confirmation. |
+| Patient-disjoint readmission task | Joint PS-MaskDRO recorded **0.672257** worst-mask loss versus 0.719939 for pooled ERM. Pooled ERM retained higher AUROC. | Exploratory direct contrast on an independent task; admission source is a domain proxy, not a hospital identifier. |
+| Unlabelled adaptation | The compatibility gate abstained in all 432 heart evaluation cells and prevented severe degradation from the fixed ungated corrections. | Safety/mechanism result; no successful real-data adaptation claim. |
+| Support-aware routing | The learned router recorded 0.619081 versus 0.615985 for equal-logit blending. | Prespecified negative result. |
 
-Bootstrap intervals keep the small-sample uncertainty visible:
+The strongest supported conclusion is methodological: robust probability scores
+depend on the evaluation environment and can disagree with AUROC rankings;
+simple model and seed averaging was more reliable here than hard source-only
+selection. The data do not establish state of the art, clinical validity, or
+generalization to future hospitals.
 
-| Model | ROC-AUC 95% interval | F1 95% interval |
-| --- | ---: | ---: |
-| Logistic regression | [0.8633, 0.9495] | [0.8041, 0.9065] |
-| LightGBM | [0.8450, 0.9406] | [0.8098, 0.9083] |
-| XGBoost | [0.8497, 0.9447] | [0.8235, 0.9202] |
-| TabNet | [0.8876, 0.9645] | [0.8203, 0.9148] |
+Detailed results are available in the [locked heart report](docs/HEART_OUTER_V5_RESULT.md),
+the [ten-seed stability report](docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md), and the
+[readmission report](docs/READMISSION_OUTER_V3_RESULT.md).
 
-These intervals overlap. The repository therefore reports different leaders by
-metric instead of presenting a single model as conclusively superior.
+## Evidence classes
 
-## Experiment design
+| Class | Scope | Public interpretation |
+| --- | --- | --- |
+| Legacy benchmark | Original stratified-holdout benchmark, systems checks, and saved outputs. | Historical development evidence only. |
+| Locked heart evaluation | Source-selected methods evaluated on each held-out hospital after versioned freezes and two documented recovery events. | Main heart benchmark; not a fresh joint preregistration of every recovered run. |
+| Independent task | Patient-disjoint UCI diabetes-readmission experiment. | Cross-task evidence for measurement robustness, not heart validation. |
+| Development and sensitivity | Ten-seed extensions, equal-budget backbones, routing, and ShiftGuard revisions after heart outcomes were known. | Mechanism and stability evidence only. |
+| Pipeline smoke tests | Public eICU demo execution. | Schema and execution checks; no scientific performance claim. |
 
-- **Dataset:** 920 processed records and 28 columns; `num > 0` is the positive
-  class.
-- **Split:** stratified 80/20 holdout with random seed 42.
-- **Model selection:** nested cross-validation for logistic regression and
-  LightGBM; cross-validation summaries are retained for all tree baselines.
-- **Probability quality:** Brier decomposition, calibration slope/intercept,
-  calibration curves, and threshold analysis.
-- **Uncertainty:** 1,000 holdout bootstrap resamples.
-- **Interpretability:** SHAP summaries, a depth-three surrogate tree,
-  counterfactual examples, and cross-model SHAP rank agreement.
-- **Subgroups:** accuracy, recall, F1, AUC, TPR, and FPR by recorded sex.
+Evidence status is stored with each report and must remain attached when results
+are reused. Failed gates, abstentions, partial runs, and recovery records are part
+of the audit trail.
 
-The strongest tracked cross-validation mean AUC is 0.896 for logistic
-regression. SHAP rankings from LightGBM and logistic regression have Spearman
-correlation 0.771 on the retained comparison.
+## Benchmark contract
 
-## Systems experiments
+- **Primary data:** 920 records from Cleveland, Hungary, Switzerland, and VA Long Beach.
+- **Outcome:** binary angiographic disease status derived from `num > 0`.
+- **Partitioning:** outer leave-one-hospital-out evaluation with nested leave-one-source-hospital-out selection.
+- **Features:** 13 clinical variables with explicit natural-missingness indicators.
+- **Interventions:** deterministic natural, MCAR, MAR, empirical, and whole-panel deletion policies. Policies remove observed information; they never reveal missing values.
+- **Primary estimand:** mean across hospitals of each hospital's worst-policy balanced log loss.
+- **Uncertainty:** paired record bootstrap within each observed hospital. Intervals are conditional on these four sites and fitted models.
+- **Evidence:** sample-level predictions keyed by `sample_id`, exact mask identity, resolved configuration, run manifest, hashes, and independent reconstruction.
 
-The repository includes two deliberately separate systems checks:
+The complete reusable contract is in the [benchmark card](docs/BENCHMARK_CARD.md).
+Data provenance and endpoint definitions are in the [data card](docs/DATA_CARD.md).
 
-- A local FastAPI benchmark recorded 2,760 requests at 14.61 ms mean latency,
-  33.25 ms p95, and 91.06 requests/second.
-- The Dask LightGBM run reached 0.533 ROC-AUC versus 0.896 for the single-node
-  baseline and took substantially longer on this small dataset. This is a useful
-  negative result: distributed execution adds overhead and is not justified at
-  this scale.
+## Installation
 
-Hardware, process placement, and background load affect latency. The tracked
-numbers characterize one recorded run, not a deployment service-level
-objective.
+HeartShift supports CPython 3.11 and 3.12 and uses `uv` for locked environments.
 
-## Reproduce the benchmark
+For a code-only checkout, skip the multi-gigabyte LFS download:
 
-Python 3.10 or newer is recommended.
-
-```bash
-python -m venv .venv
-# Windows: .venv\Scripts\activate
-# macOS/Linux: source .venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
+```powershell
+$env:GIT_LFS_SKIP_SMUDGE = "1"
+git clone https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark.git
+Remove-Item Env:GIT_LFS_SKIP_SMUDGE
+Set-Location heart-disease-risk-model-benchmark
+uv sync --locked --extra dev
 ```
 
-The public repository includes the processed parquet dataset. Full regeneration
-also requires the original `heart_disease_uci.csv` at the repository root:
+Install the optional benchmark implementations only when needed:
 
-```bash
-python scripts/heart_disease_model_benchmark.py
+```powershell
+uv sync --locked --extra dev --extra models --extra modern
 ```
 
-Optional experiments have isolated dependencies:
+TabPFN v3 requires separate acceptance of its upstream terms and a credential in
+the provider's user cache. Credentials must never be placed in this repository,
+configuration files, or shell history.
 
-```bash
-python -m pip install -r requirements-optional.txt
-python -m pip install -r requirements-edge.txt
+## Verify the repository
+
+The routine quality gate uses source code, synthetic fixtures, and compact
+canonical data:
+
+```powershell
+uv run pytest -q --cov=heartshift --cov-report=term-missing --cov-fail-under=45
+uv run ruff check src tests tools
+uv run ruff format --check src tests tools
+uv run mypy src/heartshift
+uv run heartshift-validate --help
+uv run python tools/validate_repository.py
+uv build
+uv run python tools/validate_distribution.py
+uv run python tools/smoke_install_distribution.py
 ```
 
-The edge service expects a local
-`deployment_bundle/lgbm_deployment_bundle.joblib`. The bundle is intentionally
-excluded; [`deployment_bundle/README.md`](deployment_bundle/README.md) documents
-the contract.
+Large prediction evidence is stored through Git LFS. A full evidence audit also
+requires the LFS objects:
 
-## Quality checks
-
-The CI job avoids expensive retraining and verifies that the published tables,
-figures, and README remain consistent:
-
-```bash
-python -m compileall -q scripts tools
-python tools/validate_repository.py
+```powershell
+git lfs install
+git lfs pull
+git lfs fsck
+uv run heartshift-validate --repo-root .
 ```
 
-## Repository layout
+The [installation and verification guide](docs/USAGE.md) separates lightweight
+checks, targeted report retrieval, and full-evidence verification. The
+[artifact guide](docs/ARTIFACTS.md) documents storage, hashes, and release bundles.
+
+## Repository map
 
 ```text
-.
-├── data/                         # Processed modeling table
-├── deployment_bundle/            # Local edge artifact contract
-├── results/
-│   ├── main/                     # Holdout, CV, calibration, SHAP, subgroup
-│   ├── dask/                     # Distributed comparison
-│   └── edge/                     # Latency samples and summaries
-├── scripts/                      # Benchmark, visualization, API, latency runner
-├── requirements*.txt             # Core and optional environments
-└── tools/validate_repository.py  # Release-evidence checks
+src/heartshift/        benchmark, model, evaluation, and audit code
+configs/               versioned data, method, experiment, report, and freeze configs
+tests/                 synthetic leakage, metric, contract, and reconstruction tests
+data/                  raw sources, canonical tables, profiles, and split manifests
+artifacts/             locks, prediction evidence, reports, figures, and preserved failures
+docs/                  protocol, cards, results, limitations, and audit history
+results/               preserved legacy benchmark outputs
+scripts/               preserved legacy benchmark and systems scripts
+paper/                 manuscript-facing evidence index
 ```
 
-## Limitations
+The current evidence state is summarized in [project status](docs/PROJECT_STATUS.md).
+The documentation index is [docs/README.md](docs/README.md).
 
-- The sample is small and combines records collected in different clinical
-  settings; external validity is not established.
-- The holdout is used for final comparison, while the overlapping bootstrap
-  intervals limit claims about model ranking.
-- Sex is represented as a binary field in the source data. The subgroup analysis
-  is incomplete and must not be interpreted as a comprehensive fairness audit.
-- Missing values are imputed and indicated, which cannot recover information
-  absent from the source records.
-- Counterfactual examples describe model sensitivity, not actionable medical
-  advice or causal effects.
+## Scope and claim limits
 
-## License
+HeartShift does not claim prospective cardiovascular risk prediction, clinical
+utility, safety, fairness, unrestricted MNAR robustness, universal superiority
+of PS-MaskDRO, or inference over a population of future hospitals. Repeated masks,
+methods, and seeds produce many prediction rows but do not increase the 920-record
+heart sample. The Switzerland cohort contains only eight negative records, so
+site-level conclusions require particular care.
 
-Original source code and documentation are licensed under the [MIT License](LICENSE).
-The processed UCI dataset remains under CC BY 4.0; attribution and transformation
-details are recorded in [the third-party notices](THIRD_PARTY_NOTICES.md).
+The original holdout benchmark remains available for provenance in the
+[legacy benchmark record](docs/legacy/LEGACY_BENCHMARK.md). It is not part of the
+current HeartShift comparison.
+
+## Citation and licensing
+
+Citation metadata are provided in [`CITATION.cff`](CITATION.cff). No DOI is
+claimed until an immutable release has been deposited.
+
+Repository-authored code and documentation are licensed under the [MIT License](LICENSE).
+Third-party datasets retain their original terms. Dataset citations,
+redistribution conditions, and transformation notices are listed in
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

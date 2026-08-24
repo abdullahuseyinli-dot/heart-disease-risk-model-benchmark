@@ -1,0 +1,45 @@
+protocol_version: support-router-outer-code-smoke-v2-strongest-fixed
+status: code_smoke_not_scientific_result
+supersedes_smoke: artifacts/runs/support-router-outer-smoke-v1
+neural_inner_run: artifacts/runs/observed-backbones-smoke-v1
+neural_outer_run: artifacts/runs/observed-backbones-outer-smoke-v1
+control_run: artifacts/runs/heart-controls-smoke-v1
+neural_experiment_groups:
+  prior_separated: [v2_attention_smoke, v2_deepsets_smoke]
+prediction_seeds: [5062]
+router_seeds: [5062]
+device: cpu
+convex_grid_step: 0.25
+natural_auroc_margin: 0.01
+router_candidates:
+  - name: support_only
+    feature_mode: support_only
+  - name: support_plus_expert_context
+    feature_mode: expert_logit_context
+  - name: anchor_relative_context
+    feature_mode: anchor_relative_context
+router:
+  hidden_dim: 8
+  dropout: 0.0
+  learning_rate: 0.001
+  weight_decay: 0.001
+  max_epochs: 20
+  patience: 5
+  dro_lambda: 0.5
+  dro_tau: 0.2
+  regret_beta: 0.5
+  natural_margin: 0.01
+  entropy_bonus: 0.001
+inference:
+  reference_method: support_aware_router
+  comparison_methods:
+    - expert:prior_separated
+    - expert:stable_anchor
+    - equal_logit_blend
+    - selected_best_expert
+    - selected_convex_blend
+  conditional_repetitions: 20
+  hierarchical_repetitions: 10
+  seed: 5062
+data:
+  canonical_path: data/processed/uci_heart_canonical_v1.parquet

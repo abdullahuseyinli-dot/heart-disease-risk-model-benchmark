@@ -1,0 +1,66 @@
+{
+  "control_run": "artifacts/runs/heart-controls-smoke-v1",
+  "convex_grid_step": 0.25,
+  "data": {
+    "canonical_path": "data/processed/uci_heart_canonical_v1.parquet"
+  },
+  "device": "cpu",
+  "inference": {
+    "comparison_methods": [
+      "expert:prior_separated",
+      "expert:stable_anchor",
+      "equal_logit_blend",
+      "selected_best_expert",
+      "selected_convex_blend"
+    ],
+    "conditional_repetitions": 20,
+    "hierarchical_repetitions": 10,
+    "reference_method": "support_aware_router",
+    "seed": 5062
+  },
+  "natural_auroc_margin": 0.01,
+  "neural_experiment_groups": {
+    "prior_separated": [
+      "v2_attention_smoke",
+      "v2_deepsets_smoke"
+    ]
+  },
+  "neural_inner_run": "artifacts/runs/observed-backbones-smoke-v1",
+  "neural_outer_run": "artifacts/runs/observed-backbones-outer-smoke-v1",
+  "prediction_seeds": [
+    5062
+  ],
+  "protocol_version": "support-router-outer-code-smoke-v1",
+  "router": {
+    "dro_lambda": 0.5,
+    "dro_tau": 0.2,
+    "dropout": 0.0,
+    "entropy_bonus": 0.001,
+    "hidden_dim": 8,
+    "learning_rate": 0.001,
+    "max_epochs": 20,
+    "natural_margin": 0.01,
+    "patience": 5,
+    "regret_beta": 0.5,
+    "weight_decay": 0.001
+  },
+  "router_candidates": [
+    {
+      "feature_mode": "support_only",
+      "name": "support_only"
+    },
+    {
+      "feature_mode": "expert_logit_context",
+      "name": "support_plus_expert_context"
+    },
+    {
+      "feature_mode": "anchor_relative_context",
+      "name": "anchor_relative_context"
+    }
+  ],
+  "router_seeds": [
+    5062
+  ],
+  "status": "code_smoke_not_scientific_result",
+  "supersedes_smoke": "artifacts/runs/support-router-outer-smoke-v1"
+}

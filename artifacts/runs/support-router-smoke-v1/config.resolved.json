@@ -1,0 +1,31 @@
+{
+  "control_run": "artifacts/runs/heart-controls-smoke-v1",
+  "convex_grid_step": 0.5,
+  "device": "cpu",
+  "neural_experiments": {
+    "joint_policy_dro": "v5_site_mask_dro_brier",
+    "prior_separated": "v2_prior_separated"
+  },
+  "neural_run": "artifacts/runs/psmask-inner-confirm-v1",
+  "prediction_seeds": [
+    5062
+  ],
+  "protocol_version": "support-router-code-smoke-v1",
+  "router": {
+    "dro_lambda": 0.5,
+    "dro_tau": 0.2,
+    "dropout": 0.0,
+    "entropy_bonus": 0.001,
+    "hidden_dim": 8,
+    "learning_rate": 0.003,
+    "max_epochs": 20,
+    "natural_margin": 0.01,
+    "patience": 5,
+    "regret_beta": 0.5,
+    "weight_decay": 0.001
+  },
+  "router_seeds": [
+    5062
+  ],
+  "status": "code_smoke_not_scientific_result"
+}

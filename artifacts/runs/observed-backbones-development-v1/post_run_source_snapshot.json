@@ -1,0 +1,52 @@
+{
+  "created_utc": "2026-08-24T17:21:18.871156+00:00",
+  "files": [
+    {
+      "bytes": 4637,
+      "path": "artifacts/runs/observed-backbones-development-v1/run_manifest.json",
+      "sha256": "9611C6B104FC8719C6A1AE5CED56F1F1F55B0CA844AF163616766329804879FB"
+    },
+    {
+      "bytes": 1886,
+      "path": "artifacts/runs/observed-backbones-development-v1/config.resolved.json",
+      "sha256": "94C5F492AE42CB216A95A2ADD32FA18FEB98A690DCA3C1FB417ADD6AA48B13E5"
+    },
+    {
+      "bytes": 1270,
+      "path": "configs/research/observed_backbones_v1.yaml",
+      "sha256": "6B4045EDC0C8617A8226C55B00B06FFA1F9AC3A32E7418034DB9F36BB86FDEC2"
+    },
+    {
+      "bytes": 11497,
+      "path": "src/heartshift/evaluation/neural_benchmark.py",
+      "sha256": "8490513B119C91D4E972F84CC5175E2F1C35A4D856E733B32E910FA8D84497C4"
+    },
+    {
+      "bytes": 21000,
+      "path": "src/heartshift/models/ps_maskdro.py",
+      "sha256": "6C4D8070DA65F166CAF33A23F1D73FAF52E5F42D3A54119A2BB97509CAA266B1"
+    },
+    {
+      "bytes": 19687,
+      "path": "src/heartshift/models/generic_observed.py",
+      "sha256": "A6435B7271E09846A5C66B8F9C981335373F6D11C6DE6D2A51BE89786B9C12EF"
+    },
+    {
+      "bytes": 16536,
+      "path": "src/heartshift/models/observed_set.py",
+      "sha256": "677DA8DF9476055BE35BF9D4FD33A22444AA49F174CF95CDFEB2B1858F71143A"
+    },
+    {
+      "bytes": 8302,
+      "path": "src/heartshift/masks.py",
+      "sha256": "2BC1A2D7682B1BDA4E154C52AC4BD10328A38175F6C5F11012044A6EBF681FFE"
+    },
+    {
+      "bytes": 4399,
+      "path": "src/heartshift/metrics.py",
+      "sha256": "AE267F0923EA820C0A8829E6AE66812B0D059059C5C5092FBC6CB00CFD1BD532"
+    }
+  ],
+  "limitation": "This snapshot records post-run bytes and does not retroactively turn a dirty working tree into a committed pre-run state.",
+  "status": "post_run_exact_source_snapshot"
+}

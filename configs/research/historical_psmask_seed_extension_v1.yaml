@@ -1,0 +1,14 @@
+protocol_version: historical-psmask-ten-seed-post-outcome-sensitivity-v1
+status: consumed_uci_development_only
+manifest_stage: consumed_uci_post_outcome_seed_extension_sensitivity
+inner_run: artifacts/runs/psmask-inner-confirm-v1
+device: cuda
+seeds: [5062, 5063, 5064, 5065, 5066, 5067, 5068, 5069, 5070, 5071]
+outer_mask_replicates: 10
+adaptable_variants: []
+features: [age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]
+data:
+  canonical_path: data/processed/uci_heart_canonical_v1.parquet
+  outer_manifest: data/splits/uci_heart_outer_loho_v1.parquet
+diagnostic:
+  mode: composite_multiview_v3

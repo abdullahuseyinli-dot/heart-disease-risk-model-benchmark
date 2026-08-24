@@ -1,0 +1,12 @@
+{
+  "failure_kind": "legacy_neural_smoke_missing_exact_mask_code",
+  "exception": "KeyError",
+  "missing_column": "observed_mask_code",
+  "scientific_result": false,
+  "status": "failed_closed_before_router_training",
+  "recovery": {
+    "replacement_config": "configs/research/support_router_nested_smoke.yaml",
+    "replacement_run": "artifacts/runs/support-router-nested-anchor-smoke-v3",
+    "replacement_status": "complete"
+  }
+}

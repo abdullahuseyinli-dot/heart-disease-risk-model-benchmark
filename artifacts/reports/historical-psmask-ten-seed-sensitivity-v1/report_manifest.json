@@ -1,0 +1,15 @@
+{
+  "bootstrap_repetitions_per_contrast": 2000,
+  "conditional_inference": "four_observed_hospitals_and_fitted_models",
+  "config_sha256": "6fb277f949019a3a120925e28f949c433084695b7912edeaeb1bc58a4164a14f",
+  "exact_cross_method_mask_identity_required": true,
+  "exact_historical_seed_reproduction_required": true,
+  "extension_initiated_after_review_of_consumed_outer_results": true,
+  "extension_seed_count": 10,
+  "historical_seed_count": 3,
+  "method_count": 22,
+  "new_confirmatory_claim_allowed": false,
+  "outer_outcomes_historically_consumed": true,
+  "prediction_rows": 1092960,
+  "status": "post_outcome_consumed_uci_seed_sensitivity_only"
+}

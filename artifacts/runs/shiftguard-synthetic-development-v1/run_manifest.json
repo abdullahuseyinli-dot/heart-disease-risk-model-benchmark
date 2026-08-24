@@ -1,0 +1,39 @@
+{
+  "argv": [
+    "C:\\Users\\DELL\\Desktop\\Thesis\\heart-disease-risk-model-benchmark\\src\\heartshift\\cli\\shiftguard_synthetic.py",
+    "--repo-root",
+    ".",
+    "--config",
+    "configs/synthetic/shiftguard_v1.yaml",
+    "--run-name",
+    "shiftguard-synthetic-development-v1"
+  ],
+  "canonical_data_sha256": null,
+  "config_sha256": "c61df9fc90ad7d5a2fdac82725296d2df253f6a7ad908a4738384275a769723f",
+  "created_utc": "2026-08-24T12:46:46.835522+00:00",
+  "cuda_available": true,
+  "cuda_version": "13.0",
+  "git_commit": "be485afcc257ea2f0f04b201a9ee9b0cde9966c0",
+  "git_status_porcelain": "M README.md\n M pyproject.toml\n M src/heartshift/cli/validate.py\n M src/heartshift/evaluation/classical_benchmark.py\n M src/heartshift/evaluation/readmission_benchmark.py\n M src/heartshift/masks.py\n M src/heartshift/models/generic_observed.py\n M src/heartshift/models/observed_set.py\n M src/heartshift/models/ps_maskdro.py\n M src/heartshift/reporting/outer_report.py\n M src/heartshift/research/gates.py\n M tests/test_gates.py\n M tests/test_masks.py\n M tests/test_observed_set.py\n M tests/test_reporting.py\n?? artifacts/failures/\n?? artifacts/reports/heart-outer-v5-sensitivity-v1/\n?? artifacts/runs/shiftguard-synthetic-smoke-v1/\n?? configs/data/eicu_demo_shiftguard_smoke_v1.yaml\n?? configs/data/gossis_eicu_shiftguard_v1.yaml\n?? configs/reporting/heart_outer_v5_sensitivity_v1.yaml\n?? configs/research/\n?? configs/synthetic/shiftguard_smoke.yaml\n?? configs/synthetic/shiftguard_v1.yaml\n?? data/processed/eicu-demo-shiftguard-smoke-v1/\n?? data/processed/failures/\n?? data/raw/eicu-crd-demo/\n?? docs/SHIFTGUARD_V1_PROTOCOL.md\n?? src/heartshift/cli/prepare_eicu_demo.py\n?? src/heartshift/cli/prepare_external.py\n?? src/heartshift/cli/report_sensitivity.py\n?? src/heartshift/cli/shiftguard_synthetic.py\n?? src/heartshift/data/external.py\n?? src/heartshift/models/shiftguard.py\n?? src/heartshift/models/support_shrinkage.py\n?? src/heartshift/reporting/sensitivity.py\n?? src/heartshift/research/shiftguard_experiment.py\n?? src/heartshift/research/study_contract.py\n?? tests/test_external_data.py\n?? tests/test_sensitivity.py\n?? tests/test_shiftguard.py\n?? tests/test_shiftguard_experiment.py\n?? tests/test_study_contract.py\n?? tests/test_support_shrinkage.py",
+  "gpu": "NVIDIA RTX PRO 3000 Blackwell Generation Laptop GPU",
+  "packages": {
+    "catboost": "1.2.10",
+    "interpret": "0.7.8",
+    "lightgbm": "4.7.0",
+    "numpy": "2.4.6",
+    "pandas": "3.0.5",
+    "pyarrow": "25.0.1",
+    "pytabkit": "1.7.3",
+    "scikit-learn": "1.9.0",
+    "scipy": "1.17.1",
+    "tabicl": "2.1.1",
+    "tabm": "0.0.3",
+    "tabpfn": "8.4.0",
+    "torch": "2.13.0+cu130",
+    "xgboost": "3.2.0"
+  },
+  "phase": "source_only_synthetic_falsification",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "python": "3.11.9 (main, Aug 14 2024, 04:18:20) [MSC v.1929 64 bit (AMD64)]",
+  "torch": "2.13.0+cu130"
+}

@@ -1,0 +1,138 @@
+{
+  "acceptance": {
+    "maximum_invalid_harm_delta": 0.0,
+    "maximum_invalid_shift_false_acceptance": 0.05,
+    "maximum_uninformative_interval_fraction": 0.8,
+    "minimum_valid_shift_acceptance": 0.9
+  },
+  "alpha": 0.05,
+  "batch_sizes": [
+    32,
+    64,
+    128,
+    256,
+    512
+  ],
+  "calibration_repetitions_per_prior": 200,
+  "device": "cpu",
+  "discrepancy_reducers": {
+    "hybrid": "mean_square",
+    "learned": "mean_square",
+    "moments": "spectral_ridge",
+    "quantile_copula": "max_square",
+    "raw_linear": "mean_square",
+    "rff": "spectral_ridge"
+  },
+  "discrepancy_regularizations": {
+    "hybrid": 0.05,
+    "learned": 0.05,
+    "moments": 0.1,
+    "quantile_copula": 0.05,
+    "raw_linear": 0.05,
+    "rff": 0.1
+  },
+  "episodes_per_cell": 20,
+  "global_compatibility_guard": {
+    "minimum_valid_acceptance": 0.9,
+    "repetitions_per_prior": 200
+  },
+  "intersection_name": "omnibus_intersection",
+  "intersection_views": [
+    "moments",
+    "quantile_copula"
+  ],
+  "mechanisms": [
+    "pure_label_shift",
+    "conditional_translation",
+    "conditional_scale",
+    "support_translation",
+    "outcome_dependent_dropout",
+    "covariance_shear",
+    "tail_contamination",
+    "nonlinear_bimodal",
+    "unidentifiable_concept_reversal"
+  ],
+  "pilot_run": "artifacts/runs/shiftguard-synthetic-development-v7-power-guard-pilot",
+  "primary_representation": "omnibus_intersection",
+  "prior_grid": [
+    0.05,
+    0.1,
+    0.15,
+    0.2,
+    0.25,
+    0.3,
+    0.35,
+    0.4,
+    0.45,
+    0.5,
+    0.55,
+    0.6,
+    0.65,
+    0.7,
+    0.75,
+    0.8,
+    0.85,
+    0.9,
+    0.95
+  ],
+  "protocol_version": "shiftguard-synthetic-development-v7-power-guard",
+  "representations": [
+    "raw_linear",
+    "rff",
+    "moments",
+    "quantile_copula",
+    "learned",
+    "hybrid"
+  ],
+  "rff_components": 64,
+  "seeds": [
+    5062,
+    5063,
+    5064,
+    5065,
+    5066,
+    5067,
+    5068,
+    5069,
+    5070,
+    5071
+  ],
+  "shiftguard": {
+    "anchor_weight": 0.5,
+    "dropout": 0.05,
+    "embedding_dim": 16,
+    "episode_count": 24,
+    "hidden_dim": 64,
+    "invalid_margin": 0.05,
+    "invalid_weight": 1.0,
+    "learning_rate": 0.001,
+    "max_epochs": 300,
+    "patience": 40,
+    "prior_weight": 1.0,
+    "target_size": 128,
+    "training_invalid_mechanisms": [
+      "conditional_translation",
+      "outcome_dependent_dropout",
+      "support_translation"
+    ],
+    "valid_fraction": 0.5,
+    "valid_weight": 1.0,
+    "validation_invalid_mechanisms": [
+      "conditional_scale",
+      "outcome_dependent_dropout"
+    ],
+    "weight_decay": 0.001,
+    "whitening_weight": 0.1
+  },
+  "signal": [
+    1.2,
+    -1.0,
+    0.8,
+    0.5,
+    0.3,
+    -0.2
+  ],
+  "source_rows": 2400,
+  "status": "source_only_revision_after_v7_pilot_near_gate",
+  "supersedes_failed_run": "artifacts/runs/shiftguard-synthetic-development-v4-spectral-ridge"
+}

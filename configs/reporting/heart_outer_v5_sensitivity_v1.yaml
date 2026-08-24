@@ -1,0 +1,18 @@
+protocol_version: heart-outer-v5-consumed-sensitivity-v1
+normalized_predictions_path: artifacts/reports/heart-outer-v5/normalized_outer_predictions.parquet
+reference_method: classical:logistic:site_class_balanced
+comparison_methods:
+  - psmask:v2_prior_separated
+  - psmask:v5_mask_only_dro
+  - psmask:v5_site_mask_dro_brier
+  - classical:random_forest:site_class_balanced
+bootstrap:
+  repetitions: 2000
+  seed: 260824
+seed_prediction_runs:
+  - path: artifacts/runs/psmask-outer-v5/outer_seed_predictions.parquet
+    kind: neural
+    namespace: psmask
+  - path: artifacts/runs/classical-outer-v3/outer_seed_predictions.parquet
+    kind: classical
+    namespace: classical

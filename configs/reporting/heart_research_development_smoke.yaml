@@ -1,0 +1,25 @@
+protocol_version: heart-research-development-report-code-smoke-v1
+status: code_smoke_not_scientific_result
+control_run: artifacts/runs/heart-controls-smoke-v1
+neural_inner_run: artifacts/runs/observed-backbones-smoke-v1
+neural_outer_run: artifacts/runs/observed-backbones-outer-smoke-v1
+router_run: artifacts/runs/support-router-outer-smoke-v2-strongest-fixed
+seeds: [5062]
+router_methods:
+  - support_aware_router
+  - equal_logit_blend
+  - selected_convex_blend
+neural_logit_ensembles:
+  v2_backbones_equal: [v2_attention_smoke, v2_deepsets_smoke]
+contrasts:
+  - id: deepsets_minus_attention_smoke
+    reference_method: neural:v2_attention_smoke
+    comparison_methods: [neural:v2_deepsets_smoke]
+  - id: router_fixed_smoke
+    reference_method: router:support_aware_router
+    comparison_methods:
+      - router:equal_logit_blend
+      - router:selected_convex_blend
+      - neural_ensemble:v2_backbones_equal
+bootstrap_repetitions: 20
+bootstrap_seed: 5062

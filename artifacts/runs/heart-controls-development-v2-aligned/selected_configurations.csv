@@ -1,0 +1,25 @@
+outer_target,control,parameter_id,parameters_json,mean_balanced_log_loss,worst_balanced_log_loss,mean_roc_auc,selection_score
+cleveland,histgb_natural,0,"{""l2_regularization"": 1.0, ""learning_rate"": 0.03, ""max_iter"": 300, ""max_leaf_nodes"": 7, ""min_samples_leaf"": 10}",0.6741378214434693,0.9760496542516413,0.7305115925946518,0.8250937378475554
+cleveland,histgb_structured,0,"{""l2_regularization"": 1.0, ""learning_rate"": 0.03, ""max_iter"": 300, ""max_leaf_nodes"": 7, ""min_samples_leaf"": 10}",0.6774525430279724,0.9556077293969532,0.7229816380488611,0.8165301362124628
+cleveland,logistic_natural,0,"{""C"": 0.1}",0.5907271084620125,0.7270850708201879,0.7630868836329207,0.6589060896411002
+cleveland,logistic_structured,0,"{""C"": 0.1}",0.613216866106094,0.8163882494297547,0.7611163778918146,0.7148025577679245
+cleveland,random_forest_natural,1,"{""max_features"": ""sqrt"", ""min_samples_leaf"": 15, ""n_estimators"": 500}",0.6047301901076506,0.7043664182473105,0.7652202642177218,0.6545483041774806
+cleveland,random_forest_structured,1,"{""max_features"": ""sqrt"", ""min_samples_leaf"": 15, ""n_estimators"": 500}",0.6066341675158095,0.7655257138051013,0.7602941625639184,0.6860799406604554
+hungary,histgb_natural,0,"{""l2_regularization"": 1.0, ""learning_rate"": 0.03, ""max_iter"": 300, ""max_leaf_nodes"": 7, ""min_samples_leaf"": 10}",0.7935846805885266,1.3090247504464236,0.6780822567633984,1.051304715517475
+hungary,histgb_structured,0,"{""l2_regularization"": 1.0, ""learning_rate"": 0.03, ""max_iter"": 300, ""max_leaf_nodes"": 7, ""min_samples_leaf"": 10}",0.7075597630358649,0.9884304981016603,0.7059941259498124,0.8479951305687625
+hungary,logistic_natural,0,"{""C"": 0.1}",0.6440830552029645,0.790535516572134,0.7026486210766664,0.7173092858875492
+hungary,logistic_structured,0,"{""C"": 0.1}",0.693312281189061,0.8429335753485271,0.6967020705909097,0.768122928268794
+hungary,random_forest_natural,1,"{""max_features"": ""sqrt"", ""min_samples_leaf"": 15, ""n_estimators"": 500}",0.628851707321182,0.718873456291504,0.7255479553105068,0.6738625818063431
+hungary,random_forest_structured,1,"{""max_features"": ""sqrt"", ""min_samples_leaf"": 15, ""n_estimators"": 500}",0.6606684951716606,0.8586401164576438,0.7059583967128449,0.7596543058146522
+switzerland,histgb_natural,0,"{""l2_regularization"": 1.0, ""learning_rate"": 0.03, ""max_iter"": 300, ""max_leaf_nodes"": 7, ""min_samples_leaf"": 10}",0.5877501590050552,0.7805411964969478,0.7852320602982854,0.6841456777510015
+switzerland,histgb_structured,0,"{""l2_regularization"": 1.0, ""learning_rate"": 0.03, ""max_iter"": 300, ""max_leaf_nodes"": 7, ""min_samples_leaf"": 10}",0.5635617218806531,0.712611804207402,0.7978570057255879,0.6380867630440276
+switzerland,logistic_natural,0,"{""C"": 0.1}",0.553866576069332,0.7072384042280004,0.8119792678357236,0.6305524901486662
+switzerland,logistic_structured,0,"{""C"": 0.1}",0.5779570151619652,0.8471699521327618,0.8205255656337316,0.7125634836473635
+switzerland,random_forest_natural,1,"{""max_features"": ""sqrt"", ""min_samples_leaf"": 15, ""n_estimators"": 500}",0.5746989587534923,0.6708677946818362,0.7967994678547509,0.6227833767176643
+switzerland,random_forest_structured,1,"{""max_features"": ""sqrt"", ""min_samples_leaf"": 15, ""n_estimators"": 500}",0.5537556243743884,0.6868375710267878,0.8080297800313377,0.6202965977005881
+va_long_beach,histgb_natural,0,"{""l2_regularization"": 1.0, ""learning_rate"": 0.03, ""max_iter"": 300, ""max_leaf_nodes"": 7, ""min_samples_leaf"": 10}",0.678904339473105,0.9175179215075404,0.764344972244031,0.7982111304903228
+va_long_beach,histgb_structured,0,"{""l2_regularization"": 1.0, ""learning_rate"": 0.03, ""max_iter"": 300, ""max_leaf_nodes"": 7, ""min_samples_leaf"": 10}",0.5775118098644738,0.7605958375573291,0.7989923076745651,0.6690538237109014
+va_long_beach,logistic_natural,0,"{""C"": 0.1}",0.5489134008383844,0.7201882042896226,0.7990299885927177,0.6345508025640034
+va_long_beach,logistic_structured,0,"{""C"": 0.1}",0.5593215794829358,0.7966959792171544,0.7999498455423262,0.6780087793500451
+va_long_beach,random_forest_natural,1,"{""max_features"": ""sqrt"", ""min_samples_leaf"": 15, ""n_estimators"": 500}",0.5603347163933751,0.7030151734517844,0.8086154954662799,0.6316749449225798
+va_long_beach,random_forest_structured,1,"{""max_features"": ""sqrt"", ""min_samples_leaf"": 15, ""n_estimators"": 500}",0.5393514099149428,0.7391823942178442,0.8188535018650803,0.6392669020663935

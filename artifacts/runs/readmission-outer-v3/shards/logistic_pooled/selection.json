@@ -1,0 +1,17 @@
+{
+  "backend": "classical",
+  "epochs": null,
+  "experiment": "logistic_pooled",
+  "model": "logistic",
+  "parameter_id": 0,
+  "parameters": {
+    "C": 0.1
+  },
+  "seeds": [
+    7201,
+    7202,
+    7203
+  ],
+  "variant": "not_applicable",
+  "weighting": "pooled"
+}

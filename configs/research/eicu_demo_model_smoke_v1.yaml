@@ -1,0 +1,37 @@
+protocol_version: eicu-demo-model-smoke-v1
+status: public_demo_not_scientific_evaluation
+data_dir: data/processed/eicu-demo-shiftguard-smoke-v1
+encounter_id_column: patientunitstayid
+seed: 5062
+device: cuda
+mask_replicates: 2
+feature_columns: [age, admissionheight, admissionweight, urine, wbc, temperature, respiratoryrate, sodium, heartrate, meanbp, ph, hematocrit, creatinine, albumin, pao2, pco2, bun, glucose, bilirubin, fio2, gender, ethnicity, hospitaladmitsource, unittype, unitadmitsource, unitstaytype, intubated, vent, dialysis, eyes, motor, verbal]
+continuous_columns: [age, admissionheight, admissionweight, urine, wbc, temperature, respiratoryrate, sodium, heartrate, meanbp, ph, hematocrit, creatinine, albumin, pao2, pco2, bun, glucose, bilirubin, fio2]
+categorical_columns: [gender, ethnicity, hospitaladmitsource, unittype, unitadmitsource, unitstaytype, intubated, vent, dialysis, eyes, motor, verbal]
+policies:
+  - {name: natural, kind: natural}
+  - {name: mcar_30, kind: mcar, rate: 0.30}
+  - {name: mcar_50, kind: mcar, rate: 0.50}
+  - {name: drop_laboratory, kind: panel, columns: [urine, wbc, sodium, ph, hematocrit, creatinine, albumin, pao2, pco2, bun, glucose, bilirubin]}
+  - {name: drop_vital, kind: panel, columns: [temperature, respiratoryrate, heartrate, meanbp, fio2]}
+classical_models:
+  - {name: logistic, parameters: {C: 1.0}}
+  - {name: random_forest, parameters: {n_estimators: 200, min_samples_leaf: 5}}
+observed_backbones: [attention, deepsets]
+observed_parameters:
+  d_model: 32
+  n_heads: 4
+  n_layers: 1
+  dropout: 0.05
+  learning_rate: 0.001
+  weight_decay: 0.001
+  max_epochs: 12
+  evaluation_interval: 2
+  patience_evaluations: 3
+  validation_mask_replicates: 1
+  inference_batch_size: 512
+  batch_size: 256
+  minimum_environment_size: 10
+  dro_lambda: 0.5
+  dro_tau: 0.2
+  brier_beta: 0.1

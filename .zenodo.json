@@ -1,0 +1,21 @@
+{
+  "title": "HeartShift: An Auditable Benchmark for Hospital and Measurement-Policy Shift",
+  "upload_type": "software",
+  "description": "Research software for auditable hospital-shift and structured missingness-policy experiments in historical clinical tabular datasets. HeartShift separates source-only model selection, zero-shot domain generalization, unlabelled-target adaptation, consumed-outcome research, and non-scientific pipeline smoke tests. It is not a medical device and does not establish clinical validity or prospective cardiovascular risk.",
+  "creators": [
+    {
+      "name": "Huseyinli, Abdulla"
+    }
+  ],
+  "version": "0.1.0",
+  "license": "mit",
+  "access_right": "open",
+  "keywords": [
+    "clinical tabular data",
+    "domain generalization",
+    "hospital shift",
+    "missing data",
+    "reproducible research"
+  ],
+  "notes": "This file prepares metadata for a future archived software release. It does not represent an existing Zenodo deposition, release, or DOI. MIT covers repository-authored software and documentation only; third-party datasets and adapted databases retain their own licences and citation requirements."
+}

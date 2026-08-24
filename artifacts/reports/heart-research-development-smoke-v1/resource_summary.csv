@@ -1,0 +1,5 @@
+method,fits,mean_fit_seconds,median_fit_seconds,family,mean_parameter_count,median_best_epoch
+logistic_natural,12,0.06839695000477751,0.06482280000636816,control,,
+logistic_structured,12,0.20265453332831382,0.179014149995055,control,,
+v2_attention_smoke,12,3.3921436833406915,3.2046742500097025,neural,3395.6666666666665,3.0
+v2_deepsets_smoke,12,4.015112641670082,4.250418000010541,neural,3331.6666666666665,3.0

@@ -1,0 +1,168 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "heartshift"
+version = "0.1.0"
+description = "Auditable clinical tabular benchmarks under hospital and measurement-policy shift"
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+  { name = "Abdulla Huseyinli" },
+]
+keywords = [
+  "clinical-machine-learning",
+  "distribution-shift",
+  "missing-data",
+  "tabular-classification",
+  "reproducible-research",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Typing :: Typed",
+]
+dependencies = [
+  "joblib>=1.5",
+  "matplotlib>=3.10",
+  "numpy>=2.0,<3",
+  "pandas>=2.2,<4",
+  "pyarrow>=16",
+  "pyyaml>=6",
+  "scikit-learn>=1.5",
+  "scipy>=1.13",
+  "seaborn>=0.13",
+]
+
+[project.urls]
+Homepage = "https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark"
+Repository = "https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark"
+Issues = "https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark/issues"
+Documentation = "https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark/tree/main/docs"
+
+[project.optional-dependencies]
+models = [
+  "catboost>=1.2",
+  "lightgbm>=4.5",
+  "optuna>=4",
+  "torch>=2.7",
+  "xgboost>=3",
+]
+modern = [
+  "interpret>=0.7",
+  "pytabkit>=1.7.3",
+  "skorch>=1.4.0",
+  "tabicl>=2.1.1",
+  "tabm>=0.0.3",
+  "tabpfn>=6",
+]
+dev = [
+  "coverage[toml]>=7.6",
+  "mypy>=1.15",
+  "pytest>=8.3",
+  "pytest-cov>=6",
+  "ruff>=0.11",
+  "torch>=2.7",
+]
+
+[dependency-groups]
+release = [
+  "pip-licenses==5.5.5",
+]
+
+[project.scripts]
+heartshift-prepare = "heartshift.cli.prepare:main"
+heartshift-prepare-readmission = "heartshift.cli.prepare_readmission:main"
+heartshift-prepare-external = "heartshift.cli.prepare_external:main"
+heartshift-prepare-eicu-demo = "heartshift.cli.prepare_eicu_demo:main"
+heartshift-benchmark = "heartshift.cli.benchmark:main"
+heartshift-psmask = "heartshift.cli.psmask:main"
+heartshift-readmission = "heartshift.cli.readmission:main"
+heartshift-report-heart = "heartshift.cli.report_heart:main"
+heartshift-report-readmission = "heartshift.cli.report_readmission:main"
+heartshift-report-sensitivity = "heartshift.cli.report_sensitivity:main"
+heartshift-audit-outer = "heartshift.cli.audit_outer:main"
+heartshift-audit-heart-report = "heartshift.cli.audit_heart_report:main"
+heartshift-audit-source-inner = "heartshift.cli.audit_source_inner:main"
+heartshift-finalize-neural-outer = "heartshift.cli.finalize_neural_outer:main"
+heartshift-plot-publication = "heartshift.cli.plot_publication:main"
+heartshift-synthetic = "heartshift.cli.synthetic:main"
+heartshift-shiftguard-synthetic = "heartshift.cli.shiftguard_synthetic:main"
+heartshift-research-controls = "heartshift.cli.research_controls:main"
+heartshift-research-neural-outer = "heartshift.cli.research_neural_outer:main"
+heartshift-support-router = "heartshift.cli.router_experiment:main"
+heartshift-support-router-outer = "heartshift.cli.router_outer_experiment:main"
+heartshift-external-demo-smoke = "heartshift.cli.external_demo_smoke:main"
+heartshift-report-shiftguard-revisions = "heartshift.cli.report_shiftguard_revisions:main"
+heartshift-report-research-development = "heartshift.cli.report_research_development:main"
+heartshift-snapshot-run-source = "heartshift.cli.snapshot_run_source:main"
+heartshift-freeze-development = "heartshift.cli.freeze_development:main"
+heartshift-freeze = "heartshift.cli.freeze:main"
+heartshift-validate = "heartshift.cli.validate:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/heartshift"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "/src/heartshift",
+  "/CHANGELOG.md",
+  "/CITATION.cff",
+  "/LICENSE",
+  "/README.md",
+  "/THIRD_PARTY_NOTICES.md",
+  "/pyproject.toml",
+]
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cu130", marker = "sys_platform == 'win32'" },
+]
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-config --strict-markers"
+testpaths = ["tests"]
+
+[tool.coverage.run]
+source = ["heartshift"]
+
+[tool.coverage.report]
+fail_under = 45
+show_missing = true
+skip_covered = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["heartshift"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+packages = ["heartshift"]

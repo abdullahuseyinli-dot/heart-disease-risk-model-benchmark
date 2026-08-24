@@ -1,0 +1,51 @@
+protocol_version: shiftguard-synthetic-development-v1
+status: source_only_synthetic_development
+device: cuda
+seeds: [5062, 5063, 5064, 5065, 5066, 5067, 5068, 5069, 5070, 5071]
+source_rows: 2400
+signal: [1.2, -1.0, 0.8, 0.5, 0.3, -0.2]
+batch_sizes: [32, 64, 128, 256, 512]
+prior_grid: [0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95]
+mechanisms:
+  - pure_label_shift
+  - conditional_translation
+  - conditional_scale
+  - support_translation
+  - outcome_dependent_dropout
+  - covariance_shear
+  - unidentifiable_concept_reversal
+episodes_per_cell: 20
+representations: [raw_linear, rff, learned, hybrid]
+primary_representation: hybrid
+rff_components: 64
+alpha: 0.05
+calibration_repetitions_per_prior: 200
+shiftguard:
+  hidden_dim: 64
+  embedding_dim: 16
+  dropout: 0.05
+  learning_rate: 0.001
+  weight_decay: 0.001
+  max_epochs: 300
+  patience: 40
+  episode_count: 24
+  target_size: 128
+  valid_fraction: 0.5
+  invalid_margin: 0.05
+  valid_weight: 1.0
+  prior_weight: 1.0
+  invalid_weight: 1.0
+  whitening_weight: 0.1
+  anchor_weight: 0.5
+  training_invalid_mechanisms:
+    - conditional_translation
+    - outcome_dependent_dropout
+    - support_translation
+  validation_invalid_mechanisms:
+    - conditional_scale
+    - outcome_dependent_dropout
+acceptance:
+  minimum_valid_shift_acceptance: 0.90
+  maximum_invalid_shift_false_acceptance: 0.05
+  maximum_uninformative_interval_fraction: 0.80
+  maximum_invalid_harm_delta: 0.0

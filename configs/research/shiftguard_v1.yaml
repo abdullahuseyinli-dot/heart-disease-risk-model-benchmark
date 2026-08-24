@@ -1,0 +1,88 @@
+protocol_version: shiftguard-v1-development
+status: development_before_external_confirmation
+consumed_evidence:
+  - uci_heart_outer_v5
+  - uci_readmission_outer_v3
+consumed_evidence_allowed_uses:
+  - descriptive_sensitivity
+  - mechanism_development
+  - code_smoke_test
+consumed_evidence_prohibited_uses:
+  - confirmatory_architecture_selection
+  - new_superiority_claim
+tracks:
+  - dg_zero_shot
+  - uda_unlabelled
+  - few_shot_labelled_future_only
+seeds: [5062, 5063, 5064, 5065, 5066, 5067, 5068, 5069, 5070, 5071]
+external_data_config: configs/data/gossis_eicu_shiftguard_v1.yaml
+method_registry: configs/research/method_registry_v1.yaml
+support_router:
+  experts:
+    - prior_separated
+    - joint_policy_dro
+    - stable_anchor
+  hidden_dim: 32
+  dropout: 0.05
+  learning_rate: 0.001
+  weight_decay: 0.001
+  max_epochs: 500
+  patience: 50
+  dro_lambda: 0.5
+  dro_tau: 0.2
+  regret_beta: 0.5
+  natural_margin: 0.01
+  entropy_bonus: 0.001
+shiftguard:
+  hidden_dim: 64
+  embedding_dim: 16
+  dropout: 0.05
+  learning_rate: 0.001
+  weight_decay: 0.001
+  max_epochs: 300
+  patience: 40
+  episode_count: 24
+  target_size: 128
+  valid_fraction: 0.5
+  invalid_margin: 0.05
+  valid_weight: 1.0
+  prior_weight: 1.0
+  invalid_weight: 1.0
+  whitening_weight: 0.1
+  anchor_weight: 0.5
+  training_invalid_mechanisms:
+    - conditional_translation
+    - outcome_dependent_dropout
+    - support_translation
+  validation_invalid_mechanisms:
+    - conditional_scale
+    - outcome_dependent_dropout
+  prior_grid: [0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95]
+  alpha: 0.05
+  calibration_repetitions_per_prior: 200
+evaluation:
+  target_batch_sizes: [32, 64, 128, 256, 512]
+  primary_metric: macro_hospital_worst_real_policy_balanced_log_loss
+  key_secondary_metric: absolute_worst_hospital_policy_balanced_log_loss
+  natural_auroc_noninferiority_margin: 0.01
+  development_seed_count: 10
+  hierarchical_bootstrap_repetitions: 2000
+  multiplicity: one_primary_then_holm_secondary
+acceptance:
+  minimum_valid_shift_acceptance: 0.90
+  maximum_invalid_shift_false_acceptance: 0.05
+  maximum_natural_auroc_loss: 0.01
+  maximum_uninformative_interval_fraction: 0.80
+  maximum_abstention_without_risk_gain: 0.90
+required_evidence:
+  - exact_mask_hashes
+  - patient_disjoint_manifest
+  - hospital_disjoint_manifest
+  - source_oof_predictions
+  - individual_seed_predictions
+  - ensemble_predictions
+  - refit_uncertainty
+  - held_out_policy_family_results
+  - synthetic_success_and_failure_results
+  - locked_external_predictions
+  - independent_report_reconstruction

@@ -1,0 +1,50 @@
+protocol_version: support-router-consumed-outer-v3-source-selected
+status: consumed_uci_development_only
+supersedes_before_full_run:
+  - configs/research/support_router_v1.yaml
+  - configs/research/support_router_v2.yaml
+supersession_reason: source meta-evaluation folds were clean for evaluated rows but not fully nested at the base-fit level
+neural_inner_run: artifacts/runs/observed-backbones-development-v1
+neural_outer_run: artifacts/runs/observed-backbones-outer-development-v1
+control_run: artifacts/runs/heart-controls-development-v2-aligned
+neural_experiment_groups:
+  prior_separated: [v2_attention_equal_budget, v2_deepsets_equal_budget]
+  joint_policy_dro: [v5_attention_equal_budget, v5_deepsets_equal_budget]
+prediction_seeds: [5062, 5063, 5064, 5065, 5066, 5067, 5068, 5069, 5070, 5071]
+router_seeds: [5062, 5063, 5064, 5065, 5066, 5067, 5068, 5069, 5070, 5071]
+device: cpu
+convex_grid_step: 0.05
+natural_auroc_margin: 0.01
+router_candidates:
+  - name: support_only
+    feature_mode: support_only
+  - name: support_plus_expert_context
+    feature_mode: expert_logit_context
+  - name: anchor_relative_context
+    feature_mode: anchor_relative_context
+router:
+  hidden_dim: 32
+  dropout: 0.05
+  learning_rate: 0.001
+  weight_decay: 0.001
+  max_epochs: 500
+  patience: 50
+  dro_lambda: 0.5
+  dro_tau: 0.2
+  regret_beta: 0.5
+  natural_margin: 0.01
+  entropy_bonus: 0.001
+inference:
+  reference_method: support_aware_router
+  comparison_methods:
+    - expert:prior_separated
+    - expert:joint_policy_dro
+    - expert:stable_anchor
+    - equal_logit_blend
+    - selected_best_expert
+    - selected_convex_blend
+  conditional_repetitions: 2000
+  hierarchical_repetitions: 500
+  seed: 5062
+data:
+  canonical_path: data/processed/uci_heart_canonical_v1.parquet

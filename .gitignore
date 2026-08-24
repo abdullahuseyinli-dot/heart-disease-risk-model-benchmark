@@ -5,6 +5,9 @@ __pycache__/
 .ruff_cache/
 .mypy_cache/
 .ipynb_checkpoints/
+.coverage
+coverage.xml
+htmlcov/
 
 # Environments and packaging
 .venv/
@@ -13,6 +16,7 @@ env/
 build/
 dist/
 *.egg-info/
+*.whl
 
 # Editors and operating systems
 .DS_Store
@@ -20,11 +24,39 @@ Thumbs.db
 .idea/
 .vscode/
 
+# Credentials stay outside version control
+.env
+.env.*
+!.env.example
+secrets/
+auth_token
+*tabpfn*token*
+*.key
+*.p12
+*.pfx
+*.pem
+
+# Local release attestations and security reports
+.audit/
+
 # Local source data and execution output
 heart_disease_uci.csv
 *.log
 *.zip
 notebooks/
+
+# The official UCI source archive is deliberately retained as raw evidence.
+!data/raw/**/*.zip
+
+# Research outputs: lightweight evidence is tracked; large caches/checkpoints are local.
+artifacts/cache/
+artifacts/checkpoints/
+artifacts/tmp/
+*.ckpt
+*.pt
+*.pth
+wandb/
+mlruns/
 
 # The deployment bundle is generated locally
 deployment_bundle/*.joblib

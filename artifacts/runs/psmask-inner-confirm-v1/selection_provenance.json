@@ -1,0 +1,20 @@
+{
+  "mode": "source_only_fixed_candidate_confirmation",
+  "sources": [
+    {
+      "path": "artifacts\\runs\\psmask-inner-v1\\selected_configurations.csv",
+      "selection_source": "default",
+      "sha256": "858D815B6ADD2F53AF453FE79089611ABD754530D8B1D1B645487066C38E2EAF"
+    },
+    {
+      "path": "artifacts\\runs\\psmask-factorial-inner-v1\\selected_configurations.csv",
+      "selection_source": "v5_site_only_dro",
+      "sha256": "34D68C369670D1CCA643762FAEAD41C69D7F1551196072B64E0E6A96662332A4"
+    },
+    {
+      "path": "artifacts\\runs\\psmask-factorial-inner-v1\\selected_configurations.csv",
+      "selection_source": "v5_mask_only_dro",
+      "sha256": "34D68C369670D1CCA643762FAEAD41C69D7F1551196072B64E0E6A96662332A4"
+    }
+  ]
+}

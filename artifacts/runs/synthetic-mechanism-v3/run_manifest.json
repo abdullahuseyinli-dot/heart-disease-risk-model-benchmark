@@ -1,0 +1,39 @@
+{
+  "argv": [
+    "C:\\Users\\DELL\\Desktop\\Thesis\\heart-disease-risk-model-benchmark\\src\\heartshift\\cli\\synthetic.py",
+    "--repo-root",
+    ".",
+    "--config",
+    "configs\\synthetic\\mechanism_v3.yaml",
+    "--run-name",
+    "synthetic-mechanism-v3"
+  ],
+  "canonical_data_sha256": null,
+  "config_sha256": "7e0f282cddec486c3d1b5eebed251b6c5a63f7030f4660f4a0ecdc575e30c247",
+  "created_utc": "2026-08-24T03:29:49.707024+00:00",
+  "cuda_available": true,
+  "cuda_version": "13.0",
+  "git_commit": "4ce3223a4a055e460869c1f61b04acca9d543c48",
+  "git_status_porcelain": "",
+  "gpu": "NVIDIA RTX PRO 3000 Blackwell Generation Laptop GPU",
+  "packages": {
+    "catboost": "1.2.10",
+    "interpret": "0.7.8",
+    "lightgbm": "4.7.0",
+    "numpy": "2.4.6",
+    "pandas": "3.0.5",
+    "pyarrow": "25.0.1",
+    "pytabkit": "1.7.3",
+    "scikit-learn": "1.9.0",
+    "scipy": "1.17.1",
+    "tabicl": "2.1.1",
+    "tabm": "0.0.3",
+    "tabpfn": "8.4.0",
+    "torch": "2.13.0+cu130",
+    "xgboost": "3.2.0"
+  },
+  "phase": "synthetic_mechanism_validation",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "python": "3.11.9 (main, Aug 14 2024, 04:18:20) [MSC v.1929 64 bit (AMD64)]",
+  "torch": "2.13.0+cu130"
+}

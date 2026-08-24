@@ -1,0 +1,4 @@
+stage,outer_target,inner_validation,experiment,variant,training_seed,fit_seed,epoch,objective,mean_group_risk,robust_group_risk,mean_group_brier
+outer_final,va_long_beach,,v4_structured_policy_bank,v4,5062,3883946025,5.0,0.5734098553657532,0.5734098553657532,0.6385395526885986,0.19325463473796844
+outer_final,va_long_beach,,v4_structured_policy_bank,v4,5063,1700676163,5.0,0.5429975986480713,0.5429975986480713,0.6310007572174072,0.1799873560667038
+outer_final,va_long_beach,,v4_structured_policy_bank,v4,5064,1883223598,5.0,0.523456871509552,0.523456871509552,0.6012926697731018,0.17258907854557037

@@ -1,0 +1,47 @@
+{
+  "created_utc": "2026-08-24T16:05:46.946998+00:00",
+  "files": [
+    {
+      "bytes": 3362,
+      "path": "artifacts/runs/heart-controls-development-v2-aligned/run_manifest.json",
+      "sha256": "899D77C6734182685659D37BC6C5214678E1AC2E6F7CAAF4E734F1922FB56207"
+    },
+    {
+      "bytes": 2669,
+      "path": "artifacts/runs/heart-controls-development-v2-aligned/config.resolved.json",
+      "sha256": "67921D3967FE35935FDB8E3C6C20DE3E76ED0E8C1FD4F18DCAC614329D0190C7"
+    },
+    {
+      "bytes": 1581,
+      "path": "configs/research/heart_controls_v1.yaml",
+      "sha256": "925BF120C3A374BF747E95B7CB507DECDFC08563A6779A72634F057AA1E50B77"
+    },
+    {
+      "bytes": 17775,
+      "path": "src/heartshift/evaluation/research_controls.py",
+      "sha256": "1EF0A2F83D8CCB1603A9903499678352DEBBA768B97AB5DA992AEF4B6646B703"
+    },
+    {
+      "bytes": 1284,
+      "path": "src/heartshift/cli/research_controls.py",
+      "sha256": "B462EE38F505DC6DBDCB2D711DADF6685762B104DAA2A643A56A757D83973A40"
+    },
+    {
+      "bytes": 24628,
+      "path": "src/heartshift/evaluation/classical_benchmark.py",
+      "sha256": "56CD5163FA9C51EBCB38CF081913083725B59DB34C281C83CE829B59E09CF87C"
+    },
+    {
+      "bytes": 8302,
+      "path": "src/heartshift/masks.py",
+      "sha256": "2BC1A2D7682B1BDA4E154C52AC4BD10328A38175F6C5F11012044A6EBF681FFE"
+    },
+    {
+      "bytes": 4399,
+      "path": "src/heartshift/metrics.py",
+      "sha256": "AE267F0923EA820C0A8829E6AE66812B0D059059C5C5092FBC6CB00CFD1BD532"
+    }
+  ],
+  "limitation": "This snapshot records post-run bytes and does not retroactively turn a dirty working tree into a committed pre-run state.",
+  "status": "post_run_exact_source_snapshot"
+}

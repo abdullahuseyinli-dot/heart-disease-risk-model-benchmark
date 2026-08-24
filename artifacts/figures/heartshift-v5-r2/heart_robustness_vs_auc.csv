@@ -1,0 +1,46 @@
+method,macro_site_worst_mask_balanced_log_loss,macro_natural_roc_auc,method_label,highlight
+psmask:v2_prior_separated,0.6025088335421755,0.8183222613744907,V2 prior-separated,True
+psmask:v3_mcar_augmentation,0.6159557678546476,0.803982814141414,V3 MCAR augmentation,False
+psmask:v5_site_mask_dro_brier,0.6164417529017989,0.8120545766088467,V5 joint DRO + Brier,False
+psmask:v4_structured_policy_bank,0.6180713536874614,0.8064506454991865,V4 structured policies,False
+psmask:v5_site_mask_dro,0.624153283791868,0.8019242546835434,V5 joint DRO,False
+psmask:v5_mask_only_dro,0.6259485409171809,0.8014861030595164,V5 mask-axis DRO,True
+psmask:v7_ane,0.6261495073598315,0.8048828803801307,V7 ANE,False
+classical:random_forest:site_class_balanced,0.6270313025175467,0.8046285995304854,Random forest,True
+classical:logistic:site_class_balanced,0.6345911813700964,0.798880674017341,Logistic reference,True
+classical:logistic:site_class_balanced:source_oof_platt,0.6384899956902537,0.798880674017341,Logistic reference + source-OOF Platt,False
+classical:random_forest:site_class_balanced:source_oof_platt,0.6390991033491517,0.804672465432439,Random forest + source-OOF Platt,False
+psmask:v5_site_only_dro,0.6405003449640447,0.8064839873055836,V5 site-axis DRO,False
+classical:xgboost:site_class_balanced:source_oof_platt,0.6458281629296496,0.7943774513429247,xgboost:site_class_balanced + source-OOF Platt,False
+psmask:v0_pooled_erm,0.6477786383237008,0.8286153359350468,V0 pooled ERM,True
+classical:hist_gradient_boosting:site_class_balanced:source_oof_platt,0.6571831703019989,0.7891140979403816,hist_gradient_boosting:site_class_balanced + source-OOF Platt,False
+classical:logistic:pooled:source_oof_platt,0.6618722304090776,0.8136760730750848,logistic:pooled + source-OOF Platt,False
+classical:lightgbm:site_class_balanced:source_oof_platt,0.6655986049178377,0.7840989785758958,lightgbm:site_class_balanced + source-OOF Platt,False
+classical:xgboost:site_class_balanced,0.6697173061226461,0.7944370205032547,xgboost:site_class_balanced,False
+classical:catboost:site_class_balanced:source_oof_platt,0.6761499761727642,0.7970780290106465,catboost:site_class_balanced + source-OOF Platt,False
+modern_2026:ft_transformer:pooled:source_oof_platt,0.6791201065073693,0.8054131102125524,ft_transformer:pooled + source-OOF Platt,False
+psmask:v1_site_balanced,0.6807228543773371,0.8036110277338113,psmask:v1_site_balanced,False
+classical:core_logistic:pooled:source_oof_platt,0.6813208362571173,0.7815524656148031,core_logistic:pooled + source-OOF Platt,False
+mirrams:mirrams_equation9,0.6866180276640077,0.7938519911644666,MIRRAMS Eq. 9,True
+classical:elastic_net_logistic:site_class_balanced:source_oof_platt,0.6910735674418822,0.5414718773620155,elastic_net_logistic:site_class_balanced + source-OOF Platt,False
+tabpfn_v3:tabpfn:pooled:source_oof_platt,0.701261317473264,0.8103043813215646,TabPFN v3 + source-OOF Platt,False
+classical:catboost:site_class_balanced,0.7058646708357421,0.797095227704326,catboost:site_class_balanced,False
+classical:mask_logistic:pooled:source_oof_platt,0.7083343477161648,0.5277287155936928,mask_logistic:pooled + source-OOF Platt,False
+modern_2026:tabicl:pooled:source_oof_platt,0.7133845532360168,0.807209645904833,TabICL + source-OOF Platt,False
+modern_2026:tabm:pooled:source_oof_platt,0.7135848657807083,0.8046839922828914,tabm:pooled + source-OOF Platt,False
+classical:lightgbm:site_class_balanced,0.7349720997684674,0.7841209122484699,lightgbm:site_class_balanced,False
+classical:hist_gradient_boosting:site_class_balanced,0.7371838867313324,0.7891140979403816,hist_gradient_boosting:site_class_balanced,False
+modern_v2:tabpfn:pooled:source_oof_platt,0.7393703180507107,0.8065900464138757,TabPFN v2 + source-OOF Platt,False
+modern_v2:ebm:site_class_balanced:source_oof_platt,0.7420822433616306,0.7963341823807286,modern_v2:ebm:site_class_balanced + source-OOF Platt,False
+classical:logistic:pooled,0.7453828161352893,0.8136760730750848,logistic:pooled,False
+classical:core_logistic:pooled,0.7465815831616771,0.7815524656148031,core_logistic:pooled,False
+modern_2026:realmlp:pooled:source_oof_platt,0.7781717820601587,0.7971920848971654,realmlp:pooled + source-OOF Platt,False
+modern_v2:ebm:site_class_balanced,0.8106796612994194,0.7961508242550337,modern_v2:ebm:site_class_balanced,False
+modern_2026:ft_transformer:pooled,0.8262051665420137,0.8055044792015087,ft_transformer:pooled,False
+tabpfn_v3:tabpfn:pooled,0.8279977063995643,0.8103482457803236,TabPFN v3,True
+modern_2026:tabicl:pooled,0.8408486072221432,0.8072519334804884,TabICL,False
+modern_v2:tabpfn:pooled,0.8948704081642704,0.8066417210563251,TabPFN v2,False
+classical:elastic_net_logistic:site_class_balanced,0.9244704012799048,0.539398522650598,elastic_net_logistic:site_class_balanced,False
+modern_2026:realmlp:pooled,0.977519997867885,0.8003898086784678,realmlp:pooled,False
+classical:mask_logistic:pooled,1.0382589501885302,0.5277287155936928,mask_logistic:pooled,False
+modern_2026:tabm:pooled,1.0426118691726072,0.808854854498511,tabm:pooled,False

@@ -1,0 +1,4 @@
+stage,outer_target,inner_validation,experiment,variant,training_seed,fit_seed,epoch,objective,mean_group_risk,robust_group_risk,mean_group_brier
+outer_final,cleveland,,v2_deepsets_smoke,v2,5062,3655982102,1.0,0.6966374516487122,0.6966374516487122,0.6997034549713135,0.2517395317554474
+outer_final,cleveland,,v2_deepsets_smoke,v2,5062,3655982102,2.0,0.6931775212287903,0.6931775212287903,0.6951723098754883,0.25002214312553406
+outer_final,cleveland,,v2_deepsets_smoke,v2,5062,3655982102,3.0,0.6903104782104492,0.6903104782104492,0.692852258682251,0.24859364330768585

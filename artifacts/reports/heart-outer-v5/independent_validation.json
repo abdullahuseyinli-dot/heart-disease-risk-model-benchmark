@@ -1,0 +1,21 @@
+{
+  "adaptation_max_abs_difference": 0.0,
+  "adaptation_rows": 0,
+  "bootstrap_interval_max_abs_difference": 0.0,
+  "bootstrap_interval_rows": 16,
+  "bootstrap_repetitions": 2000,
+  "bootstrap_replicate_max_abs_difference": 0.0,
+  "bootstrap_rows": 32000,
+  "bootstrap_unit": "patient_within_observed_outer_hospital",
+  "comparison_count": 16,
+  "hospital_inference": "conditional_on_four_observed_hospitals",
+  "metric_max_abs_difference": 0.0,
+  "metric_rows": 9720,
+  "normalized_prediction_max_abs_difference": 0.0,
+  "prediction_rows": 2235600,
+  "primary_estimand_max_abs_difference": 0.0,
+  "primary_estimand_rows": 45,
+  "sex_subgroup_max_abs_difference": 0.0,
+  "sex_subgroup_rows": 360,
+  "status": "passed_independent_report_reconstruction"
+}

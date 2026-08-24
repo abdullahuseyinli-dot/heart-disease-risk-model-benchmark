@@ -1,0 +1,25 @@
+outer_target,inner_validation,control,parameter_id,parameters_json,seed,fit_seed,fit_seconds
+cleveland,hungary,logistic_natural,0,"{""C"": 1.0}",5062,1591205733,0.12095310000586323
+cleveland,switzerland,logistic_natural,0,"{""C"": 1.0}",5062,3436980211,0.07688550002058037
+cleveland,va_long_beach,logistic_natural,0,"{""C"": 1.0}",5062,4051097687,0.044358399987686425
+cleveland,hungary,logistic_structured,0,"{""C"": 1.0}",5062,4066677351,0.31483219997608103
+cleveland,switzerland,logistic_structured,0,"{""C"": 1.0}",5062,1243290464,0.30505169997923076
+cleveland,va_long_beach,logistic_structured,0,"{""C"": 1.0}",5062,2688929268,0.3095912999997381
+hungary,cleveland,logistic_natural,0,"{""C"": 1.0}",5062,1153554452,0.08466689998749644
+hungary,switzerland,logistic_natural,0,"{""C"": 1.0}",5062,1660853336,0.05106339999474585
+hungary,va_long_beach,logistic_natural,0,"{""C"": 1.0}",5062,708052362,0.06359330000123009
+hungary,cleveland,logistic_structured,0,"{""C"": 1.0}",5062,4220821765,0.23126639999100007
+hungary,switzerland,logistic_structured,0,"{""C"": 1.0}",5062,2952218948,0.11796750000212342
+hungary,va_long_beach,logistic_structured,0,"{""C"": 1.0}",5062,1712374773,0.096393599989824
+switzerland,cleveland,logistic_natural,0,"{""C"": 1.0}",5062,2169999982,0.05407440001727082
+switzerland,hungary,logistic_natural,0,"{""C"": 1.0}",5062,1923910007,0.07589219999499619
+switzerland,va_long_beach,logistic_natural,0,"{""C"": 1.0}",5062,3168217048,0.06554090001736768
+switzerland,cleveland,logistic_structured,0,"{""C"": 1.0}",5062,347596619,0.26763479999499395
+switzerland,hungary,logistic_structured,0,"{""C"": 1.0}",5062,3266459371,0.12370789999840781
+switzerland,va_long_beach,logistic_structured,0,"{""C"": 1.0}",5062,203658556,0.11987940000835806
+va_long_beach,cleveland,logistic_natural,0,"{""C"": 1.0}",5062,2695834594,0.06785680001485161
+va_long_beach,hungary,logistic_natural,0,"{""C"": 1.0}",5062,1542804197,0.06410469999536872
+va_long_beach,switzerland,logistic_natural,0,"{""C"": 1.0}",5062,2578830619,0.051773800019873306
+va_long_beach,cleveland,logistic_structured,0,"{""C"": 1.0}",5062,2424097985,0.309439000004204
+va_long_beach,hungary,logistic_structured,0,"{""C"": 1.0}",5062,2757696441,0.10932869999669492
+va_long_beach,switzerland,logistic_structured,0,"{""C"": 1.0}",5062,3217512073,0.12676189999911003

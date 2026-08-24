@@ -1,0 +1,62 @@
+{
+  "created_utc": "2026-08-24T18:08:37.533152+00:00",
+  "files": [
+    {
+      "bytes": 7194,
+      "path": "artifacts/runs/support-router-outer-development-v1/run_manifest.json",
+      "sha256": "B5BC22F687D4C758354DC8317F780DAF582B24BA44501152FE68B42F367BBA4D"
+    },
+    {
+      "bytes": 2333,
+      "path": "artifacts/runs/support-router-outer-development-v1/config.resolved.json",
+      "sha256": "85219FD6EC902AF0DFAD0CE3D151290802AFA426C1BD54CB60D5922AE79B40AB"
+    },
+    {
+      "bytes": 1768,
+      "path": "configs/research/support_router_outer_v3.yaml",
+      "sha256": "7FEFBB6A7318A11AF8BEF7B56599AF874D6C96BC0FC4C826637829DDA8E02380"
+    },
+    {
+      "bytes": 41757,
+      "path": "src/heartshift/research/router_outer_experiment.py",
+      "sha256": "B9C79B59D7D731DEE826BC3542AD8051F98BB62A84D28DE0954F7DB76CC2B2C2"
+    },
+    {
+      "bytes": 1502,
+      "path": "src/heartshift/cli/router_outer_experiment.py",
+      "sha256": "EB4E8A64B02A1BDB1AD7808CD4DD19CC91D4711C21464C3212AE844DE8DDE0C4"
+    },
+    {
+      "bytes": 26313,
+      "path": "src/heartshift/research/router_experiment.py",
+      "sha256": "D7218AF1F7CDF2E58260BC914BA374808967CD9B6492D26115B5CCA26C78C7F8"
+    },
+    {
+      "bytes": 18527,
+      "path": "src/heartshift/models/support_shrinkage.py",
+      "sha256": "5F5FFE823F81EA23FCDF61D5E15AC5A870EA6531E01F013BB44B034A40AE4FA6"
+    },
+    {
+      "bytes": 10128,
+      "path": "src/heartshift/reporting/hierarchical.py",
+      "sha256": "16BD35A9370F23F8AB8EA402EDF144AD865324CD1373E1710BED199CF8D59A39"
+    },
+    {
+      "bytes": 27779,
+      "path": "src/heartshift/reporting/outer_report.py",
+      "sha256": "AC9E18622E1BB35B9E5B695989CA8F0BD861E2439ECDA027008A96345DA90D41"
+    },
+    {
+      "bytes": 8302,
+      "path": "src/heartshift/masks.py",
+      "sha256": "2BC1A2D7682B1BDA4E154C52AC4BD10328A38175F6C5F11012044A6EBF681FFE"
+    },
+    {
+      "bytes": 4399,
+      "path": "src/heartshift/metrics.py",
+      "sha256": "AE267F0923EA820C0A8829E6AE66812B0D059059C5C5092FBC6CB00CFD1BD532"
+    }
+  ],
+  "limitation": "This snapshot records post-run bytes and does not retroactively turn a dirty working tree into a committed pre-run state.",
+  "status": "post_run_exact_source_snapshot"
+}

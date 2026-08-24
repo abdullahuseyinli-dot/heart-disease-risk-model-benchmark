@@ -1,0 +1,64 @@
+protocol_version: shiftguard-method-registry-v1
+generated_date: 2026-08-24
+claim_status: development_inventory_not_a_result
+implemented_and_tested:
+  - balanced_logistic
+  - random_forest
+  - histogram_gradient_boosting
+  - catboost
+  - lightgbm
+  - xgboost
+  - ebm
+  - tabm
+  - realmlp
+  - ft_transformer
+  - tabpfn_v2_v3
+  - tabicl_v2
+  - mirrams_equation9
+  - prior_separated_observed_set
+  - structured_policy_dro
+  - attention_observed_set
+  - deepsets_observed_set
+  - structured_mask_augmented_classical
+  - support_aware_router
+  - support_aware_router_support_only
+  - support_aware_router_expert_logit_context
+  - support_aware_router_anchor_relative_context
+  - source_selected_convex_logit_stacking
+  - random_fourier_label_shift_diagnostic
+  - polynomial_moment_label_shift_diagnostic
+  - covariance_regularized_rff_label_shift_diagnostic
+  - quantile_copula_label_shift_diagnostic
+  - source_calibrated_global_compatibility_guard
+  - set_valued_shiftguard
+  - bbse
+  - mlls
+implemented_but_requires_authorized_external_data:
+  - hospital_patient_hierarchical_bootstrap
+  - refit_seed_uncertainty_layer
+  - locked_hospital_confirmation
+named_omissions:
+  - method: neumiss_neumise
+    status: not_installed_no_frozen_faithful_implementation
+    action_before_submission: reproduce_from_author_release_then_add_equal_budget_config
+  - method: missingness_avoiding_trees
+    status: no_vetted_implementation_selected
+    action_before_submission: pin_author_code_or_report_omission
+  - method: groupdro_rex_coral_irm
+    status: external_multi_hospital_comparison_pending
+    action_before_submission: implement_only_after_credentialed_hospital_split_exists
+  - method: caustab
+    status: package_not_installed_and_author_release_not_pinned
+    action_before_submission: pin_release_and_license_or_report_omission
+  - method: distpfn
+    status: package_not_installed_and_release_not_pinned
+    action_before_submission: pin_release_and_license_or_report_omission
+  - method: conformal_missingness_conditional
+    status: future_external_comparator_pending
+    action_before_submission: implement on architecture_selection_hospitals_only
+prohibited_shortcuts:
+  - do_not_substitute_generic_mlp_and_label_it_neumiss
+  - do_not_claim_unavailable_comparators_were_beaten
+  - do_not_tune_omissions_using_locked_confirmation_outcomes
+  - do_not_call_cross_fitted_source_stacking_a_fully_nested_meta_evaluation
+  - do_not_call_consumed_uci_outer_results_new_confirmation

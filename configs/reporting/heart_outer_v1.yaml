@@ -1,0 +1,33 @@
+protocol_version: heart-outer-report-v1
+canonical_data_path: data/processed/uci_heart_canonical_v1.parquet
+prediction_runs:
+  - namespace: classical
+    kind: classical
+    path: artifacts/runs/classical-outer-v1/outer_predictions.parquet
+  - namespace: modern_v2
+    kind: classical
+    path: artifacts/runs/modern-v2-outer-v1/outer_predictions.parquet
+  - namespace: modern_2026
+    kind: classical
+    path: artifacts/runs/modern-2026-outer-v1/outer_predictions.parquet
+  - namespace: tabpfn_v3
+    kind: classical
+    path: artifacts/runs/tabpfn-v3-outer-v1/outer_predictions.parquet
+  - namespace: mirrams
+    kind: neural
+    path: artifacts/runs/mirrams-outer-v1/outer_predictions.parquet
+  - namespace: psmask
+    kind: neural
+    path: artifacts/runs/psmask-outer-v1/outer_predictions.parquet
+bootstrap:
+  reference_method: classical:logistic:site_class_balanced
+  comparison_methods:
+    - psmask:v2_prior_separated
+    - psmask:v5_site_only_dro
+    - psmask:v5_mask_only_dro
+    - psmask:v5_site_mask_dro
+    - psmask:v5_site_mask_dro_brier
+    - psmask:v7_ane
+    - mirrams:mirrams_equation9
+  repetitions: 2000
+  seed: 85062

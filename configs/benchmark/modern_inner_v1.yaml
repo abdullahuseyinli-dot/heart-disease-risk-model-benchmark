@@ -1,0 +1,22 @@
+protocol_version: modern-inner-v1
+seed: 5062
+data:
+  canonical_path: data/processed/uci_heart_canonical_v1.parquet
+  outer_manifest: data/splits/uci_heart_outer_loho_v1.parquet
+  inner_manifest: data/splits/uci_heart_inner_loho_v1.parquet
+selection:
+  metric: 0.5_mean_plus_0.5_worst_balanced_log_loss
+models:
+  - name: ebm
+    weighting: site_class_balanced
+    grid:
+      interactions: [0, 3]
+      max_bins: [64, 256]
+      max_rounds: [5000]
+      outer_bags: [8]
+  - name: tabpfn
+    weighting: pooled
+    grid:
+      device: [cuda]
+      n_estimators: [4, 8]
+      version: [v2]

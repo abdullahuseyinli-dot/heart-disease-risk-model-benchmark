@@ -1,0 +1,24 @@
+schema_version: uci-heart-canonical-v1
+doi: 10.24432/C52P4X
+archive_sha256: B17CD273DA9CE1CAA4710FCE80227EA454D4DBF9FCBC8E6A9121672751563ADC
+canonical_path: data/processed/uci_heart_canonical_v1.parquet
+outer_manifest: data/splits/uci_heart_outer_loho_v1.parquet
+inner_manifest: data/splits/uci_heart_inner_loho_v1.parquet
+endpoint:
+  source: target_ordinal
+  rule: target_ordinal > 0
+  interpretation: angiographically_defined_disease_status
+sites:
+  - cleveland
+  - hungary
+  - switzerland
+  - va_long_beach
+zero_sentinel_to_missing:
+  - trestbps
+  - chol
+  - thalach
+feature_panels:
+  core: [age, sex, cp]
+  routine: [trestbps, chol, fbs, restecg]
+  exercise: [thalach, exang, oldpeak, slope]
+  advanced: [ca, thal]

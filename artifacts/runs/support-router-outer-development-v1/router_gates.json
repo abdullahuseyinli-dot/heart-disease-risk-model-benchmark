@@ -1,0 +1,96 @@
+{
+  "checks": {
+    "descriptive_natural_auroc_noninferiority": {
+      "margin": 0.01,
+      "passed": true,
+      "reference": 0.8225162891261659,
+      "router": 0.8205625275344858,
+      "strongest_method": "equal_logit_blend"
+    },
+    "descriptive_robust_improvement_over_strongest_fixed": {
+      "passed": false,
+      "reference": 0.6159846064624476,
+      "router": 0.6190805441127617,
+      "strongest_method": "equal_logit_blend"
+    },
+    "router_not_collapsed": {
+      "mean_maximum_ensemble_weight": 0.5114656686782837,
+      "passed": true,
+      "threshold": 0.95
+    }
+  },
+  "new_confirmatory_claim_allowed": false,
+  "primary_estimands": [
+    {
+      "macro_mcar50_minus_natural_balanced_log_loss": 0.06256192795651867,
+      "macro_mcar_balanced_log_loss_auc": 0.5810828975279945,
+      "macro_natural_roc_auc": 0.8225162891261659,
+      "macro_site_worst_mask_aurc": 0.20931245090096956,
+      "macro_site_worst_mask_balanced_brier": 0.21265891120196873,
+      "macro_site_worst_mask_balanced_log_loss": 0.6159846064624476,
+      "method": "equal_logit_blend",
+      "worst_site_mask_balanced_log_loss": 0.6787035072556636
+    },
+    {
+      "macro_mcar50_minus_natural_balanced_log_loss": 0.06180209750717376,
+      "macro_mcar_balanced_log_loss_auc": 0.5818324161234121,
+      "macro_natural_roc_auc": 0.8205625275344858,
+      "macro_site_worst_mask_aurc": 0.21076161296937057,
+      "macro_site_worst_mask_balanced_brier": 0.21413754773708066,
+      "macro_site_worst_mask_balanced_log_loss": 0.6190805441127617,
+      "method": "support_aware_router",
+      "worst_site_mask_balanced_log_loss": 0.6837756917599617
+    },
+    {
+      "macro_mcar50_minus_natural_balanced_log_loss": 0.062023880224438305,
+      "macro_mcar_balanced_log_loss_auc": 0.5857379038371748,
+      "macro_natural_roc_auc": 0.8177785031531255,
+      "macro_site_worst_mask_aurc": 0.20590946754098785,
+      "macro_site_worst_mask_balanced_brier": 0.21428796896382798,
+      "macro_site_worst_mask_balanced_log_loss": 0.6207271817896742,
+      "method": "selected_convex_blend",
+      "worst_site_mask_balanced_log_loss": 0.7012673423957944
+    },
+    {
+      "macro_mcar50_minus_natural_balanced_log_loss": 0.07008835415420372,
+      "macro_mcar_balanced_log_loss_auc": 0.5839672971737656,
+      "macro_natural_roc_auc": 0.8202217526033472,
+      "macro_site_worst_mask_aurc": 0.21827458134441372,
+      "macro_site_worst_mask_balanced_brier": 0.2159382565179819,
+      "macro_site_worst_mask_balanced_log_loss": 0.62508991976099,
+      "method": "selected_best_expert",
+      "worst_site_mask_balanced_log_loss": 0.7001608451173696
+    },
+    {
+      "macro_mcar50_minus_natural_balanced_log_loss": 0.061465835831353496,
+      "macro_mcar_balanced_log_loss_auc": 0.5956701642723613,
+      "macro_natural_roc_auc": 0.800818134172624,
+      "macro_site_worst_mask_aurc": 0.25007817988839176,
+      "macro_site_worst_mask_balanced_brier": 0.2180994838463437,
+      "macro_site_worst_mask_balanced_log_loss": 0.6256365636930533,
+      "method": "expert:stable_anchor",
+      "worst_site_mask_balanced_log_loss": 0.6650653908660639
+    },
+    {
+      "macro_mcar50_minus_natural_balanced_log_loss": 0.0719100875943214,
+      "macro_mcar_balanced_log_loss_auc": 0.5845574987546944,
+      "macro_natural_roc_auc": 0.8193985912472292,
+      "macro_site_worst_mask_aurc": 0.24634311122284316,
+      "macro_site_worst_mask_balanced_brier": 0.21652083135656128,
+      "macro_site_worst_mask_balanced_log_loss": 0.6269368552631183,
+      "method": "expert:prior_separated",
+      "worst_site_mask_balanced_log_loss": 0.7001608451173696
+    },
+    {
+      "macro_mcar50_minus_natural_balanced_log_loss": 0.0704827479660608,
+      "macro_mcar_balanced_log_loss_auc": 0.5866647561073419,
+      "macro_natural_roc_auc": 0.819103184370685,
+      "macro_site_worst_mask_aurc": 0.21817680234771264,
+      "macro_site_worst_mask_balanced_brier": 0.21690678554728077,
+      "macro_site_worst_mask_balanced_log_loss": 0.6281907830890803,
+      "method": "expert:joint_policy_dro",
+      "worst_site_mask_balanced_log_loss": 0.7125642984297308
+    }
+  ],
+  "status": "failed_one_or_more_development_gates"
+}

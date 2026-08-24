@@ -1,0 +1,50 @@
+protocol_version: synthetic-mechanism-v3-post-v2-failure
+acceptance_gate_version: v3
+device: cuda
+scenarios: [label_only, mar_policy_shift, conditional_only, mnar_outcome_only]
+seeds: [6101, 6102, 6103]
+n_per_environment: 500
+prevalences: [0.20, 0.40, 0.60, 0.80]
+common_parameters:
+  d_model: 32
+  n_heads: 4
+  n_layers: 1
+  dropout: 0.1
+  learning_rate: 0.001
+  weight_decay: 0.001
+  max_epochs: 100
+  evaluation_interval: 5
+  patience_evaluations: 8
+  validation_mask_replicates: 2
+  dro_tau: 0.2
+  dro_lambda: 0.5
+  brier_beta: 0.0
+experiments:
+  - name: prior_separated
+    variant: v2
+  - name: structured_policy_bank
+    variant: v4
+  - name: mask_only_dro
+    variant: v5_mask
+diagnostic:
+  mode: composite_multiview_v3
+  prior_grid: [0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95]
+  bootstrap_repetitions: 199
+  rff_features_per_view: 128
+  alpha: 0.05
+  maximum_nearest_hamming_fraction: 0.25
+acceptance_gates:
+  # These thresholds were registered after diagnosing the immutable v2 failure
+  # and before running any protocol-v3 neural cell.
+  required_experiments: [prior_separated, structured_policy_bank, mask_only_dro]
+  adaptation_experiments: [prior_separated, mask_only_dro]
+  required_seeds_per_cell: 3
+  label_only_minimum_diagnostic_acceptance_rate: 0.6666666666666666
+  label_only_maximum_mean_mlls_prevalence_absolute_error: 0.12
+  label_only_maximum_mean_adapted_minus_equal_log_loss: 0.0
+  mar_robust_experiment: mask_only_dro
+  mar_reference_experiment: structured_policy_bank
+  mar_policy_maximum_robust_minus_reference_balanced_log_loss: 0.02
+  mar_policy_shift_maximum_diagnostic_acceptance_rate: 0.50
+  conditional_only_maximum_diagnostic_acceptance_rate: 0.50
+  mnar_outcome_only_maximum_diagnostic_acceptance_rate: 0.50

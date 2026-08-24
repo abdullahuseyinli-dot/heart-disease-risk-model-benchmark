@@ -1,0 +1,38 @@
+protocol_version: heartshift-freeze-v1
+legacy_tag: legacy-v1-development-consumed
+require_clean_git: true
+source_runs:
+  classical: artifacts/runs/classical-inner-confirm-v1
+  modern_v2: artifacts/runs/modern-inner-confirm-v1
+  modern_2026: artifacts/runs/modern-2026-inner-v1
+  tabpfn_v3: artifacts/runs/tabpfn-v3-inner-confirm-v1
+  psmask: artifacts/runs/psmask-inner-confirm-v1
+  mirrams: artifacts/runs/mirrams-inner-confirm-v1
+  readmission: artifacts/runs/readmission-inner-v1
+synthetic_run: artifacts/runs/synthetic-mechanism-v1
+psmask_acceptance_gates:
+  required_experiments:
+    - v0_pooled_erm
+    - v2_prior_separated
+    - v4_structured_policy_bank
+    - v5_site_only_dro
+    - v5_mask_only_dro
+    - v5_site_mask_dro_brier
+    - v7_ane
+  minimum_confirmation_seeds: 3
+  minimum_prior_separation_improvement: 0.01
+  maximum_dro_macro_noninferiority_margin: 0.01
+  minimum_dro_worst_cell_improvement: 0.0
+  maximum_joint_axis_macro_noninferiority_margin: 0.01
+  minimum_joint_axis_worst_cell_improvement: 0.0
+  maximum_ane_natural_auroc_loss: 0.01
+outer_configs:
+  - configs/benchmark/classical_outer_v1.yaml
+  - configs/benchmark/modern_outer_v1.yaml
+  - configs/benchmark/modern_2026_outer_v1.yaml
+  - configs/benchmark/tabpfn_v3_outer_v1.yaml
+  - configs/benchmark/psmask_outer_v1.yaml
+  - configs/benchmark/mirrams_outer_v1.yaml
+  - configs/synthetic/mechanism_v1.yaml
+  - configs/independent/readmission_inner_v1.yaml
+  - configs/independent/readmission_outer_v1.yaml

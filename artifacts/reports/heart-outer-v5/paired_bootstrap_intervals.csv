@@ -1,0 +1,17 @@
+method,reference_method,mean_difference,ci_025,ci_975,probability_better
+psmask:v2_prior_separated,classical:logistic:site_class_balanced,-0.04037790045816706,-0.061660679090996096,-0.019375387685476236,1.0
+psmask:v5_site_mask_dro_brier,classical:logistic:site_class_balanced,-0.025632833410033844,-0.054501410384470185,0.0009462517886340683,0.9685
+psmask:v4_structured_policy_bank,classical:logistic:site_class_balanced,-0.024839550257346826,-0.04903106390084548,-0.0006971436907375369,0.979
+psmask:v5_site_mask_dro,classical:logistic:site_class_balanced,-0.015510966896500574,-0.04437426905877934,0.016671909554130164,0.8545
+psmask:v5_mask_only_dro,classical:logistic:site_class_balanced,-0.014664055522639781,-0.04685820183235287,0.020709106292266518,0.8065
+classical:random_forest:site_class_balanced,classical:logistic:site_class_balanced,-0.01382376321348581,-0.04089727773713766,0.004481507310460575,0.908
+psmask:v7_ane,classical:logistic:site_class_balanced,-0.011262868304320304,-0.03016963353209125,0.0026743841221074757,0.933
+psmask:v5_site_only_dro,classical:logistic:site_class_balanced,-0.001790175292235793,-0.03474548257449349,0.029373234805313474,0.5195
+classical:logistic:site_class_balanced:source_oof_platt,classical:logistic:site_class_balanced,0.0025933577475725743,-0.008087077045435436,0.013390694554896217,0.32
+mirrams:mirrams_equation9,classical:logistic:site_class_balanced,0.04830960710692112,0.008696082040701778,0.08584160706169251,0.009
+tabpfn_v3:tabpfn:pooled:source_oof_platt,classical:logistic:site_class_balanced,0.0641207807206877,0.037030057343830504,0.09720870320947586,0.0
+modern_2026:tabicl:pooled:source_oof_platt,classical:logistic:site_class_balanced,0.07837567901221894,0.04377368891764133,0.12057376615313996,0.0
+modern_v2:tabpfn:pooled:source_oof_platt,classical:logistic:site_class_balanced,0.10105539510838736,0.06809780054108933,0.1335151813934675,0.0
+tabpfn_v3:tabpfn:pooled,classical:logistic:site_class_balanced,0.19318791816702505,0.15221981203529533,0.24338824713002816,0.0
+modern_2026:tabicl:pooled,classical:logistic:site_class_balanced,0.2073633589308181,0.15795652523913722,0.2664216237913697,0.0
+modern_v2:tabpfn:pooled,classical:logistic:site_class_balanced,0.25704490104394034,0.21533534126123685,0.29979672078021585,0.0

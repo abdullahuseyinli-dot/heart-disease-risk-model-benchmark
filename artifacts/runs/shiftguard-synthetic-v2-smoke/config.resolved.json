@@ -1,0 +1,73 @@
+{
+  "acceptance": {
+    "maximum_invalid_harm_delta": 0.0,
+    "maximum_invalid_shift_false_acceptance": 0.05,
+    "maximum_uninformative_interval_fraction": 0.8,
+    "minimum_valid_shift_acceptance": 0.9
+  },
+  "alpha": 0.05,
+  "batch_sizes": [
+    32
+  ],
+  "calibration_repetitions_per_prior": 20,
+  "device": "cpu",
+  "episodes_per_cell": 2,
+  "intersection_name": "omnibus_intersection",
+  "intersection_views": [
+    "learned",
+    "moments",
+    "rff"
+  ],
+  "mechanisms": [
+    "pure_label_shift",
+    "conditional_scale",
+    "covariance_shear",
+    "unidentifiable_concept_reversal"
+  ],
+  "primary_representation": "omnibus_intersection",
+  "prior_grid": [
+    0.2,
+    0.5,
+    0.8
+  ],
+  "protocol_version": "shiftguard-synthetic-v2-code-smoke",
+  "representations": [
+    "raw_linear",
+    "rff",
+    "moments",
+    "learned",
+    "hybrid"
+  ],
+  "rff_components": 8,
+  "seeds": [
+    5062
+  ],
+  "shiftguard": {
+    "dropout": 0.0,
+    "embedding_dim": 4,
+    "episode_count": 6,
+    "hidden_dim": 16,
+    "invalid_margin": 0.05,
+    "learning_rate": 0.003,
+    "max_epochs": 10,
+    "patience": 4,
+    "target_size": 32,
+    "training_invalid_mechanisms": [
+      "conditional_translation",
+      "support_translation"
+    ],
+    "valid_fraction": 0.5,
+    "validation_invalid_mechanisms": [
+      "conditional_scale"
+    ],
+    "weight_decay": 0.001
+  },
+  "signal": [
+    1.2,
+    -1.0,
+    0.8,
+    0.4
+  ],
+  "source_rows": 400,
+  "status": "code_smoke_not_scientific_result"
+}

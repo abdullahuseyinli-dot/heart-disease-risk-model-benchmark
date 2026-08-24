@@ -1,0 +1,11 @@
+protocol_version: modern-v2-outer-v3-mechanism-gated
+freeze_lock: artifacts/locks/heartshift_candidate_v3.json
+locked_run_name: modern-v2-outer-v3
+seed: 5062
+seeds: [5062, 5063, 5064]
+evaluation_seed: 5062
+outer_mask_replicates: 10
+source_oof_platt_calibration: true
+data:
+  canonical_path: data/processed/uci_heart_canonical_v1.parquet
+  outer_manifest: data/splits/uci_heart_outer_loho_v1.parquet

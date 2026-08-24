@@ -1,0 +1,120 @@
+{
+  "canonical_sha256": "BE5A34195D605FB02047313DBF9ABF8B638DFFE55A03F74E5D05646149378D5F",
+  "exact_duplicate_clusters": {
+    "9575a476d3eecebfc10550f66c5a8356c1c3fcca9b8c46de9b747c44ed3c3e04": [
+      "uci:va_long_beach:0140:8875c3e65ff1",
+      "uci:va_long_beach:0188:8875c3e65ff1"
+    ],
+    "99ec298d3c1fe183b32dad573d1153f278733953107934b2de76e91f76a48a4a": [
+      "uci:hungary:0102:f418dea1c0e5",
+      "uci:hungary:0103:f418dea1c0e5"
+    ]
+  },
+  "n": 920,
+  "n_features": 13,
+  "schema_version": "uci-heart-canonical-v1",
+  "sites": {
+    "cleveland": {
+      "missing_fraction": {
+        "age": 0.0,
+        "ca": 0.013201320132013201,
+        "chol": 0.0,
+        "cp": 0.0,
+        "exang": 0.0,
+        "fbs": 0.0,
+        "oldpeak": 0.0,
+        "restecg": 0.0,
+        "sex": 0.0,
+        "slope": 0.0,
+        "thal": 0.006600660066006601,
+        "thalach": 0.0,
+        "trestbps": 0.0
+      },
+      "n": 303,
+      "positives": 139,
+      "prevalence": 0.45874587458745875,
+      "zero_sentinel_count": {
+        "chol": 0,
+        "thalach": 0,
+        "trestbps": 0
+      }
+    },
+    "hungary": {
+      "missing_fraction": {
+        "age": 0.0,
+        "ca": 0.9897959183673469,
+        "chol": 0.0782312925170068,
+        "cp": 0.0,
+        "exang": 0.003401360544217687,
+        "fbs": 0.027210884353741496,
+        "oldpeak": 0.0,
+        "restecg": 0.003401360544217687,
+        "sex": 0.0,
+        "slope": 0.6462585034013606,
+        "thal": 0.9047619047619048,
+        "thalach": 0.003401360544217687,
+        "trestbps": 0.003401360544217687
+      },
+      "n": 294,
+      "positives": 106,
+      "prevalence": 0.36054421768707484,
+      "zero_sentinel_count": {
+        "chol": 0,
+        "thalach": 0,
+        "trestbps": 0
+      }
+    },
+    "switzerland": {
+      "missing_fraction": {
+        "age": 0.0,
+        "ca": 0.959349593495935,
+        "chol": 1.0,
+        "cp": 0.0,
+        "exang": 0.008130081300813009,
+        "fbs": 0.6097560975609756,
+        "oldpeak": 0.04878048780487805,
+        "restecg": 0.008130081300813009,
+        "sex": 0.0,
+        "slope": 0.13821138211382114,
+        "thal": 0.42276422764227645,
+        "thalach": 0.008130081300813009,
+        "trestbps": 0.016260162601626018
+      },
+      "n": 123,
+      "positives": 115,
+      "prevalence": 0.9349593495934959,
+      "zero_sentinel_count": {
+        "chol": 123,
+        "thalach": 0,
+        "trestbps": 0
+      }
+    },
+    "va_long_beach": {
+      "missing_fraction": {
+        "age": 0.0,
+        "ca": 0.99,
+        "chol": 0.28,
+        "cp": 0.0,
+        "exang": 0.265,
+        "fbs": 0.035,
+        "oldpeak": 0.28,
+        "restecg": 0.0,
+        "sex": 0.0,
+        "slope": 0.51,
+        "thal": 0.83,
+        "thalach": 0.265,
+        "trestbps": 0.285
+      },
+      "n": 200,
+      "positives": 149,
+      "prevalence": 0.745,
+      "zero_sentinel_count": {
+        "chol": 49,
+        "thalach": 0,
+        "trestbps": 1
+      }
+    }
+  },
+  "target_definition": "target = 1[target_ordinal > 0]",
+  "uci_doi": "10.24432/C52P4X"
+}

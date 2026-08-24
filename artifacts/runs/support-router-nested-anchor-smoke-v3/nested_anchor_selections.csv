@@ -1,0 +1,13 @@
+outer_target,meta_training_site,meta_early_stop_site,meta_evaluation_site,control,parameter_id,parameters_json,early_stop_robust_score
+cleveland,va_long_beach,switzerland,hungary,logistic_structured,0,"{""C"": 1.0}",0.6483247795640761
+cleveland,hungary,va_long_beach,switzerland,logistic_structured,0,"{""C"": 1.0}",0.8067910533258178
+cleveland,switzerland,hungary,va_long_beach,logistic_structured,0,"{""C"": 1.0}",0.5318885885502017
+hungary,va_long_beach,switzerland,cleveland,logistic_structured,0,"{""C"": 1.0}",0.6817454680627126
+hungary,cleveland,va_long_beach,switzerland,logistic_structured,0,"{""C"": 1.0}",0.8776552701939351
+hungary,switzerland,cleveland,va_long_beach,logistic_natural,0,"{""C"": 1.0}",0.7652631171579123
+switzerland,va_long_beach,hungary,cleveland,logistic_structured,0,"{""C"": 1.0}",0.5043358441642545
+switzerland,cleveland,va_long_beach,hungary,logistic_structured,0,"{""C"": 1.0}",0.6897051930039206
+switzerland,hungary,cleveland,va_long_beach,logistic_structured,0,"{""C"": 1.0}",0.8972554662549644
+va_long_beach,switzerland,hungary,cleveland,logistic_structured,0,"{""C"": 1.0}",0.5179400114759328
+va_long_beach,cleveland,switzerland,hungary,logistic_structured,0,"{""C"": 1.0}",0.6395609832483146
+va_long_beach,hungary,cleveland,switzerland,logistic_structured,0,"{""C"": 1.0}",0.6772876619458994

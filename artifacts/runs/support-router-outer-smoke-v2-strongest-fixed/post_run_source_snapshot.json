@@ -1,0 +1,47 @@
+{
+  "created_utc": "2026-08-24T14:38:53.144088+00:00",
+  "files": [
+    {
+      "bytes": 6307,
+      "path": "artifacts/runs/support-router-outer-smoke-v2-strongest-fixed/run_manifest.json",
+      "sha256": "9A99EEA8A269FAABFD1CA874CBFB28010DF14657EF7470F5EDAA8D57EF2345A0"
+    },
+    {
+      "bytes": 1742,
+      "path": "artifacts/runs/support-router-outer-smoke-v2-strongest-fixed/config.resolved.json",
+      "sha256": "151B336AF15B7F22415CD46B20FFD97A2C50EE0C2F40A6E3E1ED993BD2086205"
+    },
+    {
+      "bytes": 1322,
+      "path": "configs/research/support_router_outer_smoke.yaml",
+      "sha256": "A3BA8892964F04ABC812F04AFF37248DC5D8988A54F8F90BB72B27CCBC4A624C"
+    },
+    {
+      "bytes": 40816,
+      "path": "src/heartshift/research/router_outer_experiment.py",
+      "sha256": "A2237A6A63876D41EC57859A18B65BEB709F1EE19642B1F3DA656CC0F725B85C"
+    },
+    {
+      "bytes": 26313,
+      "path": "src/heartshift/research/router_experiment.py",
+      "sha256": "D7218AF1F7CDF2E58260BC914BA374808967CD9B6492D26115B5CCA26C78C7F8"
+    },
+    {
+      "bytes": 18527,
+      "path": "src/heartshift/models/support_shrinkage.py",
+      "sha256": "5F5FFE823F81EA23FCDF61D5E15AC5A870EA6531E01F013BB44B034A40AE4FA6"
+    },
+    {
+      "bytes": 27779,
+      "path": "src/heartshift/reporting/outer_report.py",
+      "sha256": "AC9E18622E1BB35B9E5B695989CA8F0BD861E2439ECDA027008A96345DA90D41"
+    },
+    {
+      "bytes": 10128,
+      "path": "src/heartshift/reporting/hierarchical.py",
+      "sha256": "16BD35A9370F23F8AB8EA402EDF144AD865324CD1373E1710BED199CF8D59A39"
+    }
+  ],
+  "limitation": "This snapshot records post-run bytes and does not retroactively turn a dirty working tree into a committed pre-run state.",
+  "status": "post_run_exact_source_snapshot"
+}

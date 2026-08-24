@@ -1,0 +1,4 @@
+stage,outer_target,inner_validation,experiment,variant,training_seed,fit_seed,epoch,objective,mean_group_risk,robust_group_risk,mean_group_brier
+outer_final,hungary,,v4_structured_policy_bank,v4,5062,3293814123,5.0,0.5729846954345703,0.5729846954345703,0.7202435731887817,0.19403581321239471
+outer_final,hungary,,v4_structured_policy_bank,v4,5063,864106796,5.0,0.5545670390129089,0.5545670390129089,0.7257084250450134,0.18754449486732483
+outer_final,hungary,,v4_structured_policy_bank,v4,5064,2153475148,5.0,0.5829198956489563,0.5829198956489563,0.731124997138977,0.19873687624931335

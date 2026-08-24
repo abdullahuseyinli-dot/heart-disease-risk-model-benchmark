@@ -1,0 +1,5 @@
+method,seed,macro_site_worst_balanced_log_loss
+control:logistic_natural,5062,0.8085629759442552
+control:logistic_structured,5062,0.6654975883474079
+neural:v2_attention_smoke,5062,0.70717027036472
+neural:v2_deepsets_smoke,5062,0.6941496846407635

@@ -1,0 +1,5 @@
+outer_target,router_candidate,feature_mode,mean_balanced_validation_score,worst_balanced_validation_score,mean_best_epoch,parameter_count,selection_score
+cleveland,support_only,support_only,0.5897699633015471,0.6483731854499851,89.23333333333333,1827,0.6190715743757661
+hungary,support_only,support_only,0.6235462307815066,0.6680555393200169,143.63333333333333,1827,0.6458008850507617
+switzerland,anchor_relative_context,anchor_relative_context,0.5553974901482406,0.6424215735033085,1.0,1923,0.5989095318257746
+va_long_beach,anchor_relative_context,anchor_relative_context,0.5501143475832195,0.6051804947631627,54.36666666666667,1923,0.5776474211731911

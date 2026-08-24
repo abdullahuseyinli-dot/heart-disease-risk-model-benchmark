@@ -1,0 +1,16 @@
+{
+  "config_sha256": "de54e6722792c5ce86769c5012ea2a728ae834c2cdc6c321eb7083bbd5bcf2f8",
+  "individual_seed_predictions_retained": true,
+  "new_confirmatory_claim_allowed": false,
+  "sha256": {
+    "adaptation_diagnostics.csv": "29F32110C98BADD74A1367EB93223C2D0BC36989A91E14F3D0AB5C7816A770FF",
+    "adaptation_summary.csv": "29F32110C98BADD74A1367EB93223C2D0BC36989A91E14F3D0AB5C7816A770FF",
+    "fit_history.csv": "69CFB196C83B230C955961B11AC1221686BC9E96B61C5A7A0C8DB8E966734988",
+    "outer_metrics.csv": "E48348A6CA85FBE242198F5F92E40D537C5821AE496F60E40F3F960215428CC9",
+    "outer_predictions.parquet": "8219CDFBD4AE93ACE118BE82AFA6CD4015F604353DB69586553550E4CBDD7B42",
+    "outer_seed_predictions.parquet": "652E33C3AFE33726F3763B6D9A23D1C08787023886673248817F987CE7699495",
+    "source_calibration_predictions.parquet": "A7D8E152904A28AA0FAFEBBE1C944948F459298C364A319DBC3A417EC6B5A35E"
+  },
+  "status": "complete_consumed_uci_development_only",
+  "target_endpoint_loaded_after_all_endpoint_free_prediction_shards": true
+}

@@ -1,0 +1,13 @@
+{
+  "dataset_schema_version": "uci-heart-canonical-v1",
+  "inner_manifest": {
+    "path": "data/splits/uci_heart_inner_loho_v1.parquet",
+    "sha256": "71DE8776EAE00D6A3E0A4A41A2B80BBB2E21F0A17C5C385BC27A8F82641A97FA"
+  },
+  "outer_manifest": {
+    "path": "data/splits/uci_heart_outer_loho_v1.parquet",
+    "sha256": "FC11F5106917C9141B1A47B12E9C778F5167FB907A01E61C002C9ECF889C01BF"
+  },
+  "rule": "outer leave-one-hospital-out; inner leave-one-source-hospital-out",
+  "schema_version": "heartshift-split-manifest-v2"
+}

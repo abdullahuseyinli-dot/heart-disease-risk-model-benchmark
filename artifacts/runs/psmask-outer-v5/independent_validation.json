@@ -1,0 +1,48 @@
+{
+  "accepted_adaptation_cells": 0,
+  "adaptable_variants": [
+    "v2",
+    "v5_mask"
+  ],
+  "audit_kind": "heart_neural_outer",
+  "calibration_prediction_rows": 298080,
+  "canonical_label_max_abs_difference": 0.0,
+  "endpoint_loaded_only_for_post_run_validation": true,
+  "ensemble_max_abs_difference": 0.0,
+  "experiments": [
+    "v0_pooled_erm",
+    "v1_site_balanced",
+    "v2_prior_separated",
+    "v3_mcar_augmentation",
+    "v4_structured_policy_bank",
+    "v5_mask_only_dro",
+    "v5_site_mask_dro",
+    "v5_site_mask_dro_brier",
+    "v5_site_only_dro",
+    "v7_ane"
+  ],
+  "metric_max_abs_difference": 0.0,
+  "metric_rows": 2160,
+  "no_refit_finalization": false,
+  "outer_targets": [
+    "cleveland",
+    "hungary",
+    "switzerland",
+    "va_long_beach"
+  ],
+  "prediction_config_sha256": "be0549617bb8b478de0037a7d30026ad8a37acf124c4f7170c0029656ff8d54f",
+  "prediction_rows": 496800,
+  "run_dir": "artifacts/runs/psmask-outer-v5",
+  "run_git_commit": "15d9fee74f73d5fc65156603ec6baf331d94e139",
+  "sample_count": 920,
+  "seed_prediction_rows": 1490400,
+  "status": "passed_independent_reconstruction",
+  "target_absent_from_unlabelled_artifacts": true,
+  "training_seeds": [
+    5062,
+    5063,
+    5064
+  ],
+  "unlabelled_labelled_max_abs_difference": 0.0,
+  "unlabelled_seed_labelled_max_abs_difference": 0.0
+}

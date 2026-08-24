@@ -1,0 +1,5 @@
+{
+  "mode": "source_only_fixed_candidate_confirmation",
+  "sha256": "61F66AAE051A16F358559168259C25DE31382DC9CCCE4DDB6FBFA2685A83AFEA",
+  "source": "artifacts\\runs\\modern-inner-v1\\selected_hyperparameters.csv"
+}

@@ -1,0 +1,158 @@
+{
+  "status": "passed_source_only_inner_validation",
+  "validation_date_utc": "2026-08-24",
+  "run_git_commit": "e16cdd6c54107795fa0f8af9cc3963117cb607ba",
+  "configuration_sha256": "9c7bae1d1f485127b403effa3b6e54ca6620aae2c086c2b09cfe604ab504669d",
+  "prediction_rows": 1586046,
+  "metric_rows": 462,
+  "fit_rows": 42,
+  "history_rows": 137,
+  "selection_rows": 9,
+  "prediction_shards": 42,
+  "unique_validation_samples": 3433,
+  "unique_validation_patients": 2888,
+  "validation_test_patient_overlap": 0,
+  "test_split_rows_in_predictions": 0,
+  "duplicate_prediction_keys": 0,
+  "maximum_metric_reconstruction_difference": 0.0,
+  "selection_recomputed_exactly": true,
+  "all_scores_finite_and_bounded": true,
+  "source_only_gate": {
+    "run_dir": "artifacts\\runs\\readmission-inner-v1",
+    "phase": "readmission_source_only",
+    "config_sha256": "9c7bae1d1f485127b403effa3b6e54ca6620aae2c086c2b09cfe604ab504669d",
+    "prediction_rows": 1586046,
+    "unique_samples": 3433,
+    "validation_split": "validation",
+    "predictions_sha256": "47BFE802BFD8A797919BEAAA9A0ECF6D69FA828733BC7654D9402F3691002EFC",
+    "selections_sha256": "4EC6243E791A8CE37AA4936F8DACA1FA4039D5F442985AE1EBD48E4E51A56D53",
+    "manifest_sha256": "ED20A6AE00926E3DFC05E27506F7CB169EF05D741E7CEF178EF578DA31B135BD",
+    "additional_artifacts_sha256": {
+      "config.resolved.json": "50E5E0F2B5B27856D3E5B14335CD7D17200441ABA9673762873EAC4DFCF2F1CC",
+      "validation_metrics.csv": "DDFE9E01BB7BD45D2433CC040E3037E6CB9A22C3838699253A787D2A254D419F",
+      "fit_summaries.csv": "7E9D64DC93B92C29BF8703F616F37D41C20570FD0827DB5516E9D609B6294747"
+    }
+  },
+  "selected_configurations": [
+    {
+      "experiment": "logistic_pooled",
+      "parameter_id": 0,
+      "mean_validation_score": 0.7592244216,
+      "median_best_epoch": null
+    },
+    {
+      "experiment": "logistic_environment_class_balanced",
+      "parameter_id": 0,
+      "mean_validation_score": 0.8172771073,
+      "median_best_epoch": null
+    },
+    {
+      "experiment": "lightgbm_environment_class_balanced",
+      "parameter_id": 1,
+      "mean_validation_score": 0.7796417911,
+      "median_best_epoch": null
+    },
+    {
+      "experiment": "catboost_environment_class_balanced",
+      "parameter_id": 1,
+      "mean_validation_score": 0.7353022148,
+      "median_best_epoch": null
+    },
+    {
+      "experiment": "pooled_erm",
+      "parameter_id": 0,
+      "mean_validation_score": 0.697410641,
+      "median_best_epoch": 10.0
+    },
+    {
+      "experiment": "prior_separated",
+      "parameter_id": 0,
+      "mean_validation_score": 0.6809531437,
+      "median_best_epoch": 2.0
+    },
+    {
+      "experiment": "mirrams_equation9",
+      "parameter_id": 1,
+      "mean_validation_score": 0.7026833078,
+      "median_best_epoch": 6.0
+    },
+    {
+      "experiment": "ps_maskdro",
+      "parameter_id": 0,
+      "mean_validation_score": 0.6728576969,
+      "median_best_epoch": 2.0
+    },
+    {
+      "experiment": "ps_maskdro_ane",
+      "parameter_id": 0,
+      "mean_validation_score": 0.6710867308,
+      "median_best_epoch": 2.0
+    }
+  ],
+  "selected_source_performance": [
+    {
+      "experiment": "ps_maskdro_ane",
+      "macro_policy_balanced_log_loss": 0.6643171187344703,
+      "worst_policy_balanced_log_loss": 0.6756633041862018,
+      "natural_balanced_log_loss": 0.6618087860330849,
+      "natural_roc_auc": 0.6407762727142485
+    },
+    {
+      "experiment": "ps_maskdro",
+      "macro_policy_balanced_log_loss": 0.6662368080259178,
+      "worst_policy_balanced_log_loss": 0.6784118858500158,
+      "natural_balanced_log_loss": 0.6627917011006997,
+      "natural_roc_auc": 0.6403202160316798
+    },
+    {
+      "experiment": "prior_separated",
+      "macro_policy_balanced_log_loss": 0.6716935370561106,
+      "worst_policy_balanced_log_loss": 0.6884254003344,
+      "natural_balanced_log_loss": 0.6659676710613943,
+      "natural_roc_auc": 0.6308697860026032
+    },
+    {
+      "experiment": "pooled_erm",
+      "macro_policy_balanced_log_loss": 0.6813497547482651,
+      "worst_policy_balanced_log_loss": 0.7083279896350607,
+      "natural_balanced_log_loss": 0.6729953228476043,
+      "natural_roc_auc": 0.6882332532366259
+    },
+    {
+      "experiment": "catboost_environment_class_balanced",
+      "macro_policy_balanced_log_loss": 0.6892811290394182,
+      "worst_policy_balanced_log_loss": 0.7787166787569748,
+      "natural_balanced_log_loss": 0.6591069425566921,
+      "natural_roc_auc": 0.6583939157093045
+    },
+    {
+      "experiment": "mirrams_equation9",
+      "macro_policy_balanced_log_loss": 0.6896008989974844,
+      "worst_policy_balanced_log_loss": 0.7105612746114188,
+      "natural_balanced_log_loss": 0.6821986813534414,
+      "natural_roc_auc": 0.6855398676135516
+    },
+    {
+      "experiment": "logistic_pooled",
+      "macro_policy_balanced_log_loss": 0.7147171021113105,
+      "worst_policy_balanced_log_loss": 0.8006945319211597,
+      "natural_balanced_log_loss": 0.6806651143057477,
+      "natural_roc_auc": 0.7035323106854922
+    },
+    {
+      "experiment": "lightgbm_environment_class_balanced",
+      "macro_policy_balanced_log_loss": 0.7155521136161532,
+      "worst_policy_balanced_log_loss": 0.8386212408090076,
+      "natural_balanced_log_loss": 0.668621027392939,
+      "natural_roc_auc": 0.6569913310991908
+    },
+    {
+      "experiment": "logistic_environment_class_balanced",
+      "macro_policy_balanced_log_loss": 0.7491084889450604,
+      "worst_policy_balanced_log_loss": 0.8787204895060189,
+      "natural_balanced_log_loss": 0.6965248507164539,
+      "natural_roc_auc": 0.6365057441728499
+    }
+  ],
+  "interpretation": "Source-only selection evidence. Independent id_test and ood_test outcomes remain unopened. Validation comparisons are selection evidence, not independent test estimates."
+}

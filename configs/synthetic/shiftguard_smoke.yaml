@@ -1,0 +1,37 @@
+protocol_version: shiftguard-synthetic-smoke-v1
+status: code_smoke_not_scientific_result
+device: cpu
+seeds: [5062]
+source_rows: 400
+signal: [1.2, -1.0, 0.8, 0.4]
+batch_sizes: [32]
+prior_grid: [0.20, 0.50, 0.80]
+mechanisms:
+  - pure_label_shift
+  - conditional_scale
+  - unidentifiable_concept_reversal
+episodes_per_cell: 2
+representations: [raw_linear, rff, learned, hybrid]
+primary_representation: hybrid
+rff_components: 8
+alpha: 0.05
+calibration_repetitions_per_prior: 20
+shiftguard:
+  hidden_dim: 16
+  embedding_dim: 4
+  dropout: 0.0
+  learning_rate: 0.003
+  weight_decay: 0.001
+  max_epochs: 10
+  patience: 4
+  episode_count: 6
+  target_size: 32
+  valid_fraction: 0.5
+  invalid_margin: 0.05
+  training_invalid_mechanisms: [conditional_translation, support_translation]
+  validation_invalid_mechanisms: [conditional_scale]
+acceptance:
+  minimum_valid_shift_acceptance: 0.90
+  maximum_invalid_shift_false_acceptance: 0.05
+  maximum_uninformative_interval_fraction: 0.80
+  maximum_invalid_harm_delta: 0.0

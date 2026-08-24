@@ -1,0 +1,14 @@
+protocol_version: observed-backbones-outer-code-smoke-v1
+status: code_smoke_not_scientific_result
+manifest_stage: endpoint_isolation_code_smoke
+inner_run: artifacts/runs/observed-backbones-smoke-v1
+device: cpu
+seeds: [5062]
+outer_mask_replicates: 1
+adaptable_variants: []
+features: [age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]
+data:
+  canonical_path: data/processed/uci_heart_canonical_v1.parquet
+  outer_manifest: data/splits/uci_heart_outer_loho_v1.parquet
+diagnostic:
+  mode: composite_multiview_v3

@@ -1,0 +1,20 @@
+protocol_version: psmask-outer-v4-mechanical-recovery
+freeze_lock: artifacts/locks/heartshift_candidate_v4_neural_recovery.json
+locked_run_name: psmask-outer-v4
+device: cuda
+inner_run: artifacts/runs/psmask-inner-confirm-v1
+seeds: [5062, 5063, 5064]
+outer_mask_replicates: 10
+# These are unchanged from v3 and were selected before any heart outer result was opened.
+adaptable_variants: [v2, v5_mask]
+features: [age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]
+data:
+  canonical_path: data/processed/uci_heart_canonical_v1.parquet
+  outer_manifest: data/splits/uci_heart_outer_loho_v1.parquet
+diagnostic:
+  mode: composite_multiview_v3
+  prior_grid: [0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95]
+  bootstrap_repetitions: 199
+  rff_features_per_view: 128
+  alpha: 0.05
+  maximum_nearest_hamming_fraction: 0.25

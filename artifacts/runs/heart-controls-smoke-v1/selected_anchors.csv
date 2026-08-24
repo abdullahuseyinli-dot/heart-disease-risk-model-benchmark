@@ -1,0 +1,5 @@
+outer_target,selected_anchor,parameter_id,parameters_json,mean_balanced_log_loss,worst_balanced_log_loss,mean_roc_auc,selection_score
+cleveland,logistic_structured,0,"{""C"": 1.0}",0.6316644737695861,0.839074435348368,0.7605999790787846,0.7353694545589771
+hungary,logistic_structured,0,"{""C"": 1.0}",0.7413702075172662,0.9056106916864779,0.6928114628843242,0.823490449601872
+switzerland,logistic_structured,0,"{""C"": 1.0}",0.6278635517744533,1.0525974564063811,0.8234284817496645,0.8402305040904172
+va_long_beach,logistic_structured,0,"{""C"": 1.0}",0.5703587636128066,0.7389252702135312,0.8025767354056198,0.6546420169131688

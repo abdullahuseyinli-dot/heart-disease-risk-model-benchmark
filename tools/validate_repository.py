@@ -7,6 +7,7 @@ import csv
 import json
 import math
 import re
+import subprocess
 from pathlib import Path
 from urllib.parse import unquote
 
@@ -15,7 +16,21 @@ ROOT = Path(__file__).resolve().parents[1]
 REQUIRED_FILES = (
     "LICENSE",
     "README.md",
+    "CHANGELOG.md",
+    "CITATION.cff",
+    "CONTRIBUTING.md",
+    "SECURITY.md",
     "THIRD_PARTY_NOTICES.md",
+    ".zenodo.json",
+    "docs/ARTIFACTS.md",
+    "docs/BENCHMARK_CARD.md",
+    "docs/PROJECT_STATUS.md",
+    "docs/USAGE.md",
+    "docs/legacy/LEGACY_BENCHMARK.md",
+    "configs/research/method_registry_v2.yaml",
+    "data/splits/uci_heart_loho_v2.json",
+    "data/raw/eicu-crd-demo/2.0.1/LICENSE-ODbL-1.0.md",
+    "data/processed/eicu-demo-shiftguard-smoke-v1/LICENSE-ODbL-1.0.md",
     "data/heart_disease_processed.parquet",
     "results/main/metrics/test/holdout_models.csv",
     "results/main/metrics/test/holdout_bootstrap_ci.csv",
@@ -26,12 +41,17 @@ REQUIRED_FILES = (
 
 EXPECTED_HOLDOUT = {
     "LightGBM": (0.842391304347826, 0.863849765258216, 0.8962219033955046, 0.11916372256997074),
-    "LogisticRegression": (0.8369565217391305, 0.8584905660377359, 0.9082974653275945, 0.11828327559659454),
+    "LogisticRegression": (
+        0.8369565217391305,
+        0.8584905660377359,
+        0.9082974653275945,
+        0.11828327559659454,
+    ),
     "XGBoost": (0.8586956521739131, 0.8773584905660378, 0.9010043041606887, 0.11509418536924956),
     "TabNet": (0.8532608695652174, 0.8744186046511628, 0.9301769488283118, 0.10658166429997569),
 }
 
-README_VALUES = (
+LEGACY_VALUES = (
     "0.8370",
     "0.8585",
     "0.9083",
@@ -48,6 +68,17 @@ README_VALUES = (
     "0.8744",
     "0.9302",
     "0.1066",
+)
+
+CURRENT_README_VALUES = (
+    "0.602509",
+    "0.625949",
+    "0.600458",
+    "0.625463",
+    "0.672257",
+    "0.719939",
+    "0.619081",
+    "0.615985",
 )
 
 
@@ -79,7 +110,10 @@ def validate_holdout_results() -> None:
     for model, expected in EXPECTED_HOLDOUT.items():
         actual = tuple(float(rows[model][name]) for name in ("accuracy", "f1", "auc", "brier"))
         require(
-            all(math.isclose(a, e, rel_tol=0.0, abs_tol=1e-12) for a, e in zip(actual, expected)),
+            all(
+                math.isclose(a, e, rel_tol=0.0, abs_tol=1e-12)
+                for a, e in zip(actual, expected, strict=True)
+            ),
             f"holdout metrics changed for {model}",
         )
 
@@ -94,11 +128,15 @@ def validate_holdout_results() -> None:
             low = float(row[f"{metric}_ci_low"])
             mean = float(row[f"{metric}_mean"])
             high = float(row[f"{metric}_ci_high"])
-            require(0.0 <= low <= mean <= high <= 1.0, f"invalid {metric} interval for {row['model']}")
+            require(
+                0.0 <= low <= mean <= high <= 1.0, f"invalid {metric} interval for {row['model']}"
+            )
 
 
 def validate_system_results() -> None:
-    edge = json.loads((ROOT / "results/edge/metrics/latency_summary.json").read_text(encoding="utf-8"))
+    edge = json.loads(
+        (ROOT / "results/edge/metrics/latency_summary.json").read_text(encoding="utf-8")
+    )
     expected_edge = {
         "n_requests": 2760,
         "mean_ms": 14.610648687317054,
@@ -106,29 +144,76 @@ def validate_system_results() -> None:
         "throughput_rps": 91.05737784979893,
     }
     for key, expected in expected_edge.items():
-        require(math.isclose(float(edge[key]), expected, rel_tol=0.0, abs_tol=1e-12), f"edge metric changed: {key}")
+        require(
+            math.isclose(float(edge[key]), expected, rel_tol=0.0, abs_tol=1e-12),
+            f"edge metric changed: {key}",
+        )
 
-    dask = {row["model"]: row for row in read_csv("results/dask/metrics/lightgbm_distributed_summary_colab.csv")}
-    require(math.isclose(float(dask["LightGBM_single_node"]["auc"]), 0.8962219033955046), "single-node AUC changed")
-    require(math.isclose(float(dask["LightGBM_DaskClassifier"]["auc"]), 0.5329985652797704), "Dask AUC changed")
+    dask = {
+        row["model"]: row
+        for row in read_csv("results/dask/metrics/lightgbm_distributed_summary_colab.csv")
+    }
+    require(
+        math.isclose(float(dask["LightGBM_single_node"]["auc"]), 0.8962219033955046),
+        "single-node AUC changed",
+    )
+    require(
+        math.isclose(float(dask["LightGBM_DaskClassifier"]["auc"]), 0.5329985652797704),
+        "Dask AUC changed",
+    )
 
     shap = read_csv("results/main/metrics/test/shap_lgb_vs_lr_spearman.csv")
     require(len(shap) == 1, "expected one SHAP agreement row")
     require(math.isclose(float(shap[0]["rho"]), 0.7711799815081232), "SHAP rank agreement changed")
 
 
-def validate_readme() -> None:
-    readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    require("not a medical device" in readme, "medical-use limitation is missing")
-    for value in README_VALUES:
-        require(value in readme, f"README is missing holdout value {value}")
-
-    for target in re.findall(r"!?(?:\[[^]]*\])\(([^)]+)\)", readme):
+def validate_document_links(relative_path: str) -> None:
+    document = ROOT / relative_path
+    text = document.read_text(encoding="utf-8")
+    for target in re.findall(r"!?(?:\[[^]]*\])\(([^)]+)\)", text):
         target = target.strip().split(maxsplit=1)[0].strip("<>")
         if target.startswith(("http://", "https://", "#", "mailto:")):
             continue
         local = unquote(target.split("#", 1)[0])
-        require((ROOT / local).exists(), f"broken README link: {target}")
+        require(
+            (document.parent / local).resolve().exists(),
+            f"broken link in {relative_path}: {target}",
+        )
+
+
+def validate_public_documentation() -> None:
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    require("not a medical device" in readme, "medical-use limitation is missing")
+    require("Python 3.10" not in readme, "README advertises the archived Python environment")
+    for value in CURRENT_README_VALUES:
+        require(value in readme, f"README is missing current result value {value}")
+
+    legacy = (ROOT / "docs/legacy/LEGACY_BENCHMARK.md").read_text(encoding="utf-8")
+    for value in LEGACY_VALUES:
+        require(value in legacy, f"legacy benchmark record is missing holdout value {value}")
+
+    legacy_bundle = (ROOT / "deployment_bundle/README.md").read_text(encoding="utf-8")
+    legacy_service = (ROOT / "scripts/edge_inference_service.py").read_text(encoding="utf-8")
+    require("archived v1 systems experiment" in legacy_bundle, "legacy bundle is not archived")
+    require(
+        "not a deployable" in legacy_bundle and "medical model" in legacy_bundle,
+        "legacy bundle lacks use boundary",
+    )
+    require("Archived, non-clinical" in legacy_service, "legacy service lacks use boundary")
+
+    heart_result = (ROOT / "docs/HEART_OUTER_V5_RESULT.md").read_text(encoding="utf-8")
+    require("deployable report" not in heart_result, "heart result uses deployment language")
+    require("professional hospital" not in heart_result, "heart result uses marketing language")
+
+    for relative_path in (
+        "README.md",
+        "docs/README.md",
+        "docs/BENCHMARK_CARD.md",
+        "docs/USAGE.md",
+        "docs/legacy/LEGACY_BENCHMARK.md",
+        "paper/README.md",
+    ):
+        validate_document_links(relative_path)
 
 
 def validate_licensing() -> None:
@@ -142,26 +227,79 @@ def validate_licensing() -> None:
         require(marker in license_text, f"LICENSE is missing: {marker}")
 
     notices = (ROOT / "THIRD_PARTY_NOTICES.md").read_text(encoding="utf-8")
-    for marker in ("CC BY 4.0", "10.24432/C52P4X", "heart+disease"):
+    for marker in (
+        "CC BY 4.0",
+        "10.24432/C52P4X",
+        "heart+disease",
+        "Open Database License",
+        "10.13026/4mxk-na84",
+    ):
         require(marker in notices, f"dataset notice is missing: {marker}")
+
+    for relative_path in (
+        "data/raw/eicu-crd-demo/2.0.1/LICENSE-ODbL-1.0.md",
+        "data/processed/eicu-demo-shiftguard-smoke-v1/LICENSE-ODbL-1.0.md",
+    ):
+        scoped_notice = (ROOT / relative_path).read_text(encoding="utf-8")
+        for marker in ("Open Database License", "10.13026/4mxk-na84", "MIT License"):
+            require(marker in scoped_notice, f"{relative_path} is missing: {marker}")
 
 
 def validate_public_paths() -> None:
-    marker = "c:" + chr(92) + "users"
-    for path in ROOT.rglob("*"):
-        if not path.is_file() or ".git" in path.parts or path.suffix.lower() not in {".md", ".py", ".txt"}:
+    completed = subprocess.run(
+        ["git", "ls-files", "-z"],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+    )
+    allowed_historical_prefixes = (
+        "artifacts/failures/",
+        "artifacts/locks/",
+        "artifacts/runs/",
+    )
+    allowed_historical_files = {
+        "data/splits/uci_heart_loho_v1.json",
+    }
+    text_suffixes = {".cff", ".csv", ".json", ".md", ".py", ".toml", ".txt", ".yaml", ".yml"}
+    marker = re.compile(r"[a-z]:[\\/]+users[\\/]", flags=re.IGNORECASE)
+    for raw_path in completed.stdout.split(b"\0"):
+        if not raw_path:
             continue
-        text = path.read_text(encoding="utf-8", errors="ignore").lower()
-        require(marker not in text, f"local user path in {path.relative_to(ROOT)}")
+        relative = raw_path.decode("utf-8")
+        path = ROOT / relative
+        normalized = relative.replace("\\", "/")
+        if (
+            not path.is_file()
+            or normalized.startswith(allowed_historical_prefixes)
+            or normalized in allowed_historical_files
+            or path.suffix.lower() not in text_suffixes
+        ):
+            continue
+        text = path.read_text(encoding="utf-8", errors="ignore")
+        require(not marker.search(text), f"local user path in {relative}")
+
+
+def validate_release_metadata() -> None:
+    citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
+    zenodo = json.loads((ROOT / ".zenodo.json").read_text(encoding="utf-8"))
+    package = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
+
+    version_match = re.search(r'^version = "([^"]+)"$', package, flags=re.MULTILINE)
+    require(version_match is not None, "pyproject version is missing")
+    version = version_match.group(1)
+    require(f"version: {version}" in citation, "CITATION.cff version does not match package")
+    require(zenodo.get("version") == version, ".zenodo.json version does not match package")
+    require("doi" not in zenodo, ".zenodo.json must not invent an unpublished DOI")
 
 
 def main() -> None:
     validate_required_files()
     validate_holdout_results()
     validate_system_results()
-    validate_readme()
+    validate_public_documentation()
     validate_licensing()
     validate_public_paths()
+    validate_release_metadata()
     print("Repository validation passed.")
 
 

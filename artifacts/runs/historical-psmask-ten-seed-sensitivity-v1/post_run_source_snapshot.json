@@ -1,0 +1,62 @@
+{
+  "created_utc": "2026-08-24T18:38:56.389372+00:00",
+  "files": [
+    {
+      "bytes": 7318,
+      "path": "artifacts/runs/historical-psmask-ten-seed-sensitivity-v1/run_manifest.json",
+      "sha256": "476AF64AC758E776F0BE7AAB3FC5B911A02A7A6D3990466C85E85ADD9A9D654D"
+    },
+    {
+      "bytes": 900,
+      "path": "artifacts/runs/historical-psmask-ten-seed-sensitivity-v1/config.resolved.json",
+      "sha256": "DB056CB7357F67D39F88374C5928F0BC7C35129E67DA69D57C4D4AABC5BA7172"
+    },
+    {
+      "bytes": 632,
+      "path": "configs/research/historical_psmask_seed_extension_v1.yaml",
+      "sha256": "182352B62C1C8AE0FF423250237F8043A30C70D36DB7ADCAB68E550B0779368A"
+    },
+    {
+      "bytes": 35430,
+      "path": "src/heartshift/evaluation/neural_outer.py",
+      "sha256": "1F2C458D9A24B4875C31DA39E4DB08A199EB61CAF7F81B1281D1270AE28B5E42"
+    },
+    {
+      "bytes": 2356,
+      "path": "src/heartshift/cli/research_neural_outer.py",
+      "sha256": "6D82E3C0D70B8CB7268493E4A5ACEE4690D382BB0F392CCA86FB18797921C8E8"
+    },
+    {
+      "bytes": 11497,
+      "path": "src/heartshift/evaluation/neural_benchmark.py",
+      "sha256": "8490513B119C91D4E972F84CC5175E2F1C35A4D856E733B32E910FA8D84497C4"
+    },
+    {
+      "bytes": 21000,
+      "path": "src/heartshift/models/ps_maskdro.py",
+      "sha256": "6C4D8070DA65F166CAF33A23F1D73FAF52E5F42D3A54119A2BB97509CAA266B1"
+    },
+    {
+      "bytes": 19687,
+      "path": "src/heartshift/models/generic_observed.py",
+      "sha256": "A6435B7271E09846A5C66B8F9C981335373F6D11C6DE6D2A51BE89786B9C12EF"
+    },
+    {
+      "bytes": 16536,
+      "path": "src/heartshift/models/observed_set.py",
+      "sha256": "677DA8DF9476055BE35BF9D4FD33A22444AA49F174CF95CDFEB2B1858F71143A"
+    },
+    {
+      "bytes": 8302,
+      "path": "src/heartshift/masks.py",
+      "sha256": "2BC1A2D7682B1BDA4E154C52AC4BD10328A38175F6C5F11012044A6EBF681FFE"
+    },
+    {
+      "bytes": 4399,
+      "path": "src/heartshift/metrics.py",
+      "sha256": "AE267F0923EA820C0A8829E6AE66812B0D059059C5C5092FBC6CB00CFD1BD532"
+    }
+  ],
+  "limitation": "This snapshot records post-run bytes and does not retroactively turn a dirty working tree into a committed pre-run state.",
+  "status": "post_run_exact_source_snapshot"
+}

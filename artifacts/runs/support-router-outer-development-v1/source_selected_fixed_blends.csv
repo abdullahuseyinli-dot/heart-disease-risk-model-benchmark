@@ -1,0 +1,5 @@
+outer_target,convex_selection_id,selected_best_expert,convex_weight__prior_separated,convex_weight__joint_policy_dro,convex_weight__stable_anchor
+cleveland,137,joint_policy_dro,0.35,0.55,0.1
+hungary,18,joint_policy_dro,0.0,0.9,0.1
+switzerland,13,joint_policy_dro,0.0,0.65,0.35
+va_long_beach,18,prior_separated,0.0,0.9,0.1

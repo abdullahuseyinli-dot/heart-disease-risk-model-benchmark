@@ -1,0 +1,37 @@
+{
+  "epochs": 15,
+  "experiment": "v5_deepsets_equal_budget",
+  "outer_target": "switzerland",
+  "parameters": {
+    "backbone": "deepsets",
+    "brier_beta": 0.1,
+    "d_model": 64,
+    "dro_lambda": 0.5,
+    "dro_tau": 0.2,
+    "dropout": 0.1,
+    "evaluation_interval": 5,
+    "feature_columns": [
+      "age",
+      "sex",
+      "cp",
+      "trestbps",
+      "chol",
+      "fbs",
+      "restecg",
+      "thalach",
+      "exang",
+      "oldpeak",
+      "slope",
+      "ca",
+      "thal"
+    ],
+    "learning_rate": 0.0005,
+    "max_epochs": 15,
+    "n_heads": 4,
+    "n_layers": 2,
+    "patience_evaluations": 8,
+    "validation_mask_replicates": 2,
+    "weight_decay": 0.001
+  },
+  "variant": "v5"
+}

@@ -1,0 +1,2 @@
+seed,best_epoch,validation_score,parameter_count,device
+5062,10,0.14593806533375756,233,cpu

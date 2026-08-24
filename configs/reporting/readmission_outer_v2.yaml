@@ -1,0 +1,12 @@
+protocol_version: readmission-outer-report-v2-post-pivot
+predictions_path: artifacts/runs/readmission-outer-v2/test_predictions.parquet
+bootstrap:
+  reference_experiment: logistic_environment_class_balanced
+  comparison_experiments:
+    - pooled_erm
+    - prior_separated
+    - mirrams_equation9
+    - ps_maskdro
+    - ps_maskdro_ane
+  repetitions: 2000
+  seed: 97201

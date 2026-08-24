@@ -1,0 +1,5 @@
+outer_target,convex_selection_id,selected_best_expert,convex_weight__prior_separated,convex_weight__stable_anchor
+cleveland,2,prior_separated,0.5,0.5
+hungary,3,prior_separated,0.75,0.25
+switzerland,3,prior_separated,0.75,0.25
+va_long_beach,2,stable_anchor,0.5,0.5

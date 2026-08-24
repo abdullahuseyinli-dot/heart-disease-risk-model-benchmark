@@ -1,0 +1,5 @@
+outer_target,expert_name,selected_experiment,variant,parameter_id,selection_score,mean_parameter_count,candidate_experiments
+cleveland,prior_separated,v2_attention_smoke,v2,0,0.6744235858069006,3382.333333333333,"[""v2_attention_smoke"", ""v2_deepsets_smoke""]"
+hungary,prior_separated,v2_deepsets_smoke,v2,0,0.7019312118770511,3339.6666666666665,"[""v2_attention_smoke"", ""v2_deepsets_smoke""]"
+switzerland,prior_separated,v2_deepsets_smoke,v2,0,0.6945660789933983,3329.0,"[""v2_attention_smoke"", ""v2_deepsets_smoke""]"
+va_long_beach,prior_separated,v2_attention_smoke,v2,0,0.6754566498906576,3403.6666666666665,"[""v2_attention_smoke"", ""v2_deepsets_smoke""]"

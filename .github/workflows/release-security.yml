@@ -1,0 +1,94 @@
+name: Release security
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  HEARTSHIFT_OFFLINE: "1"
+  HF_DATASETS_OFFLINE: "1"
+  HF_HUB_OFFLINE: "1"
+  TRANSFORMERS_OFFLINE: "1"
+  WANDB_MODE: offline
+  WANDB_DISABLED: "true"
+  UV_NO_PROGRESS: "1"
+
+jobs:
+  release-security:
+    name: Candidate tree and history audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out complete history without credentials
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: "3.11"
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          version: "0.11.29"
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+
+      - name: Install locked release environment
+        run: uv sync --locked --extra dev --group release
+
+      - name: Prepare candidate-scoped reports
+        shell: bash
+        run: mkdir -p ".audit/release-security/${GITHUB_SHA}"
+
+      - name: Download and verify Gitleaks 8.30.1
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          report_dir=".audit/release-security/${GITHUB_SHA}"
+          gh release download v8.30.1 --repo gitleaks/gitleaks --pattern gitleaks_8.30.1_linux_x64.tar.gz --dir "${report_dir}"
+          echo "551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb  ${report_dir}/gitleaks_8.30.1_linux_x64.tar.gz" | sha256sum --check --strict
+          tar -xzf "${report_dir}/gitleaks_8.30.1_linux_x64.tar.gz" -C "${report_dir}" gitleaks
+          test "$("${report_dir}/gitleaks" version)" = "8.30.1"
+
+      - name: Scan the complete Git history
+        shell: bash
+        run: |
+          report_dir=".audit/release-security/${GITHUB_SHA}"
+          "${report_dir}/gitleaks" git --no-banner --redact=100 --config .gitleaks.toml --log-opts=--all --report-format json --report-path "${report_dir}/gitleaks.json"
+
+      - name: Record dependency licenses
+        shell: bash
+        run: |
+          report_dir=".audit/release-security/${GITHUB_SHA}"
+          uv run pip-licenses --format=json --with-urls --output-file="${report_dir}/python-licenses.json"
+
+      - name: Run source release gates
+        shell: bash
+        run: |
+          report_dir=".audit/release-security/${GITHUB_SHA}"
+          uv run pytest -q --cov=heartshift --cov-report=term-missing --cov-report=xml --cov-fail-under=45 | tee "${report_dir}/pytest.log"
+          uv run ruff check src tests tools | tee "${report_dir}/ruff-check.log"
+          uv run ruff format --check src tests tools | tee "${report_dir}/ruff-format.log"
+          uv run mypy src/heartshift | tee "${report_dir}/mypy.log"
+          uv run heartshift-validate --help | tee "${report_dir}/cli-help.log"
+          uv run python tools/validate_repository.py | tee "${report_dir}/repository.log"
+          uv build | tee "${report_dir}/build.log"
+          uv run python tools/validate_distribution.py | tee "${report_dir}/distribution.log"
+          uv run python tools/smoke_install_distribution.py | tee "${report_dir}/wheel-smoke.log"
+
+      - name: Upload candidate-scoped reports
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: release-security-${{ github.sha }}
+          path: .audit/release-security/${{ github.sha }}/
+          if-no-files-found: error
+          retention-days: 30
