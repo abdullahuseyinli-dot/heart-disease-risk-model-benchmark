@@ -1,0 +1,32 @@
+{
+  "audit_status": "complete_passed_gate",
+  "config_sha256": "7e0f282cddec486c3d1b5eebed251b6c5a63f7030f4660f4a0ecdc575e30c247",
+  "gate_recomputed_exactly_from_csv_with_float_precision_round_trip": true,
+  "git_commit": "4ce3223a4a055e460869c1f61b04acca9d543c48",
+  "prediction_rows": 18000,
+  "source_prediction_rows": 18000,
+  "result_rows": 36,
+  "diagnostic_rows": 144,
+  "summary_rows": 12,
+  "training_history_rows": 656,
+  "unique_experiment_scenario_seed_cells": 36,
+  "seeds": [
+    6101,
+    6102,
+    6103
+  ],
+  "gate_passed": true,
+  "failed_checks": [],
+  "sha256": {
+    "acceptance_gate.json": "86FD90643533E9F0F2F396B8AF5AE5C68554359CAC8A361363E8F5D69AD70502",
+    "config.resolved.json": "9E8833FB71C40D9473BFB0D83483C04E40137F9D59D01DA321B36A37FBF8753D",
+    "independent_validation.json": "A70581F192315FCB88D70AAE043268022DC16E22C63BF62A1D4A99397A2775E4",
+    "mixture_diagnostics.csv": "06935861256BBC7F07A6DBFD58CE6D7EA1B7D6791111E332CF0025C3132F468C",
+    "run_manifest.json": "07E9BB37FCBCAEC0D3D6CDF358FA8857B40D0CC49C5800BBAD01E38970F770FA",
+    "synthetic_results.csv": "F3A3689FC705CDAE49F09DBDC8E3CEA3C9F3E5697EBECBAB6C18AA2684509EF8",
+    "synthetic_source_predictions.parquet": "F804C1748C7481FAE855016284B60B2A4E960AAE53D0D9E27D43429B8A7CDA14",
+    "synthetic_summary.csv": "C01735E93174E9BF008A918BCD7DBC880BFFDB18A64CD0FA5EE5F405F1FBA1C8",
+    "synthetic_target_predictions.parquet": "48E5504EC9554E8761BD5E0DDB72D7ACE5CC2233E496D3771B418B9B518FF7C3",
+    "training_history.csv": "8343E2248A81662083D740BB6E6C8EE482A316BFA5E27D0BC9A3FC1F62B92B04"
+  }
+}

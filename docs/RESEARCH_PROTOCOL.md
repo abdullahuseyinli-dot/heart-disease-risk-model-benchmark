@@ -2,8 +2,8 @@
 
 Protocol version: 0.2.0
 
-Status: protocol-v2 synthetic gate failed; protocol-v3 diagnostic registered;
-outer targets locked
+Status: protocol-v2 synthetic gate failed; protocol-v3 mechanism gate passed;
+outer targets locked pending independent evidence and freeze
 Primary method working name: Prior-Separated Measurement-Policy DRO
 (`PS-MP-DRO`, implemented as `v5_mask_only_dro`)
 
@@ -198,3 +198,11 @@ with a plug-in bootstrap that re-estimates prevalence. Development seeds
 7001-7003 produced acceptance rates 2/3, 0, 0, and 0 respectively for the four
 mechanisms. This development check is retained as method-development evidence,
 not confirmatory evidence and not a result from the registered seeds.
+
+The registered three-seed protocol-v3 run subsequently passed all eight gates.
+Pure label shift was accepted in every adaptation cell, with maximum mean MLLS
+prevalence error 0.006960 and adapted-minus-equal log loss -0.023172. MAR policy
+shift, conditional shift, and target-only MNAR were rejected in every cell. The
+exact result, independent prediction reconstruction, and limits are recorded in
+`docs/SYNTHETIC_V3_RESULT.md`. This mechanism pass does not by itself authorize
+outer access; independent source-only evidence and a clean freeze remain required.

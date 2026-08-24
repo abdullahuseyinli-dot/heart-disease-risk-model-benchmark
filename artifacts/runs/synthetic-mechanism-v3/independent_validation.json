@@ -1,0 +1,47 @@
+{
+  "status": "passed_after_explicit_float_storage_tolerance",
+  "validation_date_utc": "2026-08-24",
+  "run_git_commit": "4ce3223a4a055e460869c1f61b04acca9d543c48",
+  "configuration_exactly_matches_registered_yaml": true,
+  "row_counts": {
+    "target_predictions": 18000,
+    "source_predictions": 18000,
+    "result_cells": 36,
+    "summary_cells": 12,
+    "diagnostic_rows": 144
+  },
+  "coverage": {
+    "target_duplicate_patient_cells": 0,
+    "source_duplicate_patient_cells": 0,
+    "patients_per_source_cell": 500,
+    "patients_per_target_cell": 500,
+    "mask_codes_reconstructed_exactly": true
+  },
+  "prediction_reconstruction": {
+    "all_stored_metrics_recomputed_exactly_from_sample_predictions": true,
+    "all_summary_aggregates_recomputed_from_sample_predictions": true,
+    "all_automatic_decisions_reconstructed_from_four_views_and_support": true,
+    "stored_gate_matches_round_trip_recomputation_exactly": true,
+    "all_preexisting_evidence_audit_hashes_matched": true
+  },
+  "calibration_equation_check": {
+    "initial_absolute_tolerance": 1e-12,
+    "initial_check_passed": false,
+    "reason": "CSV/Parquet storage precision for raw float32 logits; model metrics and calibrated prediction columns were unaffected",
+    "maximum_source_absolute_difference": 6.453392620286991e-07,
+    "maximum_target_absolute_difference": 6.379376022991323e-07,
+    "final_absolute_tolerance": 1e-06,
+    "final_check_passed": true
+  },
+  "gate_passed": true,
+  "gate_checks": [
+    {"name": "required_seeds_per_cell", "observed": 3, "operator": ">=", "threshold": 3, "passed": true},
+    {"name": "label_only_diagnostic_acceptance", "observed": 1.0, "operator": ">=", "threshold": 0.6666666666666666, "passed": true},
+    {"name": "label_only_mlls_prevalence_error", "observed": 0.006960348185073517, "operator": "<=", "threshold": 0.12, "passed": true},
+    {"name": "label_only_adapted_log_loss_delta", "observed": -0.02317157300696454, "operator": "<=", "threshold": 0.0, "passed": true},
+    {"name": "mar_policy_maskdro_balanced_log_loss_delta", "observed": 0.013700261439534706, "operator": "<=", "threshold": 0.02, "passed": true},
+    {"name": "mar_policy_shift_diagnostic_acceptance", "observed": 0.0, "operator": "<=", "threshold": 0.5, "passed": true},
+    {"name": "conditional_only_diagnostic_acceptance", "observed": 0.0, "operator": "<=", "threshold": 0.5, "passed": true},
+    {"name": "mnar_outcome_only_diagnostic_acceptance", "observed": 0.0, "operator": "<=", "threshold": 0.5, "passed": true}
+  ]
+}

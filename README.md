@@ -32,10 +32,12 @@ variant (`v5_mask_only_dro`) for the locked benchmark. This is explicitly
 source-informed model selection, not an independent confirmation result. The
 protocol-v2 synthetic diagnostic gate subsequently failed and is preserved; its
 mechanism analysis is in
-[the synthetic-v2 failure record](docs/SYNTHETIC_V2_FAILURE.md). The outer study
-remains closed while the [registered protocol-v3 mechanism
-study](docs/SYNTHETIC_V3_PROTOCOL.md) separates pure label shift from MAR
-acquisition shift, conditional shift, and target-only MNAR.
+[the synthetic-v2 failure record](docs/SYNTHETIC_V2_FAILURE.md). The
+[registered protocol-v3 mechanism study](docs/SYNTHETIC_V3_PROTOCOL.md) then
+passed all eight gates; its [prediction-reconstructed result](docs/SYNTHETIC_V3_RESULT.md)
+separates pure label shift from MAR acquisition shift, conditional shift, and
+target-only MNAR. Heart outer targets remain locked pending the remaining
+independent and freeze gates.
 
 Research documentation:
 
