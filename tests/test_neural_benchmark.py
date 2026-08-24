@@ -11,6 +11,7 @@ from heartshift.data.uci import FEATURE_COLUMNS
 from heartshift.evaluation.neural_benchmark import _parameter_grid
 from heartshift.evaluation.neural_outer import (
     _adapt_predictions,
+    _exact_shard_files,
     _load_heart_outer_frames,
     evaluation_units,
 )
@@ -41,6 +42,17 @@ def test_outer_evaluation_units_match_policy_replication_rules() -> None:
     assert sum(policy.name == "natural" for policy, _ in units) == 1
     assert sum(policy.name == "mcar_30" for policy, _ in units) == 3
     assert sum(policy.name == "drop_advanced" for policy, _ in units) == 1
+
+
+def test_exact_shard_file_selection_excludes_endpoint_free_prefix(tmp_path: Path) -> None:
+    shard = tmp_path / "site__method"
+    shard.mkdir()
+    labelled = shard / "outer_predictions.parquet"
+    unlabelled = shard / "unlabelled_outer_predictions.parquet"
+    labelled.write_bytes(b"labelled")
+    unlabelled.write_bytes(b"endpoint-free")
+
+    assert _exact_shard_files(tmp_path, "outer_predictions.parquet") == [labelled]
 
 
 def test_neural_outer_loader_excludes_locked_endpoint_until_scoring() -> None:

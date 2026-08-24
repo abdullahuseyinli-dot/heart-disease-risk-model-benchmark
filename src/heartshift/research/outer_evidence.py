@@ -634,8 +634,12 @@ def audit_heart_neural_outer(
         stored_metrics,
         sort_by=neural_metric_grouping,
     )
-    expected_config_hash = config_hash(config)
-    if set(predictions["config_sha256"].unique()) != {expected_config_hash}:
+    if "source_failed_run" in config:
+        source_config = _resolved_config(repo_root / str(config["source_failed_run"]))
+        expected_prediction_config_hash = config_hash(source_config)
+    else:
+        expected_prediction_config_hash = config_hash(config)
+    if set(predictions["config_sha256"].unique()) != {expected_prediction_config_hash}:
         raise AssertionError("Neural prediction configuration hash does not reconstruct")
 
     validation = {
@@ -653,6 +657,8 @@ def audit_heart_neural_outer(
         "experiments": sorted(predictions["experiment"].unique().tolist()),
         "training_seeds": sorted(expected_seeds),
         "adaptable_variants": sorted(adaptable_variants),
+        "no_refit_finalization": "source_failed_run" in config,
+        "prediction_config_sha256": expected_prediction_config_hash,
         "accepted_adaptation_cells": int(
             predictions.loc[accepted, ["outer_target", "experiment", "policy", "mask_replicate"]]
             .drop_duplicates()

@@ -287,6 +287,36 @@ def test_frozen_candidate_binds_failed_pre_endpoint_run(tmp_path: Path) -> None:
         verify_frozen_candidate(tmp_path, lock_path)
 
 
+def test_post_endpoint_failure_requires_fixed_predictions_and_no_metrics(
+    tmp_path: Path,
+) -> None:
+    run_dir = tmp_path / "failed-after-join"
+    run_dir.mkdir()
+    (run_dir / "outer_predictions.parquet").write_bytes(b"invalid aggregate retained")
+    (run_dir / "failure.json").write_text(
+        json.dumps(
+            {
+                "status": "failed_preserved",
+                "target_endpoint_loaded": True,
+                "model_predictions_fixed_before_endpoint_loaded": True,
+                "adaptation_decisions_fixed_before_endpoint_loaded": True,
+                "metric_artifact_written": False,
+                "rerun_under_same_protocol_or_name": False,
+                "failure_stage": "post_endpoint_aggregation",
+                "exception_type": "ValueError",
+                "git_commit": "test",
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    evidence = validate_failed_outer_evidence(run_dir)
+    assert evidence["target_endpoint_loaded"] is True
+    (run_dir / "outer_metrics.csv").write_text("forbidden\n", encoding="utf-8")
+    with pytest.raises(AssertionError, match="labelled outputs"):
+        validate_failed_outer_evidence(run_dir)
+
+
 def test_psmask_confirmation_gate_checks_registered_tradeoffs(tmp_path: Path) -> None:
     experiments = {
         "v0_pooled_erm": (0.75, 0.78),

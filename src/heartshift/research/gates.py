@@ -673,16 +673,28 @@ def validate_failed_outer_evidence(run_dir: Path) -> dict[str, Any]:
     failure = cast(dict[str, Any], json.loads(failure_path.read_text(encoding="utf-8")))
     if failure.get("status") != "failed_preserved":
         raise AssertionError("Failed outer record does not have failed_preserved status")
-    if failure.get("target_endpoint_loaded") is not False:
-        raise AssertionError("Failed outer record does not prove that the endpoint remained closed")
+    endpoint_loaded = failure.get("target_endpoint_loaded")
+    if not isinstance(endpoint_loaded, bool):
+        raise AssertionError("Failed outer record does not state whether the endpoint was loaded")
     if failure.get("rerun_under_same_protocol_or_name") is not False:
         raise AssertionError("Failed outer record does not prohibit an in-place rerun")
-    forbidden_outputs = [
-        run_dir / "outer_predictions.parquet",
-        run_dir / "outer_metrics.csv",
-        run_dir / "test_predictions.parquet",
-        run_dir / "test_metrics.csv",
-    ]
+    if endpoint_loaded:
+        if failure.get("model_predictions_fixed_before_endpoint_loaded") is not True:
+            raise AssertionError(
+                "Post-endpoint failure does not prove predictions were fixed first"
+            )
+        if failure.get("adaptation_decisions_fixed_before_endpoint_loaded") is not True:
+            raise AssertionError("Post-endpoint failure does not prove adaptation was fixed first")
+        if failure.get("metric_artifact_written") is not False:
+            raise AssertionError("Post-endpoint failure does not disclose metric-artifact status")
+        forbidden_outputs = [run_dir / "outer_metrics.csv", run_dir / "test_metrics.csv"]
+    else:
+        forbidden_outputs = [
+            run_dir / "outer_predictions.parquet",
+            run_dir / "outer_metrics.csv",
+            run_dir / "test_predictions.parquet",
+            run_dir / "test_metrics.csv",
+        ]
     if any(path.exists() for path in forbidden_outputs):
         raise AssertionError("A failed pre-endpoint run unexpectedly contains labelled outputs")
     hashes = {
@@ -696,7 +708,7 @@ def validate_failed_outer_evidence(run_dir: Path) -> dict[str, Any]:
         "artifacts_sha256": hashes,
         "failure_stage": failure.get("failure_stage"),
         "exception_type": failure.get("exception_type"),
-        "target_endpoint_loaded": False,
+        "target_endpoint_loaded": endpoint_loaded,
         "run_git_commit": failure.get("git_commit"),
     }
 

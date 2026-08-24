@@ -1,0 +1,42 @@
+protocol_version: heart-outer-report-v5-aggregation-recovery
+canonical_data_path: data/processed/uci_heart_canonical_v1.parquet
+prediction_runs:
+  - namespace: classical
+    kind: classical
+    path: artifacts/runs/classical-outer-v3/outer_predictions.parquet
+  - namespace: modern_v2
+    kind: classical
+    path: artifacts/runs/modern-v2-outer-v3/outer_predictions.parquet
+  - namespace: modern_2026
+    kind: classical
+    path: artifacts/runs/modern-2026-outer-v3/outer_predictions.parquet
+  - namespace: tabpfn_v3
+    kind: classical
+    path: artifacts/runs/tabpfn-v3-outer-v3/outer_predictions.parquet
+  - namespace: mirrams
+    kind: neural
+    path: artifacts/runs/mirrams-outer-v5-finalized/outer_predictions.parquet
+  - namespace: psmask
+    kind: neural
+    path: artifacts/runs/psmask-outer-v5/outer_predictions.parquet
+bootstrap:
+  reference_method: classical:logistic:site_class_balanced
+  comparison_methods:
+    - classical:logistic:site_class_balanced:source_oof_platt
+    - classical:random_forest:site_class_balanced
+    - modern_v2:tabpfn:pooled
+    - modern_v2:tabpfn:pooled:source_oof_platt
+    - modern_2026:tabicl:pooled
+    - modern_2026:tabicl:pooled:source_oof_platt
+    - tabpfn_v3:tabpfn:pooled
+    - tabpfn_v3:tabpfn:pooled:source_oof_platt
+    - psmask:v2_prior_separated
+    - psmask:v4_structured_policy_bank
+    - psmask:v5_site_only_dro
+    - psmask:v5_mask_only_dro
+    - psmask:v5_site_mask_dro
+    - psmask:v5_site_mask_dro_brier
+    - psmask:v7_ane
+    - mirrams:mirrams_equation9
+  repetitions: 2000
+  seed: 85062

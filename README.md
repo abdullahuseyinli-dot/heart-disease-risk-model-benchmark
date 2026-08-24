@@ -46,9 +46,14 @@ shard encountered a non-adaptable orchestration defect before any held-out heart
 endpoint was loaded; that failed run is preserved and PS-MaskDRO v3 was not
 launched. The exact disclosure and neural-only v4 recovery are documented in
 [the v3 failure and v4 recovery record](docs/OUTER_V3_FAILURE_AND_V4_RECOVERY.md).
+MIRRAMS v4 subsequently fixed all shard predictions but exposed an exact-filename
+aggregation defect after the canonical endpoint join; no metric file was written
+and PS-MaskDRO v4 was not launched. The preserved failure and no-refit v5 recovery
+are documented in
+[the v4 failure and v5 recovery record](docs/OUTER_V4_FAILURE_AND_V5_RECOVERY.md).
 The final combined findings will be recorded in
-[the locked v4 result](docs/HEART_OUTER_V4_RESULT.md) after the two recovery runs
-and prediction-derived report pass their audits.
+[the locked v5 result](docs/HEART_OUTER_V5_RESULT.md) after finalization,
+PS-MaskDRO execution, and the prediction-derived report pass their audits.
 
 Research documentation:
 
@@ -59,6 +64,7 @@ Research documentation:
 - [Independent readmission source-only result](docs/READMISSION_INNER_V1_RESULT.md)
 - [Outer evidence audit](docs/OUTER_EVIDENCE_AUDIT.md)
 - [v3 failure and v4 neural recovery](docs/OUTER_V3_FAILURE_AND_V4_RECOVERY.md)
+- [v4 failure and v5 exact-aggregation recovery](docs/OUTER_V4_FAILURE_AND_V5_RECOVERY.md)
 - [Data card](docs/DATA_CARD.md)
 - [Model card](docs/MODEL_CARD.md)
 - [Limitations](docs/LIMITATIONS.md)

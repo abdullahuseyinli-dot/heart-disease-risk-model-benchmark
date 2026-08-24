@@ -43,10 +43,11 @@
     selection is hypothesis-generating unless it also survives the prespecified
     paired contrasts, mechanism tests, and independent task.
 16. The final heart report has mixed protocol provenance: baseline predictions
-    completed under the v3 lock, while MIRRAMS and PS-MaskDRO use a v4 mechanical
-    recovery after a pre-endpoint orchestration failure. The completed v3 results
-    were known at recovery time, even though neither neural endpoint had been
-    opened. This sequence and the preserved failure must accompany the report.
+    completed under the v3 lock; MIRRAMS uses no-refit v5 finalization of fixed v4
+    shards after a post-endpoint aggregation failure; and PS-MaskDRO is run under
+    the v5 exact-filename fix. The completed v3 results were known at v4 recovery,
+    and the MIRRAMS endpoint was joined before v5 recovery. Both preserved failures
+    and this sequence must accompany the report.
 
 The appropriate fallback is a transparent benchmark or negative-results paper if
 the proposed method fails its synthetic gates or does not improve robust outcomes

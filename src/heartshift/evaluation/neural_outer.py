@@ -619,6 +619,57 @@ def _score_predictions(predictions: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(records)
 
 
+def _exact_shard_files(shard_root: Path, filename: str) -> list[Path]:
+    """Return only an exact shard basename, never a prefixed endpoint-free file."""
+    if Path(filename).name != filename:
+        raise ValueError(f"Shard filename must be a basename: {filename}")
+    return sorted(shard_root.glob(f"*/{filename}"))
+
+
+def aggregate_neural_outer_shards(shard_root: Path, run_dir: Path) -> dict[str, Path]:
+    """Aggregate exact shard files after every probability and endpoint join is fixed."""
+    prediction_files = _exact_shard_files(shard_root, "outer_predictions.parquet")
+    seed_files = _exact_shard_files(shard_root, "outer_seed_predictions.parquet")
+    crossfit_files = _exact_shard_files(shard_root, "source_calibration_predictions.parquet")
+    diagnostic_files = _exact_shard_files(shard_root, "adaptation_diagnostics.csv")
+    summary_files = _exact_shard_files(shard_root, "adaptation_summary.csv")
+    history_files = _exact_shard_files(shard_root, "fit_history.csv")
+    if not prediction_files or len(prediction_files) != len(seed_files):
+        raise AssertionError("Neural labelled prediction shards are missing or unpaired")
+    predictions = pd.concat((pd.read_parquet(path) for path in prediction_files), ignore_index=True)
+    if predictions["target"].isna().any():
+        raise AssertionError("An exact labelled neural shard contains a missing endpoint")
+    paths = {
+        "predictions": run_dir / "outer_predictions.parquet",
+        "seed_predictions": run_dir / "outer_seed_predictions.parquet",
+        "calibration_predictions": run_dir / "source_calibration_predictions.parquet",
+        "diagnostics": run_dir / "adaptation_diagnostics.csv",
+        "adaptation_summary": run_dir / "adaptation_summary.csv",
+        "history": run_dir / "fit_history.csv",
+        "metrics": run_dir / "outer_metrics.csv",
+    }
+    predictions.to_parquet(paths["predictions"], index=False)
+    pd.concat((pd.read_parquet(path) for path in seed_files), ignore_index=True).to_parquet(
+        paths["seed_predictions"], index=False
+    )
+    pd.concat((pd.read_parquet(path) for path in crossfit_files), ignore_index=True).to_parquet(
+        paths["calibration_predictions"], index=False
+    )
+    if diagnostic_files:
+        pd.concat((pd.read_csv(path) for path in diagnostic_files), ignore_index=True).to_csv(
+            paths["diagnostics"], index=False
+        )
+    if summary_files:
+        pd.concat((pd.read_csv(path) for path in summary_files), ignore_index=True).to_csv(
+            paths["adaptation_summary"], index=False
+        )
+    pd.concat((pd.read_csv(path) for path in history_files), ignore_index=True).to_csv(
+        paths["history"], index=False
+    )
+    _score_predictions(predictions).to_csv(paths["metrics"], index=False)
+    return paths
+
+
 def run_neural_outer(
     repo_root: Path,
     config: dict[str, Any],
@@ -766,39 +817,4 @@ def run_neural_outer(
                 raise AssertionError("An outer prediction is missing its endpoint")
             labelled.to_parquet(shard / destination_name, index=False)
 
-    prediction_files = sorted(shard_root.glob("*/*outer_predictions.parquet"))
-    seed_files = sorted(shard_root.glob("*/*outer_seed_predictions.parquet"))
-    crossfit_files = sorted(shard_root.glob("*/*source_calibration_predictions.parquet"))
-    diagnostic_files = sorted(shard_root.glob("*/*adaptation_diagnostics.csv"))
-    summary_files = sorted(shard_root.glob("*/*adaptation_summary.csv"))
-    history_files = sorted(shard_root.glob("*/*fit_history.csv"))
-    predictions = pd.concat((pd.read_parquet(path) for path in prediction_files), ignore_index=True)
-    paths = {
-        "predictions": run_dir / "outer_predictions.parquet",
-        "seed_predictions": run_dir / "outer_seed_predictions.parquet",
-        "calibration_predictions": run_dir / "source_calibration_predictions.parquet",
-        "diagnostics": run_dir / "adaptation_diagnostics.csv",
-        "adaptation_summary": run_dir / "adaptation_summary.csv",
-        "history": run_dir / "fit_history.csv",
-        "metrics": run_dir / "outer_metrics.csv",
-    }
-    predictions.to_parquet(paths["predictions"], index=False)
-    pd.concat((pd.read_parquet(path) for path in seed_files), ignore_index=True).to_parquet(
-        paths["seed_predictions"], index=False
-    )
-    pd.concat((pd.read_parquet(path) for path in crossfit_files), ignore_index=True).to_parquet(
-        paths["calibration_predictions"], index=False
-    )
-    if diagnostic_files:
-        pd.concat((pd.read_csv(path) for path in diagnostic_files), ignore_index=True).to_csv(
-            paths["diagnostics"], index=False
-        )
-    if summary_files:
-        pd.concat((pd.read_csv(path) for path in summary_files), ignore_index=True).to_csv(
-            paths["adaptation_summary"], index=False
-        )
-    pd.concat((pd.read_csv(path) for path in history_files), ignore_index=True).to_csv(
-        paths["history"], index=False
-    )
-    _score_predictions(predictions).to_csv(paths["metrics"], index=False)
-    return paths
+    return aggregate_neural_outer_shards(shard_root, run_dir)

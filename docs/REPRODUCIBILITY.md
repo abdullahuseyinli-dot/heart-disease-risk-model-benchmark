@@ -151,3 +151,30 @@ baseline plus v4 neural predictions:
 The completed v3 outcomes were known before the recovery lock, so this must be
 reported as a mechanical recovery of two still-unopened neural evaluations, not
 as a fresh joint preregistration of the already completed comparisons.
+
+## Protocol-v5 exact-aggregation recovery
+
+MIRRAMS v4 failed after its endpoint join because a broad shard glob also selected
+the endpoint-free files. Preserve that run; do not retrain or overwrite it. Commit
+the exact-filename fix, no-refit finalizer, v4 failure evidence, and v5 configs,
+then freeze:
+
+```powershell
+.venv\Scripts\python.exe -m heartshift.cli.freeze --repo-root . --config configs/release/freeze_v5_aggregation_recovery.yaml --output artifacts/locks/heartshift_candidate_v5_aggregation_recovery.json
+```
+
+Finalize the already-fixed MIRRAMS shards without fitting a model, then run the
+still-unopened PS-MaskDRO target once:
+
+```powershell
+.venv\Scripts\python.exe -m heartshift.cli.finalize_neural_outer --repo-root . --config configs/benchmark/mirrams_outer_v5_finalize.yaml --confirmation FINALIZE_LOCKED_SHARDS_ONCE
+.venv\Scripts\python.exe -m heartshift.cli.psmask --repo-root . --config configs/benchmark/psmask_outer_v5.yaml --phase outer --confirmation RUN_LOCKED_OUTER_ONCE
+```
+
+Audit and report only after both commands finish:
+
+```powershell
+.venv\Scripts\python.exe -m heartshift.cli.audit_outer --repo-root . --run-dir artifacts/runs/mirrams-outer-v5-finalized --kind heart-neural
+.venv\Scripts\python.exe -m heartshift.cli.audit_outer --repo-root . --run-dir artifacts/runs/psmask-outer-v5 --kind heart-neural
+.venv\Scripts\python.exe -m heartshift.cli.report_heart --repo-root . --config configs/reporting/heart_outer_v5.yaml --output-dir artifacts/reports/heart-outer-v5
+```
