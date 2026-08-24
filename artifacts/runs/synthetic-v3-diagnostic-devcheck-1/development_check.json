@@ -1,0 +1,38 @@
+{
+  "status": "method_development_not_confirmatory",
+  "date_utc": "2026-08-24",
+  "git_base_commit": "21c798b",
+  "registered_run_seeds_used": false,
+  "development_seeds": [7001, 7002, 7003],
+  "n_per_environment": 500,
+  "source_environment": "synthetic_e2",
+  "target_environment": "synthetic_e3",
+  "evidence_definition": "(age - 53) / 8; fixed before checking scenarios",
+  "diagnostic": {
+    "bootstrap_repetitions": 199,
+    "rff_features_per_view": 128,
+    "alpha": 0.05,
+    "prior_grid": [0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95]
+  },
+  "results": [
+    {"scenario": "label_only", "seed": 7001, "accepted": true, "evidence_p": 0.485, "core_p": 0.375, "mask_p": 0.250, "composite_p": 0.480, "support": true},
+    {"scenario": "label_only", "seed": 7002, "accepted": true, "evidence_p": 0.635, "core_p": 0.910, "mask_p": 0.750, "composite_p": 0.975, "support": true},
+    {"scenario": "label_only", "seed": 7003, "accepted": false, "evidence_p": 0.585, "core_p": 0.005, "mask_p": 0.965, "composite_p": 0.045, "support": true},
+    {"scenario": "mar_policy_shift", "seed": 7001, "accepted": false, "evidence_p": 0.485, "core_p": 0.375, "mask_p": 0.005, "composite_p": 0.005, "support": true},
+    {"scenario": "mar_policy_shift", "seed": 7002, "accepted": false, "evidence_p": 0.635, "core_p": 0.910, "mask_p": 0.005, "composite_p": 0.005, "support": true},
+    {"scenario": "mar_policy_shift", "seed": 7003, "accepted": false, "evidence_p": 0.585, "core_p": 0.005, "mask_p": 0.005, "composite_p": 0.005, "support": true},
+    {"scenario": "conditional_only", "seed": 7001, "accepted": false, "evidence_p": 0.485, "core_p": 0.005, "mask_p": 0.250, "composite_p": 0.005, "support": true},
+    {"scenario": "conditional_only", "seed": 7002, "accepted": false, "evidence_p": 0.635, "core_p": 0.005, "mask_p": 0.750, "composite_p": 0.005, "support": true},
+    {"scenario": "conditional_only", "seed": 7003, "accepted": false, "evidence_p": 0.585, "core_p": 0.005, "mask_p": 0.965, "composite_p": 0.005, "support": true},
+    {"scenario": "mnar_outcome_only", "seed": 7001, "accepted": false, "evidence_p": 0.485, "core_p": 0.375, "mask_p": 0.005, "composite_p": 0.005, "support": true},
+    {"scenario": "mnar_outcome_only", "seed": 7002, "accepted": false, "evidence_p": 0.635, "core_p": 0.910, "mask_p": 0.005, "composite_p": 0.005, "support": true},
+    {"scenario": "mnar_outcome_only", "seed": 7003, "accepted": false, "evidence_p": 0.585, "core_p": 0.005, "mask_p": 0.005, "composite_p": 0.005, "support": true}
+  ],
+  "acceptance_rates": {
+    "label_only": 0.6666666666666666,
+    "mar_policy_shift": 0.0,
+    "conditional_only": 0.0,
+    "mnar_outcome_only": 0.0
+  },
+  "interpretation": "Development seeds showed the registered operating pattern. One label-only false rejection remains visible and motivated retaining the predeclared 2-of-3 acceptance gate rather than claiming perfect type-I behavior."
+}

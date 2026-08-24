@@ -10,7 +10,14 @@ from scipy.special import expit
 
 from heartshift.data.uci import FEATURE_COLUMNS, SCHEMA_VERSION, ZERO_SENTINEL_COLUMNS
 
-SYNTHETIC_SCENARIOS = ("label_mar", "conditional_shift", "mnar_outcome")
+LEGACY_SYNTHETIC_SCENARIOS = ("label_mar", "conditional_shift", "mnar_outcome")
+PROTOCOL_V3_SYNTHETIC_SCENARIOS = (
+    "label_only",
+    "mar_policy_shift",
+    "conditional_only",
+    "mnar_outcome_only",
+)
+SYNTHETIC_SCENARIOS = (*LEGACY_SYNTHETIC_SCENARIOS, *PROTOCOL_V3_SYNTHETIC_SCENARIOS)
 
 
 def _categorical_from_uniform(uniform: np.ndarray, probabilities: np.ndarray) -> np.ndarray:
@@ -28,7 +35,9 @@ def _environment_frame(
 ) -> pd.DataFrame:
     y = (rng.random(n) < prevalence).astype(np.int8)
     signed = 2.0 * y - 1.0
-    conditional_modifier = -1.0 if scenario == "conditional_shift" and environment == 3 else 1.0
+    conditional_modifier = (
+        -1.0 if scenario in {"conditional_shift", "conditional_only"} and environment == 3 else 1.0
+    )
 
     age = rng.normal(53.0 + 4.0 * signed, 8.0, n)
     trestbps = rng.normal(130.0 + 7.0 * signed, 14.0, n)
@@ -39,7 +48,7 @@ def _environment_frame(
     cp_positive = np.array([0.08, 0.12, 0.20, 0.60])
     cp_negative = np.array([0.30, 0.30, 0.25, 0.15])
     cp_probabilities = np.where(y[:, None].astype(bool), cp_positive, cp_negative)
-    if scenario == "conditional_shift" and environment == 3:
+    if scenario in {"conditional_shift", "conditional_only"} and environment == 3:
         cp_probabilities = np.where(y[:, None].astype(bool), cp_negative, cp_positive)
     cp = _categorical_from_uniform(rng.random(n), cp_probabilities).astype(float)
     fbs = (rng.random(n) < expit(-1.8 + 0.5 * signed)).astype(float)
@@ -91,12 +100,19 @@ def _environment_frame(
             "thal": thal,
         }
     )
-    missing_base = (0.05, 0.15, 0.30, 0.45)[environment]
+    if scenario in {"label_mar", "mar_policy_shift", "mnar_outcome"}:
+        # Preserve the protocol-v1/v2 acquisition mechanisms exactly.  The v3
+        # label-only and conditional controls instead hold the acquisition rule
+        # fixed across environments so that ordinary observed-data label shift
+        # is a valid null hypothesis.
+        missing_base = (0.05, 0.15, 0.30, 0.45)[environment]
+    else:
+        missing_base = 0.25
     mar_driver = (age - 53.0) / 10.0 + 0.4 * (sex - 0.5)
     for feature_index, feature in enumerate(FEATURE_COLUMNS[3:], start=3):
         feature_offset = 0.12 * ((feature_index % 4) - 1.5)
         missing_logit = np.log(missing_base / (1 - missing_base)) + mar_driver + feature_offset
-        if scenario == "mnar_outcome":
+        if scenario == "mnar_outcome" or (scenario == "mnar_outcome_only" and environment == 3):
             missing_logit = missing_logit + 1.5 * signed
         missing = rng.random(n) < expit(missing_logit)
         frame.loc[missing, feature] = np.nan

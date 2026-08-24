@@ -2,7 +2,7 @@
 
 Protocol version: 0.2.0
 
-Status: protocol-v2 synthetic gate failed; protocol-v3 diagnostic development;
+Status: protocol-v2 synthetic gate failed; protocol-v3 diagnostic registered;
 outer targets locked
 Primary method working name: Prior-Separated Measurement-Policy DRO
 (`PS-MP-DRO`, implemented as `v5_mask_only_dro`)
@@ -189,3 +189,12 @@ diagnostic checks. Label-plus-MAR acceptance was 0.0 and conditional-shift
 acceptance was 0.6666666666666666. The outer gate remains closed. The immutable
 run, hashes, mechanism diagnosis, and pre-run protocol-v3 route are documented in
 `docs/SYNTHETIC_V2_FAILURE.md`. No threshold from v2 is retrospectively changed.
+
+Protocol v3 is specified in `docs/SYNTHETIC_V3_PROTOCOL.md`. It separates pure
+label shift from MAR policy shift, conditional shift, and target-only MNAR; uses
+one natural-policy prediction per source patient; and tests calibrated evidence,
+always-observed core values, observed masks, and their equally weighted composite
+with a plug-in bootstrap that re-estimates prevalence. Development seeds
+7001-7003 produced acceptance rates 2/3, 0, 0, and 0 respectively for the four
+mechanisms. This development check is retained as method-development evidence,
+not confirmatory evidence and not a result from the registered seeds.

@@ -33,8 +33,9 @@ source-informed model selection, not an independent confirmation result. The
 protocol-v2 synthetic diagnostic gate subsequently failed and is preserved; its
 mechanism analysis is in
 [the synthetic-v2 failure record](docs/SYNTHETIC_V2_FAILURE.md). The outer study
-remains closed while a predeclared protocol-v3 diagnostic separates pure label
-shift from MAR acquisition shift, conditional shift, and target-only MNAR.
+remains closed while the [registered protocol-v3 mechanism
+study](docs/SYNTHETIC_V3_PROTOCOL.md) separates pure label shift from MAR
+acquisition shift, conditional shift, and target-only MNAR.
 
 Research documentation:
 

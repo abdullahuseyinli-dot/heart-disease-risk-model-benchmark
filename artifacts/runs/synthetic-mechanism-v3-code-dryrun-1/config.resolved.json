@@ -1,0 +1,99 @@
+{
+  "acceptance_gate_version": "v3",
+  "acceptance_gates": {
+    "adaptation_experiments": [
+      "prior_separated",
+      "mask_only_dro"
+    ],
+    "conditional_only_maximum_diagnostic_acceptance_rate": 1.0,
+    "label_only_maximum_mean_adapted_minus_equal_log_loss": 10.0,
+    "label_only_maximum_mean_mlls_prevalence_absolute_error": 1.0,
+    "label_only_minimum_diagnostic_acceptance_rate": 0.0,
+    "mar_policy_maximum_robust_minus_reference_balanced_log_loss": 10.0,
+    "mar_policy_shift_maximum_diagnostic_acceptance_rate": 1.0,
+    "mar_reference_experiment": "structured_policy_bank",
+    "mar_robust_experiment": "mask_only_dro",
+    "mnar_outcome_only_maximum_diagnostic_acceptance_rate": 1.0,
+    "required_experiments": [
+      "prior_separated",
+      "structured_policy_bank",
+      "mask_only_dro"
+    ],
+    "required_seeds_per_cell": 1
+  },
+  "common_parameters": {
+    "brier_beta": 0.0,
+    "d_model": 32,
+    "dro_lambda": 0.5,
+    "dro_tau": 0.2,
+    "dropout": 0.1,
+    "evaluation_interval": 1,
+    "learning_rate": 0.001,
+    "max_epochs": 5,
+    "n_heads": 4,
+    "n_layers": 1,
+    "patience_evaluations": 3,
+    "validation_mask_replicates": 1,
+    "weight_decay": 0.001
+  },
+  "device": "cuda",
+  "diagnostic": {
+    "alpha": 0.05,
+    "bootstrap_repetitions": 19,
+    "maximum_nearest_hamming_fraction": 0.25,
+    "mode": "composite_multiview_v3",
+    "prior_grid": [
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.25,
+      0.3,
+      0.35,
+      0.4,
+      0.45,
+      0.5,
+      0.55,
+      0.6,
+      0.65,
+      0.7,
+      0.75,
+      0.8,
+      0.85,
+      0.9,
+      0.95
+    ],
+    "rff_features_per_view": 32
+  },
+  "experiments": [
+    {
+      "name": "prior_separated",
+      "variant": "v2"
+    },
+    {
+      "name": "structured_policy_bank",
+      "variant": "v4"
+    },
+    {
+      "name": "mask_only_dro",
+      "variant": "v5_mask"
+    }
+  ],
+  "n_per_environment": 80,
+  "prevalences": [
+    0.2,
+    0.4,
+    0.6,
+    0.8
+  ],
+  "protocol_version": "synthetic-mechanism-v3-code-dryrun",
+  "scenarios": [
+    "label_only",
+    "mar_policy_shift",
+    "conditional_only",
+    "mnar_outcome_only"
+  ],
+  "seeds": [
+    9161
+  ]
+}

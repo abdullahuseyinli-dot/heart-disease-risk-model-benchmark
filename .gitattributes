@@ -3,3 +3,7 @@ data/raw/** -text -diff
 
 # Columnar evidence is binary and must never receive line-ending conversion.
 *.parquet -text
+
+# Generated run evidence is hashed byte-for-byte. Do not normalize line endings
+# or ask textual-diff whitespace checks to reinterpret Windows CSV/JSON records.
+artifacts/runs/** -text -diff

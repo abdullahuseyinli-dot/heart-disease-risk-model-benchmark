@@ -3,6 +3,7 @@ from __future__ import annotations
 import numpy as np
 
 from heartshift.adaptation import (
+    acquisition_aware_label_shift_diagnostic,
     estimate_target_prevalence_mlls,
     estimate_target_prevalence_soft_bbse,
     mixture_fit_diagnostic,
@@ -69,3 +70,66 @@ def test_mixture_diagnostic_accepts_compatible_and_rejects_large_shift() -> None
     )
     assert accepted.accepted_interval is not None
     assert not rejected.accepted_priors
+
+
+def test_multiview_diagnostic_accepts_empirical_mixture_and_rejects_core_shift() -> None:
+    rng = np.random.default_rng(41)
+    source_labels = (rng.random(800) < 0.45).astype(int)
+    source_evidence = rng.normal(2.0 * source_labels - 1.0, 0.7)
+    source_core = np.column_stack(
+        [
+            rng.normal(2.0 * source_labels - 1.0, 0.8),
+            rng.normal(source_labels, 1.0),
+            rng.integers(0, 4, size=len(source_labels)),
+        ]
+    )
+    observation_probability = np.where(
+        source_labels[:, None].astype(bool),
+        np.array([0.85, 0.70, 0.90, 0.65]),
+        np.array([0.95, 0.80, 0.85, 0.75]),
+    )
+    source_mask = rng.random(observation_probability.shape) < observation_probability
+
+    target_labels = rng.random(500) < 0.75
+    target_indices = np.empty(len(target_labels), dtype=int)
+    for label in (0, 1):
+        candidates = np.flatnonzero(source_labels == label)
+        selected = target_labels == label
+        target_indices[selected] = rng.choice(candidates, size=int(selected.sum()), replace=True)
+    target_evidence = source_evidence[target_indices]
+    target_core = source_core[target_indices]
+    target_mask = source_mask[target_indices]
+    common = {
+        "source_sample_ids": [f"source-{index}" for index in range(len(source_labels))],
+        "target_sample_ids": [f"target-{index}" for index in range(len(target_labels))],
+        "prior_grid": [0.55, 0.65, 0.75, 0.85, 0.95],
+        "bootstrap_repetitions": 99,
+        "rff_features_per_view": 64,
+        "seed": 17,
+    }
+    accepted = acquisition_aware_label_shift_diagnostic(
+        source_evidence,
+        source_labels,
+        source_core,
+        source_mask,
+        target_evidence,
+        target_core,
+        target_mask,
+        **common,
+    )
+    shifted_core = target_core.copy()
+    shifted_core[:, 0] += 6.0
+    rejected = acquisition_aware_label_shift_diagnostic(
+        source_evidence,
+        source_labels,
+        source_core,
+        source_mask,
+        target_evidence,
+        shifted_core,
+        target_mask,
+        **common,
+    )
+    assert accepted.accepted
+    assert accepted.mask_support.passed
+    assert not rejected.accepted
+    assert not bool(rejected.table.set_index("view").loc["core", "accepted"])

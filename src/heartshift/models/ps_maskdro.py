@@ -13,7 +13,7 @@ import pandas as pd
 import torch
 import torch.nn.functional as functional
 
-from heartshift.data.uci import FEATURE_COLUMNS
+from heartshift.data.uci import CORE_COLUMNS, FEATURE_COLUMNS
 from heartshift.masks import MaskPolicy, apply_mask_policy, default_policy_bank
 from heartshift.metrics import binary_metrics
 from heartshift.models.observed_set import NeuralPreprocessor, ObservedFeatureSetEncoder
@@ -30,6 +30,9 @@ VALID_VARIANTS = (
     "v7",
     "mirrams",
 )
+
+CORE_PREDICTION_COLUMNS = tuple(f"core__{feature}" for feature in CORE_COLUMNS)
+MASK_PREDICTION_COLUMNS = tuple(f"observed__{feature}" for feature in FEATURE_COLUMNS)
 
 
 @dataclass
@@ -253,6 +256,14 @@ def predict_policy_bank(
             frame["evidence_logit"] = logits.detach().cpu().numpy()
             frame["y_score"] = torch.sigmoid(logits).detach().cpu().numpy()
             frame["observed_fraction"] = observed.mean(axis=1)
+            for feature, output_column in zip(CORE_COLUMNS, CORE_PREDICTION_COLUMNS, strict=True):
+                frame[output_column] = data[feature].to_numpy(dtype=np.float64)
+            for feature_index, output_column in enumerate(MASK_PREDICTION_COLUMNS):
+                frame[output_column] = observed[:, feature_index]
+            bit_weights = np.left_shift(
+                np.int64(1), np.arange(len(FEATURE_COLUMNS), dtype=np.int64)
+            )
+            frame["observed_mask_code"] = observed.astype(np.int64) @ bit_weights
             records.append(frame)
     return pd.concat(records, ignore_index=True)
 

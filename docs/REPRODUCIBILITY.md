@@ -35,11 +35,15 @@ seeds and may start only after its referenced developmental selection exists.
 .venv\Scripts\python.exe -m heartshift.cli.psmask --repo-root . --config configs/benchmark/psmask_inner_confirm_v1.yaml --phase inner --run-name psmask-inner-confirm-v1
 .venv\Scripts\python.exe -m heartshift.cli.psmask --repo-root . --config configs/benchmark/mirrams_inner_confirm_v1.yaml --phase inner --run-name mirrams-inner-confirm-v1
 .venv\Scripts\python.exe -m heartshift.cli.synthetic --repo-root . --config configs/synthetic/mechanism_v2.yaml --run-name synthetic-mechanism-v2
+.venv\Scripts\python.exe -m heartshift.cli.synthetic --repo-root . --config configs/synthetic/mechanism_v3.yaml --run-name synthetic-mechanism-v3
 .venv\Scripts\python.exe -m heartshift.cli.readmission --repo-root . --config configs/independent/readmission_inner_v1.yaml --phase inner --run-name readmission-inner-v1
 ```
 
 Failures and partial prediction shards remain in their run directories. Do not
 overwrite or delete them. A failed synthetic gate closes all outer evaluations.
+Protocol v2 failed and remains closed. Protocol v3 may authorize a newly versioned
+freeze only if every gate in its machine-readable acceptance record passes; the
+historical v2 freeze and outer commands below are not authorization to bypass it.
 
 The protocol-v1 PS-MaskDRO gate failed and remains immutable at
 `artifacts/runs/psmask-inner-confirm-v1/acceptance_gate_v1.json`. Protocol v2 does

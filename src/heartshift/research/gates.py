@@ -85,6 +85,118 @@ def evaluate_synthetic_gates(
     }
 
 
+def evaluate_synthetic_v3_gates(
+    summary: pd.DataFrame,
+    gate_config: dict[str, Any],
+) -> dict[str, Any]:
+    """Evaluate the mechanism-separated protocol-v3 gate without post-hoc tuning."""
+    required_scenarios = {
+        "label_only",
+        "mar_policy_shift",
+        "conditional_only",
+        "mnar_outcome_only",
+    }
+    required_experiments = set(str(value) for value in gate_config["required_experiments"])
+    adaptation_experiments = set(str(value) for value in gate_config["adaptation_experiments"])
+    if not adaptation_experiments <= required_experiments:
+        raise ValueError("Every v3 adaptation experiment must also be required")
+    selected = summary.loc[
+        summary["scenario"].isin(required_scenarios)
+        & summary["experiment"].isin(required_experiments)
+    ].copy()
+    expected_cells = pd.MultiIndex.from_product(
+        [sorted(required_scenarios), sorted(required_experiments)],
+        names=["scenario", "experiment"],
+    )
+    observed_cells = pd.MultiIndex.from_frame(selected[["scenario", "experiment"]])
+    if len(selected) != len(expected_cells) or set(observed_cells) != set(expected_cells):
+        raise ValueError("Synthetic v3 summary does not contain every required mechanism cell")
+
+    adapted = selected.loc[selected["experiment"].isin(adaptation_experiments)]
+    label = adapted.loc[adapted["scenario"].eq("label_only")]
+    mar = adapted.loc[adapted["scenario"].eq("mar_policy_shift")]
+    conditional = adapted.loc[adapted["scenario"].eq("conditional_only")]
+    mnar = adapted.loc[adapted["scenario"].eq("mnar_outcome_only")]
+    mar_all = selected.loc[selected["scenario"].eq("mar_policy_shift")].set_index("experiment")
+    robust_name = str(gate_config["mar_robust_experiment"])
+    reference_name = str(gate_config["mar_reference_experiment"])
+    if robust_name not in mar_all.index or reference_name not in mar_all.index:
+        raise ValueError("The configured MAR robustness comparison is unavailable")
+
+    checks: list[dict[str, Any]] = [
+        {
+            "name": "required_seeds_per_cell",
+            "observed": int(selected["seeds"].min()),
+            "operator": ">=",
+            "threshold": int(gate_config["required_seeds_per_cell"]),
+        },
+        {
+            "name": "label_only_diagnostic_acceptance",
+            "observed": float(label["diagnostic_acceptance_rate"].min()),
+            "operator": ">=",
+            "threshold": float(gate_config["label_only_minimum_diagnostic_acceptance_rate"]),
+        },
+        {
+            "name": "label_only_mlls_prevalence_error",
+            "observed": float(label["mean_prevalence_absolute_error"].max()),
+            "operator": "<=",
+            "threshold": float(
+                gate_config["label_only_maximum_mean_mlls_prevalence_absolute_error"]
+            ),
+        },
+        {
+            "name": "label_only_adapted_log_loss_delta",
+            "observed": float(label["mean_adapted_minus_equal_log_loss"].max()),
+            "operator": "<=",
+            "threshold": float(gate_config["label_only_maximum_mean_adapted_minus_equal_log_loss"]),
+        },
+        {
+            "name": "mar_policy_maskdro_balanced_log_loss_delta",
+            "observed": float(
+                mar_all.loc[robust_name, "mean_balanced_log_loss"]
+                - mar_all.loc[reference_name, "mean_balanced_log_loss"]
+            ),
+            "operator": "<=",
+            "threshold": float(
+                gate_config["mar_policy_maximum_robust_minus_reference_balanced_log_loss"]
+            ),
+        },
+        {
+            "name": "mar_policy_shift_diagnostic_acceptance",
+            "observed": float(mar["diagnostic_acceptance_rate"].max()),
+            "operator": "<=",
+            "threshold": float(gate_config["mar_policy_shift_maximum_diagnostic_acceptance_rate"]),
+        },
+        {
+            "name": "conditional_only_diagnostic_acceptance",
+            "observed": float(conditional["diagnostic_acceptance_rate"].max()),
+            "operator": "<=",
+            "threshold": float(gate_config["conditional_only_maximum_diagnostic_acceptance_rate"]),
+        },
+        {
+            "name": "mnar_outcome_only_diagnostic_acceptance",
+            "observed": float(mnar["diagnostic_acceptance_rate"].max()),
+            "operator": "<=",
+            "threshold": float(gate_config["mnar_outcome_only_maximum_diagnostic_acceptance_rate"]),
+        },
+    ]
+    for check in checks:
+        observed = float(check["observed"])
+        threshold = float(check["threshold"])
+        check["finite"] = bool(np.isfinite(observed))
+        check["passed"] = bool(
+            check["finite"]
+            and (observed >= threshold if check["operator"] == ">=" else observed <= threshold)
+        )
+    return {
+        "protocol": "synthetic-mechanism-v3",
+        "passed": all(bool(check["passed"]) for check in checks),
+        "checks": checks,
+        "required_experiments": sorted(required_experiments),
+        "adaptation_experiments": sorted(adaptation_experiments),
+    }
+
+
 def _psmask_confirmation_summary(run_dir: Path) -> tuple[pd.DataFrame, int]:
     """Reconstruct the registered PS-MaskDRO estimands from prediction metrics."""
     metrics = pd.read_csv(run_dir / "inner_metrics.csv")

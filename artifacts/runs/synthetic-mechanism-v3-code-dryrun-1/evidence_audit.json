@@ -1,0 +1,30 @@
+{
+  "audit_status": "code_dryrun_complete_noninferential",
+  "config_sha256": "101806aa77fb813d70ec408ca9f00b3c6d1cf35523521907175599962e588cef",
+  "gate_recomputed_exactly_from_csv_with_float_precision_round_trip": true,
+  "git_commit": "21c798b75ddef2df667ec2d5d0e5e87f7414dfff",
+  "prediction_rows": 960,
+  "source_prediction_rows": 960,
+  "result_rows": 12,
+  "diagnostic_rows": 48,
+  "summary_rows": 12,
+  "training_history_rows": 60,
+  "unique_experiment_scenario_seed_cells": 12,
+  "seeds": [
+    9161
+  ],
+  "gate_passed": true,
+  "failed_checks": [],
+  "sha256": {
+    "README.md": "254E99CCC6B2B78BF7B28C079A9F7734F5D184A822401878F6E3E3F37A52EB72",
+    "acceptance_gate.json": "25CB8EA4EC1C9B59C16ECF16CB8BBB6EFB32B92796C9BA78EFCA4A6A571FD450",
+    "config.resolved.json": "4A68BF9A00623FE1109CF4C7B60A115F6FD542077554DF0D756F0049D789ED0A",
+    "mixture_diagnostics.csv": "4394F7E395BFAD19F4A033C82864F1AE92E6C2A96CF4BB1B2FE87911A6E3CD8D",
+    "run_manifest.json": "BAB6E23AF7E202F9ABB2B5746FADC94AD82CFFEF9A4C1C088F339E20BB45F81B",
+    "synthetic_results.csv": "2F7416D7A98D8EE9E15D7AFAF050E90D7543E5295446D61DCC28522A410147AD",
+    "synthetic_source_predictions.parquet": "EBEEFFE88295DEAD77466F7DD034885912EFE5361B12276C24AFE3D263DB86D9",
+    "synthetic_summary.csv": "9EFEA516A75BAE2E962EC80EFD960A1D220885FF96F138BDA248EB2B33FC7F95",
+    "synthetic_target_predictions.parquet": "41E1F86B6E1C48EAD30A7847FD5E8C9FBF971AB129C141670E2E398AD4B10D8A",
+    "training_history.csv": "14DEA5402EF59301617CD30C3988B8F7DFEFA49FE53DCF3136D83B8F7EE4CE40"
+  }
+}
