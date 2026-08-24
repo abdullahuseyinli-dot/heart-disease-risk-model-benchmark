@@ -20,7 +20,7 @@ completion does not imply formal compliance or low risk of bias.
 | Uncertainty | paired patient bootstrap; site estimates retained | Complete in code |
 | Fairness analysis | sex-stratified descriptive analysis | Pending outer predictions |
 | Decision-curve analysis | only for an explicitly calibrated track | Not yet applicable |
-| Synthetic success/failure mechanisms | protocol-v2 registered gate and immutable outputs | Pending v2 run |
+| Synthetic success/failure mechanisms | immutable protocol-v2 failure and registered v3 mechanism separation | V2 failed; v3 pending |
 | Independent evidence | patient-disjoint UCI readmission task | Source test pending |
 | Data/code availability | hashes, environment lock, commands | Complete in code; release pending |
 | Clinical-use limitations | model card and limitations | Complete |

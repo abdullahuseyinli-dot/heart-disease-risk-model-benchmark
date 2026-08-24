@@ -2,7 +2,7 @@
 
 Protocol version: 0.2.0
 
-Status: protocol-v2 source selection; synthetic and independent-source gates pending;
+Status: protocol-v2 synthetic gate failed; protocol-v3 diagnostic development;
 outer targets locked
 Primary method working name: Prior-Separated Measurement-Policy DRO
 (`PS-MP-DRO`, implemented as `v5_mask_only_dro`)
@@ -181,3 +181,11 @@ This amendment is model selection informed by source confirmation results. It is
 not an independent confirmation of V5-mask. Only the once-run locked outer tests
 can supply held-out evidence, and all multiplicity and small-site limitations
 remain.
+
+## Synthetic protocol-v2 failure amendment
+
+The protocol-v2 mechanism run completed all registered cells but failed two
+diagnostic checks. Label-plus-MAR acceptance was 0.0 and conditional-shift
+acceptance was 0.6666666666666666. The outer gate remains closed. The immutable
+run, hashes, mechanism diagnosis, and pre-run protocol-v3 route are documented in
+`docs/SYNTHETIC_V2_FAILURE.md`. No threshold from v2 is retrospectively changed.

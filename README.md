@@ -30,8 +30,11 @@ source-only criteria. That failure is preserved. Before any outer label access,
 a deterministic protocol-v2 rule selected the measurement-policy-only DRO
 variant (`v5_mask_only_dro`) for the locked benchmark. This is explicitly
 source-informed model selection, not an independent confirmation result. The
-outer study remains closed until the synthetic, independent-source, repository,
-and freeze gates pass.
+protocol-v2 synthetic diagnostic gate subsequently failed and is preserved; its
+mechanism analysis is in
+[the synthetic-v2 failure record](docs/SYNTHETIC_V2_FAILURE.md). The outer study
+remains closed while a predeclared protocol-v3 diagnostic separates pure label
+shift from MAR acquisition shift, conditional shift, and target-only MNAR.
 
 Research documentation:
 
