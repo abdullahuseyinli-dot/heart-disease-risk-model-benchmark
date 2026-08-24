@@ -44,6 +44,8 @@ Research documentation:
 - [Research protocol](docs/RESEARCH_PROTOCOL.md)
 - [Method specification](docs/METHOD_SPECIFICATION.md)
 - [Reproducibility runbook](docs/REPRODUCIBILITY.md)
+- [Synthetic protocol-v3 result](docs/SYNTHETIC_V3_RESULT.md)
+- [Independent readmission source-only result](docs/READMISSION_INNER_V1_RESULT.md)
 - [Data card](docs/DATA_CARD.md)
 - [Model card](docs/MODEL_CARD.md)
 - [Limitations](docs/LIMITATIONS.md)

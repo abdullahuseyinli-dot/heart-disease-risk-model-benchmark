@@ -125,6 +125,13 @@ If the target score distribution is incompatible with any mixture of source clas
 
 UCI Heart is the historical case study. A general method claim additionally requires controlled missingness tasks and at least one genuinely multi-hospital dataset such as GOSSIS/eICU. Different endpoints are described as general-method validation, not external heart-disease validation. A clinical heart claim requires a contemporary multi-centre dataset with a compatible endpoint.
 
+The patient-disjoint UCI diabetes-readmission source-only inner experiment is
+complete and audited. PS-MaskDRO-ANE ranked first on the declared macro/worst
+measurement-policy balanced-log-loss selection criterion, but lost 0.0475
+natural AUROC relative to pooled ERM. This visible trade-off is retained in
+`docs/READMISSION_INNER_V1_RESULT.md`. The independent `id_test` and `ood_test`
+outcomes remain locked until the complete v3 candidate freeze.
+
 ## Preregistered kill criteria
 
 - Pivot to a benchmark or negative-results contribution if leakage-safe CatBoost, TabM, or TabPFN matches the candidate on median and worst site x mask outcomes.
