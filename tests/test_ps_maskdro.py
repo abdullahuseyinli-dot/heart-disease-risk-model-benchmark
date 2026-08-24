@@ -5,11 +5,16 @@ from pathlib import Path
 import numpy as np
 import torch
 
-from heartshift.data.uci import load_uci_heart
+from heartshift.data.uci import CORE_COLUMNS, FEATURE_COLUMNS, load_uci_heart
+from heartshift.masks import MaskPolicy
 from heartshift.models.ps_maskdro import (
+    CORE_MISSING_SENTINEL,
+    CORE_PREDICTION_COLUMNS,
+    MASK_PREDICTION_COLUMNS,
     fit_ps_maskdro,
     fit_ps_maskdro_fixed_epochs,
     mirrams_objective,
+    predict_policy_bank,
     ps_maskdro_objective,
 )
 
@@ -102,9 +107,11 @@ def test_short_cpu_training_is_finite() -> None:
 
 def test_fixed_epoch_refit_does_not_require_validation_data() -> None:
     data = load_uci_heart(EXTRACTED)
-    training = data.loc[data["site"].isin(["cleveland", "hungary"])].groupby(
-        ["site", "target"], group_keys=False
-    ).head(20)
+    training = (
+        data.loc[data["site"].isin(["cleveland", "hungary"])]
+        .groupby(["site", "target"], group_keys=False)
+        .head(20)
+    )
     result = fit_ps_maskdro_fixed_epochs(
         training,
         variant="v2",
@@ -122,3 +129,19 @@ def test_fixed_epoch_refit_does_not_require_validation_data() -> None:
     assert result.best_epoch == 2
     assert np.isnan(result.validation_score)
     assert len(result.history) == 2
+
+    mask_pool = training.loc[:, FEATURE_COLUMNS].notna().to_numpy()
+    predictions = predict_policy_bank(
+        result.model,
+        result.preprocessor,
+        training,
+        (MaskPolicy("drop_core", "panel", panel="core"),),
+        device=torch.device("cpu"),
+        base_seed=11,
+        replicates=1,
+        empirical_mask_pool=mask_pool,
+    )
+    for feature, core_column in zip(CORE_COLUMNS, CORE_PREDICTION_COLUMNS, strict=True):
+        mask_column = MASK_PREDICTION_COLUMNS[FEATURE_COLUMNS.index(feature)]
+        assert predictions[mask_column].eq(False).all()
+        assert predictions[core_column].eq(CORE_MISSING_SENTINEL).all()

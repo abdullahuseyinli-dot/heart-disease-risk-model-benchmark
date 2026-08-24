@@ -52,6 +52,40 @@ def test_v2_freeze_prespecifies_pivot_outer_runs_and_reports() -> None:
         assert str(outer["locked_run_name"]).endswith("-v2")
 
 
+def test_v3_freeze_prespecifies_mechanism_gated_outer_study() -> None:
+    config = load_yaml(REPO_ROOT / "configs/release/freeze_v3.yaml")
+    assert config["synthetic_run"] == "artifacts/runs/synthetic-mechanism-v3"
+    assert config["source_runs"]["readmission"] == ("artifacts/runs/readmission-inner-v1")
+    frozen = set(config["frozen_files"])
+    assert {
+        "configs/release/freeze_v3.yaml",
+        "configs/synthetic/mechanism_v3.yaml",
+        "configs/independent/readmission_inner_v1.yaml",
+        "configs/reporting/heart_outer_v3.yaml",
+        "configs/reporting/readmission_outer_v3.yaml",
+        "docs/SYNTHETIC_V3_PROTOCOL.md",
+        "docs/SYNTHETIC_V3_RESULT.md",
+        "docs/READMISSION_INNER_V1_RESULT.md",
+        "pyproject.toml",
+        "uv.lock",
+    } <= frozen
+    for relative in config["outer_configs"]:
+        outer = load_yaml(REPO_ROOT / relative)
+        assert outer["freeze_lock"] == "artifacts/locks/heartshift_candidate_v3.json"
+        assert str(outer["locked_run_name"]).endswith("-v3")
+
+    psmask = load_yaml(REPO_ROOT / "configs/benchmark/psmask_outer_v3.yaml")
+    assert set(psmask["adaptable_variants"]) == {"v2", "v5_mask"}
+    assert psmask["diagnostic"]["mode"] == "composite_multiview_v3"
+    assert psmask["diagnostic"]["bootstrap_repetitions"] == 199
+    assert psmask["diagnostic"]["rff_features_per_view"] == 128
+
+    readmission = load_yaml(REPO_ROOT / "configs/independent/readmission_outer_v3.yaml")
+    policies = {policy["name"]: policy for policy in readmission["mask_policies"]}
+    assert "mar_50" not in policies
+    assert policies["mcar_50"] == {"name": "mcar_50", "kind": "mcar", "rate": 0.5}
+
+
 def test_source_gate_rejects_outer_target_predictions(tmp_path: Path) -> None:
     sites = ["cleveland", "hungary", "switzerland", "va_long_beach"]
     validation_sites = ["hungary", "cleveland", "cleveland", "cleveland"]

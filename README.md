@@ -36,8 +36,9 @@ mechanism analysis is in
 [registered protocol-v3 mechanism study](docs/SYNTHETIC_V3_PROTOCOL.md) then
 passed all eight gates; its [prediction-reconstructed result](docs/SYNTHETIC_V3_RESULT.md)
 separates pure label shift from MAR acquisition shift, conditional shift, and
-target-only MNAR. Heart outer targets remain locked pending the remaining
-independent and freeze gates.
+target-only MNAR. The independent readmission source-only study and its evidence
+audit are also complete. Heart and readmission test targets remain locked until
+the clean protocol-v3 candidate freeze is generated and verified.
 
 Research documentation:
 

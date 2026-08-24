@@ -12,6 +12,7 @@ import pandas as pd
 import torch
 
 from heartshift.adaptation import (
+    acquisition_aware_label_shift_diagnostic,
     estimate_target_prevalence_mlls,
     estimate_target_prevalence_soft_bbse,
     fit_evidence_calibrator,
@@ -22,7 +23,18 @@ from heartshift.config import config_hash
 from heartshift.evaluation.classical_benchmark import write_run_manifest
 from heartshift.masks import MaskPolicy, apply_mask_policy, default_policy_bank, policy_seed
 from heartshift.metrics import binary_metrics
-from heartshift.models.ps_maskdro import fit_ps_maskdro_fixed_epochs, predict_policy_bank
+from heartshift.models.ps_maskdro import (
+    CORE_PREDICTION_COLUMNS,
+    MASK_PREDICTION_COLUMNS,
+    fit_ps_maskdro_fixed_epochs,
+    predict_policy_bank,
+)
+
+DIAGNOSTIC_VIEW_COLUMNS = (
+    *CORE_PREDICTION_COLUMNS,
+    *MASK_PREDICTION_COLUMNS,
+    "observed_mask_code",
+)
 
 
 def evaluation_units(
@@ -196,6 +208,110 @@ def _crossfit_target_policy_scores(
     return predictions, histories
 
 
+def _crossfit_same_policy_scores(
+    source: pd.DataFrame,
+    source_mask_pool: np.ndarray,
+    *,
+    outer_target: str,
+    experiment: str,
+    variant: str,
+    parameters: dict[str, Any],
+    epochs: int,
+    seeds: tuple[int, ...],
+    outer_mask_replicates: int,
+    evaluation_seed: int,
+    device: str,
+) -> tuple[pd.DataFrame, list[dict[str, Any]]]:
+    """Cross-fit one unique source prediction under each target evaluation policy.
+
+    Unlike the failed protocol-v2 mask-intersection route, this applies the same
+    named intervention separately to source and target natural observations. It
+    never attempts to reveal a naturally missing source value and never treats
+    repeated masks of one patient as independent diagnostic observations.
+    """
+    records = []
+    histories: list[dict[str, Any]] = []
+    for inner_validation in tuple(source["site"].drop_duplicates()):
+        training = source.loc[source["site"].ne(inner_validation)].copy()
+        validation = source.loc[source["site"].eq(inner_validation)].copy()
+        for seed in seeds:
+            fit_seed = _fit_seed(
+                seed,
+                outer_target,
+                experiment,
+                "outer_crossfit_v3_same_policy",
+                str(inner_validation),
+            )
+            result = fit_ps_maskdro_fixed_epochs(
+                training,
+                variant=variant,
+                parameters=parameters,
+                seed=fit_seed,
+                device=device,
+                epochs=epochs,
+            )
+            predictions = predict_policy_bank(
+                result.model,
+                result.preprocessor,
+                validation,
+                default_policy_bank(),
+                device=torch.device(device),
+                base_seed=evaluation_seed,
+                replicates=outer_mask_replicates,
+                empirical_mask_pool=source_mask_pool,
+            ).rename(
+                columns={
+                    "policy": "evaluation_policy",
+                    "mask_replicate": "policy_replicate",
+                }
+            )
+            predictions = predictions.drop(columns=["y_score"])
+            predictions["training_seed"] = seed
+            predictions["fit_seed"] = fit_seed
+            records.append(predictions)
+            for history in result.history:
+                histories.append(
+                    {
+                        "stage": "outer_crossfit_v3_same_policy",
+                        "outer_target": outer_target,
+                        "inner_validation": inner_validation,
+                        "experiment": experiment,
+                        "variant": variant,
+                        "training_seed": seed,
+                        "fit_seed": fit_seed,
+                        **history,
+                    }
+                )
+            _free_model(result)
+
+    predictions = pd.concat(records, ignore_index=True)
+    grouping = [
+        "sample_id",
+        "site",
+        "target",
+        "record_sha256",
+        "evaluation_policy",
+        "policy_replicate",
+    ]
+    for column in DIAGNOSTIC_VIEW_COLUMNS:
+        if predictions.groupby(grouping, sort=False)[column].nunique(dropna=False).max() != 1:
+            raise AssertionError(f"Source diagnostic view changed across seeds: {column}")
+    aggregation: dict[str, tuple[str, str]] = {
+        "evidence_logit": ("evidence_logit", "mean"),
+        "observed_fraction": ("observed_fraction", "mean"),
+    }
+    aggregation.update({column: (column, "first") for column in DIAGNOSTIC_VIEW_COLUMNS})
+    predictions = (
+        predictions.groupby(grouping, as_index=False)
+        .agg(**aggregation)
+        .sort_values(grouping)
+        .reset_index(drop=True)
+    )
+    if predictions.duplicated([*grouping]).any():
+        raise AssertionError("Protocol-v3 cross-fit output contains repeated source patients")
+    return predictions, histories
+
+
 def _final_target_predictions(
     source: pd.DataFrame,
     target_unlabelled: pd.DataFrame,
@@ -253,13 +369,18 @@ def _final_target_predictions(
 
     seed_predictions = pd.concat(seed_records, ignore_index=True)
     grouping = ["sample_id", "site", "record_sha256", "policy", "mask_replicate"]
+    for column in DIAGNOSTIC_VIEW_COLUMNS:
+        if seed_predictions.groupby(grouping, sort=False)[column].nunique(dropna=False).max() != 1:
+            raise AssertionError(f"Target diagnostic view changed across seeds: {column}")
+    aggregation: dict[str, tuple[str, str]] = {
+        "evidence_logit": ("evidence_logit", "mean"),
+        "y_score_zero_shot": ("y_score", "mean"),
+        "observed_fraction": ("observed_fraction", "mean"),
+    }
+    aggregation.update({column: (column, "first") for column in DIAGNOSTIC_VIEW_COLUMNS})
     ensemble = (
         seed_predictions.groupby(grouping, as_index=False)
-        .agg(
-            evidence_logit=("evidence_logit", "mean"),
-            y_score_zero_shot=("y_score", "mean"),
-            observed_fraction=("observed_fraction", "mean"),
-        )
+        .agg(**aggregation)
         .sort_values(grouping)
         .reset_index(drop=True)
     )
@@ -274,9 +395,12 @@ def _adapt_predictions(
     diagnostic_config: dict[str, Any],
     base_seed: int,
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
-    adapted_records = []
-    diagnostic_records = []
-    summary_records = []
+    adapted_records: list[pd.DataFrame] = []
+    diagnostic_records: list[pd.DataFrame] = []
+    summary_records: list[dict[str, Any]] = []
+    diagnostic_mode = str(diagnostic_config.get("mode", "energy_v2"))
+    if diagnostic_mode not in {"energy_v2", "composite_multiview_v3"}:
+        raise ValueError(f"Unknown outer diagnostic mode: {diagnostic_mode}")
     for (policy, replicate), target_group in target_predictions.groupby(
         ["policy", "mask_replicate"], sort=False
     ):
@@ -286,8 +410,11 @@ def _adapt_predictions(
             & source_predictions["policy_replicate"].eq(replicate)
         ].copy()
         target_group["calibrated_evidence_logit"] = np.nan
+        target_group["y_score_calibrated_equal_prior"] = np.nan
         target_group["estimated_target_prevalence_mlls"] = np.nan
         target_group["estimated_target_prevalence_soft_bbse"] = np.nan
+        target_group["y_score_uda_mlls_research"] = np.nan
+        target_group["y_score_uda_soft_bbse_research"] = np.nan
         target_group["y_score_uda_mlls"] = np.nan
         target_group["y_score_uda_soft_bbse"] = np.nan
         target_group["adaptation_allowed"] = False
@@ -306,53 +433,134 @@ def _adapt_predictions(
                 source_group["target"],
                 posterior_from_evidence(target_evidence, 0.5),
             )
-            diagnostic = mixture_fit_diagnostic(
-                source_evidence[source_group["target"].to_numpy() == 0],
-                source_evidence[source_group["target"].to_numpy() == 1],
-                target_evidence,
-                prior_grid=diagnostic_config["prior_grid"],
-                bootstrap_repetitions=int(diagnostic_config["bootstrap_repetitions"]),
-                mixture_draws=int(diagnostic_config["mixture_draws"]),
-                alpha=float(diagnostic_config["alpha"]),
-                seed=policy_seed(base_seed, str(policy), int(replicate)),
-            )
-            allowed = diagnostic.accepted_interval is not None
+            if diagnostic_mode == "composite_multiview_v3":
+                if not source_group["sample_id"].is_unique:
+                    raise AssertionError(
+                        "Protocol-v3 outer diagnostics require unique source patients"
+                    )
+                if not target_group["sample_id"].is_unique:
+                    raise AssertionError(
+                        "Protocol-v3 outer diagnostics require unique target patients"
+                    )
+                diagnostic = acquisition_aware_label_shift_diagnostic(
+                    source_evidence,
+                    source_group["target"],
+                    source_group.loc[:, CORE_PREDICTION_COLUMNS],
+                    source_group.loc[:, MASK_PREDICTION_COLUMNS],
+                    target_evidence,
+                    target_group.loc[:, CORE_PREDICTION_COLUMNS],
+                    target_group.loc[:, MASK_PREDICTION_COLUMNS],
+                    source_sample_ids=source_group["sample_id"],
+                    target_sample_ids=target_group["sample_id"],
+                    prior_grid=diagnostic_config["prior_grid"],
+                    bootstrap_repetitions=int(diagnostic_config["bootstrap_repetitions"]),
+                    rff_features_per_view=int(diagnostic_config["rff_features_per_view"]),
+                    alpha=float(diagnostic_config["alpha"]),
+                    maximum_nearest_hamming_fraction=float(
+                        diagnostic_config["maximum_nearest_hamming_fraction"]
+                    ),
+                    seed=policy_seed(base_seed, str(policy), int(replicate)),
+                )
+                allowed = diagnostic.accepted
+                diagnostic_table = diagnostic.table.copy()
+                diagnostic_best_prior = diagnostic.best_prior
+                diagnostic_best_statistic = diagnostic.best_statistic
+                diagnostic_p_value = diagnostic.p_value
+                accepted_interval_low = np.nan
+                accepted_interval_high = np.nan
+                mask_support_passed = diagnostic.mask_support.passed
+                mask_all_feature_states_supported = (
+                    diagnostic.mask_support.all_feature_states_supported
+                )
+                mask_exact_pattern_support_rate = diagnostic.mask_support.exact_pattern_support_rate
+                mask_nearest_hamming_fraction_q95 = (
+                    diagnostic.mask_support.nearest_hamming_fraction_q95
+                )
+                mask_nearest_hamming_fraction_max = (
+                    diagnostic.mask_support.nearest_hamming_fraction_max
+                )
+            else:
+                legacy_diagnostic = mixture_fit_diagnostic(
+                    source_evidence[source_group["target"].to_numpy() == 0],
+                    source_evidence[source_group["target"].to_numpy() == 1],
+                    target_evidence,
+                    prior_grid=diagnostic_config["prior_grid"],
+                    bootstrap_repetitions=int(diagnostic_config["bootstrap_repetitions"]),
+                    mixture_draws=int(diagnostic_config["mixture_draws"]),
+                    alpha=float(diagnostic_config["alpha"]),
+                    seed=policy_seed(base_seed, str(policy), int(replicate)),
+                )
+                allowed = legacy_diagnostic.accepted_interval is not None
+                diagnostic_table = legacy_diagnostic.table.copy()
+                diagnostic_best_prior = legacy_diagnostic.best_prior
+                diagnostic_best_statistic = legacy_diagnostic.best_statistic
+                best_row = diagnostic_table.sort_values(["energy_statistic", "prevalence"]).iloc[0]
+                diagnostic_p_value = float(best_row["p_value"])
+                accepted_interval_low = (
+                    legacy_diagnostic.accepted_interval[0]
+                    if legacy_diagnostic.accepted_interval is not None
+                    else np.nan
+                )
+                accepted_interval_high = (
+                    legacy_diagnostic.accepted_interval[1]
+                    if legacy_diagnostic.accepted_interval is not None
+                    else np.nan
+                )
+                mask_support_passed = True
+                mask_all_feature_states_supported = True
+                mask_exact_pattern_support_rate = np.nan
+                mask_nearest_hamming_fraction_q95 = np.nan
+                mask_nearest_hamming_fraction_max = np.nan
+
+            equal_prior_calibrated = posterior_from_evidence(target_evidence, 0.5)
+            research_mlls = posterior_from_evidence(target_evidence, prevalence_mlls)
+            research_soft_bbse = posterior_from_evidence(target_evidence, prevalence_soft_bbse)
             target_group["calibrated_evidence_logit"] = target_evidence
+            target_group["y_score_calibrated_equal_prior"] = equal_prior_calibrated
             target_group["estimated_target_prevalence_mlls"] = prevalence_mlls
             target_group["estimated_target_prevalence_soft_bbse"] = prevalence_soft_bbse
+            target_group["y_score_uda_mlls_research"] = research_mlls
+            target_group["y_score_uda_soft_bbse_research"] = research_soft_bbse
             target_group["adaptation_allowed"] = allowed
             target_group["adaptation_status"] = "accepted" if allowed else "diagnostic_rejected"
             if allowed:
-                target_group["y_score_uda_mlls"] = posterior_from_evidence(
-                    target_evidence, prevalence_mlls
-                )
-                target_group["y_score_uda_soft_bbse"] = posterior_from_evidence(
-                    target_evidence, prevalence_soft_bbse
-                )
-            diagnostic_table = diagnostic.table.copy()
+                target_group["y_score_uda_mlls"] = research_mlls
+                target_group["y_score_uda_soft_bbse"] = research_soft_bbse
             diagnostic_table["policy"] = policy
             diagnostic_table["mask_replicate"] = replicate
+            diagnostic_table["diagnostic_mode"] = diagnostic_mode
+            diagnostic_table["automatic_adaptation_allowed"] = allowed
+            diagnostic_table["mask_support_passed"] = mask_support_passed
+            diagnostic_table["mask_all_feature_states_supported"] = (
+                mask_all_feature_states_supported
+            )
+            diagnostic_table["mask_exact_pattern_support_rate"] = mask_exact_pattern_support_rate
+            diagnostic_table["mask_nearest_hamming_fraction_q95"] = (
+                mask_nearest_hamming_fraction_q95
+            )
+            diagnostic_table["mask_nearest_hamming_fraction_max"] = (
+                mask_nearest_hamming_fraction_max
+            )
             diagnostic_records.append(diagnostic_table)
             summary_records.append(
                 {
                     "policy": policy,
                     "mask_replicate": replicate,
+                    "diagnostic_mode": diagnostic_mode,
                     "calibration_intercept": calibrator.intercept,
                     "calibration_slope": calibrator.slope,
                     "estimated_target_prevalence_mlls": prevalence_mlls,
                     "estimated_target_prevalence_soft_bbse": prevalence_soft_bbse,
-                    "diagnostic_best_prior": diagnostic.best_prior,
-                    "diagnostic_best_statistic": diagnostic.best_statistic,
-                    "diagnostic_accepted_interval_low": (
-                        diagnostic.accepted_interval[0]
-                        if diagnostic.accepted_interval is not None
-                        else np.nan
-                    ),
-                    "diagnostic_accepted_interval_high": (
-                        diagnostic.accepted_interval[1]
-                        if diagnostic.accepted_interval is not None
-                        else np.nan
-                    ),
+                    "diagnostic_best_prior": diagnostic_best_prior,
+                    "diagnostic_best_statistic": diagnostic_best_statistic,
+                    "diagnostic_p_value": diagnostic_p_value,
+                    "diagnostic_accepted_interval_low": accepted_interval_low,
+                    "diagnostic_accepted_interval_high": accepted_interval_high,
+                    "mask_support_passed": mask_support_passed,
+                    "mask_all_feature_states_supported": (mask_all_feature_states_supported),
+                    "mask_exact_pattern_support_rate": (mask_exact_pattern_support_rate),
+                    "mask_nearest_hamming_fraction_q95": (mask_nearest_hamming_fraction_q95),
+                    "mask_nearest_hamming_fraction_max": (mask_nearest_hamming_fraction_max),
                     "adaptation_allowed": allowed,
                 }
             )
@@ -434,24 +642,40 @@ def run_neural_outer(
         evaluation_seed = policy_seed(seeds[0], f"{outer_target}|outer_evaluation", 0)
         adaptable = variant in set(config["adaptable_variants"])
         if adaptable:
-            mask_pools = _target_mask_pools(
-                target_unlabelled,
-                source_mask_pool,
-                units,
-                base_seed=evaluation_seed,
-            )
-            crossfit, crossfit_history = _crossfit_target_policy_scores(
-                source,
-                mask_pools,
-                outer_target=outer_target,
-                experiment=experiment,
-                variant=variant,
-                parameters=parameters,
-                epochs=epochs,
-                seeds=seeds,
-                match_replicates=int(config["target_policy_match_replicates"]),
-                device=device,
-            )
+            diagnostic_mode = str(config["diagnostic"].get("mode", "energy_v2"))
+            if diagnostic_mode == "composite_multiview_v3":
+                crossfit, crossfit_history = _crossfit_same_policy_scores(
+                    source,
+                    source_mask_pool,
+                    outer_target=outer_target,
+                    experiment=experiment,
+                    variant=variant,
+                    parameters=parameters,
+                    epochs=epochs,
+                    seeds=seeds,
+                    outer_mask_replicates=int(config["outer_mask_replicates"]),
+                    evaluation_seed=evaluation_seed,
+                    device=device,
+                )
+            else:
+                mask_pools = _target_mask_pools(
+                    target_unlabelled,
+                    source_mask_pool,
+                    units,
+                    base_seed=evaluation_seed,
+                )
+                crossfit, crossfit_history = _crossfit_target_policy_scores(
+                    source,
+                    mask_pools,
+                    outer_target=outer_target,
+                    experiment=experiment,
+                    variant=variant,
+                    parameters=parameters,
+                    epochs=epochs,
+                    seeds=seeds,
+                    match_replicates=int(config["target_policy_match_replicates"]),
+                    device=device,
+                )
         else:
             crossfit = pd.DataFrame()
             crossfit_history = []

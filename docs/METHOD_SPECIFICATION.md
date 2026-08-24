@@ -123,9 +123,19 @@ is used to estimate (a) or (c).
 
 ## Assumption-gated prevalence adaptation
 
-Cross-fitted source logits are recomputed using masks sampled from the unlabelled
-target acquisition pattern and monotonically calibrated under equal hospital and
-outcome weights. If calibrated evidence (e(x)\) approximates
+The failed protocol-v2 route sampled source masks from the unlabelled target mask
+distribution and used an evidence-only energy-distance diagnostic. Its preserved
+synthetic failure showed that this could accept acquisition and conditional shift,
+so it is not used by protocol v3.
+
+For protocol v3, source logits are cross-fitted under the same *named*
+measurement intervention used for the target evaluation unit. The intervention
+is applied separately to source and target natural observations: naturally
+missing values are never revealed and target mask patterns are never copied into
+source patients. Predictions are averaged over training seeds before diagnostics,
+leaving exactly one source and one target observation per patient, named policy,
+and policy replicate. The source logits are monotonically calibrated under equal
+hospital and outcome weights. If calibrated evidence (e(x)\) approximates
 
 \[
 \log p(x\mid y=1)-\log p(x\mid y=0),
@@ -137,12 +147,30 @@ then target posterior probability at prevalence (pi_t) is
 P_t(y=1\mid x)=\sigma(e(x)+\operatorname{logit}(\pi_t)).
 \]
 
-MLLS and soft BBSE estimate (pi_t) independently. Before either is deployed, an
-energy-distance bootstrap checks whether the unlabelled target evidence
-distribution is compatible with at least one prespecified mixture of source class
-conditionals. Rejection leaves the adapted probability missing and records an
-abstention. Target labels are loaded only after all decisions and probabilities
-are fixed.
+MLLS and soft BBSE estimate (pi_t) independently. Before either is deployed, the
+acquisition-aware diagnostic tests four views: calibrated evidence; the
+prespecified core variables age, sex, and chest-pain type; the 13-dimensional
+observed-feature mask; and their composite. A core value hidden by the evaluated
+policy is represented by the out-of-domain token -1 and its observed-mask bit is
+zero; the diagnostic therefore never reads a counterfactually hidden value. Each
+view uses deterministic random
+Fourier features (128 per base view) with a source-median bandwidth. On the
+prespecified prior grid, the statistic is the minimum squared distance between the
+target mean embedding and a mixture of the two source class-conditional mean
+embeddings. A 199-repetition plug-in bootstrap samples at the fitted prior and
+re-fits the prior in every repetition.
+
+Automatic adaptation requires every base view and the composite to have
+(p\geq0.05). It separately requires mask support: every target feature-state must
+occur in source and the 95th percentile of target-to-source nearest-mask Hamming
+distance must not exceed 0.25. These are compatibility checks, not proof that
+label shift holds. Both prevalence estimates and their adapted probabilities are
+always retained in explicitly named `*_research` columns; reportable UDA columns
+are populated only when the complete gate accepts. Target labels are loaded only
+after all decisions and probabilities are fixed. The registered synthetic-v3
+study requires acceptance under pure label shift and rejection under MAR policy
+shift, conditional shift, and target-only MNAR; it does not establish unrestricted
+MNAR robustness.
 
 ## Falsifiable novelty boundary
 

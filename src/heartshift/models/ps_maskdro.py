@@ -33,6 +33,7 @@ VALID_VARIANTS = (
 
 CORE_PREDICTION_COLUMNS = tuple(f"core__{feature}" for feature in CORE_COLUMNS)
 MASK_PREDICTION_COLUMNS = tuple(f"observed__{feature}" for feature in FEATURE_COLUMNS)
+CORE_MISSING_SENTINEL = -1.0
 
 
 @dataclass
@@ -257,7 +258,14 @@ def predict_policy_bank(
             frame["y_score"] = torch.sigmoid(logits).detach().cpu().numpy()
             frame["observed_fraction"] = observed.mean(axis=1)
             for feature, output_column in zip(CORE_COLUMNS, CORE_PREDICTION_COLUMNS, strict=True):
-                frame[output_column] = data[feature].to_numpy(dtype=np.float64)
+                feature_index = FEATURE_COLUMNS.index(feature)
+                raw = data[feature].to_numpy(dtype=np.float64, na_value=np.nan)
+                # The diagnostic must not recover values hidden by the evaluated
+                # acquisition policy. All valid UCI core values are non-negative,
+                # so -1 is an explicit missing token and the mask view disambiguates it.
+                frame[output_column] = np.where(
+                    observed[:, feature_index], raw, CORE_MISSING_SENTINEL
+                )
             for feature_index, output_column in enumerate(MASK_PREDICTION_COLUMNS):
                 frame[output_column] = observed[:, feature_index]
             bit_weights = np.left_shift(

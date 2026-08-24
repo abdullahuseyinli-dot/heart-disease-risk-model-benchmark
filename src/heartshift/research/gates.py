@@ -490,7 +490,13 @@ def validate_source_only_run(run_dir: Path) -> dict[str, Any]:
         "manifest_sha256": sha256_file(manifest_path),
     }
     additional_artifacts = {}
-    for name in ("config.resolved.json", "inner_metrics.csv", "fit_summaries.csv"):
+    for name in (
+        "config.resolved.json",
+        "inner_metrics.csv",
+        "fit_summaries.csv",
+        "evidence_audit.json",
+        "independent_validation.json",
+    ):
         path = run_dir / name
         if path.is_file():
             additional_artifacts[name] = sha256_file(path)
@@ -566,7 +572,13 @@ def _validate_readmission_source_only_run(
         "manifest_sha256": sha256_file(run_dir / "run_manifest.json"),
     }
     additional_artifacts = {}
-    for name in ("config.resolved.json", "validation_metrics.csv", "fit_summaries.csv"):
+    for name in (
+        "config.resolved.json",
+        "validation_metrics.csv",
+        "fit_summaries.csv",
+        "evidence_audit.json",
+        "independent_validation.json",
+    ):
         path = run_dir / name
         if path.is_file():
             additional_artifacts[name] = sha256_file(path)
@@ -682,10 +694,41 @@ def freeze_candidate(
     if not synthetic_gate_path.is_file():
         raise FileNotFoundError(f"Synthetic gate is missing: {synthetic_gate_path}")
     synthetic_gate = json.loads(synthetic_gate_path.read_text(encoding="utf-8"))
+    synthetic_config_path = synthetic_run / "config.resolved.json"
+    synthetic_summary_path = synthetic_run / "synthetic_summary.csv"
+    if not synthetic_config_path.is_file() or not synthetic_summary_path.is_file():
+        raise FileNotFoundError("Synthetic configuration or round-trip summary is missing")
+    synthetic_config = json.loads(synthetic_config_path.read_text(encoding="utf-8"))
+    synthetic_summary = pd.read_csv(
+        synthetic_summary_path,
+        float_precision="round_trip",
+    )
+    if str(synthetic_config.get("acceptance_gate_version", "v2")) == "v3":
+        recomputed_synthetic_gate = evaluate_synthetic_v3_gates(
+            synthetic_summary,
+            synthetic_config["acceptance_gates"],
+        )
+    else:
+        recomputed_synthetic_gate = evaluate_synthetic_gates(
+            synthetic_summary,
+            synthetic_config["acceptance_gates"],
+        )
+    if recomputed_synthetic_gate != synthetic_gate:
+        raise AssertionError("Stored synthetic gate differs from exact round-trip recomputation")
     if not bool(synthetic_gate.get("passed")):
         raise AssertionError(
             "Synthetic mechanism gate failed; locked outer evaluation remains closed"
         )
+    synthetic_audit_path = synthetic_run / "evidence_audit.json"
+    synthetic_audit: dict[str, Any] | None = None
+    if synthetic_audit_path.is_file():
+        synthetic_audit = json.loads(synthetic_audit_path.read_text(encoding="utf-8"))
+        if not bool(synthetic_audit.get("gate_passed")):
+            raise AssertionError("Synthetic evidence audit does not record a passed gate")
+        for name, expected_hash in synthetic_audit.get("sha256", {}).items():
+            artifact = synthetic_run / str(name)
+            if not artifact.is_file() or sha256_file(artifact) != expected_hash:
+                raise AssertionError(f"Synthetic evidence audit hash failed: {artifact}")
 
     git_status = _git_value(repo_root, "status", "--porcelain")
     if bool(freeze_config.get("require_clean_git", True)) and git_status:
@@ -714,7 +757,12 @@ def freeze_candidate(
         "synthetic_gate": synthetic_gate,
         "synthetic_gate_path": str(synthetic_gate_path.relative_to(repo_root)),
         "synthetic_gate_sha256": sha256_file(synthetic_gate_path),
+        "synthetic_config_sha256": sha256_file(synthetic_config_path),
+        "synthetic_summary_sha256": sha256_file(synthetic_summary_path),
     }
+    if synthetic_audit is not None:
+        lock["synthetic_evidence_audit_path"] = str(synthetic_audit_path.relative_to(repo_root))
+        lock["synthetic_evidence_audit_sha256"] = sha256_file(synthetic_audit_path)
     if psmask_pivot is not None:
         if psmask_v1_gate is None or v1_gate_record_path is None or pivot_record_path is None:
             raise AssertionError("Pivot freeze state is incomplete")
@@ -775,11 +823,49 @@ def verify_frozen_candidate(repo_root: Path, lock_path: Path) -> dict[str, Any]:
             path = evidence_dir / str(name)
             if not path.is_file() or sha256_file(path) != expected_hash:
                 raise AssertionError(f"Frozen source evidence changed: {path}")
+        audit_path = evidence_dir / "evidence_audit.json"
+        if "evidence_audit.json" in evidence.get("additional_artifacts_sha256", {}):
+            audit = json.loads(audit_path.read_text(encoding="utf-8"))
+            for name, expected_hash in audit.get("sha256", {}).items():
+                path = evidence_dir / str(name)
+                if not path.is_file() or sha256_file(path) != expected_hash:
+                    raise AssertionError(f"Frozen source audit evidence changed: {path}")
     expected_synthetic_hash = lock.get("synthetic_gate_sha256")
     if expected_synthetic_hash:
         gate_path = repo_root / str(lock["synthetic_gate_path"])
         if not gate_path.is_file() or sha256_file(gate_path) != expected_synthetic_hash:
             raise AssertionError("Synthetic acceptance evidence changed after freeze")
+    synthetic_gate_path = lock.get("synthetic_gate_path")
+    synthetic_run_dir = (
+        (repo_root / str(synthetic_gate_path)).parent if synthetic_gate_path is not None else None
+    )
+    expected_synthetic_config_hash = lock.get("synthetic_config_sha256")
+    if expected_synthetic_config_hash:
+        if synthetic_run_dir is None:
+            raise AssertionError("Synthetic configuration hash has no gate path")
+        config_path = synthetic_run_dir / "config.resolved.json"
+        if not config_path.is_file() or sha256_file(config_path) != expected_synthetic_config_hash:
+            raise AssertionError("Synthetic resolved configuration changed after freeze")
+    expected_synthetic_summary_hash = lock.get("synthetic_summary_sha256")
+    if expected_synthetic_summary_hash:
+        if synthetic_run_dir is None:
+            raise AssertionError("Synthetic summary hash has no gate path")
+        summary_path = synthetic_run_dir / "synthetic_summary.csv"
+        if (
+            not summary_path.is_file()
+            or sha256_file(summary_path) != expected_synthetic_summary_hash
+        ):
+            raise AssertionError("Synthetic round-trip summary changed after freeze")
+    expected_synthetic_audit_hash = lock.get("synthetic_evidence_audit_sha256")
+    if expected_synthetic_audit_hash:
+        audit_path = repo_root / str(lock["synthetic_evidence_audit_path"])
+        if not audit_path.is_file() or sha256_file(audit_path) != expected_synthetic_audit_hash:
+            raise AssertionError("Synthetic evidence audit changed after freeze")
+        audit = json.loads(audit_path.read_text(encoding="utf-8"))
+        for name, expected_hash in audit.get("sha256", {}).items():
+            artifact = audit_path.parent / str(name)
+            if not artifact.is_file() or sha256_file(artifact) != expected_hash:
+                raise AssertionError(f"Synthetic evidence changed after freeze: {artifact}")
     expected_v1_gate_hash = lock.get("psmask_v1_gate_record_sha256")
     if expected_v1_gate_hash:
         v1_gate_path = repo_root / str(lock["psmask_v1_gate_record"])

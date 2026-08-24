@@ -51,6 +51,9 @@ not reinterpret that gate as passed. Its source-only, pre-outer deterministic
 pivot is retained at
 `artifacts/runs/psmask-inner-confirm-v1/pivot_selection_v2.json`. The freeze
 command recomputes both records exactly and refuses to proceed if either changed.
+The protocol-v3 freeze also reconstructs the synthetic gate from the round-trip
+CSV, verifies its nested evidence hashes, and includes the independently audited
+readmission source-only run.
 
 ## Freeze
 
@@ -58,29 +61,30 @@ Commit the complete method, configuration, tests, and source evidence so the
 worktree is clean, then run:
 
 ```powershell
-.venv\Scripts\python.exe -m heartshift.cli.freeze --repo-root . --config configs/release/freeze_v2.yaml --output artifacts/locks/heartshift_candidate_v2.json
+.venv\Scripts\python.exe -m heartshift.cli.freeze --repo-root . --config configs/release/freeze_v3.yaml --output artifacts/locks/heartshift_candidate_v3.json
 ```
 
 The lock hashes the freeze, outer, synthetic, independent, and reporting
 configurations; the Python method tree; `pyproject.toml`; `uv.lock`; and every
-source prediction, selection, metric, fit-summary, manifest, and resolved-config
-artifact that exists. It separately hashes the failed-v1, pivot-v2, and synthetic
-gate records. Outer CLIs independently verify these hashes and the Git commit.
-They also enforce one frozen run name, so the same locked test cannot silently be
-rerun under another directory.
+source prediction, selection, metric, fit-summary, manifest, resolved-config,
+evidence-audit, and independent-validation artifact that exists. It separately
+hashes the failed-v1, pivot-v2, and synthetic-v3 gate records. Outer CLIs
+independently verify these hashes, nested audit hashes, and the Git commit. They
+also enforce one frozen run name, so the same locked test cannot silently be rerun
+under another directory.
 
 ## One-time locked evaluations
 
 Run each command once, in this order, only after the freeze succeeds:
 
 ```powershell
-.venv\Scripts\python.exe -m heartshift.cli.benchmark --repo-root . --config configs/benchmark/classical_outer_v2.yaml --phase outer --inner-run-dir artifacts/runs/classical-inner-confirm-v1 --confirmation RUN_LOCKED_OUTER_ONCE
-.venv\Scripts\python.exe -m heartshift.cli.benchmark --repo-root . --config configs/benchmark/modern_outer_v2.yaml --phase outer --inner-run-dir artifacts/runs/modern-inner-confirm-v1 --confirmation RUN_LOCKED_OUTER_ONCE
-.venv\Scripts\python.exe -m heartshift.cli.benchmark --repo-root . --config configs/benchmark/modern_2026_outer_v2.yaml --phase outer --inner-run-dir artifacts/runs/modern-2026-inner-v1 --confirmation RUN_LOCKED_OUTER_ONCE
-.venv\Scripts\python.exe -m heartshift.cli.benchmark --repo-root . --config configs/benchmark/tabpfn_v3_outer_v2.yaml --phase outer --inner-run-dir artifacts/runs/tabpfn-v3-inner-confirm-v1 --confirmation RUN_LOCKED_OUTER_ONCE
-.venv\Scripts\python.exe -m heartshift.cli.psmask --repo-root . --config configs/benchmark/mirrams_outer_v2.yaml --phase outer --confirmation RUN_LOCKED_OUTER_ONCE
-.venv\Scripts\python.exe -m heartshift.cli.psmask --repo-root . --config configs/benchmark/psmask_outer_v2.yaml --phase outer --confirmation RUN_LOCKED_OUTER_ONCE
-.venv\Scripts\python.exe -m heartshift.cli.readmission --repo-root . --config configs/independent/readmission_outer_v2.yaml --phase outer --confirmation RUN_LOCKED_READMISSION_TEST_ONCE
+.venv\Scripts\python.exe -m heartshift.cli.benchmark --repo-root . --config configs/benchmark/classical_outer_v3.yaml --phase outer --inner-run-dir artifacts/runs/classical-inner-confirm-v1 --confirmation RUN_LOCKED_OUTER_ONCE
+.venv\Scripts\python.exe -m heartshift.cli.benchmark --repo-root . --config configs/benchmark/modern_outer_v3.yaml --phase outer --inner-run-dir artifacts/runs/modern-inner-confirm-v1 --confirmation RUN_LOCKED_OUTER_ONCE
+.venv\Scripts\python.exe -m heartshift.cli.benchmark --repo-root . --config configs/benchmark/modern_2026_outer_v3.yaml --phase outer --inner-run-dir artifacts/runs/modern-2026-inner-v1 --confirmation RUN_LOCKED_OUTER_ONCE
+.venv\Scripts\python.exe -m heartshift.cli.benchmark --repo-root . --config configs/benchmark/tabpfn_v3_outer_v3.yaml --phase outer --inner-run-dir artifacts/runs/tabpfn-v3-inner-confirm-v1 --confirmation RUN_LOCKED_OUTER_ONCE
+.venv\Scripts\python.exe -m heartshift.cli.psmask --repo-root . --config configs/benchmark/mirrams_outer_v3.yaml --phase outer --confirmation RUN_LOCKED_OUTER_ONCE
+.venv\Scripts\python.exe -m heartshift.cli.psmask --repo-root . --config configs/benchmark/psmask_outer_v3.yaml --phase outer --confirmation RUN_LOCKED_OUTER_ONCE
+.venv\Scripts\python.exe -m heartshift.cli.readmission --repo-root . --config configs/independent/readmission_outer_v3.yaml --phase outer --confirmation RUN_LOCKED_READMISSION_TEST_ONCE
 ```
 
 Each evaluator fixes every probability and adaptation decision before loading the
@@ -89,8 +93,8 @@ corresponding test endpoint.
 ## Prediction-derived reports
 
 ```powershell
-.venv\Scripts\python.exe -m heartshift.cli.report_heart --repo-root . --config configs/reporting/heart_outer_v2.yaml --output-dir artifacts/reports/heart-outer-v2
-.venv\Scripts\python.exe -m heartshift.cli.report_readmission --repo-root . --config configs/reporting/readmission_outer_v2.yaml --output-dir artifacts/reports/readmission-outer-v2
+.venv\Scripts\python.exe -m heartshift.cli.report_heart --repo-root . --config configs/reporting/heart_outer_v3.yaml --output-dir artifacts/reports/heart-outer-v3
+.venv\Scripts\python.exe -m heartshift.cli.report_readmission --repo-root . --config configs/reporting/readmission_outer_v3.yaml --output-dir artifacts/reports/readmission-outer-v3
 ```
 
 Reported aggregates are regenerated from sample-level prediction Parquets. Heart
