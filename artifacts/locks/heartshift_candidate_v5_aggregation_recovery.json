@@ -1,0 +1,905 @@
+{
+  "created_utc": "2026-08-24T09:21:21.529616+00:00",
+  "failed_outer_evidence": {
+    "mirrams_v3_pre_endpoint": {
+      "artifact_count": 3,
+      "artifacts_sha256": {
+        "config.resolved.json": "E5445B97D95417954BC49334DF8C9FE85131CB60FE1BF9C692FA02E6AB9760DD",
+        "failure.json": "851C8218BAE8493C6333E757DE3E5C34675B160BF0A8BDE80E33074E1463B928",
+        "run_manifest.json": "0F8E996B8DE420E55D138E5217E28669EE008562F4EDBF8536EAF1DFA6F2329B"
+      },
+      "exception_type": "KeyError",
+      "failure_sha256": "851C8218BAE8493C6333E757DE3E5C34675B160BF0A8BDE80E33074E1463B928",
+      "failure_stage": "unlabelled_adaptation_orchestration",
+      "run_dir": "artifacts/runs/mirrams-outer-v3",
+      "run_git_commit": "e787c199b59ef77b839f22c8415375b83f573074",
+      "target_endpoint_loaded": false
+    },
+    "mirrams_v4_post_endpoint": {
+      "artifact_count": 45,
+      "artifacts_sha256": {
+        "adaptation_diagnostics.csv": "29F32110C98BADD74A1367EB93223C2D0BC36989A91E14F3D0AB5C7816A770FF",
+        "adaptation_summary.csv": "29F32110C98BADD74A1367EB93223C2D0BC36989A91E14F3D0AB5C7816A770FF",
+        "config.resolved.json": "AD1F0D4224FC32C7F47ED70B0AAD0609DF0E6069AC5B0B013147EA46644C4830",
+        "failure.json": "1810BF5FB5C5E39EA36DE48160167DA4194B51C0E5CC70220D87DB7754944562",
+        "fit_history.csv": "58EA4A07933ED215C35A70724566A8833CB35832AC370340DAF9E8C12618C4B7",
+        "outer_predictions.parquet": "47A570FE6387037524B23721AB9AB6B0FECF8486B9E0CE76FEC3951DC09427B9",
+        "outer_seed_predictions.parquet": "7FECBF1CB7A1C945AC5F0FE69012CC4D705F6996B434B81F5D586E054D290D44",
+        "run_manifest.json": "D09C1E3174AA5ECC38053851625C032C560D5B1AFE0B853D905556E5FA265EE8",
+        "shards/cleveland__mirrams_equation9/adaptation_diagnostics.csv": "29F32110C98BADD74A1367EB93223C2D0BC36989A91E14F3D0AB5C7816A770FF",
+        "shards/cleveland__mirrams_equation9/adaptation_summary.csv": "29F32110C98BADD74A1367EB93223C2D0BC36989A91E14F3D0AB5C7816A770FF",
+        "shards/cleveland__mirrams_equation9/fit_history.csv": "15668EDB558AFE2CCF637F76BECD085249D836444CBFF65A52700E95EC4F76E8",
+        "shards/cleveland__mirrams_equation9/outer_predictions.parquet": "BEE16631A7BED97FF7A16656646F0E4B936103E83F2E395E764D5F6C81EC028F",
+        "shards/cleveland__mirrams_equation9/outer_seed_predictions.parquet": "0C43777AB813EC07CF9D47F3CF1E5888FD5858FD2B120BBFFEBF06B65F65F4A8",
+        "shards/cleveland__mirrams_equation9/selection.json": "B71E34CD92C3958FD674BBB67975D037673D0F40E8BE617D2425E2DBDAC98067",
+        "shards/cleveland__mirrams_equation9/source_calibration_predictions.parquet": "A7D8E152904A28AA0FAFEBBE1C944948F459298C364A319DBC3A417EC6B5A35E",
+        "shards/cleveland__mirrams_equation9/unlabelled_outer_predictions.parquet": "AD347A9DD2CB3E32F12155421749CD775BE56E110D1DCA78417BF4ACB61C4BB0",
+        "shards/cleveland__mirrams_equation9/unlabelled_outer_seed_predictions.parquet": "88DE7B6E542441F55CD3272480C249E8AAE8557FC6419477DB394908199F1D83",
+        "shards/hungary__mirrams_equation9/adaptation_diagnostics.csv": "29F32110C98BADD74A1367EB93223C2D0BC36989A91E14F3D0AB5C7816A770FF",
+        "shards/hungary__mirrams_equation9/adaptation_summary.csv": "29F32110C98BADD74A1367EB93223C2D0BC36989A91E14F3D0AB5C7816A770FF",
+        "shards/hungary__mirrams_equation9/fit_history.csv": "F7A313F39FCF151EDDBAFB47CDBABA382EA0DD216D181ECDB50DA69B1975F3EE",
+        "shards/hungary__mirrams_equation9/outer_predictions.parquet": "0330EEB5E4FA2A4B3FBD1085455AA0BA18BB40643799C9393E36330ED3A835D6",
+        "shards/hungary__mirrams_equation9/outer_seed_predictions.parquet": "5D1C92FE102A932C19A1BC704177F4477C55D0308DB60997520F9BA1EF8890EA",
+        "shards/hungary__mirrams_equation9/selection.json": "1DF808AA22E5B2D1C768CBC835BF9DF9A8D99F0E27AEDA897D1B5F0506E33B52",
+        "shards/hungary__mirrams_equation9/source_calibration_predictions.parquet": "A7D8E152904A28AA0FAFEBBE1C944948F459298C364A319DBC3A417EC6B5A35E",
+        "shards/hungary__mirrams_equation9/unlabelled_outer_predictions.parquet": "51591B9EADE1731528ECB6C0653BF0182B3153EF96A9D3519B3C985C6E8BEC8B",
+        "shards/hungary__mirrams_equation9/unlabelled_outer_seed_predictions.parquet": "FF2C9DAB20C1CF4D0391204185BB0ECF0DBC9AFEE3CD82EE720120AA856C2451",
+        "shards/switzerland__mirrams_equation9/adaptation_diagnostics.csv": "29F32110C98BADD74A1367EB93223C2D0BC36989A91E14F3D0AB5C7816A770FF",
+        "shards/switzerland__mirrams_equation9/adaptation_summary.csv": "29F32110C98BADD74A1367EB93223C2D0BC36989A91E14F3D0AB5C7816A770FF",
+        "shards/switzerland__mirrams_equation9/fit_history.csv": "2EDF0C697A88A42D1510F995B9C5A7E2F662E65FBE00AFDC4DCE2E405C2BAAC4",
+        "shards/switzerland__mirrams_equation9/outer_predictions.parquet": "5FB0506546AFBB54742AF4CB919BB83F30825B8E6C26CFB5604E3813C7AD63F7",
+        "shards/switzerland__mirrams_equation9/outer_seed_predictions.parquet": "1DCD3A451AB9306DE11C164A31D24F95F7D829B8D57CECA7775211B6371EFEDD",
+        "shards/switzerland__mirrams_equation9/selection.json": "16FD1E094FD50E51A738EB5FB9378465E774293BE1862FB83A8FF1193AC7417C",
+        "shards/switzerland__mirrams_equation9/source_calibration_predictions.parquet": "A7D8E152904A28AA0FAFEBBE1C944948F459298C364A319DBC3A417EC6B5A35E",
+        "shards/switzerland__mirrams_equation9/unlabelled_outer_predictions.parquet": "FB8C7192EDDCC71EDD78869F6528CFDA5461A1B75E57CB896070521818F0D11D",
+        "shards/switzerland__mirrams_equation9/unlabelled_outer_seed_predictions.parquet": "CCF7918504843A4218DEBA49493D4C1DFFB1ED718833468010533F7F7AEDE415",
+        "shards/va_long_beach__mirrams_equation9/adaptation_diagnostics.csv": "29F32110C98BADD74A1367EB93223C2D0BC36989A91E14F3D0AB5C7816A770FF",
+        "shards/va_long_beach__mirrams_equation9/adaptation_summary.csv": "29F32110C98BADD74A1367EB93223C2D0BC36989A91E14F3D0AB5C7816A770FF",
+        "shards/va_long_beach__mirrams_equation9/fit_history.csv": "D11609A86CA671504FA9B3D494D02316C34CDA18E35FC137F8B3FCF8BE888C06",
+        "shards/va_long_beach__mirrams_equation9/outer_predictions.parquet": "344FB9EACE6EEA082E03E5BFC78810F69B043F70CF0B5938B8A4ECF3C6F54E63",
+        "shards/va_long_beach__mirrams_equation9/outer_seed_predictions.parquet": "407F5CDBA29DBBD17E464EE7684FF3BFF8B01A38CC4A098B7F94F8641B275E17",
+        "shards/va_long_beach__mirrams_equation9/selection.json": "03EF92C55D820986B8DA114DAF1C02275B0EE0E555F364869FBCC8D374BC5361",
+        "shards/va_long_beach__mirrams_equation9/source_calibration_predictions.parquet": "A7D8E152904A28AA0FAFEBBE1C944948F459298C364A319DBC3A417EC6B5A35E",
+        "shards/va_long_beach__mirrams_equation9/unlabelled_outer_predictions.parquet": "9C6DC036C2237993433CDEB3D843B483F968873D6F485288E4BBF910FC8F09B5",
+        "shards/va_long_beach__mirrams_equation9/unlabelled_outer_seed_predictions.parquet": "77C671D5B0EAB22CB4F7CB8E043EAE777D80995F531C4172AC95BCC15EE28BBE",
+        "source_calibration_predictions.parquet": "A7D8E152904A28AA0FAFEBBE1C944948F459298C364A319DBC3A417EC6B5A35E"
+      },
+      "exception_type": "ValueError",
+      "failure_sha256": "1810BF5FB5C5E39EA36DE48160167DA4194B51C0E5CC70220D87DB7754944562",
+      "failure_stage": "post_endpoint_top_level_aggregation_scoring",
+      "run_dir": "artifacts/runs/mirrams-outer-v4",
+      "run_git_commit": "b855cd50403dcad4874dcb51e38b8e9e5d9e067e",
+      "target_endpoint_loaded": true
+    }
+  },
+  "frozen_files": [
+    {
+      "path": ".gitattributes",
+      "sha256": "AF1E1B167BF5A2BA272C479F7FFA236B716E95421685E615ECF4989A55FEA69B"
+    },
+    {
+      "path": "AGENTS.md",
+      "sha256": "6C9CB6C5508BD793625A34D4B26EE8C3607197F865AF0E634EE56653A1883B72"
+    },
+    {
+      "path": "artifacts/locks/heartshift_candidate_v3.json",
+      "sha256": "4BA7D319FB242D4A4305386C39FE5BEC600412E699EB51B941A86B7550358304"
+    },
+    {
+      "path": "artifacts/locks/heartshift_candidate_v4_neural_recovery.json",
+      "sha256": "96AD50E7E7007A30238B440AE400FBA558B780E33F2DE7FBDE11CC0980DC72F9"
+    },
+    {
+      "path": "artifacts/reports/readmission-outer-v3/evidence_audit.json",
+      "sha256": "A7621B994A54575403BC499846CEA952E4362476811514A23E24480BCF16460B"
+    },
+    {
+      "path": "artifacts/reports/readmission-outer-v3/independent_validation.json",
+      "sha256": "3682BB0262FA3174099B01454D8C0C5C4F4BF57A23DBFFF0FDD8FC298F2FA34D"
+    },
+    {
+      "path": "artifacts/reports/readmission-outer-v3/patient_cluster_bootstrap.parquet",
+      "sha256": "C6D99FDFD88CCFEF01EAC65FC1883C9D03ECE27C30745FF56E6B0FF7DCF3EE09"
+    },
+    {
+      "path": "artifacts/reports/readmission-outer-v3/patient_cluster_bootstrap_intervals.csv",
+      "sha256": "AA70EB577A1B69B636772F79FC7686FAE6EF20B084C30AD71AAEE958D2F7DEE3"
+    },
+    {
+      "path": "artifacts/reports/readmission-outer-v3/primary_estimands.csv",
+      "sha256": "BB96F3BED2EFA4FBC4995F30D93DC6D914B09E1E494D763F45C6BCA1E03D6A5B"
+    },
+    {
+      "path": "artifacts/reports/readmission-outer-v3/report_manifest.json",
+      "sha256": "507A940FE989D90B585A07FDEB617C339B36B71AEED00FD993A1674294F56718"
+    },
+    {
+      "path": "artifacts/reports/readmission-outer-v3/split_policy_metrics.csv",
+      "sha256": "DF4A7C4EA5501E8590A90ED7AD114157338F2436135D0D66140F0194F706BCDD"
+    },
+    {
+      "path": "configs/benchmark/mirrams_outer_v5_finalize.yaml",
+      "sha256": "3E3E925B8DF5CF1360BD6243E4CA0F3ABFD1700F511909A20F2283F3DDB3B813"
+    },
+    {
+      "path": "configs/benchmark/psmask_outer_v5.yaml",
+      "sha256": "40681DC4B0FF10299C858F6E2FB4E0D4D68D7645FF15956EA12E223A52DAEE13"
+    },
+    {
+      "path": "configs/independent/readmission_inner_v1.yaml",
+      "sha256": "95F8D662CD2771D4CB0CF06D606FCE309ED02D53D91105BA16A53513B00B8710"
+    },
+    {
+      "path": "configs/independent/readmission_outer_v3.yaml",
+      "sha256": "513B333BD8ED1435EEB00158A4FFDC0B7CCA67E9506E5AFA43AF9731C37A09D2"
+    },
+    {
+      "path": "configs/release/freeze_v5_aggregation_recovery.yaml",
+      "sha256": "956D0627C78D0B8CDF869A893AD5ED7125692D65E304E556B1B0C53444D07EA3"
+    },
+    {
+      "path": "configs/reporting/heart_outer_v5.yaml",
+      "sha256": "ED16CAB45A88F79509F3248E5A5893BC24A79AD3411B7EB84AD9E1F0D731B905"
+    },
+    {
+      "path": "configs/reporting/readmission_outer_v3.yaml",
+      "sha256": "F9C0FB91156E10A43E08E293C422D2D0A6CF8AE08677E4D7D6B813A02BB12436"
+    },
+    {
+      "path": "configs/synthetic/mechanism_v3.yaml",
+      "sha256": "E9F17966CCCD119320D44D8F424FDFFF0D2B839A84235DADD0FDC369E81F9CD9"
+    },
+    {
+      "path": "docs/DATA_CARD.md",
+      "sha256": "8B96701136FF5DE274C9027A98380AF4035B41C2B643EA254B269CE72504C179"
+    },
+    {
+      "path": "docs/LIMITATIONS.md",
+      "sha256": "FE8B0E3CCF35578FE1674480DFB809FDC28D9B986614870474C6E65AF86DBA62"
+    },
+    {
+      "path": "docs/METHOD_SPECIFICATION.md",
+      "sha256": "7AB9E60C29F384B39454633EEC558F5054550CF53B20FE43358789E3BBFB7FF4"
+    },
+    {
+      "path": "docs/OUTER_EVIDENCE_AUDIT.md",
+      "sha256": "18C877F3948840F6407211474B3502832FF438357BD8295D60483559A1B607A1"
+    },
+    {
+      "path": "docs/OUTER_V3_FAILURE_AND_V4_RECOVERY.md",
+      "sha256": "3881FB7F1083A9B6CAB0FAF788B8184CB5EBBB6FD6262059291023B630F47141"
+    },
+    {
+      "path": "docs/OUTER_V4_FAILURE_AND_V5_RECOVERY.md",
+      "sha256": "8A2661C5071860B51BEDFFAA69392CF7BB7CEF06E51F6D4520D6A6F52855D92E"
+    },
+    {
+      "path": "docs/READMISSION_INNER_V1_RESULT.md",
+      "sha256": "274F53812E7CE0D90E1B23F714340695286A69C2F225DFF359EC72CAD7BEB64D"
+    },
+    {
+      "path": "docs/REPRODUCIBILITY.md",
+      "sha256": "49935EFAE9200F3EBA8FEDCDFB3C6D597AF39A91DC787D2A7DB49D62E0544F6C"
+    },
+    {
+      "path": "docs/RESEARCH_PROTOCOL.md",
+      "sha256": "4AA669645BD8C763C11A2095D0A25D78EC1E73D3238B23AD716C51127E677792"
+    },
+    {
+      "path": "docs/SYNTHETIC_V3_PROTOCOL.md",
+      "sha256": "EBB96C475BD865BEE2AE4357FAE0B95D5A8E72E10B969A39A178EA8E3402B2A1"
+    },
+    {
+      "path": "docs/SYNTHETIC_V3_RESULT.md",
+      "sha256": "0ADCD0F8D9B4AE6AB0881B0E228DA5EED0749237BE2DA0BC29989105F9406BD2"
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "31047023154B858A9FA53FE6DDF9800BA32D0AD3D786D2558166B468A14561A4"
+    },
+    {
+      "path": "README.md",
+      "sha256": "5AA8E8311A70E5EE3F56A279932AA276AAF4044F1DA5D9DC3FE1DD001F55CEC4"
+    },
+    {
+      "path": "src/heartshift/__init__.py",
+      "sha256": "6CB8A557571A4C4352839745A26ACA9C699C30E3147C799119826E162F8C89D4"
+    },
+    {
+      "path": "src/heartshift/adaptation.py",
+      "sha256": "77777E59923DF5D2663F51D2355FB03238AD90B5CC45210EAA2EE7985B7A3C49"
+    },
+    {
+      "path": "src/heartshift/cli/__init__.py",
+      "sha256": "6B3CA07563F59AC62E6B66BD29AE8D89472A3A3DBE5B1FAA8DC88600D9C3CF66"
+    },
+    {
+      "path": "src/heartshift/cli/audit_outer.py",
+      "sha256": "1CB8826F5E4A0C08C42C6C78AC19D3972DEC48200F468F3263890C80323102C5"
+    },
+    {
+      "path": "src/heartshift/cli/benchmark.py",
+      "sha256": "9BD3C2D28EA01E9F471A34DF6D473303C87D0977EC59977BD28570CA888F3B3E"
+    },
+    {
+      "path": "src/heartshift/cli/finalize_neural_outer.py",
+      "sha256": "3FCB58B8774B499606C9FCA9B719D8C3244C75092C8E4A0910E4E8B8E4612800"
+    },
+    {
+      "path": "src/heartshift/cli/freeze.py",
+      "sha256": "33473DFEAFBA50E02802A52F3AD4E69769A9DF6E5A110A92BF628FB7D77591C6"
+    },
+    {
+      "path": "src/heartshift/cli/prepare.py",
+      "sha256": "5FD72F6E79045F96950FE44252136AAF82694C49D3E929B6CB19B04D203EE638"
+    },
+    {
+      "path": "src/heartshift/cli/prepare_readmission.py",
+      "sha256": "26150ECA72A0C09106CDF46C698408ED9CE8A2392238927912F8BB8313E99CDC"
+    },
+    {
+      "path": "src/heartshift/cli/psmask.py",
+      "sha256": "A42CFF691445D263AA726E8157282944D70808CFDD822CE1E7D74AA27255F431"
+    },
+    {
+      "path": "src/heartshift/cli/readmission.py",
+      "sha256": "8CCC03AC705F84FB236001AEF9F8F7CE040C7976A0FBC0AE79C85B72DFB6B363"
+    },
+    {
+      "path": "src/heartshift/cli/report_heart.py",
+      "sha256": "1B5B4FCDF92BF13B086D6074FC6F9CC4C0567797B1AEA16D2AF638991DF6D8CE"
+    },
+    {
+      "path": "src/heartshift/cli/report_readmission.py",
+      "sha256": "7B6AF6C62A1404722A37227A7F556961010399AD46B095B3A3847C4F2356BEC8"
+    },
+    {
+      "path": "src/heartshift/cli/synthetic.py",
+      "sha256": "58F8EDC7D1DCC025DAAE014518DD91265E0E6C95BE0E56B8A58DB90722D108D2"
+    },
+    {
+      "path": "src/heartshift/cli/validate.py",
+      "sha256": "4754DF16EAD086591B6C0675A693EDEA9F4A0D4BA4A2B257BC00A620D2E3E23D"
+    },
+    {
+      "path": "src/heartshift/config.py",
+      "sha256": "49E7899B31B4D46C2EEFFEEFC40ADF68FC829EB0DCED77A2BD6DE9FA3662F317"
+    },
+    {
+      "path": "src/heartshift/data/__init__.py",
+      "sha256": "8F5EB31AB462A0BD796FB889356ECB5E608814947CACE3F12EEE0A985867B233"
+    },
+    {
+      "path": "src/heartshift/data/readmission.py",
+      "sha256": "BF15B664060115F86F7DA853E8526ECA49228370634C0A19906C83A8FEAF6D70"
+    },
+    {
+      "path": "src/heartshift/data/splits.py",
+      "sha256": "4EDEEE75ACD74B6809C577FAA53AC7D3631FFB2B5DA1495A97E56C4DDF00694B"
+    },
+    {
+      "path": "src/heartshift/data/synthetic.py",
+      "sha256": "1562F552D88CBE86A6ABEFDC1DDC20808053AB64178E448B737E02C1DFF22AA4"
+    },
+    {
+      "path": "src/heartshift/data/uci.py",
+      "sha256": "0CFDF1AB8E55C7074B87A5CF076BF9096FDCCDF98DDA7ADEF1C52831C8373122"
+    },
+    {
+      "path": "src/heartshift/evaluation/__init__.py",
+      "sha256": "5A18E8E3E86EA6CDED274F53A3338AEBBC6F364C5AF9D2D82E1928DF5E854A81"
+    },
+    {
+      "path": "src/heartshift/evaluation/classical_benchmark.py",
+      "sha256": "62B57CFD894F8195010142DB57528D92914A22DC1D796594E34F854293A0EB89"
+    },
+    {
+      "path": "src/heartshift/evaluation/neural_benchmark.py",
+      "sha256": "9C4768866ABEB2DD8CD3D1A1E182924C8AE276DFEE76526403D10E021676B4DC"
+    },
+    {
+      "path": "src/heartshift/evaluation/neural_outer.py",
+      "sha256": "0A6AF232479A6FBF91F317DD3F69F609F0F502C283825FFA4B1EA03EA9BF9319"
+    },
+    {
+      "path": "src/heartshift/evaluation/readmission_benchmark.py",
+      "sha256": "84A667A1D421978C0721EB492ACC499A6A67276A6EEAF89986139A838FDA2DBB"
+    },
+    {
+      "path": "src/heartshift/masks.py",
+      "sha256": "55F8AC4FB3495AF8B597E0A41E5034C275F461E2FAFEA790C8AF6D6C97735D05"
+    },
+    {
+      "path": "src/heartshift/metrics.py",
+      "sha256": "AE267F0923EA820C0A8829E6AE66812B0D059059C5C5092FBC6CB00CFD1BD532"
+    },
+    {
+      "path": "src/heartshift/models/__init__.py",
+      "sha256": "7EE0A29622256B5F13C7E4392AF10B7653478AE33C166B965DAE758ACB918BFA"
+    },
+    {
+      "path": "src/heartshift/models/classical.py",
+      "sha256": "A714D0B1813643EC46008276852E8A5DACFC1E110B1B2832565076A6EADABF9A"
+    },
+    {
+      "path": "src/heartshift/models/generic_observed.py",
+      "sha256": "3463D03FC7E544195C882C41120CF6DC2AFE37A27560B626E378DB120DA8D99D"
+    },
+    {
+      "path": "src/heartshift/models/observed_set.py",
+      "sha256": "D71F3839ECC7EB858CCC54748B33CA7BF802C18E28657988C2C275DCF7619686"
+    },
+    {
+      "path": "src/heartshift/models/ps_maskdro.py",
+      "sha256": "203311DCF768B6DD6A7E9EBFBE7EEB74FD9D594EDAA020261E95F99C5AEF16D4"
+    },
+    {
+      "path": "src/heartshift/reporting/__init__.py",
+      "sha256": "7FA297FFD9EA15E4AB3CD04FBE4EEDD22CC4603BA2CEBC560A7C6B730EE1646E"
+    },
+    {
+      "path": "src/heartshift/reporting/outer_report.py",
+      "sha256": "225C4D49546180580B373FED58CA2D8C875F2DFC2DF61A750F430D4E0D885774"
+    },
+    {
+      "path": "src/heartshift/reporting/readmission_report.py",
+      "sha256": "94EE65B6CB0C7DBE0DC401D84030F8F68302A51BF14E19AFA15C8DDADF965AB1"
+    },
+    {
+      "path": "src/heartshift/research/__init__.py",
+      "sha256": "9E63802C88DAA06B98E7A8202A9CFF2AEE5A2B82688FAA0499F2F530371E80AD"
+    },
+    {
+      "path": "src/heartshift/research/gates.py",
+      "sha256": "32B118F8E2FFAB862488309CA38301C354B423FC61E9E44F1DDF98ED74CB1F37"
+    },
+    {
+      "path": "src/heartshift/research/neural_recovery.py",
+      "sha256": "B451F38E001CA1BD7316BAB74F3CC23594697A44BAAB08D1A63B147A4AF0E369"
+    },
+    {
+      "path": "src/heartshift/research/outer_evidence.py",
+      "sha256": "E7CC93E8A93BAEB878524C2FB42F3E95B6EC7FD63655E88A772A7E901CFED1E4"
+    },
+    {
+      "path": "src/heartshift/research/synthetic_experiment.py",
+      "sha256": "DB74AADA845149669F3D15878B02A51EE6665C66439A3D0AC795FA4427225C62"
+    },
+    {
+      "path": "uv.lock",
+      "sha256": "BE36444A18EE0356D578C64BF4E96334A4FCA7238B6E2872A2939B8053D7B9AB"
+    }
+  ],
+  "git_commit": "15d9fee74f73d5fc65156603ec6baf331d94e139",
+  "git_status_porcelain": "",
+  "legacy_tag": "legacy-v1-development-consumed",
+  "legacy_tag_commit": "551d4706b02538e9a096b4a4b5b544f0484091a5",
+  "method_tree_sha256": "d4221a4fa53c32f7a8aa85a2a0be57a59c70042f33084323f36a031d10fd0b4a",
+  "prior_outer_evidence": {
+    "classical_v3": {
+      "artifact_count": 9,
+      "audit_kind": "heart_classical_outer",
+      "audit_sha256": "4C9B123FE8C88325774A9BCA763BDEABA1D0084FCD673075D674D670E0F5858A",
+      "independent_validation_sha256": "6DC23D4146FB7514277B0A94B4391E866A1223F79B55DDF7EBBAD4DF12E7249E",
+      "metric_rows": 4320,
+      "prediction_rows": 993600,
+      "run_dir": "artifacts/runs/classical-outer-v3",
+      "run_git_commit": "e787c199b59ef77b839f22c8415375b83f573074"
+    },
+    "modern_2026_v3": {
+      "artifact_count": 9,
+      "audit_kind": "heart_classical_outer",
+      "audit_sha256": "1618B3B7046C362948B674EC0CAE50CF98C8BEAA8D33C9B23EAE6C46C1DA31D7",
+      "independent_validation_sha256": "AB7DBCB781376D14D78E2285E181B172D04C1EEDCB6DD65126A522735AF29A13",
+      "metric_rows": 1728,
+      "prediction_rows": 397440,
+      "run_dir": "artifacts/runs/modern-2026-outer-v3",
+      "run_git_commit": "e787c199b59ef77b839f22c8415375b83f573074"
+    },
+    "modern_v2_v3": {
+      "artifact_count": 9,
+      "audit_kind": "heart_classical_outer",
+      "audit_sha256": "EC2F0C8980BA42E13D20DCD7289C24E4C7A80A2D2D4CCE4EAD55EA804A05F69D",
+      "independent_validation_sha256": "7AF56E57D2D1DE5FACF86EA8732FC7856612D2CBEEA3904DB2C063606CBE7CD9",
+      "metric_rows": 864,
+      "prediction_rows": 198720,
+      "run_dir": "artifacts/runs/modern-v2-outer-v3",
+      "run_git_commit": "e787c199b59ef77b839f22c8415375b83f573074"
+    },
+    "readmission_v3": {
+      "artifact_count": 42,
+      "audit_kind": "readmission_outer",
+      "audit_sha256": "FF7F122500FF98251DDC19F10127C7EC987616299472E2611535CBC39496C6CC",
+      "independent_validation_sha256": "8267920975FB0BC458E14C25B7EF277911540418E52E5918725BCC1A9FD4C69E",
+      "metric_rows": 360,
+      "prediction_rows": 9771660,
+      "run_dir": "artifacts/runs/readmission-outer-v3",
+      "run_git_commit": "e787c199b59ef77b839f22c8415375b83f573074"
+    },
+    "tabpfn_v3": {
+      "artifact_count": 9,
+      "audit_kind": "heart_classical_outer",
+      "audit_sha256": "FA8F9E4AD6F6F6A7B2F4945AFD8CB712B052945DD2F9B7A4A0283429C6C11D76",
+      "independent_validation_sha256": "C58E82A5ADAE16D6191BA56D075C4A77706D335F5766EE51A8A59A3CDFAA6FAC",
+      "metric_rows": 432,
+      "prediction_rows": 99360,
+      "run_dir": "artifacts/runs/tabpfn-v3-outer-v3",
+      "run_git_commit": "e787c199b59ef77b839f22c8415375b83f573074"
+    }
+  },
+  "psmask_pivot_record": "artifacts\\runs\\psmask-inner-confirm-v1\\pivot_selection_v2.json",
+  "psmask_pivot_record_sha256": "BD341F3802F6E853640E01AB2AE49A84ED3626C3A17BF5B89E72214DA5461FD9",
+  "psmask_pivot_selection": {
+    "candidate_summary": [
+      {
+        "eligible": true,
+        "experiment": "v3_mcar_augmentation",
+        "macro_natural_roc_auc": 0.8032765169983953,
+        "macro_site_worst_balanced_log_loss": 0.6250368790745201,
+        "natural_auroc_loss_vs_reference": 0.001062355141976612,
+        "worst_cell_regression_vs_reference": -0.006985381778903954,
+        "worst_site_policy_balanced_log_loss": 0.675192709293433
+      },
+      {
+        "eligible": true,
+        "experiment": "v4_structured_policy_bank",
+        "macro_natural_roc_auc": 0.8043388721403719,
+        "macro_site_worst_balanced_log_loss": 0.6312203023985828,
+        "natural_auroc_loss_vs_reference": 0.0,
+        "worst_cell_regression_vs_reference": 0.0,
+        "worst_site_policy_balanced_log_loss": 0.682178091072337
+      },
+      {
+        "eligible": true,
+        "experiment": "v5_site_only_dro",
+        "macro_natural_roc_auc": 0.8031215113755069,
+        "macro_site_worst_balanced_log_loss": 0.6206531146573229,
+        "natural_auroc_loss_vs_reference": 0.0012173607648650053,
+        "worst_cell_regression_vs_reference": -0.030483969996923266,
+        "worst_site_policy_balanced_log_loss": 0.6516941210754137
+      },
+      {
+        "eligible": true,
+        "experiment": "v5_mask_only_dro",
+        "macro_natural_roc_auc": 0.8048122962723134,
+        "macro_site_worst_balanced_log_loss": 0.6180661557669347,
+        "natural_auroc_loss_vs_reference": -0.00047342413194151334,
+        "worst_cell_regression_vs_reference": -0.03207970379528036,
+        "worst_site_policy_balanced_log_loss": 0.6500983872770566
+      },
+      {
+        "eligible": true,
+        "experiment": "v5_site_mask_dro",
+        "macro_natural_roc_auc": 0.8029234875226057,
+        "macro_site_worst_balanced_log_loss": 0.6269103137634314,
+        "natural_auroc_loss_vs_reference": 0.0014153846177662466,
+        "worst_cell_regression_vs_reference": -0.0011332032789552748,
+        "worst_site_policy_balanced_log_loss": 0.6810448877933817
+      },
+      {
+        "eligible": true,
+        "experiment": "v5_site_mask_dro_brier",
+        "macro_natural_roc_auc": 0.8027186384610425,
+        "macro_site_worst_balanced_log_loss": 0.62731959751418,
+        "natural_auroc_loss_vs_reference": 0.001620233679329397,
+        "worst_cell_regression_vs_reference": -0.0008961841578860597,
+        "worst_site_policy_balanced_log_loss": 0.6812819069144509
+      },
+      {
+        "eligible": true,
+        "experiment": "v7_ane",
+        "macro_natural_roc_auc": 0.7966578547850565,
+        "macro_site_worst_balanced_log_loss": 0.6298954916495828,
+        "natural_auroc_loss_vs_reference": 0.007681017355315456,
+        "worst_cell_regression_vs_reference": -0.022913321940658093,
+        "worst_site_policy_balanced_log_loss": 0.6592647691316789
+      }
+    ],
+    "checks": [
+      {
+        "finite": true,
+        "name": "minimum_confirmation_seeds",
+        "observed": 3,
+        "operator": ">=",
+        "passed": true,
+        "threshold": 3
+      },
+      {
+        "finite": true,
+        "name": "selected_natural_auroc_loss",
+        "observed": -0.00047342413194151334,
+        "operator": "<=",
+        "passed": true,
+        "threshold": 0.01
+      },
+      {
+        "finite": true,
+        "name": "selected_worst_cell_regression",
+        "observed": -0.03207970379528036,
+        "operator": "<=",
+        "passed": true,
+        "threshold": 0.0
+      },
+      {
+        "finite": true,
+        "name": "declared_selected_experiment",
+        "observed": "v5_mask_only_dro",
+        "operator": "==",
+        "passed": true,
+        "threshold": "v5_mask_only_dro"
+      }
+    ],
+    "eligible_experiments": [
+      "v5_mask_only_dro",
+      "v5_site_only_dro",
+      "v3_mcar_augmentation",
+      "v5_site_mask_dro",
+      "v5_site_mask_dro_brier",
+      "v7_ane",
+      "v4_structured_policy_bank"
+    ],
+    "passed": true,
+    "protocol_version": "psmask-measurement-policy-pivot-v2",
+    "reference_experiment": "v4_structured_policy_bank",
+    "selected_experiment": "v5_mask_only_dro",
+    "selection_mode": "post_v1_gate_source_only_pre_outer"
+  },
+  "psmask_v1_confirmation_gate": {
+    "checks": [
+      {
+        "finite": true,
+        "name": "minimum_confirmation_seeds",
+        "observed": 3,
+        "operator": ">=",
+        "passed": true,
+        "threshold": 3
+      },
+      {
+        "finite": true,
+        "name": "prior_separation_macro_improvement",
+        "observed": 0.0495746037755157,
+        "operator": ">=",
+        "passed": true,
+        "threshold": 0.01
+      },
+      {
+        "finite": true,
+        "name": "dro_macro_noninferiority",
+        "observed": -0.0039007048844028613,
+        "operator": "<=",
+        "passed": true,
+        "threshold": 0.01
+      },
+      {
+        "finite": true,
+        "name": "dro_worst_cell_improvement",
+        "observed": 0.0008961841578860597,
+        "operator": ">=",
+        "passed": true,
+        "threshold": 0.0
+      },
+      {
+        "finite": true,
+        "name": "joint_dro_axis_macro_noninferiority",
+        "observed": 0.009253441747245295,
+        "operator": "<=",
+        "passed": true,
+        "threshold": 0.01
+      },
+      {
+        "finite": true,
+        "name": "joint_dro_axis_worst_cell_improvement",
+        "observed": -0.031183519637394297,
+        "operator": ">=",
+        "passed": false,
+        "threshold": 0.0
+      },
+      {
+        "finite": true,
+        "name": "ane_natural_auroc_loss",
+        "observed": 0.006060783675986059,
+        "operator": "<=",
+        "passed": true,
+        "threshold": 0.01
+      }
+    ],
+    "passed": false,
+    "summary": [
+      {
+        "experiment": "v0_pooled_erm",
+        "macro_natural_roc_auc": 0.7977224289519795,
+        "macro_site_worst_balanced_log_loss": 0.6910917584019737,
+        "worst_site_policy_balanced_log_loss": 0.8211771898219087
+      },
+      {
+        "experiment": "v1_site_balanced",
+        "macro_natural_roc_auc": 0.7965645141971838,
+        "macro_site_worst_balanced_log_loss": 0.6910792518314886,
+        "worst_site_policy_balanced_log_loss": 0.7750642113715469
+      },
+      {
+        "experiment": "v2_prior_separated",
+        "macro_natural_roc_auc": 0.7977729910467182,
+        "macro_site_worst_balanced_log_loss": 0.641517154626458,
+        "worst_site_policy_balanced_log_loss": 0.6883934221995349
+      },
+      {
+        "experiment": "v3_mcar_augmentation",
+        "macro_natural_roc_auc": 0.8032765169983953,
+        "macro_site_worst_balanced_log_loss": 0.6250368790745201,
+        "worst_site_policy_balanced_log_loss": 0.675192709293433
+      },
+      {
+        "experiment": "v4_structured_policy_bank",
+        "macro_natural_roc_auc": 0.8043388721403719,
+        "macro_site_worst_balanced_log_loss": 0.6312203023985828,
+        "worst_site_policy_balanced_log_loss": 0.682178091072337
+      },
+      {
+        "experiment": "v5_mask_only_dro",
+        "macro_natural_roc_auc": 0.8048122962723134,
+        "macro_site_worst_balanced_log_loss": 0.6180661557669347,
+        "worst_site_policy_balanced_log_loss": 0.6500983872770566
+      },
+      {
+        "experiment": "v5_site_mask_dro",
+        "macro_natural_roc_auc": 0.8029234875226057,
+        "macro_site_worst_balanced_log_loss": 0.6269103137634314,
+        "worst_site_policy_balanced_log_loss": 0.6810448877933817
+      },
+      {
+        "experiment": "v5_site_mask_dro_brier",
+        "macro_natural_roc_auc": 0.8027186384610425,
+        "macro_site_worst_balanced_log_loss": 0.62731959751418,
+        "worst_site_policy_balanced_log_loss": 0.6812819069144509
+      },
+      {
+        "experiment": "v5_site_only_dro",
+        "macro_natural_roc_auc": 0.8031215113755069,
+        "macro_site_worst_balanced_log_loss": 0.6206531146573229,
+        "worst_site_policy_balanced_log_loss": 0.6516941210754137
+      },
+      {
+        "experiment": "v7_ane",
+        "macro_natural_roc_auc": 0.7966578547850565,
+        "macro_site_worst_balanced_log_loss": 0.6298954916495828,
+        "worst_site_policy_balanced_log_loss": 0.6592647691316789
+      }
+    ]
+  },
+  "psmask_v1_gate_record": "artifacts\\runs\\psmask-inner-confirm-v1\\acceptance_gate_v1.json",
+  "psmask_v1_gate_record_sha256": "DE9D9316AC8C3304807464444E74C8076684733F3C575795DE07E23C3F4FB9B6",
+  "source_evidence": {
+    "classical": {
+      "additional_artifacts_sha256": {
+        "config.resolved.json": "6121589CF51D56B9692A8F8B23D4FE6F9713E74205FFA2F2C31F05AE685E5A5F",
+        "inner_metrics.csv": "7EE843FF04BB2C19E1CAB4D6A0589CACA6AEDEDD458E33B80BFB613210B047E0"
+      },
+      "config_sha256": "b584d3aa16625fd87954f591747f7e76fcd11cfa05b94494c08863d7149f165e",
+      "manifest_sha256": "FF707840007537D38763F9661DC0BABD9E747D7DD87CCA14F6A75C0E49C699BA",
+      "outer_targets": [
+        "cleveland",
+        "hungary",
+        "switzerland",
+        "va_long_beach"
+      ],
+      "phase": "inner_source_only",
+      "prediction_rows": 82800,
+      "predictions_sha256": "8B9F3F001985B57DE61342EF4E1AAE9E70CA442C42C1CB31BCE217531D34D990",
+      "run_dir": "C:\\Users\\DELL\\Desktop\\Thesis\\heart-disease-risk-model-benchmark\\artifacts\\runs\\classical-inner-confirm-v1",
+      "selection_provenance_sha256": "49AF2CC2F7B9C90FC4167498D2C2EEE07E5C398B8C689976D82E9AFEA733F1F5",
+      "selections_sha256": "4E0E4F28B6D18E0A74A46BF00F7DBC2F763332E8145A6DAD1FA7E9CCC348B9F6",
+      "unique_samples": 920
+    },
+    "mirrams": {
+      "additional_artifacts_sha256": {
+        "config.resolved.json": "7CAC10412DF0C32DB0173823F702987A09F63E351BB1B838C65F8AC2EA01B29C",
+        "fit_summaries.csv": "5AD0BE337CC64E593188F457D1E71EE55127461FA858606A375F4B0C6397D3BF",
+        "inner_metrics.csv": "75B6E1535B85720D9AB70D4539E9B39994A913B24E9B59F33778B58F950EE9B0"
+      },
+      "config_sha256": "c404ec026f15e5ae71ae1084b68a07674dfd3e8364965654df5af30f5281666b",
+      "manifest_sha256": "A9EE254C04EF4302AF7F9E4FE599998EADA8E8D04F0F2BC9B03ACCDCD69A0850",
+      "outer_targets": [
+        "cleveland",
+        "hungary",
+        "switzerland",
+        "va_long_beach"
+      ],
+      "phase": "psmask_inner_source_only",
+      "prediction_rows": 240120,
+      "predictions_sha256": "D10DFE06DB5F44F1A594D1DDABE58EB0179A7A83E99442771F26222439CC9003",
+      "run_dir": "C:\\Users\\DELL\\Desktop\\Thesis\\heart-disease-risk-model-benchmark\\artifacts\\runs\\mirrams-inner-confirm-v1",
+      "selection_provenance_sha256": "49EAABCB8590F62EB49A2B72AC96BD8FA1C42B66F71476AAAEB57D9850C53905",
+      "selections_sha256": "BC221F8C7240CC5B99AB7E011C29FB45A4BC769E406A4E2D42310C796D195D8A",
+      "unique_samples": 920
+    },
+    "modern_2026": {
+      "additional_artifacts_sha256": {
+        "config.resolved.json": "984B25CAE93A60B117242EED6725006C281CD7DFA640BE8E0E77E5BF0CFA11EE",
+        "inner_metrics.csv": "7FB6FBB83F9DDEE9E55D1468AD0C222EFAED55D77D6B1F4A451C09ECEB9B5709"
+      },
+      "config_sha256": "f7cfec76923c13cf2b09e0b6ad6b32defa1ac8c2155089b5e36665492e762eec",
+      "manifest_sha256": "405C188E98885ACF8BB5731E3B5CBF67D1FC3B1660AF84A8FEEEB0F6821DE7C5",
+      "outer_targets": [
+        "cleveland",
+        "hungary",
+        "switzerland",
+        "va_long_beach"
+      ],
+      "phase": "inner_source_only",
+      "prediction_rows": 41400,
+      "predictions_sha256": "94A82A033EB0A3B2F9C4EE141E9A2CC2994BD20AE72B02AEAA1E517C1F8B5EB8",
+      "run_dir": "C:\\Users\\DELL\\Desktop\\Thesis\\heart-disease-risk-model-benchmark\\artifacts\\runs\\modern-2026-inner-v1",
+      "selections_sha256": "8BCA9490F07BA004F479B8A223B2CBCA43BCD19CFF2596CC4F899FF150452A3E",
+      "unique_samples": 920
+    },
+    "modern_v2": {
+      "additional_artifacts_sha256": {
+        "config.resolved.json": "B2A418988C9C43302E42E178BD880F19EF4A9AE90BC025C39001A5FE6A2FCA69",
+        "inner_metrics.csv": "B503249D5846330F47E9A3DAD5931646609D0E5C7AB1E8C5596B7DAFE069BA8F"
+      },
+      "config_sha256": "7780a411f900d808be0e4d660d7ce361001f7eeb4af198ed8238bd629fbca6d6",
+      "manifest_sha256": "A3A616C7B3DEB391B6F11780C213CB96C12F6230F208476AC5E482602D7A0B74",
+      "outer_targets": [
+        "cleveland",
+        "hungary",
+        "switzerland",
+        "va_long_beach"
+      ],
+      "phase": "inner_source_only",
+      "prediction_rows": 16560,
+      "predictions_sha256": "76535DFDB1ACEAA8CDBDD8CCD9515ADCBF434753BA9CD76AAF1330353BC8B6FA",
+      "run_dir": "C:\\Users\\DELL\\Desktop\\Thesis\\heart-disease-risk-model-benchmark\\artifacts\\runs\\modern-inner-confirm-v1",
+      "selection_provenance_sha256": "E7BDC2B087D43B40520125A1FA4B152FE583C422B0BD9278DBAEC3042C3F3FC2",
+      "selections_sha256": "A6C6031F354D24B757C08462A4A09ABCBB55A5682A4B1194202A88F156429E10",
+      "unique_samples": 920
+    },
+    "psmask": {
+      "additional_artifacts_sha256": {
+        "config.resolved.json": "0E23884E5A048C0BE18361E1FA111862EEA2A4FF7DF7C193AEB9945E0F31A5DD",
+        "fit_summaries.csv": "E46598C3AAA5FBF377961777B95140B94359589C9D6EA9F8D1611B4E1B876623",
+        "inner_metrics.csv": "C23A561130000A18D2EDBAE21977DE2F05CD74B3C519AF3C887BF28F76A277CB"
+      },
+      "config_sha256": "1fdace50ab937b9f0576a4447f6791bf28ab287f01c821dc1d1fa1b244144f16",
+      "manifest_sha256": "95B9043DB3C375C7E6D7C35E937C82230C08FF98D8B2AE3290220125CCABDFE6",
+      "outer_targets": [
+        "cleveland",
+        "hungary",
+        "switzerland",
+        "va_long_beach"
+      ],
+      "phase": "psmask_inner_source_only",
+      "prediction_rows": 2401200,
+      "predictions_sha256": "AB816D8FF36394ABD368EFAAA0C9DFBA8E0F016884015F921A915F1F2F754053",
+      "run_dir": "C:\\Users\\DELL\\Desktop\\Thesis\\heart-disease-risk-model-benchmark\\artifacts\\runs\\psmask-inner-confirm-v1",
+      "selection_provenance_sha256": "ADF6A78FC0F1E3ADF5E3B9C521119DD7FF7E503C4C848A53D94FD93CB9ED3898",
+      "selections_sha256": "4FEBEF70E44F99F9DF2048E89609D9EA46069E553BF174DF55B67899522A222C",
+      "unique_samples": 920
+    },
+    "readmission": {
+      "additional_artifacts_sha256": {
+        "config.resolved.json": "50E5E0F2B5B27856D3E5B14335CD7D17200441ABA9673762873EAC4DFCF2F1CC",
+        "evidence_audit.json": "E877BA1B50EB2FABFE3D21C97CE60AA2202B7245A0E3BDA23A9386E459874E40",
+        "fit_summaries.csv": "7E9D64DC93B92C29BF8703F616F37D41C20570FD0827DB5516E9D609B6294747",
+        "independent_validation.json": "9510D6C8FBA4EBEEE02093A1F132796ED5C6BBB83F2A468D33A451C56249EE4A",
+        "validation_metrics.csv": "DDFE9E01BB7BD45D2433CC040E3037E6CB9A22C3838699253A787D2A254D419F"
+      },
+      "config_sha256": "9c7bae1d1f485127b403effa3b6e54ca6620aae2c086c2b09cfe604ab504669d",
+      "manifest_sha256": "ED20A6AE00926E3DFC05E27506F7CB169EF05D741E7CEF178EF578DA31B135BD",
+      "phase": "readmission_source_only",
+      "prediction_rows": 1586046,
+      "predictions_sha256": "47BFE802BFD8A797919BEAAA9A0ECF6D69FA828733BC7654D9402F3691002EFC",
+      "run_dir": "C:\\Users\\DELL\\Desktop\\Thesis\\heart-disease-risk-model-benchmark\\artifacts\\runs\\readmission-inner-v1",
+      "selections_sha256": "4EC6243E791A8CE37AA4936F8DACA1FA4039D5F442985AE1EBD48E4E51A56D53",
+      "unique_samples": 3433,
+      "validation_split": "validation"
+    },
+    "tabpfn_v3": {
+      "additional_artifacts_sha256": {
+        "config.resolved.json": "B41DC4E85E2CC22D34707E461DC28B544E8C58BAD68C7BDD2F8C51CC9ABD6C93",
+        "inner_metrics.csv": "21AC62F58D8A2376E8CF45DFF4402A5D52673980911A57D7DC97FE9420A84A65"
+      },
+      "config_sha256": "48f59dd219f1a5030b7db402fd4f80cbe584fe2bf39be415bebc24a55415bdc2",
+      "manifest_sha256": "1B3275738C64240C478CA01A6201B46E5709B673E2E701F951464183298DDE82",
+      "outer_targets": [
+        "cleveland",
+        "hungary",
+        "switzerland",
+        "va_long_beach"
+      ],
+      "phase": "inner_source_only",
+      "prediction_rows": 8280,
+      "predictions_sha256": "FD90B67A698607C4112C6772D2EB975CFCF3D2CD981C6199F760A7D31B100E69",
+      "run_dir": "C:\\Users\\DELL\\Desktop\\Thesis\\heart-disease-risk-model-benchmark\\artifacts\\runs\\tabpfn-v3-inner-confirm-v1",
+      "selection_provenance_sha256": "86E475B6BC3B379696D041D7E7ECD73FEA3533BF476F82E4D19B884A7752E39D",
+      "selections_sha256": "9312D5F8DE5DE36AB53354E74A68EEF047342DDD65A16D757F874D7E1626E6D0",
+      "unique_samples": 920
+    }
+  },
+  "status": "frozen_pre_outer",
+  "synthetic_config_sha256": "9E8833FB71C40D9473BFB0D83483C04E40137F9D59D01DA321B36A37FBF8753D",
+  "synthetic_evidence_audit_path": "artifacts\\runs\\synthetic-mechanism-v3\\evidence_audit.json",
+  "synthetic_evidence_audit_sha256": "B652AA3B960C5C257A0E5700FB0A6332B6F35A9501B39524DDDB9FEC9EC76D21",
+  "synthetic_gate": {
+    "adaptation_experiments": [
+      "mask_only_dro",
+      "prior_separated"
+    ],
+    "checks": [
+      {
+        "finite": true,
+        "name": "required_seeds_per_cell",
+        "observed": 3,
+        "operator": ">=",
+        "passed": true,
+        "threshold": 3
+      },
+      {
+        "finite": true,
+        "name": "label_only_diagnostic_acceptance",
+        "observed": 1.0,
+        "operator": ">=",
+        "passed": true,
+        "threshold": 0.6666666666666666
+      },
+      {
+        "finite": true,
+        "name": "label_only_mlls_prevalence_error",
+        "observed": 0.006960348185073517,
+        "operator": "<=",
+        "passed": true,
+        "threshold": 0.12
+      },
+      {
+        "finite": true,
+        "name": "label_only_adapted_log_loss_delta",
+        "observed": -0.02317157300696454,
+        "operator": "<=",
+        "passed": true,
+        "threshold": 0.0
+      },
+      {
+        "finite": true,
+        "name": "mar_policy_maskdro_balanced_log_loss_delta",
+        "observed": 0.013700261439534706,
+        "operator": "<=",
+        "passed": true,
+        "threshold": 0.02
+      },
+      {
+        "finite": true,
+        "name": "mar_policy_shift_diagnostic_acceptance",
+        "observed": 0.0,
+        "operator": "<=",
+        "passed": true,
+        "threshold": 0.5
+      },
+      {
+        "finite": true,
+        "name": "conditional_only_diagnostic_acceptance",
+        "observed": 0.0,
+        "operator": "<=",
+        "passed": true,
+        "threshold": 0.5
+      },
+      {
+        "finite": true,
+        "name": "mnar_outcome_only_diagnostic_acceptance",
+        "observed": 0.0,
+        "operator": "<=",
+        "passed": true,
+        "threshold": 0.5
+      }
+    ],
+    "passed": true,
+    "protocol": "synthetic-mechanism-v3",
+    "required_experiments": [
+      "mask_only_dro",
+      "prior_separated",
+      "structured_policy_bank"
+    ]
+  },
+  "synthetic_gate_path": "artifacts\\runs\\synthetic-mechanism-v3\\acceptance_gate.json",
+  "synthetic_gate_sha256": "86FD90643533E9F0F2F396B8AF5AE5C68554359CAC8A361363E8F5D69AD70502",
+  "synthetic_summary_sha256": "C01735E93174E9BF008A918BCD7DBC880BFFDB18A64CD0FA5EE5F405F1FBA1C8"
+}

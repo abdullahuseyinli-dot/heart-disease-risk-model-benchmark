@@ -1,0 +1,4 @@
+stage,outer_target,inner_validation,experiment,variant,training_seed,fit_seed,epoch,objective,natural_supervised_risk,masked_supervised_risk,consistency_risk,confident_fraction
+outer_final,hungary,,mirrams_equation9,mirrams,5062,626148052,5.0,10.805209159851074,0.6546160578727722,0.6767061948776245,0.0,0.0
+outer_final,hungary,,mirrams_equation9,mirrams,5063,3006126675,5.0,10.518424987792969,0.662855863571167,0.6570379137992859,0.0,0.0
+outer_final,hungary,,mirrams_equation9,mirrams,5064,3355060300,5.0,9.685367584228516,0.5707814693450928,0.6076390743255615,0.0,0.0

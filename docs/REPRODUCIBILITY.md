@@ -177,4 +177,6 @@ Audit and report only after both commands finish:
 .venv\Scripts\python.exe -m heartshift.cli.audit_outer --repo-root . --run-dir artifacts/runs/mirrams-outer-v5-finalized --kind heart-neural
 .venv\Scripts\python.exe -m heartshift.cli.audit_outer --repo-root . --run-dir artifacts/runs/psmask-outer-v5 --kind heart-neural
 .venv\Scripts\python.exe -m heartshift.cli.report_heart --repo-root . --config configs/reporting/heart_outer_v5.yaml --output-dir artifacts/reports/heart-outer-v5
+.venv\Scripts\python.exe -m heartshift.cli.audit_heart_report --repo-root . --config configs/reporting/heart_outer_v5.yaml --report-dir artifacts/reports/heart-outer-v5
+.venv\Scripts\python.exe -m heartshift.cli.plot_publication --repo-root . --config configs/reporting/publication_figures_v2.yaml --output-dir artifacts/figures/heartshift-v5-r2
 ```

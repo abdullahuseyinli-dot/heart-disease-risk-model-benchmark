@@ -1,0 +1,13 @@
+protocol_version: publication-figures-v1-posthoc-descriptive
+heart_report_dir: artifacts/reports/heart-outer-v5
+psmask_predictions: artifacts/runs/psmask-outer-v5/outer_predictions.parquet
+psmask_audit: artifacts/runs/psmask-outer-v5/evidence_audit.json
+readmission_report_dir: artifacts/reports/readmission-outer-v3
+selected_site_methods:
+  - psmask:v2_prior_separated
+  - psmask:v4_structured_policy_bank
+  - psmask:v5_mask_only_dro
+  - psmask:v5_site_mask_dro_brier
+  - classical:random_forest:site_class_balanced
+  - classical:logistic:site_class_balanced
+  - mirrams:mirrams_equation9

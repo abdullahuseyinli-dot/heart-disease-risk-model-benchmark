@@ -1,7 +1,7 @@
 # Prior-Separated Measurement-Policy DRO research model card
 
-Status: experimental research candidate; not a medical device and not approved for
-clinical use.
+Status: evaluated experimental research family; not a medical device and not
+approved for clinical use.
 
 ## Intended scientific use
 
@@ -63,6 +63,27 @@ The protocol-v2 candidate was chosen with a deterministic rule after observing
 the protocol-v1 source-confirmation failure. Its source metrics are therefore
 selection evidence. Source-OOF Platt calibration may also fail to transport under
 hospital or missingness shift; uncalibrated probabilities remain reportable.
+
+## Locked evaluation outcome
+
+On the four heart cohorts, V2 prior separation ranks first on the primary robust
+balanced-log-loss point estimate (0.602509) and its paired comparison with the
+logistic reference excludes zero. The preselected V5 mask-axis DRO candidate is
+directionally better than logistic but its interval crosses zero, and a post-hoc
+paired contrast favors V2 over V5-mask. The heart experiment therefore does not
+confirm the new mask-axis DRO objective.
+
+On the independent patient-disjoint readmission task, joint PS-MaskDRO ranks first
+on OOD worst-mask balanced log loss (0.672257) and exploratory paired contrasts
+favor it over pooled ERM and prior separation. ANE is slightly but consistently
+worse than ordinary joint PS-MaskDRO.
+
+The heart adaptation diagnostic accepted no target cell. Post-hoc scoring of the
+pre-fixed research-only MLLS/soft-BBSE outputs showed severe degradation, so
+abstention was protective. These mixed results support a benchmark and
+mechanism-gating contribution; they do not support universal superiority or
+clinical use. Exact tables are in `docs/HEART_OUTER_V5_RESULT.md` and
+`docs/READMISSION_OUTER_V3_RESULT.md`.
 
 ## Reproducibility and access
 

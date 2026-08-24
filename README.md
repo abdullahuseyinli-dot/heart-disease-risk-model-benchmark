@@ -51,9 +51,14 @@ aggregation defect after the canonical endpoint join; no metric file was written
 and PS-MaskDRO v4 was not launched. The preserved failure and no-refit v5 recovery
 are documented in
 [the v4 failure and v5 recovery record](docs/OUTER_V4_FAILURE_AND_V5_RECOVERY.md).
-The final combined findings will be recorded in
-[the locked v5 result](docs/HEART_OUTER_V5_RESULT.md) after finalization,
-PS-MaskDRO execution, and the prediction-derived report pass their audits.
+The [locked v5 heart result](docs/HEART_OUTER_V5_RESULT.md) is complete and fully
+reconstructed. V2 prior separation is strongest on the heart primary robust
+proper-score estimand; the preselected V5 mask-axis DRO result is
+non-confirmatory. Joint PS-MaskDRO is strongest on the independent readmission
+robust proper-score estimand. The acquisition-aware gate abstains on every heart
+target cell and prevents severe post-hoc degradation from invalid label-shift
+correction. See the
+[independent readmission outer result](docs/READMISSION_OUTER_V3_RESULT.md).
 
 Research documentation:
 
@@ -62,6 +67,9 @@ Research documentation:
 - [Reproducibility runbook](docs/REPRODUCIBILITY.md)
 - [Synthetic protocol-v3 result](docs/SYNTHETIC_V3_RESULT.md)
 - [Independent readmission source-only result](docs/READMISSION_INNER_V1_RESULT.md)
+- [Independent readmission outer result](docs/READMISSION_OUTER_V3_RESULT.md)
+- [Locked heart outer result](docs/HEART_OUTER_V5_RESULT.md)
+- [Publication route and claim boundaries](docs/PUBLICATION_ROUTE.md)
 - [Outer evidence audit](docs/OUTER_EVIDENCE_AUDIT.md)
 - [v3 failure and v4 neural recovery](docs/OUTER_V3_FAILURE_AND_V4_RECOVERY.md)
 - [v4 failure and v5 exact-aggregation recovery](docs/OUTER_V4_FAILURE_AND_V5_RECOVERY.md)

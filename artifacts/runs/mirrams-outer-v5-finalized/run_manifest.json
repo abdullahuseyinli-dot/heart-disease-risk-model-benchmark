@@ -1,0 +1,39 @@
+{
+  "argv": [
+    "C:\\Users\\DELL\\Desktop\\Thesis\\heart-disease-risk-model-benchmark\\src\\heartshift\\cli\\finalize_neural_outer.py",
+    "--repo-root",
+    ".",
+    "--config",
+    "configs/benchmark/mirrams_outer_v5_finalize.yaml",
+    "--confirmation",
+    "FINALIZE_LOCKED_SHARDS_ONCE"
+  ],
+  "canonical_data_sha256": "BE5A34195D605FB02047313DBF9ABF8B638DFFE55A03F74E5D05646149378D5F",
+  "config_sha256": "111099b7571c0309bb300d1b99f10d5ced96c6ac797734f2e3ce0f995d4ef9ec",
+  "created_utc": "2026-08-24T09:21:39.585321+00:00",
+  "cuda_available": true,
+  "cuda_version": "13.0",
+  "git_commit": "15d9fee74f73d5fc65156603ec6baf331d94e139",
+  "git_status_porcelain": "?? artifacts/locks/heartshift_candidate_v5_aggregation_recovery.json",
+  "gpu": "NVIDIA RTX PRO 3000 Blackwell Generation Laptop GPU",
+  "packages": {
+    "catboost": "1.2.10",
+    "interpret": "0.7.8",
+    "lightgbm": "4.7.0",
+    "numpy": "2.4.6",
+    "pandas": "3.0.5",
+    "pyarrow": "25.0.1",
+    "pytabkit": "1.7.3",
+    "scikit-learn": "1.9.0",
+    "scipy": "1.17.1",
+    "tabicl": "2.1.1",
+    "tabm": "0.0.3",
+    "tabpfn": "8.4.0",
+    "torch": "2.13.0+cu130",
+    "xgboost": "3.2.0"
+  },
+  "phase": "locked_outer_neural_finalization_no_refit",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "python": "3.11.9 (main, Aug 14 2024, 04:18:20) [MSC v.1929 64 bit (AMD64)]",
+  "torch": "2.13.0+cu130"
+}

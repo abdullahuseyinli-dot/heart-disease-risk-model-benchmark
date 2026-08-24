@@ -1,0 +1,9 @@
+experiment,experiment_label,track,macro_site_worst_balanced_log_loss,worst_site_policy_balanced_log_loss
+v2_prior_separated,V2 prior-separated,MLLS (research only),1.9299363586294338,2.4583522183631454
+v2_prior_separated,V2 prior-separated,equal-prior calibrated,0.6100838550373395,0.6796821003485938
+v2_prior_separated,V2 prior-separated,soft-BBSE (research only),1.6874761540090584,2.458377235460614
+v2_prior_separated,V2 prior-separated,zero-shot,0.6025088335421755,0.6938785648208381
+v5_mask_only_dro,V5 mask-axis DRO,MLLS (research only),2.014169379656946,2.3927664832375055
+v5_mask_only_dro,V5 mask-axis DRO,equal-prior calibrated,0.6261950226687101,0.7098355319960377
+v5_mask_only_dro,V5 mask-axis DRO,soft-BBSE (research only),1.8795584808388486,2.4058707066932286
+v5_mask_only_dro,V5 mask-axis DRO,zero-shot,0.6259485409171809,0.699206911466918

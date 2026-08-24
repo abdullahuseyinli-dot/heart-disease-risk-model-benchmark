@@ -1,0 +1,17 @@
+method,reference_method,mean_difference,ci_025,ci_975,probability_better,method_label
+psmask:v2_prior_separated,classical:logistic:site_class_balanced,-0.040377900458167,-0.061660679090996,-0.0193753876854762,1.0,V2 prior-separated
+psmask:v5_site_mask_dro_brier,classical:logistic:site_class_balanced,-0.0256328334100338,-0.0545014103844701,0.000946251788634,0.9685,V5 joint DRO + Brier
+psmask:v4_structured_policy_bank,classical:logistic:site_class_balanced,-0.0248395502573468,-0.0490310639008454,-0.0006971436907375,0.979,V4 structured policies
+psmask:v5_site_mask_dro,classical:logistic:site_class_balanced,-0.0155109668965005,-0.0443742690587793,0.0166719095541301,0.8545,V5 joint DRO
+psmask:v5_mask_only_dro,classical:logistic:site_class_balanced,-0.0146640555226397,-0.0468582018323528,0.0207091062922665,0.8065,V5 mask-axis DRO
+classical:random_forest:site_class_balanced,classical:logistic:site_class_balanced,-0.0138237632134858,-0.0408972777371376,0.0044815073104605,0.908,Random forest
+psmask:v7_ane,classical:logistic:site_class_balanced,-0.0112628683043203,-0.0301696335320912,0.0026743841221074,0.933,V7 ANE
+psmask:v5_site_only_dro,classical:logistic:site_class_balanced,-0.0017901752922357,-0.0347454825744934,0.0293732348053134,0.5195,V5 site-axis DRO
+classical:logistic:site_class_balanced:source_oof_platt,classical:logistic:site_class_balanced,0.0025933577475725,-0.0080870770454354,0.0133906945548962,0.32,logistic:site_class_balanced:source_oof_platt
+mirrams:mirrams_equation9,classical:logistic:site_class_balanced,0.0483096071069211,0.0086960820407017,0.0858416070616925,0.009,MIRRAMS Eq. 9
+tabpfn_v3:tabpfn:pooled:source_oof_platt,classical:logistic:site_class_balanced,0.0641207807206877,0.0370300573438305,0.0972087032094758,0.0,tabpfn_v3:tabpfn:pooled:source_oof_platt
+modern_2026:tabicl:pooled:source_oof_platt,classical:logistic:site_class_balanced,0.0783756790122189,0.0437736889176413,0.1205737661531399,0.0,tabicl:pooled:source_oof_platt
+modern_v2:tabpfn:pooled:source_oof_platt,classical:logistic:site_class_balanced,0.1010553951083873,0.0680978005410893,0.1335151813934675,0.0,modern_v2:tabpfn:pooled:source_oof_platt
+tabpfn_v3:tabpfn:pooled,classical:logistic:site_class_balanced,0.193187918167025,0.1522198120352953,0.2433882471300281,0.0,TabPFN v3
+modern_2026:tabicl:pooled,classical:logistic:site_class_balanced,0.2073633589308181,0.1579565252391372,0.2664216237913697,0.0,TabICL
+modern_v2:tabpfn:pooled,classical:logistic:site_class_balanced,0.2570449010439403,0.2153353412612368,0.2997967207802158,0.0,TabPFN v2

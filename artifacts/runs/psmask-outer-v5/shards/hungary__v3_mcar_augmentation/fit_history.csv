@@ -1,0 +1,4 @@
+stage,outer_target,inner_validation,experiment,variant,training_seed,fit_seed,epoch,objective,mean_group_risk,robust_group_risk,mean_group_brier
+outer_final,hungary,,v3_mcar_augmentation,v3,5062,783453814,5.0,0.5859317183494568,0.5859317183494568,0.6945208311080933,0.20018164813518524
+outer_final,hungary,,v3_mcar_augmentation,v3,5063,3156228279,5.0,0.5620349049568176,0.5620349049568176,0.7146885395050049,0.1914164423942566
+outer_final,hungary,,v3_mcar_augmentation,v3,5064,2463362619,5.0,0.5732872486114502,0.5732872486114502,0.668715238571167,0.1948051154613495

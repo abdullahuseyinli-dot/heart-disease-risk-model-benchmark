@@ -1,0 +1,36 @@
+{
+  "accepted_adaptation_cells": 0,
+  "adaptable_variants": [],
+  "audit_kind": "heart_neural_outer",
+  "calibration_prediction_rows": 0,
+  "canonical_label_max_abs_difference": 0.0,
+  "endpoint_loaded_only_for_post_run_validation": true,
+  "ensemble_max_abs_difference": 0.0,
+  "experiments": [
+    "mirrams_equation9"
+  ],
+  "metric_max_abs_difference": 0.0,
+  "metric_rows": 216,
+  "no_refit_finalization": true,
+  "outer_targets": [
+    "cleveland",
+    "hungary",
+    "switzerland",
+    "va_long_beach"
+  ],
+  "prediction_config_sha256": "b79cd11ed1c15a3d4fef6fb04feca34d53479f4ce395842f2fe3c270eb9daca1",
+  "prediction_rows": 49680,
+  "run_dir": "artifacts/runs/mirrams-outer-v5-finalized",
+  "run_git_commit": "15d9fee74f73d5fc65156603ec6baf331d94e139",
+  "sample_count": 920,
+  "seed_prediction_rows": 149040,
+  "status": "passed_independent_reconstruction",
+  "target_absent_from_unlabelled_artifacts": true,
+  "training_seeds": [
+    5062,
+    5063,
+    5064
+  ],
+  "unlabelled_labelled_max_abs_difference": 0.0,
+  "unlabelled_seed_labelled_max_abs_difference": 0.0
+}

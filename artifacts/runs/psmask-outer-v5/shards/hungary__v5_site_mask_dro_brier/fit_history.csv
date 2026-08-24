@@ -1,0 +1,4 @@
+stage,outer_target,inner_validation,experiment,variant,training_seed,fit_seed,epoch,objective,mean_group_risk,robust_group_risk,mean_group_brier
+outer_final,hungary,,v5_site_mask_dro_brier,v5,5062,881647066,5.0,0.5829334855079651,0.5620177984237671,0.5698545575141907,0.1895650178194046
+outer_final,hungary,,v5_site_mask_dro_brier,v5,5063,1858926556,5.0,0.6178521513938904,0.595905601978302,0.6021741032600403,0.20379401743412018
+outer_final,hungary,,v5_site_mask_dro_brier,v5,5064,3988575075,5.0,0.6035690307617188,0.5814608335494995,0.5909706950187683,0.19730737805366516

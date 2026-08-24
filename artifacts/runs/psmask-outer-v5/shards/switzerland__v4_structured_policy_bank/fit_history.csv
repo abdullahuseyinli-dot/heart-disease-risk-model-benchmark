@@ -1,0 +1,4 @@
+stage,outer_target,inner_validation,experiment,variant,training_seed,fit_seed,epoch,objective,mean_group_risk,robust_group_risk,mean_group_brier
+outer_final,switzerland,,v4_structured_policy_bank,v4,5062,1349126250,5.0,0.590561032295227,0.590561032295227,0.7379360795021057,0.2022358924150467
+outer_final,switzerland,,v4_structured_policy_bank,v4,5063,3732154289,5.0,0.5190256237983704,0.5190256237983704,0.702286958694458,0.17174509167671204
+outer_final,switzerland,,v4_structured_policy_bank,v4,5064,3960930164,5.0,0.5428458452224731,0.5428458452224731,0.7141743898391724,0.18116198480129242
