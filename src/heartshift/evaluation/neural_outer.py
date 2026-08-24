@@ -677,7 +677,12 @@ def run_neural_outer(
 ) -> dict[str, Path]:
     """Run a source-frozen outer study, writing a recoverable shard per method/site."""
     run_dir.mkdir(parents=True, exist_ok=False)
-    write_run_manifest(repo_root, run_dir, config, "locked_outer_psmask")
+    write_run_manifest(
+        repo_root,
+        run_dir,
+        config,
+        str(config.get("manifest_stage", "locked_outer_psmask")),
+    )
     data_path = repo_root / config["data"]["canonical_path"]
     selections = pd.read_csv(repo_root / config["inner_run"] / "selected_configurations.csv")
     seeds = tuple(int(seed) for seed in config["seeds"])

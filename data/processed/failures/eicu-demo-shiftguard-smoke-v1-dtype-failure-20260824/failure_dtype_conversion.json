@@ -1,0 +1,8 @@
+{
+  "status": "failed_before_canonical_output",
+  "date": "2026-08-24",
+  "stage": "apache_missing_sentinel_conversion",
+  "error": "pandas rejected NaN assignment into integer APACHE columns",
+  "scientific_result_available": false,
+  "raw_evidence_modified": false
+}

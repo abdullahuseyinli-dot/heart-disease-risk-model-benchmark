@@ -1,0 +1,27 @@
+protocol_version: support-router-consumed-source-oof-v2-nested-anchor
+status: superseded_before_full_run_not_scientific_result
+superseded_by: configs/research/support_router_outer_v3.yaml
+supersession_reason: nominal meta-evaluation hospital could enter base fits used for router-training predictions
+supersedes_leaky_design_before_full_run: configs/research/support_router_v1.yaml
+neural_run: artifacts/runs/observed-backbones-development-v1
+control_run: artifacts/runs/heart-controls-development-v2-aligned
+neural_experiments:
+  prior_separated: v2_attention_equal_budget
+  joint_policy_dro: v5_attention_equal_budget
+anchor_selection: meta_early_stop_hospital_only
+prediction_seeds: [5062, 5063, 5064, 5065, 5066, 5067, 5068, 5069, 5070, 5071]
+router_seeds: [5062, 5063, 5064, 5065, 5066, 5067, 5068, 5069, 5070, 5071]
+device: cuda
+convex_grid_step: 0.25
+router:
+  hidden_dim: 32
+  dropout: 0.05
+  learning_rate: 0.001
+  weight_decay: 0.001
+  max_epochs: 500
+  patience: 50
+  dro_lambda: 0.5
+  dro_tau: 0.2
+  regret_beta: 0.5
+  natural_margin: 0.01
+  entropy_bonus: 0.001

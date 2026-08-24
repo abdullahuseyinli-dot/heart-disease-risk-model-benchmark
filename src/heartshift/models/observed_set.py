@@ -238,3 +238,159 @@ class ObservedFeatureSetEncoder(nn.Module):
             reference_values = reference_values.unsqueeze(0).expand(len(values), -1)
         reference_score = self._raw_score(reference_values, observed)
         return raw - reference_score + self.global_bias
+
+
+class ObservedFeatureDeepSetEncoder(nn.Module):
+    """Permutation-invariant control that pools only observed feature-value tokens.
+
+    This is deliberately a separate backbone rather than an ablation implemented
+    by changing the attention mask.  It therefore provides a clean test of whether
+    token self-attention is useful beyond a universal set-function architecture.
+    """
+
+    def __init__(
+        self,
+        *,
+        n_features: int,
+        continuous_indices: tuple[int, ...],
+        categorical_cardinalities: dict[int, int],
+        d_model: int = 64,
+        n_layers: int = 2,
+        dropout: float = 0.1,
+        ane: bool = False,
+    ) -> None:
+        super().__init__()
+        if n_layers < 1:
+            raise ValueError("n_layers must be positive")
+        self.n_features = n_features
+        self.continuous_indices = frozenset(continuous_indices)
+        self.ane = ane
+        self.feature_embedding = nn.Embedding(n_features, d_model)
+        self.continuous_weight = nn.Parameter(torch.empty(n_features, d_model))
+        self.continuous_bias = nn.Parameter(torch.zeros(n_features, d_model))
+        self.categorical_embeddings = nn.ModuleDict(
+            {
+                str(index): nn.Embedding(cardinality + 1, d_model, padding_idx=0)
+                for index, cardinality in categorical_cardinalities.items()
+            }
+        )
+        token_layers: list[nn.Module] = []
+        for _ in range(n_layers):
+            token_layers.extend(
+                [
+                    nn.Linear(d_model, 2 * d_model),
+                    nn.GELU(),
+                    nn.Dropout(dropout),
+                    nn.Linear(2 * d_model, d_model),
+                    nn.LayerNorm(d_model),
+                ]
+            )
+        self.token_network = nn.Sequential(*token_layers)
+        self.output_network = nn.Sequential(
+            nn.Linear(2 * d_model + 1, 2 * d_model),
+            nn.GELU(),
+            nn.Dropout(dropout),
+            nn.Linear(2 * d_model, 1, bias=False),
+        )
+        self.global_bias = nn.Parameter(torch.zeros(()))
+        nn.init.normal_(self.feature_embedding.weight, std=0.02)
+        nn.init.normal_(self.continuous_weight, std=0.02)
+
+    def _tokens(self, values: torch.Tensor, observed: torch.Tensor) -> torch.Tensor:
+        feature_ids = torch.arange(self.n_features, device=values.device)
+        tokens = self.feature_embedding(feature_ids).unsqueeze(0).expand(len(values), -1, -1)
+        tokens = tokens.clone()
+        for index in range(self.n_features):
+            if index in self.continuous_indices:
+                continuous_value = torch.where(
+                    observed[:, index], values[:, index], torch.zeros_like(values[:, index])
+                )
+                tokens[:, index] = (
+                    tokens[:, index]
+                    + continuous_value[:, None] * self.continuous_weight[index]
+                    + self.continuous_bias[index]
+                )
+            else:
+                category = torch.where(
+                    observed[:, index],
+                    values[:, index].long(),
+                    torch.zeros_like(values[:, index].long()),
+                )
+                tokens[:, index] = tokens[:, index] + self.categorical_embeddings[str(index)](
+                    category
+                )
+        return cast(torch.Tensor, self.token_network(tokens))
+
+    def _raw_score(self, values: torch.Tensor, observed: torch.Tensor) -> torch.Tensor:
+        if values.ndim != 2 or values.shape[1] != self.n_features:
+            raise ValueError("values must have shape [batch, n_features]")
+        if observed.shape != values.shape or observed.dtype != torch.bool:
+            raise ValueError("observed must be a boolean tensor aligned with values")
+        tokens = self._tokens(values, observed)
+        mask = observed.unsqueeze(-1)
+        count = observed.sum(dim=1, keepdim=True).clamp_min(1)
+        mean_pool = (tokens * mask).sum(dim=1) / count
+        masked_tokens = tokens.masked_fill(~mask, -torch.inf)
+        max_pool = masked_tokens.max(dim=1).values
+        max_pool = torch.where(
+            observed.any(dim=1, keepdim=True), max_pool, torch.zeros_like(max_pool)
+        )
+        observed_fraction = observed.float().mean(dim=1, keepdim=True)
+        pooled = torch.cat([mean_pool, max_pool, observed_fraction], dim=1)
+        return cast(torch.Tensor, self.output_network(pooled).squeeze(-1))
+
+    def forward(
+        self,
+        values: torch.Tensor,
+        observed: torch.Tensor,
+        reference_values: torch.Tensor | None = None,
+    ) -> torch.Tensor:
+        raw = self._raw_score(values, observed)
+        if not self.ane:
+            return raw + self.global_bias
+        if reference_values is None:
+            raise ValueError("ANE mode requires fold-local reference values")
+        if reference_values.ndim == 1:
+            reference_values = reference_values.unsqueeze(0).expand(len(values), -1)
+        reference_score = self._raw_score(reference_values, observed)
+        return raw - reference_score + self.global_bias
+
+
+ObservedEncoder = ObservedFeatureSetEncoder | ObservedFeatureDeepSetEncoder
+
+
+def build_observed_encoder(
+    *,
+    backbone: str,
+    n_features: int,
+    continuous_indices: tuple[int, ...],
+    categorical_cardinalities: dict[int, int],
+    d_model: int,
+    n_heads: int,
+    n_layers: int,
+    dropout: float,
+    ane: bool,
+) -> ObservedEncoder:
+    """Build a versioned observed-set backbone from a shared parameter contract."""
+    if backbone == "attention":
+        return ObservedFeatureSetEncoder(
+            n_features=n_features,
+            continuous_indices=continuous_indices,
+            categorical_cardinalities=categorical_cardinalities,
+            d_model=d_model,
+            n_heads=n_heads,
+            n_layers=n_layers,
+            dropout=dropout,
+            ane=ane,
+        )
+    if backbone == "deepsets":
+        return ObservedFeatureDeepSetEncoder(
+            n_features=n_features,
+            continuous_indices=continuous_indices,
+            categorical_cardinalities=categorical_cardinalities,
+            d_model=d_model,
+            n_layers=n_layers,
+            dropout=dropout,
+            ane=ane,
+        )
+    raise KeyError(f"Unknown observed-set backbone: {backbone}")

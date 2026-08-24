@@ -1,0 +1,7 @@
+{
+  "status": "interrupted_before_aggregation",
+  "date": "2026-08-24",
+  "reason": "The legacy source-inner evaluator varied evaluation masks with training seed. This prevents patient-level seed ensembling under identical masks. Completed shards are preserved; a corrected version freezes the evaluation seed while retaining independent training seeds.",
+  "scientific_result_available": false,
+  "raw_or_historical_evidence_modified": false
+}

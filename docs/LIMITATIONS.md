@@ -48,6 +48,22 @@
     the v5 exact-filename fix. The completed v3 results were known at v4 recovery,
     and the MIRRAMS endpoint was joined before v5 recovery. Both preserved failures
     and this sequence must accompany the report.
+17. The support-aware router is a negative development result. It failed robust
+    improvement over equal-logit averaging even though it passed AUROC
+    noninferiority and did not collapse to one expert.
+18. Source-only backbone choice agreed with the better target backbone in only
+    three of eight family/hospital comparisons, and router feature-mode choice in
+    only one of four hospitals. These small descriptive counts do not estimate a
+    population selection error rate, but they prohibit a reliable-selection
+    claim.
+19. The exact ten-seed historical extension was initiated after review of
+    consumed outer outcomes. Its unadjusted V4-versus-random-forest interval
+    excludes zero, but Bonferroni and joint max-error familywise intervals cross
+    zero. It is sensitivity evidence, not confirmation.
+20. Patient-stratified bootstrap intervals condition on fitted ensembles and do
+    not resample training seeds. The large gap between individual-seed and
+    ensemble performance must therefore be reported separately from patient
+    sampling uncertainty.
 
 The appropriate fallback is a transparent benchmark or negative-results paper if
 the proposed method fails its synthetic gates or does not improve robust outcomes

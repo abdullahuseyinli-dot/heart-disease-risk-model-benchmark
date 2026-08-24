@@ -1,0 +1,161 @@
+{
+  "categorical_columns": [
+    "gender",
+    "ethnicity",
+    "hospitaladmitsource",
+    "unittype",
+    "unitadmitsource",
+    "unitstaytype",
+    "intubated",
+    "vent",
+    "dialysis",
+    "eyes",
+    "motor",
+    "verbal"
+  ],
+  "classical_models": [
+    {
+      "name": "logistic",
+      "parameters": {
+        "C": 1.0
+      }
+    },
+    {
+      "name": "random_forest",
+      "parameters": {
+        "min_samples_leaf": 5,
+        "n_estimators": 200
+      }
+    }
+  ],
+  "continuous_columns": [
+    "age",
+    "admissionheight",
+    "admissionweight",
+    "urine",
+    "wbc",
+    "temperature",
+    "respiratoryrate",
+    "sodium",
+    "heartrate",
+    "meanbp",
+    "ph",
+    "hematocrit",
+    "creatinine",
+    "albumin",
+    "pao2",
+    "pco2",
+    "bun",
+    "glucose",
+    "bilirubin",
+    "fio2"
+  ],
+  "data_dir": "data/processed/eicu-demo-shiftguard-smoke-v1",
+  "device": "cuda",
+  "encounter_id_column": "patientunitstayid",
+  "feature_columns": [
+    "age",
+    "admissionheight",
+    "admissionweight",
+    "urine",
+    "wbc",
+    "temperature",
+    "respiratoryrate",
+    "sodium",
+    "heartrate",
+    "meanbp",
+    "ph",
+    "hematocrit",
+    "creatinine",
+    "albumin",
+    "pao2",
+    "pco2",
+    "bun",
+    "glucose",
+    "bilirubin",
+    "fio2",
+    "gender",
+    "ethnicity",
+    "hospitaladmitsource",
+    "unittype",
+    "unitadmitsource",
+    "unitstaytype",
+    "intubated",
+    "vent",
+    "dialysis",
+    "eyes",
+    "motor",
+    "verbal"
+  ],
+  "mask_replicates": 2,
+  "observed_backbones": [
+    "attention",
+    "deepsets"
+  ],
+  "observed_parameters": {
+    "batch_size": 256,
+    "brier_beta": 0.1,
+    "d_model": 32,
+    "dro_lambda": 0.5,
+    "dro_tau": 0.2,
+    "dropout": 0.05,
+    "evaluation_interval": 2,
+    "inference_batch_size": 512,
+    "learning_rate": 0.001,
+    "max_epochs": 12,
+    "minimum_environment_size": 10,
+    "n_heads": 4,
+    "n_layers": 1,
+    "patience_evaluations": 3,
+    "validation_mask_replicates": 1,
+    "weight_decay": 0.001
+  },
+  "policies": [
+    {
+      "kind": "natural",
+      "name": "natural"
+    },
+    {
+      "kind": "mcar",
+      "name": "mcar_30",
+      "rate": 0.3
+    },
+    {
+      "kind": "mcar",
+      "name": "mcar_50",
+      "rate": 0.5
+    },
+    {
+      "columns": [
+        "urine",
+        "wbc",
+        "sodium",
+        "ph",
+        "hematocrit",
+        "creatinine",
+        "albumin",
+        "pao2",
+        "pco2",
+        "bun",
+        "glucose",
+        "bilirubin"
+      ],
+      "kind": "panel",
+      "name": "drop_laboratory"
+    },
+    {
+      "columns": [
+        "temperature",
+        "respiratoryrate",
+        "heartrate",
+        "meanbp",
+        "fio2"
+      ],
+      "kind": "panel",
+      "name": "drop_vital"
+    }
+  ],
+  "protocol_version": "eicu-demo-model-smoke-v1",
+  "seed": 5062,
+  "status": "public_demo_not_scientific_evaluation"
+}

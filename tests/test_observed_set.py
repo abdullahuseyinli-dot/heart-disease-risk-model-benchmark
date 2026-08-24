@@ -6,7 +6,11 @@ import numpy as np
 import torch
 
 from heartshift.data.uci import FEATURE_COLUMNS, load_uci_heart
-from heartshift.models.observed_set import NeuralPreprocessor, ObservedFeatureSetEncoder
+from heartshift.models.observed_set import (
+    NeuralPreprocessor,
+    ObservedFeatureDeepSetEncoder,
+    ObservedFeatureSetEncoder,
+)
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 EXTRACTED = REPO_ROOT / "data/raw/uci_heart/doi-10.24432-C52P4X/extracted"
@@ -59,3 +63,26 @@ def test_preprocessor_is_finite_and_preserves_natural_mask() -> None:
     values, observed = preprocessor.transform(target)
     assert np.isfinite(values).all()
     assert np.array_equal(observed, target.loc[:, FEATURE_COLUMNS].notna().to_numpy())
+
+
+def test_deepsets_cannot_use_hidden_values_and_handles_empty_mask() -> None:
+    data = load_uci_heart(EXTRACTED).iloc[:40]
+    preprocessor = NeuralPreprocessor.fit(data)
+    values, observed = preprocessor.transform(data.iloc[:8])
+    observed[:, -2:] = False
+    observed[0] = False
+    changed = values.copy()
+    changed[~observed] = 999.0
+    model = ObservedFeatureDeepSetEncoder(
+        n_features=len(FEATURE_COLUMNS),
+        continuous_indices=preprocessor.continuous_indices,
+        categorical_cardinalities=preprocessor.categorical_cardinalities,
+        d_model=32,
+        n_layers=1,
+        dropout=0.0,
+    ).eval()
+    with torch.no_grad():
+        first = model(torch.tensor(values), torch.tensor(observed))
+        second = model(torch.tensor(changed), torch.tensor(observed))
+    assert torch.isfinite(first).all()
+    assert torch.allclose(first, second, atol=1e-6)

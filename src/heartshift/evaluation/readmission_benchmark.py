@@ -15,6 +15,7 @@ import torch
 
 from heartshift.config import config_hash
 from heartshift.evaluation.classical_benchmark import write_run_manifest
+from heartshift.masks import observed_mask_hashes
 from heartshift.metrics import binary_metrics
 from heartshift.models.classical import (
     build_generic_classical_pipeline,
@@ -124,6 +125,7 @@ def _predict_classical_policy_bank(
             )
             frame["y_score"] = probabilities
             frame["observed_fraction"] = observed.mean(axis=1)
+            frame["observed_mask_sha256"] = observed_mask_hashes(observed, feature_columns)
             records.append(frame)
     return pd.concat(records, ignore_index=True)
 

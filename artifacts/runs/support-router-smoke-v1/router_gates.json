@@ -1,0 +1,59 @@
+{
+  "checks": {
+    "natural_auroc_noninferiority": {
+      "margin": 0.01,
+      "passed": true,
+      "router": 0.8035752785869712,
+      "strongest": 0.8022055846560542
+    },
+    "robust_improvement_over_strongest_fixed": {
+      "passed": true,
+      "router": 0.6224559453304427,
+      "strongest": 0.6231283051738273,
+      "strongest_method": "equal_logit_blend"
+    },
+    "router_not_collapsed": {
+      "mean_maximum_weight": 0.4446362257003784,
+      "passed": true,
+      "threshold": 0.95
+    }
+  },
+  "method_summary": [
+    {
+      "mean_site_worst_bll": 0.6231283051738273,
+      "method": "equal_logit_blend",
+      "natural_auroc": 0.8022055846560542
+    },
+    {
+      "mean_site_worst_bll": 0.6269095689831227,
+      "method": "expert:joint_policy_dro",
+      "natural_auroc": 0.8016380665827757
+    },
+    {
+      "mean_site_worst_bll": 0.6487398304607962,
+      "method": "expert:prior_separated",
+      "natural_auroc": 0.7954118110683247
+    },
+    {
+      "mean_site_worst_bll": 0.7349522923386079,
+      "method": "expert:stable_anchor",
+      "natural_auroc": 0.7828589679774828
+    },
+    {
+      "mean_site_worst_bll": 0.6742524480089515,
+      "method": "selected_best_expert",
+      "natural_auroc": 0.7974286893020044
+    },
+    {
+      "mean_site_worst_bll": 0.6420836731520317,
+      "method": "selected_convex_blend",
+      "natural_auroc": 0.7961590619331638
+    },
+    {
+      "mean_site_worst_bll": 0.6224559453304427,
+      "method": "support_aware_router",
+      "natural_auroc": 0.8035752785869712
+    }
+  ],
+  "status": "passed_all_source_router_gates"
+}

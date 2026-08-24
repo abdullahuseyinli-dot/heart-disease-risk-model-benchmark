@@ -1,0 +1,83 @@
+{
+  "active_encounters": 1044,
+  "age_above_89_encoded_as_90": true,
+  "apache_minus_one_converted_to_missing": true,
+  "apache_prediction_columns_excluded": true,
+  "canonical_sha256": "05D40BC897052AB947E76219D19C87575A4872ADE4FEDC18A1BB80E787B20AFA",
+  "dataset": "eicu_demo_shiftguard_smoke_v1",
+  "feature_columns": [
+    "age",
+    "admissionheight",
+    "admissionweight",
+    "urine",
+    "wbc",
+    "temperature",
+    "respiratoryrate",
+    "sodium",
+    "heartrate",
+    "meanbp",
+    "ph",
+    "hematocrit",
+    "creatinine",
+    "albumin",
+    "pao2",
+    "pco2",
+    "bun",
+    "glucose",
+    "bilirubin",
+    "fio2",
+    "gender",
+    "ethnicity",
+    "hospitaladmitsource",
+    "unittype",
+    "unitadmitsource",
+    "unitstaytype",
+    "intubated",
+    "vent",
+    "dialysis",
+    "eyes",
+    "motor",
+    "verbal"
+  ],
+  "hospital_used_only_for_split_and_audit": true,
+  "imputation_applied": false,
+  "manifest_sha256": "81A2D52A7FD4177BE572BA43139EA5B05F6D52DE64887606C236F17375AF360E",
+  "quarantined_encounters": 794,
+  "raw_directory": "data\\raw\\eicu-crd-demo\\2.0.1",
+  "raw_sha256": {
+    "apacheApsVar.csv.gz": "2DC6D63F9807C7E663FFA253998691605D527B702AC1DB8CC5DDA92308061E78",
+    "apachePatientResult.csv.gz": "CE799692737F7A712C59AA8FBB9A302CEE7C719887F0638CAED3AE144B166821",
+    "patient.csv.gz": "15E1EB52169828E3CFFF3B67132A087298DE4D0365BBB31BB294F6043BFFD474"
+  },
+  "scientific_evaluation_allowed": false,
+  "splits": [
+    {
+      "encounters": 270,
+      "hospitals": 26,
+      "negative": 229,
+      "patients": 222,
+      "positive": 41,
+      "prevalence": 0.15185185185185185,
+      "split": "architecture_selection"
+    },
+    {
+      "encounters": 640,
+      "hospitals": 57,
+      "negative": 548,
+      "patients": 512,
+      "positive": 92,
+      "prevalence": 0.14375,
+      "split": "development"
+    },
+    {
+      "encounters": 134,
+      "hospitals": 14,
+      "negative": 112,
+      "patients": 124,
+      "positive": 22,
+      "prevalence": 0.16417910447761194,
+      "split": "locked_confirmation"
+    }
+  ],
+  "status": "passed_public_demo_pipeline_smoke_only"
+}

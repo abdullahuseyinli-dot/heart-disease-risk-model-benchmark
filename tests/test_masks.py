@@ -5,7 +5,14 @@ from pathlib import Path
 import numpy as np
 
 from heartshift.data.uci import FEATURE_COLUMNS, load_uci_heart
-from heartshift.masks import MaskPolicy, apply_mask_policy, default_policy_bank, mask_frame
+from heartshift.masks import (
+    MaskPolicy,
+    apply_mask_policy,
+    default_policy_bank,
+    mask_frame,
+    observed_mask_codes,
+    observed_mask_hashes,
+)
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 EXTRACTED = REPO_ROOT / "data/raw/uci_heart/doi-10.24432-C52P4X/extracted"
@@ -41,3 +48,13 @@ def test_mask_frame_preserves_row_order_and_metadata() -> None:
     shifted = mask_frame(data, observed)
     assert shifted["sample_id"].tolist() == data["sample_id"].tolist()
     assert shifted[["ca", "thal"]].isna().all().all()
+
+
+def test_mask_codes_and_hashes_distinguish_equal_observed_fractions() -> None:
+    observed = np.asarray([[True, False, True], [False, True, True]], dtype=bool)
+    codes = observed_mask_codes(observed)
+    hashes = observed_mask_hashes(observed, ("a", "b", "c"))
+    assert codes.tolist() == [5, 6]
+    assert len(set(hashes)) == 2
+    assert np.array_equal(codes, observed_mask_codes(observed))
+    assert np.array_equal(hashes, observed_mask_hashes(observed, ("a", "b", "c")))

@@ -1,0 +1,11 @@
+{
+  "bootstrap_repetitions": 2000,
+  "bootstrap_unit": "record_stratified_by_observed_hospital_and_outcome_class",
+  "effect_estimate": "original_observed_paired_contrast",
+  "exact_cross_method_mask_identity_available_in_historical_artifacts": false,
+  "fitted_model_uncertainty_in_bootstrap": false,
+  "future_hospital_inference": false,
+  "hospital_inference": "conditional_on_four_observed_hospitals",
+  "source_report": "artifacts/reports/heart-outer-v5/normalized_outer_predictions.parquet",
+  "status": "post_outcome_consumed_evidence_sensitivity_only"
+}

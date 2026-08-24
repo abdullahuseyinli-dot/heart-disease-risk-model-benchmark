@@ -10,6 +10,7 @@ from heartshift.config import load_yaml
 from heartshift.data.uci import sha256_file
 from heartshift.research.gates import (
     evaluate_psmask_confirmation_gate,
+    evaluate_psmask_nested_pivot_selection,
     evaluate_psmask_pivot_selection,
     validate_completed_outer_evidence,
     validate_failed_outer_evidence,
@@ -384,3 +385,21 @@ def test_psmask_confirmation_gate_checks_registered_tradeoffs(tmp_path: Path) ->
     )
     assert pivot["passed"]
     assert pivot["selected_experiment"] == "v5_site_mask_dro_brier"
+    nested = evaluate_psmask_nested_pivot_selection(
+        tmp_path,
+        {
+            "protocol_version": "test-nested-pivot-v1",
+            "candidate_experiments": list(experiments),
+            "reference_experiment": "v4_structured_policy_bank",
+            "minimum_confirmation_seeds": 3,
+            "maximum_natural_auroc_loss": 0.01,
+            "maximum_worst_cell_regression": 0.0,
+            "expected_selected_by_outer": {
+                "a": "v5_site_mask_dro_brier",
+                "b": "v5_site_mask_dro_brier",
+            },
+        },
+    )
+    assert nested["passed"]
+    assert nested["fully_nested"]
+    assert {row["outer_target"] for row in nested["outer_selections"]} == {"a", "b"}

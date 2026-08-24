@@ -1,0 +1,29 @@
+protocol_version: heart-research-development-freeze-v1
+status: consumed_uci_development_freeze_not_preregistration
+files:
+  - configs/research/heart_controls_v1.yaml
+  - configs/research/observed_backbones_v1.yaml
+  - configs/research/observed_backbones_outer_v1.yaml
+  - configs/research/support_router_outer_v3.yaml
+  - configs/reporting/heart_research_development_v1.yaml
+  - src/heartshift/evaluation/research_controls.py
+  - src/heartshift/evaluation/neural_benchmark.py
+  - src/heartshift/evaluation/neural_outer.py
+  - src/heartshift/models/generic_observed.py
+  - src/heartshift/models/observed_set.py
+  - src/heartshift/models/ps_maskdro.py
+  - src/heartshift/models/support_shrinkage.py
+  - src/heartshift/research/router_outer_experiment.py
+  - src/heartshift/reporting/research_development.py
+  - src/heartshift/reporting/hierarchical.py
+  - src/heartshift/reporting/outer_report.py
+  - src/heartshift/masks.py
+  - artifacts/runs/heart-controls-development-v2-aligned/config.resolved.json
+  - artifacts/runs/heart-controls-development-v2-aligned/selected_configurations.csv
+  - artifacts/runs/heart-controls-development-v2-aligned/selected_anchors.csv
+  - artifacts/runs/heart-controls-development-v2-aligned/evidence_audit.json
+  - artifacts/runs/heart-controls-development-v2-aligned/post_run_source_snapshot.json
+  - artifacts/runs/observed-backbones-development-v1/config.resolved.json
+  - artifacts/runs/observed-backbones-development-v1/selected_configurations.csv
+  - artifacts/runs/observed-backbones-development-v1/fit_summaries.csv
+  - artifacts/runs/observed-backbones-development-v1/post_run_source_snapshot.json

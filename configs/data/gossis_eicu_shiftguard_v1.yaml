@@ -1,0 +1,67 @@
+name: gossis_eicu_shiftguard_v1
+raw_path: data/raw/gossis-1-eicu/1.0.0/gossis-1-eicu-only.csv.gz
+encounter_id_column: encounter_id
+patient_id_column: patient_id
+hospital_id_column: hospital_id
+target_column: hospital_death
+continuous_columns:
+  - age
+  - bmi
+  - height
+  - pre_icu_los_days
+  - weight
+  - d1_diasbp_max
+  - d1_diasbp_min
+  - d1_heartrate_max
+  - d1_heartrate_min
+  - d1_mbp_max
+  - d1_mbp_min
+  - d1_resprate_max
+  - d1_resprate_min
+  - d1_spo2_max
+  - d1_spo2_min
+  - d1_sysbp_max
+  - d1_sysbp_min
+  - d1_temp_max
+  - d1_temp_min
+  - d1_bun_max
+  - d1_bun_min
+  - d1_creatinine_max
+  - d1_creatinine_min
+  - d1_glucose_max
+  - d1_glucose_min
+  - d1_hco3_max
+  - d1_hco3_min
+  - d1_hemaglobin_max
+  - d1_hemaglobin_min
+  - d1_platelets_max
+  - d1_platelets_min
+  - d1_potassium_max
+  - d1_potassium_min
+  - d1_sodium_max
+  - d1_sodium_min
+  - d1_wbc_max
+  - d1_wbc_min
+categorical_columns:
+  - elective_surgery
+  - ethnicity
+  - gender
+  - hospital_admit_source
+  - icu_admit_source
+  - icu_stay_type
+  - icu_type
+  - aids
+  - cirrhosis
+  - diabetes_mellitus
+  - hepatic_failure
+  - immunosuppression
+  - leukemia
+  - lymphoma
+  - solid_tumor_with_metastasis
+minimum_hospital_rows: 200
+minimum_class_rows: 20
+hospital_split:
+  salt: shiftguard-v1-gossis-hospital-lock-20260824
+  development_fraction: 0.60
+  selection_fraction: 0.20
+  confirmation_fraction: 0.20

@@ -1,0 +1,55 @@
+protocol_version: heart-research-development-report-v1
+status: post_outcome_consumed_uci_development_only
+control_run: artifacts/runs/heart-controls-development-v2-aligned
+neural_inner_run: artifacts/runs/observed-backbones-development-v1
+neural_outer_run: artifacts/runs/observed-backbones-outer-development-v1
+router_run: artifacts/runs/support-router-outer-development-v1
+seeds: [5062, 5063, 5064, 5065, 5066, 5067, 5068, 5069, 5070, 5071]
+router_methods:
+  - support_aware_router
+  - equal_logit_blend
+  - selected_convex_blend
+neural_logit_ensembles:
+  v2_backbones_equal:
+    - v2_attention_equal_budget
+    - v2_deepsets_equal_budget
+  v5_backbones_equal:
+    - v5_attention_equal_budget
+    - v5_deepsets_equal_budget
+  all_backbones_equal:
+    - v2_attention_equal_budget
+    - v2_deepsets_equal_budget
+    - v5_attention_equal_budget
+    - v5_deepsets_equal_budget
+contrasts:
+  - id: v2_deepsets_minus_attention
+    reference_method: neural:v2_attention_equal_budget
+    comparison_methods: [neural:v2_deepsets_equal_budget]
+  - id: v5_deepsets_minus_attention
+    reference_method: neural:v5_attention_equal_budget
+    comparison_methods: [neural:v5_deepsets_equal_budget]
+  - id: v5_minus_v2_attention
+    reference_method: neural:v2_attention_equal_budget
+    comparison_methods: [neural:v5_attention_equal_budget]
+  - id: v5_minus_v2_deepsets
+    reference_method: neural:v2_deepsets_equal_budget
+    comparison_methods: [neural:v5_deepsets_equal_budget]
+  - id: router_fixed_comparisons
+    reference_method: router:support_aware_router
+    comparison_methods:
+      - router:equal_logit_blend
+      - router:selected_convex_blend
+      - neural_ensemble:v2_backbones_equal
+      - neural_ensemble:v5_backbones_equal
+      - neural_ensemble:all_backbones_equal
+  - id: logistic_structured_minus_natural
+    reference_method: control:logistic_natural
+    comparison_methods: [control:logistic_structured]
+  - id: random_forest_structured_minus_natural
+    reference_method: control:random_forest_natural
+    comparison_methods: [control:random_forest_structured]
+  - id: histgb_structured_minus_natural
+    reference_method: control:histgb_natural
+    comparison_methods: [control:histgb_structured]
+bootstrap_repetitions: 2000
+bootstrap_seed: 5062

@@ -1,0 +1,43 @@
+{
+  "adaptable_variants": [],
+  "data": {
+    "canonical_path": "data/processed/uci_heart_canonical_v1.parquet",
+    "outer_manifest": "data/splits/uci_heart_outer_loho_v1.parquet"
+  },
+  "device": "cuda",
+  "diagnostic": {
+    "mode": "composite_multiview_v3"
+  },
+  "features": [
+    "age",
+    "sex",
+    "cp",
+    "trestbps",
+    "chol",
+    "fbs",
+    "restecg",
+    "thalach",
+    "exang",
+    "oldpeak",
+    "slope",
+    "ca",
+    "thal"
+  ],
+  "inner_run": "artifacts/runs/observed-backbones-development-v1",
+  "manifest_stage": "consumed_uci_descriptive_neural_outer",
+  "outer_mask_replicates": 10,
+  "protocol_version": "observed-backbones-consumed-outer-v1",
+  "seeds": [
+    5062,
+    5063,
+    5064,
+    5065,
+    5066,
+    5067,
+    5068,
+    5069,
+    5070,
+    5071
+  ],
+  "status": "consumed_uci_development_only"
+}

@@ -1,0 +1,4 @@
+stage,outer_target,inner_validation,experiment,variant,training_seed,fit_seed,epoch,objective,mean_group_risk,robust_group_risk,mean_group_brier
+outer_final,switzerland,,v2_deepsets_smoke,v2,5062,2036537987,1.0,0.7007977366447449,0.7007977366447449,0.7071192264556885,0.2538021504878998
+outer_final,switzerland,,v2_deepsets_smoke,v2,5062,2036537987,2.0,0.6937518119812012,0.6937518119812012,0.6996501088142395,0.2503107488155365
+outer_final,switzerland,,v2_deepsets_smoke,v2,5062,2036537987,3.0,0.6880264282226562,0.6880264282226562,0.6935124397277832,0.247450590133667

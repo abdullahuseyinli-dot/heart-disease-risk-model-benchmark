@@ -24,6 +24,7 @@ from heartshift.masks import (
     apply_mask_policy,
     default_policy_bank,
     mask_frame,
+    observed_mask_codes,
     policy_seed,
 )
 from heartshift.metrics import binary_metrics
@@ -500,6 +501,7 @@ def run_outer_benchmark(
                     fold_predictions["policy"] = policy.name
                     fold_predictions["mask_replicate"] = replicate
                     fold_predictions["observed_fraction"] = observed.mean(axis=1)
+                    fold_predictions["observed_mask_code"] = observed_mask_codes(observed)
                     fold_predictions["config_sha256"] = config_hash(config)
                     seed_prediction_records.append(fold_predictions)
                     if use_source_calibration:

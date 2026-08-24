@@ -1,0 +1,11 @@
+protocol_version: shiftguard-revision-comparison-v1
+runs:
+  - revision: v1_learned_mean
+    protocol_version: shiftguard-synthetic-development-v1
+    path: artifacts/runs/shiftguard-synthetic-development-v1
+  - revision: v2_omnibus_mean
+    protocol_version: shiftguard-synthetic-development-v2-omnibus
+    path: artifacts/runs/shiftguard-synthetic-development-v2-omnibus
+  - revision: v3_max_moment
+    protocol_version: shiftguard-synthetic-development-v3-max-moment
+    path: artifacts/runs/shiftguard-synthetic-development-v3-max-moment

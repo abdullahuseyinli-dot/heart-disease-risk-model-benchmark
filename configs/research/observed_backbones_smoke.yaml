@@ -1,0 +1,30 @@
+protocol_version: observed-backbones-code-smoke-v1
+status: code_smoke_not_scientific_result
+device: cuda
+seeds: [5062]
+inner_mask_replicates: 1
+inner_evaluation_seed: 5062
+features: [age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]
+data:
+  canonical_path: data/processed/uci_heart_canonical_v1.parquet
+common_parameters:
+  d_model: 16
+  n_heads: 4
+  n_layers: 1
+  dropout: 0.0
+  learning_rate: 0.001
+  weight_decay: 0.001
+  max_epochs: 3
+  evaluation_interval: 1
+  patience_evaluations: 2
+  validation_mask_replicates: 1
+  dro_lambda: 0.5
+  dro_tau: 0.2
+  brier_beta: 0.0
+experiments:
+  - name: v2_attention_smoke
+    variant: v2
+    parameters: {backbone: attention}
+  - name: v2_deepsets_smoke
+    variant: v2
+    parameters: {backbone: deepsets}

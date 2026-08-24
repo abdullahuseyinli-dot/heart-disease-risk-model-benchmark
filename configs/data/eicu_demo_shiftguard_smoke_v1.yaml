@@ -1,0 +1,47 @@
+name: eicu_demo_shiftguard_smoke_v1
+raw_path: data/raw/eicu-crd-demo/2.0.1
+encounter_id_column: patientunitstayid
+patient_id_column: uniquepid
+hospital_id_column: hospitalid
+target_column: hospital_death
+continuous_columns:
+  - age
+  - admissionheight
+  - admissionweight
+  - urine
+  - wbc
+  - temperature
+  - respiratoryrate
+  - sodium
+  - heartrate
+  - meanbp
+  - ph
+  - hematocrit
+  - creatinine
+  - albumin
+  - pao2
+  - pco2
+  - bun
+  - glucose
+  - bilirubin
+  - fio2
+categorical_columns:
+  - gender
+  - ethnicity
+  - hospitaladmitsource
+  - unittype
+  - unitadmitsource
+  - unitstaytype
+  - intubated
+  - vent
+  - dialysis
+  - eyes
+  - motor
+  - verbal
+minimum_hospital_rows: 1
+minimum_class_rows: 1
+hospital_split:
+  salt: shiftguard-v1-eicu-demo-smoke-20260824
+  development_fraction: 0.60
+  selection_fraction: 0.20
+  confirmation_fraction: 0.20

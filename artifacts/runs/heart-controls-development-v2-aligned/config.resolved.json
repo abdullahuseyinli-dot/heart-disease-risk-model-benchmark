@@ -1,0 +1,133 @@
+{
+  "controls": [
+    {
+      "augmentation": "natural",
+      "grid": {
+        "C": [
+          0.1,
+          1.0,
+          10.0
+        ]
+      },
+      "model": "logistic",
+      "name": "logistic_natural",
+      "weighting": "site_class_balanced"
+    },
+    {
+      "augmentation": "structured_policy_bank",
+      "grid": {
+        "C": [
+          0.1,
+          1.0,
+          10.0
+        ]
+      },
+      "model": "logistic",
+      "name": "logistic_structured"
+    },
+    {
+      "augmentation": "natural",
+      "grid": {
+        "max_features": [
+          "sqrt"
+        ],
+        "min_samples_leaf": [
+          5,
+          15
+        ],
+        "n_estimators": [
+          500
+        ]
+      },
+      "model": "random_forest",
+      "name": "random_forest_natural",
+      "weighting": "site_class_balanced"
+    },
+    {
+      "augmentation": "structured_policy_bank",
+      "grid": {
+        "max_features": [
+          "sqrt"
+        ],
+        "min_samples_leaf": [
+          5,
+          15
+        ],
+        "n_estimators": [
+          500
+        ]
+      },
+      "model": "random_forest",
+      "name": "random_forest_structured"
+    },
+    {
+      "augmentation": "natural",
+      "grid": {
+        "l2_regularization": [
+          1.0
+        ],
+        "learning_rate": [
+          0.03
+        ],
+        "max_iter": [
+          300
+        ],
+        "max_leaf_nodes": [
+          7,
+          15
+        ],
+        "min_samples_leaf": [
+          10
+        ]
+      },
+      "model": "hist_gradient_boosting",
+      "name": "histgb_natural",
+      "weighting": "site_class_balanced"
+    },
+    {
+      "augmentation": "structured_policy_bank",
+      "grid": {
+        "l2_regularization": [
+          1.0
+        ],
+        "learning_rate": [
+          0.03
+        ],
+        "max_iter": [
+          300
+        ],
+        "max_leaf_nodes": [
+          7,
+          15
+        ],
+        "min_samples_leaf": [
+          10
+        ]
+      },
+      "model": "hist_gradient_boosting",
+      "name": "histgb_structured"
+    }
+  ],
+  "data": {
+    "canonical_path": "data/processed/uci_heart_canonical_v1.parquet"
+  },
+  "inner_evaluation_seed": 5062,
+  "inner_mask_replicates": 5,
+  "outer_evaluation_seed": 5062,
+  "outer_mask_replicates": 10,
+  "protocol_version": "heart-controls-consumed-development-v1",
+  "seeds": [
+    5062,
+    5063,
+    5064,
+    5065,
+    5066,
+    5067,
+    5068,
+    5069,
+    5070,
+    5071
+  ],
+  "status": "consumed_uci_development_only",
+  "training_mask_replicates": 2
+}

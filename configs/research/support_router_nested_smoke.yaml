@@ -1,0 +1,24 @@
+protocol_version: support-router-nested-anchor-code-smoke-v2
+status: code_smoke_not_scientific_result
+supersedes_failed_smoke: artifacts/runs/support-router-nested-anchor-smoke-v2
+neural_run: artifacts/runs/observed-backbones-smoke-v1
+control_run: artifacts/runs/heart-controls-smoke-v1
+neural_experiments:
+  prior_separated: v2_attention_smoke
+  joint_policy_dro: v2_deepsets_smoke
+prediction_seeds: [5062]
+router_seeds: [5062]
+device: cpu
+convex_grid_step: 0.50
+router:
+  hidden_dim: 8
+  dropout: 0.0
+  learning_rate: 0.003
+  weight_decay: 0.001
+  max_epochs: 20
+  patience: 5
+  dro_lambda: 0.5
+  dro_tau: 0.2
+  regret_beta: 0.5
+  natural_margin: 0.01
+  entropy_bonus: 0.001

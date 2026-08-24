@@ -426,6 +426,116 @@ def evaluate_psmask_pivot_selection(
     }
 
 
+def evaluate_psmask_nested_pivot_selection(
+    run_dir: Path,
+    selection_config: dict[str, Any],
+) -> dict[str, Any]:
+    """Select a candidate independently inside every outer-hospital context.
+
+    Unlike :func:`evaluate_psmask_pivot_selection`, this function never pools
+    selection evidence across outer contexts. Each selected architecture is based
+    only on inner validation among that context's source hospitals.
+    """
+    metrics = pd.read_csv(run_dir / "inner_metrics.csv")
+    fits = pd.read_csv(run_dir / "fit_summaries.csv")
+    selections = pd.read_csv(run_dir / "selected_configurations.csv")
+    selected_metrics = metrics.merge(
+        selections[["outer_target", "experiment", "parameter_id"]],
+        on=["outer_target", "experiment", "parameter_id"],
+        how="inner",
+        validate="many_to_one",
+    )
+    candidates = [str(value) for value in selection_config["candidate_experiments"]]
+    reference_name = str(selection_config["reference_experiment"])
+    required = set(candidates) | {reference_name}
+    minimum_seeds = int(selection_config["minimum_confirmation_seeds"])
+    maximum_auc_loss = float(selection_config["maximum_natural_auroc_loss"])
+    maximum_worst_regression = float(selection_config["maximum_worst_cell_regression"])
+    records: list[dict[str, Any]] = []
+    candidate_records: list[dict[str, Any]] = []
+
+    for outer_target, context_metrics in selected_metrics.groupby("outer_target", sort=True):
+        available = set(context_metrics["experiment"].astype(str))
+        if not required <= available:
+            raise ValueError(
+                f"Nested pivot for {outer_target} misses candidates: {sorted(required - available)}"
+            )
+        context_fits = fits.loc[fits["outer_target"].eq(outer_target)]
+        seed_count = int(
+            context_fits.groupby(["inner_validation", "experiment"])["seed"].nunique().min()
+        )
+        policy_means = context_metrics.groupby(
+            ["experiment", "policy"], as_index=False
+        ).agg(
+            balanced_log_loss=("balanced_log_loss", "mean"),
+            roc_auc=("roc_auc", "mean"),
+        )
+        summary = policy_means.groupby("experiment", as_index=False).agg(
+            worst_policy_balanced_log_loss=("balanced_log_loss", "max")
+        )
+        natural = policy_means.loc[policy_means["policy"].eq("natural")].loc[
+            :, ["experiment", "roc_auc"]
+        ].rename(columns={"roc_auc": "natural_roc_auc"})
+        summary = summary.merge(natural, on="experiment", validate="one_to_one").set_index(
+            "experiment"
+        )
+        reference = summary.loc[reference_name]
+        eligible = summary.loc[candidates].reset_index().copy()
+        eligible["natural_auroc_loss_vs_reference"] = (
+            float(reference["natural_roc_auc"]) - eligible["natural_roc_auc"]
+        )
+        eligible["worst_cell_regression_vs_reference"] = eligible[
+            "worst_policy_balanced_log_loss"
+        ] - float(reference["worst_policy_balanced_log_loss"])
+        eligible["eligible"] = eligible["natural_auroc_loss_vs_reference"].le(
+            maximum_auc_loss
+        ) & eligible["worst_cell_regression_vs_reference"].le(maximum_worst_regression)
+        ranked = eligible.loc[eligible["eligible"]].sort_values(
+            [
+                "worst_policy_balanced_log_loss",
+                "natural_roc_auc",
+                "experiment",
+            ],
+            ascending=[True, False, True],
+        )
+        if ranked.empty:
+            raise AssertionError(
+                f"No source-only candidate is eligible inside outer context {outer_target}"
+            )
+        selected = ranked.iloc[0]
+        passed = bool(seed_count >= minimum_seeds)
+        records.append(
+            {
+                "outer_target": str(outer_target),
+                "selected_experiment": str(selected["experiment"]),
+                "reference_experiment": reference_name,
+                "minimum_seed_count": seed_count,
+                "passed": passed,
+            }
+        )
+        eligible.insert(0, "outer_target", str(outer_target))
+        candidate_records.extend(eligible.to_dict(orient="records"))
+
+    expected = {
+        str(key): str(value)
+        for key, value in selection_config.get("expected_selected_by_outer", {}).items()
+    }
+    if expected:
+        observed = {record["outer_target"]: record["selected_experiment"] for record in records}
+        if observed != expected:
+            raise AssertionError(
+                f"Nested pivot selection changed: observed={observed}, expected={expected}"
+            )
+    return {
+        "protocol_version": str(selection_config["protocol_version"]),
+        "selection_mode": "fully_nested_within_outer_context",
+        "fully_nested": True,
+        "passed": all(record["passed"] for record in records),
+        "outer_selections": records,
+        "candidate_summary": candidate_records,
+    }
+
+
 def validate_source_only_run(run_dir: Path) -> dict[str, Any]:
     """Prove that an inner run contains predictions only from source hospitals."""
     manifest_path = run_dir / "run_manifest.json"

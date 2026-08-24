@@ -156,7 +156,11 @@ def run_neural_inner(
                             validation,
                             default_policy_bank(),
                             device=torch.device(device),
-                            base_seed=policy_seed(int(seed), str(inner_validation), 99),
+                            base_seed=policy_seed(
+                                int(config.get("inner_evaluation_seed", seed)),
+                                str(inner_validation),
+                                99,
+                            ),
                             replicates=int(config["inner_mask_replicates"]),
                             empirical_mask_pool=empirical_pool,
                         )

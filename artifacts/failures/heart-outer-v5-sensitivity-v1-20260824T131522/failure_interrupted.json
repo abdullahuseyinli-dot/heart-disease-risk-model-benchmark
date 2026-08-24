@@ -1,0 +1,8 @@
+{
+  "status": "interrupted_for_performance_correction",
+  "started_local": "2026-08-24T13:15:22+01:00",
+  "interrupted_local": "2026-08-24T13:31:00+01:00",
+  "reason": "The initial exact implementation rebuilt Python dictionaries and pandas frames inside every bootstrap replicate. It was stopped before any result artifact was written so that the same site-by-class estimand could be evaluated with a vectorized multinomial implementation.",
+  "scientific_result_available": false,
+  "historical_evidence_modified": false
+}

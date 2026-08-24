@@ -32,9 +32,7 @@ def _normalise_classical(path: Path, namespace: str) -> pd.DataFrame:
     )
     frame["track"] = PRIMARY_TRACK
     frame["score"] = frame["y_score"].astype(float)
-    return frame.loc[
-        :,
-        [
+    columns = [
             "sample_id",
             "outer_target",
             "target",
@@ -44,8 +42,11 @@ def _normalise_classical(path: Path, namespace: str) -> pd.DataFrame:
             "method",
             "track",
             "score",
-        ],
     ]
+    for identity_column in ("observed_mask_code", "observed_mask_sha256"):
+        if identity_column in frame:
+            columns.append(identity_column)
+    return frame.loc[:, columns]
 
 
 def _normalise_neural(path: Path, namespace: str) -> pd.DataFrame:
@@ -67,10 +68,7 @@ def _normalise_neural(path: Path, namespace: str) -> pd.DataFrame:
         selected = selected.loc[selected[score_column].notna()].copy()
         selected["track"] = track
         selected["score"] = selected[score_column].astype(float)
-        records.append(
-            selected.loc[
-                :,
-                [
+        columns = [
                     "sample_id",
                     "outer_target",
                     "target",
@@ -80,13 +78,20 @@ def _normalise_neural(path: Path, namespace: str) -> pd.DataFrame:
                     "method",
                     "track",
                     "score",
-                ],
-            ]
-        )
+        ]
+        for identity_column in ("observed_mask_code", "observed_mask_sha256"):
+            if identity_column in selected:
+                columns.append(identity_column)
+        records.append(selected.loc[:, columns])
     return pd.concat(records, ignore_index=True)
 
 
-def load_heart_outer_predictions(repo_root: Path, run_specs: list[dict[str, Any]]) -> pd.DataFrame:
+def load_heart_outer_predictions(
+    repo_root: Path,
+    run_specs: list[dict[str, Any]],
+    *,
+    require_exact_mask_identity: bool = False,
+) -> pd.DataFrame:
     records = []
     for spec in run_specs:
         path = repo_root / str(spec["path"])
@@ -126,6 +131,23 @@ def load_heart_outer_predictions(repo_root: Path, run_specs: list[dict[str, Any]
         raise AssertionError("Methods disagree on an outer target endpoint")
     if (audit["maximum_observed_fraction"] - audit["minimum_observed_fraction"]).max() > 1e-12:
         raise AssertionError("Methods were not evaluated under identical patient masks")
+    identity_columns = [
+        column
+        for column in ("observed_mask_code", "observed_mask_sha256")
+        if column in paired and paired[column].notna().all()
+    ]
+    if require_exact_mask_identity and not identity_columns:
+        raise AssertionError(
+            "Exact mask identity is required but at least one prediction artifact lacks it"
+        )
+    for identity_column in identity_columns:
+        identity_audit = paired.groupby(
+            ["sample_id", "outer_target", "policy", "mask_replicate"], sort=False
+        )[identity_column].nunique(dropna=False)
+        if identity_audit.gt(1).any():
+            raise AssertionError(
+                f"Methods disagree on exact patient masks in {identity_column}"
+            )
     return predictions
 
 
@@ -392,13 +414,185 @@ def paired_primary_bootstrap(
     return replicates, intervals
 
 
+def paired_primary_stratified_bootstrap(
+    predictions: pd.DataFrame,
+    *,
+    reference_method: str,
+    comparison_methods: list[str],
+    repetitions: int,
+    seed: int,
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Paired site-by-class record bootstrap with explicit observed contrasts.
+
+    This version never drops a hospital because a rare class disappeared from a
+    resample. It remains conditional on the observed hospitals and fitted models;
+    it is not a future-hospital or refit bootstrap.
+    """
+    if repetitions < 1:
+        raise ValueError("Bootstrap repetitions must be positive")
+    zero_shot = predictions.loc[predictions["track"].eq(PRIMARY_TRACK)].copy()
+    methods = [reference_method, *comparison_methods]
+    selected = zero_shot.loc[zero_shot["method"].isin(methods)]
+    if set(selected["method"]) != set(methods):
+        missing = set(methods) - set(selected["method"])
+        raise KeyError(f"Bootstrap methods missing from predictions: {sorted(missing)}")
+
+    key_columns = ["sample_id", "outer_target", "policy", "mask_replicate"]
+    reference_keys = selected.loc[
+        selected["method"].eq(reference_method), key_columns
+    ].sort_values(key_columns)
+    for method in comparison_methods:
+        method_keys = selected.loc[selected["method"].eq(method), key_columns].sort_values(
+            key_columns
+        )
+        if not reference_keys.reset_index(drop=True).equals(method_keys.reset_index(drop=True)):
+            raise AssertionError(f"Paired bootstrap keys differ for method {method}")
+
+    endpoint_audit = selected.groupby(["outer_target", "sample_id"], sort=False)[
+        "target"
+    ].nunique()
+    if endpoint_audit.ne(1).any():
+        raise AssertionError("A record has inconsistent endpoint values")
+    reference_rows = selected.loc[selected["method"].eq(reference_method)]
+    site_class_samples: dict[tuple[str, int], np.ndarray] = {}
+    for (site, label), group in reference_rows.groupby(
+        ["outer_target", "target"], sort=False
+    ):
+        sample_ids = group["sample_id"].drop_duplicates().to_numpy()
+        if not len(sample_ids):
+            raise ValueError(f"Site {site} has no records for outcome class {label}")
+        site_class_samples[(str(site), int(label))] = sample_ids
+    sites = {str(value) for value in reference_rows["outer_target"].unique()}
+    if set(site for site, _ in site_class_samples) != sites or any(
+        (site, label) not in site_class_samples for site in sites for label in (0, 1)
+    ):
+        raise ValueError("Every bootstrapped site must contain both outcome classes")
+
+    observed = primary_estimands(cell_metrics(selected)).set_index("method")[
+        "macro_site_worst_mask_balanced_log_loss"
+    ]
+    observed_differences = {
+        method: float(observed[method] - observed[reference_method])
+        for method in comparison_methods
+    }
+    # All methods share the same ordered evaluation rows.  Holding their losses in
+    # columns keeps resampling paired, while a multinomial draw is exactly the
+    # count-vector representation of sampling records with replacement.  This is
+    # orders of magnitude faster than constructing dictionaries/data frames in
+    # every replicate and does not alter the bootstrap distribution or estimand.
+    method_order = [reference_method, *comparison_methods]
+    ordered_keys = [*key_columns, "target"]
+    reference = (
+        selected.loc[selected["method"].eq(reference_method), ordered_keys]
+        .sort_values(key_columns)
+        .reset_index(drop=True)
+    )
+    scores = []
+    for method in method_order:
+        method_rows = (
+            selected.loc[selected["method"].eq(method), [*key_columns, "score"]]
+            .sort_values(key_columns)
+            .reset_index(drop=True)
+        )
+        if not reference.loc[:, key_columns].equals(method_rows.loc[:, key_columns]):
+            raise AssertionError(f"Paired bootstrap row order differs for method {method}")
+        scores.append(method_rows["score"].to_numpy(dtype=np.float64))
+    score_matrix = np.column_stack(scores)
+    target = reference["target"].to_numpy(dtype=np.int8)
+    clipped = np.clip(score_matrix, 1e-7, 1 - 1e-7)
+    point_losses = -(
+        target[:, None] * np.log(clipped) + (1 - target[:, None]) * np.log(1 - clipped)
+    )
+
+    rng = np.random.default_rng(seed)
+    stratum_counts: dict[tuple[str, int], tuple[np.ndarray, np.ndarray]] = {}
+    for key, raw_sample_ids in sorted(site_class_samples.items()):
+        sample_ids = np.sort(raw_sample_ids)
+        n_records = len(sample_ids)
+        probabilities = np.full(n_records, 1.0 / n_records)
+        counts = rng.multinomial(n_records, probabilities, size=repetitions).astype(
+            np.float64, copy=False
+        )
+        stratum_counts[key] = (sample_ids, counts)
+
+    site_estimates = []
+    for site in sorted(sites):
+        site_rows = reference["outer_target"].astype(str).eq(site).to_numpy()
+        policy_estimates = []
+        policies = sorted(reference.loc[site_rows, "policy"].astype(str).unique())
+        for policy in policies:
+            policy_rows = site_rows & reference["policy"].astype(str).eq(policy).to_numpy()
+            replicate_estimates = []
+            replicate_values = sorted(reference.loc[policy_rows, "mask_replicate"].unique())
+            for replicate in replicate_values:
+                cell_rows = policy_rows & reference["mask_replicate"].eq(replicate).to_numpy()
+                class_estimates = []
+                for label in (0, 1):
+                    row_indices = np.flatnonzero(cell_rows & (target == label))
+                    order = np.argsort(reference.loc[row_indices, "sample_id"].to_numpy())
+                    row_indices = row_indices[order]
+                    expected_ids, counts = stratum_counts[(site, label)]
+                    actual_ids = reference.loc[row_indices, "sample_id"].to_numpy()
+                    if not np.array_equal(actual_ids, expected_ids):
+                        raise AssertionError(
+                            f"Evaluation cell {site}/{policy}/{replicate}/{label} has "
+                            "incomplete or duplicated patient keys"
+                        )
+                    class_estimates.append(counts @ point_losses[row_indices] / len(row_indices))
+                replicate_estimates.append(0.5 * (class_estimates[0] + class_estimates[1]))
+            policy_estimates.append(np.mean(replicate_estimates, axis=0))
+        site_estimates.append(np.max(policy_estimates, axis=0))
+    estimates = np.mean(site_estimates, axis=0)
+    if estimates.shape != (repetitions, len(method_order)) or not np.isfinite(estimates).all():
+        raise AssertionError("Vectorized stratified bootstrap produced invalid estimates")
+
+    differences = estimates[:, 1:] - estimates[:, [0]]
+    replicates = pd.DataFrame(
+        {
+            "bootstrap_replicate": np.repeat(np.arange(repetitions), len(comparison_methods)),
+            "method": np.tile(comparison_methods, repetitions),
+            "reference_method": reference_method,
+            "difference_candidate_minus_reference": differences.reshape(-1),
+        }
+    )
+    interval_records = []
+    for (method, reference), group in replicates.groupby(
+        ["method", "reference_method"], sort=False
+    ):
+        values = group["difference_candidate_minus_reference"]
+        observed_difference = observed_differences[str(method)]
+        percentile_low = float(values.quantile(0.025))
+        percentile_high = float(values.quantile(0.975))
+        bootstrap_mean = float(values.mean())
+        interval_records.append(
+            {
+                "method": method,
+                "reference_method": reference,
+                "observed_difference": observed_difference,
+                "bootstrap_mean_difference": bootstrap_mean,
+                "bootstrap_bias": bootstrap_mean - observed_difference,
+                "percentile_ci_025": percentile_low,
+                "percentile_ci_975": percentile_high,
+                "basic_ci_025": 2.0 * observed_difference - percentile_high,
+                "basic_ci_975": 2.0 * observed_difference - percentile_low,
+                "probability_better_descriptive": float(np.mean(values < 0.0)),
+            }
+        )
+    intervals = pd.DataFrame(interval_records).sort_values("observed_difference")
+    return replicates, intervals
+
+
 def build_heart_outer_report(
     repo_root: Path,
     config: dict[str, Any],
     output_dir: Path,
 ) -> dict[str, Path]:
     output_dir.mkdir(parents=True, exist_ok=False)
-    predictions = load_heart_outer_predictions(repo_root, config["prediction_runs"])
+    predictions = load_heart_outer_predictions(
+        repo_root,
+        config["prediction_runs"],
+        require_exact_mask_identity=bool(config.get("require_exact_mask_identity", False)),
+    )
     demographics = pd.read_parquet(
         repo_root / config["canonical_data_path"], columns=["sample_id", "sex"]
     )

@@ -60,6 +60,15 @@ target cell and prevents severe post-hoc degradation from invalid label-shift
 correction. See the
 [independent readmission outer result](docs/READMISSION_OUTER_V3_RESULT.md).
 
+A subsequent consumed-outcome research study expands the strongest controls and
+observed-set models to ten seeds, compares attention with equal-budget DeepSets,
+and evaluates a source-selected support-aware router. The router fails its robust
+improvement gate. An exact bit-for-bit extension of the historical PS-MaskDRO
+seed bank finds that ten-seed V4 structured-policy ensembling has the best point
+estimate (0.600458), but post-hoc familywise intervals cross zero. The result is a
+stability/mechanism finding, not new confirmation; see the
+[heart research development result](docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md).
+
 Research documentation:
 
 - [Research protocol](docs/RESEARCH_PROTOCOL.md)
@@ -70,6 +79,13 @@ Research documentation:
 - [Independent readmission outer result](docs/READMISSION_OUTER_V3_RESULT.md)
 - [Locked heart outer result](docs/HEART_OUTER_V5_RESULT.md)
 - [Publication route and claim boundaries](docs/PUBLICATION_ROUTE.md)
+- [ShiftGuard v1 development and external-confirmation protocol](docs/SHIFTGUARD_V1_PROTOCOL.md)
+- [ShiftGuard power-aware method specification](docs/SHIFTGUARD_POWER_GUARD_SPEC.md)
+- [ShiftGuard iterative development result](docs/SHIFTGUARD_DEVELOPMENT_RESULT.md)
+- [Support-router protocol amendment and corrected outer route](docs/SUPPORT_ROUTER_PROTOCOL_AMENDMENT.md)
+- [Post-outcome heart sensitivity analysis](docs/HEART_OUTER_V5_SENSITIVITY.md)
+- [Public eICU demo execution smoke result](docs/EICU_DEMO_SMOKE_RESULT.md)
+- [Heart research development and ten-seed stability result](docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md)
 - [Outer evidence audit](docs/OUTER_EVIDENCE_AUDIT.md)
 - [v3 failure and v4 neural recovery](docs/OUTER_V3_FAILURE_AND_V4_RECOVERY.md)
 - [v4 failure and v5 exact-aggregation recovery](docs/OUTER_V4_FAILURE_AND_V5_RECOVERY.md)

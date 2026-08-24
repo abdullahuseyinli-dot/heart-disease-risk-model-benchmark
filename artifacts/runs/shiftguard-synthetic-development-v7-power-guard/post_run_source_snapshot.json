@@ -1,0 +1,12 @@
+{
+  "captured_utc": "2026-08-24T14:05:41.7549206Z",
+  "capture_status": "post_run_snapshot_not_a_substitute_for_clean_commit_provenance",
+  "config_payload_sha256": "4a3b681cfedb164f14a79ccad16bf93cd61071761bb49d9d7272e0589ad1dcfe",
+  "files": {
+    "configs/synthetic/shiftguard_v7.yaml": "0A9DCB0C46A2F04B8D460DBABF468BB4F1A16A8FE686C2C8037D28D7E43B8E96",
+    "src/heartshift/cli/shiftguard_synthetic.py": "AEB4E600A1FF96C8630B4C17743F3E180C890AAFA446D8F81C28B66778C77BAA",
+    "src/heartshift/models/shiftguard.py": "AE877CB0187E1A37B07DB711931932CD1E548888444A1DA5A43FCB2B54A4AEF1",
+    "src/heartshift/research/shiftguard_experiment.py": "EAF57CBBB74CA2B09AB4A7E98D1E49847E66FC26BFB78DD9B80C0CB9CAC13E27"
+  },
+  "note": "Captured immediately after run completion. The run manifest records a dirty working tree; this snapshot is explicit about that limitation."
+}

@@ -1,0 +1,13 @@
+{
+  "confirmation_claim_allowed": false,
+  "models": [
+    "classical:logistic",
+    "classical:random_forest",
+    "observed:attention",
+    "observed:deepsets"
+  ],
+  "profile_sha256": "AF108B8B11901640169BD0363CC7718D597292DB853FB58DAEEC95AE9F5A242A",
+  "scientific_result": false,
+  "status": "passed_end_to_end_public_demo_smoke",
+  "target_encounters": 134
+}

@@ -9,6 +9,7 @@ from heartshift.reporting.outer_report import (
     _normalise_classical,
     cell_metrics,
     paired_primary_bootstrap,
+    paired_primary_stratified_bootstrap,
     primary_estimands,
 )
 from heartshift.reporting.readmission_report import (
@@ -64,6 +65,33 @@ def test_primary_estimands_and_paired_bootstrap_are_prediction_derived() -> None
     assert float(intervals.loc[0, "ci_975"]) < 0.0
 
 
+def test_stratified_bootstrap_reports_observed_effect_and_preserves_rare_classes() -> None:
+    predictions = _paired_predictions()
+    # Make one site's negative class deliberately rare; stratification must retain it.
+    keep = ~(
+        predictions["sample_id"].str.startswith("b-")
+        & predictions["target"].eq(0)
+        & ~predictions["sample_id"].eq("b-0")
+    )
+    predictions = predictions.loc[keep].copy()
+    replicates, intervals = paired_primary_stratified_bootstrap(
+        predictions,
+        reference_method="reference",
+        comparison_methods=["candidate"],
+        repetitions=20,
+        seed=4,
+    )
+    observed = primary_estimands(cell_metrics(predictions)).set_index("method")
+    expected = (
+        observed.loc["candidate", "macro_site_worst_mask_balanced_log_loss"]
+        - observed.loc["reference", "macro_site_worst_mask_balanced_log_loss"]
+    )
+    assert len(replicates) == 20
+    assert np.isfinite(replicates["difference_candidate_minus_reference"]).all()
+    assert np.isclose(float(intervals.loc[0, "observed_difference"]), expected)
+    assert {"bootstrap_bias", "basic_ci_025", "basic_ci_975"} <= set(intervals)
+
+
 def test_classical_calibration_track_is_a_separate_method(tmp_path: Path) -> None:
     path = tmp_path / "predictions.parquet"
     pd.DataFrame(
@@ -74,6 +102,7 @@ def test_classical_calibration_track_is_a_separate_method(tmp_path: Path) -> Non
             "policy": ["natural", "natural"],
             "mask_replicate": [0, 0],
             "observed_fraction": [1.0, 1.0],
+            "observed_mask_code": [8191, 8191],
             "model": ["tabm", "tabm"],
             "weighting": ["pooled", "pooled"],
             "calibration": ["raw", "source_oof_platt"],
@@ -85,6 +114,7 @@ def test_classical_calibration_track_is_a_separate_method(tmp_path: Path) -> Non
         "modern:tabm:pooled",
         "modern:tabm:pooled:source_oof_platt",
     }
+    assert normalized["observed_mask_code"].eq(8191).all()
 
 
 def test_readmission_report_uses_patient_cluster_bootstrap() -> None:

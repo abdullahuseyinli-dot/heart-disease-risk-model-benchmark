@@ -1,0 +1,59 @@
+{
+  "checks": {
+    "natural_auroc_noninferiority": {
+      "margin": 0.01,
+      "passed": true,
+      "router": 0.7842878491828617,
+      "strongest": 0.7816392346969473
+    },
+    "robust_improvement_over_strongest_fixed": {
+      "passed": false,
+      "router": 0.6510206604231065,
+      "strongest": 0.649692413891754,
+      "strongest_method": "equal_logit_blend"
+    },
+    "router_not_collapsed": {
+      "mean_maximum_weight": 0.44683724641799927,
+      "passed": true,
+      "threshold": 0.95
+    }
+  },
+  "method_summary": [
+    {
+      "mean_site_worst_bll": 0.649692413891754,
+      "method": "equal_logit_blend",
+      "natural_auroc": 0.7816392346969473
+    },
+    {
+      "mean_site_worst_bll": 0.6964802998545158,
+      "method": "expert:joint_policy_dro",
+      "natural_auroc": 0.6063223198497343
+    },
+    {
+      "mean_site_worst_bll": 0.7046910465342114,
+      "method": "expert:prior_separated",
+      "natural_auroc": 0.6723247623592316
+    },
+    {
+      "mean_site_worst_bll": 0.7525211969401013,
+      "method": "expert:stable_anchor",
+      "natural_auroc": 0.7784066277572784
+    },
+    {
+      "mean_site_worst_bll": 0.7285100039806158,
+      "method": "selected_best_expert",
+      "natural_auroc": 0.6911160093283155
+    },
+    {
+      "mean_site_worst_bll": 0.7059010451708527,
+      "method": "selected_convex_blend",
+      "natural_auroc": 0.7784325693814295
+    },
+    {
+      "mean_site_worst_bll": 0.6510206604231065,
+      "method": "support_aware_router",
+      "natural_auroc": 0.7842878491828617
+    }
+  ],
+  "status": "failed_one_or_more_source_router_gates"
+}

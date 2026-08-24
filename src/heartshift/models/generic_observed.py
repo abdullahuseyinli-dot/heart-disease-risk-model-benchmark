@@ -13,8 +13,12 @@ import torch
 from scipy.special import expit
 from torch import nn
 
-from heartshift.masks import policy_seed
-from heartshift.models.observed_set import NeuralPreprocessor, ObservedFeatureSetEncoder
+from heartshift.masks import observed_mask_hashes, policy_seed
+from heartshift.models.observed_set import (
+    NeuralPreprocessor,
+    ObservedEncoder,
+    build_observed_encoder,
+)
 from heartshift.models.ps_maskdro import (
     _set_reproducibility,
     mirrams_objective,
@@ -32,7 +36,7 @@ class FeatureMaskPolicy:
 
 @dataclass
 class GenericFitResult:
-    model: ObservedFeatureSetEncoder
+    model: ObservedEncoder
     preprocessor: NeuralPreprocessor
     best_epoch: int
     validation_score: float
@@ -132,7 +136,7 @@ def _training_policies(
 
 
 def _predict_logits_batched(
-    model: ObservedFeatureSetEncoder,
+    model: ObservedEncoder,
     values: np.ndarray,
     observed: np.ndarray,
     reference_values: np.ndarray,
@@ -200,6 +204,9 @@ def predict_generic_policy_bank(
             frame["evidence_logit"] = logits
             frame["y_score"] = expit(logits)
             frame["observed_fraction"] = observed.mean(axis=1)
+            frame["observed_mask_sha256"] = observed_mask_hashes(
+                observed, result.preprocessor.feature_columns
+            )
             records.append(frame)
     return pd.concat(records, ignore_index=True)
 
@@ -241,7 +248,8 @@ def fit_generic_observed_model(
     environments_array = _environment_codes(
         training, int(parameters.get("minimum_environment_size", 500))
     )
-    model = ObservedFeatureSetEncoder(
+    model = build_observed_encoder(
+        backbone=str(parameters.get("backbone", "attention")),
         n_features=len(feature_columns),
         continuous_indices=preprocessor.continuous_indices,
         categorical_cardinalities=preprocessor.categorical_cardinalities,
@@ -415,7 +423,8 @@ def fit_generic_observed_fixed_epochs(
     environments_array = _environment_codes(
         training, int(parameters.get("minimum_environment_size", 500))
     )
-    model = ObservedFeatureSetEncoder(
+    model = build_observed_encoder(
+        backbone=str(parameters.get("backbone", "attention")),
         n_features=len(feature_columns),
         continuous_indices=preprocessor.continuous_indices,
         categorical_cardinalities=preprocessor.categorical_cardinalities,

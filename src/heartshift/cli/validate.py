@@ -8,9 +8,16 @@ from pathlib import Path
 
 import pandas as pd
 
+from heartshift.config import load_yaml
 from heartshift.data.readmission import READMISSION_ARCHIVE_SHA256
 from heartshift.data.splits import validate_inner_manifest, validate_outer_manifest
 from heartshift.data.uci import EXPECTED_ARCHIVE_SHA256, sha256_file
+from heartshift.research.artifact_audit import validate_source_inner_artifact_audit
+from heartshift.research.study_contract import (
+    validate_historical_seed_extension_contract,
+    validate_router_development_contract,
+    validate_shiftguard_study_config,
+)
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -69,6 +76,47 @@ def validate_repository(repo_root: Path) -> None:
         for second in roles[index + 1 :]
     ):
         raise AssertionError("Readmission patient-disjoint split invariant failed")
+
+    shiftguard_config = repo_root / "configs/research/shiftguard_v1.yaml"
+    if shiftguard_config.is_file():
+        validate_shiftguard_study_config(repo_root, load_yaml(shiftguard_config))
+
+    router_configs = {
+        "control": repo_root / "configs/research/heart_controls_v1.yaml",
+        "neural_inner": repo_root / "configs/research/observed_backbones_v1.yaml",
+        "neural_outer": repo_root / "configs/research/observed_backbones_outer_v1.yaml",
+        "router": repo_root / "configs/research/support_router_outer_v3.yaml",
+        "report": repo_root / "configs/reporting/heart_research_development_v1.yaml",
+    }
+    if all(path.is_file() for path in router_configs.values()):
+        validate_router_development_contract(
+            *(load_yaml(path) for path in router_configs.values())
+        )
+        for superseded_name in ("support_router_v1.yaml", "support_router_v2.yaml"):
+            superseded = load_yaml(repo_root / "configs/research" / superseded_name)
+            if not str(superseded.get("status", "")).startswith(
+                "superseded_before_full_run"
+            ):
+                raise AssertionError(f"Unsafe source-meta router remains active: {superseded_name}")
+
+    seed_extension_configs = {
+        "control": repo_root / "configs/research/heart_controls_v1.yaml",
+        "extension": (
+            repo_root / "configs/research/historical_psmask_seed_extension_v1.yaml"
+        ),
+        "report": (
+            repo_root
+            / "configs/reporting/historical_psmask_seed_extension_v1.yaml"
+        ),
+    }
+    if all(path.is_file() for path in seed_extension_configs.values()):
+        validate_historical_seed_extension_contract(
+            *(load_yaml(path) for path in seed_extension_configs.values())
+        )
+
+    neural_inner_run = repo_root / "artifacts/runs/observed-backbones-development-v1"
+    if (neural_inner_run / "evidence_audit.json").is_file():
+        validate_source_inner_artifact_audit(neural_inner_run)
 
 
 def main() -> None:

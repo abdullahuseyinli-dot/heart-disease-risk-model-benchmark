@@ -1,0 +1,34 @@
+{
+  "adaptable_variants": [],
+  "data": {
+    "canonical_path": "data/processed/uci_heart_canonical_v1.parquet",
+    "outer_manifest": "data/splits/uci_heart_outer_loho_v1.parquet"
+  },
+  "device": "cpu",
+  "diagnostic": {
+    "mode": "composite_multiview_v3"
+  },
+  "features": [
+    "age",
+    "sex",
+    "cp",
+    "trestbps",
+    "chol",
+    "fbs",
+    "restecg",
+    "thalach",
+    "exang",
+    "oldpeak",
+    "slope",
+    "ca",
+    "thal"
+  ],
+  "inner_run": "artifacts/runs/observed-backbones-smoke-v1",
+  "manifest_stage": "endpoint_isolation_code_smoke",
+  "outer_mask_replicates": 1,
+  "protocol_version": "observed-backbones-outer-code-smoke-v1",
+  "seeds": [
+    5062
+  ],
+  "status": "code_smoke_not_scientific_result"
+}

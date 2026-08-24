@@ -1,0 +1,16 @@
+protocol_version: shiftguard-external-freeze-v1
+status: NOT_FROZEN_PROTECTED_DATA_UNAVAILABLE
+data_contract: configs/data/gossis_eicu_shiftguard_v1.yaml
+study_contract: configs/research/shiftguard_v1.yaml
+method_registry: configs/research/method_registry_v1.yaml
+selected_predictor: null
+selected_shift_diagnostic: null
+selected_hyperparameters_sha256: null
+source_code_git_commit: null
+uv_lock_sha256: null
+canonical_data_sha256: null
+hospital_split_manifest_sha256: null
+locked_confirmation_hospital_ids_sha256: null
+confirmation_run_name: null
+confirmation_command_token: RUN_SHIFTGUARD_EXTERNAL_CONFIRMATION_ONCE
+unresolved_blocker: authorized_GOSSIS_raw_file_and_DUA_access_required

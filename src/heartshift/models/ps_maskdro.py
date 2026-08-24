@@ -14,9 +14,18 @@ import torch
 import torch.nn.functional as functional
 
 from heartshift.data.uci import CORE_COLUMNS, FEATURE_COLUMNS
-from heartshift.masks import MaskPolicy, apply_mask_policy, default_policy_bank
+from heartshift.masks import (
+    MaskPolicy,
+    apply_mask_policy,
+    default_policy_bank,
+    observed_mask_codes,
+)
 from heartshift.metrics import binary_metrics
-from heartshift.models.observed_set import NeuralPreprocessor, ObservedFeatureSetEncoder
+from heartshift.models.observed_set import (
+    NeuralPreprocessor,
+    ObservedEncoder,
+    build_observed_encoder,
+)
 
 VALID_VARIANTS = (
     "v0",
@@ -38,7 +47,7 @@ CORE_MISSING_SENTINEL = -1.0
 
 @dataclass
 class FitResult:
-    model: ObservedFeatureSetEncoder
+    model: ObservedEncoder
     preprocessor: NeuralPreprocessor
     best_epoch: int
     validation_score: float
@@ -216,7 +225,7 @@ def _policy_masks(
 
 
 def predict_policy_bank(
-    model: ObservedFeatureSetEncoder,
+    model: ObservedEncoder,
     preprocessor: NeuralPreprocessor,
     data: pd.DataFrame,
     policies: tuple[MaskPolicy, ...],
@@ -268,10 +277,7 @@ def predict_policy_bank(
                 )
             for feature_index, output_column in enumerate(MASK_PREDICTION_COLUMNS):
                 frame[output_column] = observed[:, feature_index]
-            bit_weights = np.left_shift(
-                np.int64(1), np.arange(len(FEATURE_COLUMNS), dtype=np.int64)
-            )
-            frame["observed_mask_code"] = observed.astype(np.int64) @ bit_weights
+            frame["observed_mask_code"] = observed_mask_codes(observed)
             records.append(frame)
     return pd.concat(records, ignore_index=True)
 
@@ -319,7 +325,8 @@ def fit_ps_maskdro(
     torch_device = torch.device(device)
     preprocessor = NeuralPreprocessor.fit(training)
     train_values, train_natural = preprocessor.transform(training)
-    model = ObservedFeatureSetEncoder(
+    model = build_observed_encoder(
+        backbone=str(parameters.get("backbone", "attention")),
         n_features=len(FEATURE_COLUMNS),
         continuous_indices=preprocessor.continuous_indices,
         categorical_cardinalities=preprocessor.categorical_cardinalities,
@@ -467,7 +474,8 @@ def fit_ps_maskdro_fixed_epochs(
     torch_device = torch.device(device)
     preprocessor = NeuralPreprocessor.fit(training)
     train_values, train_natural = preprocessor.transform(training)
-    model = ObservedFeatureSetEncoder(
+    model = build_observed_encoder(
+        backbone=str(parameters.get("backbone", "attention")),
         n_features=len(FEATURE_COLUMNS),
         continuous_indices=preprocessor.continuous_indices,
         categorical_cardinalities=preprocessor.categorical_cardinalities,

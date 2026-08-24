@@ -23,6 +23,13 @@ The result supports four connected contributions:
    benchmark, while joint PS-MaskDRO is best on the independent readmission robust
    proper-score estimand and ANE is negative.
 
+A later, explicitly post-outcome ten-seed stability study adds a fifth mechanism
+finding: seed/objective marginalization is more reliable than hard source-only
+architecture or router selection. Ten-seed V4 structured-policy ensembling has
+the best observed point estimate (0.600458), but its familywise-adjusted
+post-hoc interval versus random forest crosses zero. This sensitivity result does
+not replace the locked three-seed claim.
+
 ## Findings that can be claimed
 
 - V2 prior separation ranks first on the heart primary point estimate and its
@@ -35,6 +42,10 @@ The result supports four connected contributions:
   shows that deploying the rejected corrections would have caused large loss.
 - Strong AUROC does not imply strong probability robustness: pooled models can
   rank well on natural discrimination while losing on worst-policy proper scores.
+- The support-aware router failed its improvement-over-strongest-fixed gate;
+  equal-logit averaging is the stronger router comparator.
+- The exact ten-seed extension reproduces all historical three-seed predictions
+  and supports seed/model averaging as a high-value robustness mechanism.
 
 ## Claims that must not be made
 
@@ -47,6 +58,9 @@ The result supports four connected contributions:
   preserved orchestration failures;
 - architecture novelty based solely on combining known Transformer, DRO, and
   label-shift components.
+- confirmatory or state-of-the-art status for the post-outcome 0.600458 V4 point
+  estimate;
+- router superiority, because its prespecified robust-improvement gate failed.
 
 ## Suggested main paper structure
 
@@ -99,6 +113,13 @@ policy representations that make class-conditional mixture compatibility fail,
 while retaining an explicit abstention option. This should be tested against
 plain V2 and joint PS-MaskDRO on multiple untouched hospital datasets. It is a new
 study, not a permissible post-hoc extension of the current confirmatory result.
+
+The new stability evidence suggests a complementary candidate:
+**uncertainty-marginalized policy ensembling**. Cross-fitted architecture,
+objective, and seed weights should be shrunk toward uniform averaging and should
+fall back to uniform weights when leave-one-source-hospital selections are
+unstable. It must be developed on source/synthetic or independent-task data and
+frozen before external target access.
 
 Before submission, the highest-value addition is a genuinely external,
 patient-disjoint multi-hospital dataset with a prespecified endpoint and hospital

@@ -1,0 +1,32 @@
+{
+  "control_run": "artifacts/runs/heart-controls-smoke-v1",
+  "convex_grid_step": 0.5,
+  "device": "cpu",
+  "neural_experiments": {
+    "joint_policy_dro": "v2_deepsets_smoke",
+    "prior_separated": "v2_attention_smoke"
+  },
+  "neural_run": "artifacts/runs/observed-backbones-smoke-v1",
+  "prediction_seeds": [
+    5062
+  ],
+  "protocol_version": "support-router-nested-anchor-code-smoke-v2",
+  "router": {
+    "dro_lambda": 0.5,
+    "dro_tau": 0.2,
+    "dropout": 0.0,
+    "entropy_bonus": 0.001,
+    "hidden_dim": 8,
+    "learning_rate": 0.003,
+    "max_epochs": 20,
+    "natural_margin": 0.01,
+    "patience": 5,
+    "regret_beta": 0.5,
+    "weight_decay": 0.001
+  },
+  "router_seeds": [
+    5062
+  ],
+  "status": "code_smoke_not_scientific_result",
+  "supersedes_failed_smoke": "artifacts/runs/support-router-nested-anchor-smoke-v2"
+}

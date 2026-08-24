@@ -1,0 +1,26 @@
+{
+  "v1_learned_mean": {
+    "acceptance_expected_affected_at_least_twenty": 0.4480569948186529,
+    "acceptance_expected_affected_below_five": 0.959375,
+    "cells": 475,
+    "spearman_expected_affected_vs_acceptance": -0.45442022237051793
+  },
+  "v2_omnibus_mean": {
+    "acceptance_expected_affected_at_least_twenty": 0.16023316062176166,
+    "acceptance_expected_affected_below_five": 0.959375,
+    "cells": 475,
+    "spearman_expected_affected_vs_acceptance": -0.6279141839241633
+  },
+  "v3_max_moment": {
+    "acceptance_expected_affected_at_least_twenty": 0.11851106639839033,
+    "acceptance_expected_affected_below_five": 0.5794871794871794,
+    "cells": 665,
+    "spearman_expected_affected_vs_acceptance": -0.5605448715125573
+  },
+  "v4_spectral_ridge": {
+    "acceptance_expected_affected_at_least_twenty": 0.06891348088531186,
+    "acceptance_expected_affected_below_five": 0.5307692307692308,
+    "cells": 665,
+    "spearman_expected_affected_vs_acceptance": -0.5936883369210812
+  }
+}

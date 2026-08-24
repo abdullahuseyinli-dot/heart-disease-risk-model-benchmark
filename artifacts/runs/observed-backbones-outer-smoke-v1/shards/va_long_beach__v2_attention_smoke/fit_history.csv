@@ -1,0 +1,4 @@
+stage,outer_target,inner_validation,experiment,variant,training_seed,fit_seed,epoch,objective,mean_group_risk,robust_group_risk,mean_group_brier
+outer_final,va_long_beach,,v2_attention_smoke,v2,5062,1527439598,1.0,0.8270780444145203,0.8270780444145203,0.8520900011062622,0.31129249930381775
+outer_final,va_long_beach,,v2_attention_smoke,v2,5062,1527439598,2.0,0.7651497721672058,0.7651497721672058,0.7929637432098389,0.28458961844444275
+outer_final,va_long_beach,,v2_attention_smoke,v2,5062,1527439598,3.0,0.723884105682373,0.723884105682373,0.7470690011978149,0.26487186551094055

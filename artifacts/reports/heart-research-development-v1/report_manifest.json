@@ -1,0 +1,11 @@
+{
+  "config_sha256": "502e2365f6a41c46b62455fa47eeae8c9395b1e3144fc33c5514cec3c91be6aa",
+  "exact_cross_method_mask_identity_required": true,
+  "individual_seed_predictions_retained": true,
+  "inference": "conditional on four observed hospitals and fitted models; post-outcome descriptive only",
+  "method_count": 16,
+  "new_confirmatory_claim_allowed": false,
+  "outer_outcomes_historically_consumed": true,
+  "prediction_rows": 794880,
+  "status": "post_outcome_consumed_uci_development_only"
+}

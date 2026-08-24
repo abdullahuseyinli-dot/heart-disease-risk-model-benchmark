@@ -1,0 +1,5 @@
+outer_target,selected_anchor,parameter_id,parameters_json,mean_balanced_log_loss,worst_balanced_log_loss,mean_roc_auc,selection_score
+cleveland,random_forest_natural,1,"{""max_features"": ""sqrt"", ""min_samples_leaf"": 15, ""n_estimators"": 500}",0.6047301901076506,0.7043664182473105,0.7652202642177218,0.6545483041774806
+hungary,random_forest_natural,1,"{""max_features"": ""sqrt"", ""min_samples_leaf"": 15, ""n_estimators"": 500}",0.628851707321182,0.718873456291504,0.7255479553105068,0.6738625818063431
+switzerland,random_forest_structured,1,"{""max_features"": ""sqrt"", ""min_samples_leaf"": 15, ""n_estimators"": 500}",0.5537556243743884,0.6868375710267878,0.8080297800313377,0.6202965977005881
+va_long_beach,random_forest_natural,1,"{""max_features"": ""sqrt"", ""min_samples_leaf"": 15, ""n_estimators"": 500}",0.5603347163933751,0.7030151734517844,0.8086154954662799,0.6316749449225798

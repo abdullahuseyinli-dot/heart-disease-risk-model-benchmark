@@ -1,0 +1,56 @@
+protocol_version: heart-controls-consumed-development-v1
+status: consumed_uci_development_only
+seeds: [5062, 5063, 5064, 5065, 5066, 5067, 5068, 5069, 5070, 5071]
+inner_mask_replicates: 5
+inner_evaluation_seed: 5062
+outer_mask_replicates: 10
+training_mask_replicates: 2
+outer_evaluation_seed: 5062
+data:
+  canonical_path: data/processed/uci_heart_canonical_v1.parquet
+controls:
+  - name: logistic_natural
+    model: logistic
+    augmentation: natural
+    weighting: site_class_balanced
+    grid:
+      C: [0.1, 1.0, 10.0]
+  - name: logistic_structured
+    model: logistic
+    augmentation: structured_policy_bank
+    grid:
+      C: [0.1, 1.0, 10.0]
+  - name: random_forest_natural
+    model: random_forest
+    augmentation: natural
+    weighting: site_class_balanced
+    grid:
+      n_estimators: [500]
+      min_samples_leaf: [5, 15]
+      max_features: [sqrt]
+  - name: random_forest_structured
+    model: random_forest
+    augmentation: structured_policy_bank
+    grid:
+      n_estimators: [500]
+      min_samples_leaf: [5, 15]
+      max_features: [sqrt]
+  - name: histgb_natural
+    model: hist_gradient_boosting
+    augmentation: natural
+    weighting: site_class_balanced
+    grid:
+      learning_rate: [0.03]
+      max_iter: [300]
+      max_leaf_nodes: [7, 15]
+      min_samples_leaf: [10]
+      l2_regularization: [1.0]
+  - name: histgb_structured
+    model: hist_gradient_boosting
+    augmentation: structured_policy_bank
+    grid:
+      learning_rate: [0.03]
+      max_iter: [300]
+      max_leaf_nodes: [7, 15]
+      min_samples_leaf: [10]
+      l2_regularization: [1.0]

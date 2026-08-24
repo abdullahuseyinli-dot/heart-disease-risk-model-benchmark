@@ -45,6 +45,45 @@ def policy_seed(base_seed: int, policy_name: str, replicate: int) -> int:
     return int.from_bytes(hashlib.sha256(payload).digest()[:8], "little") % (2**32 - 1)
 
 
+def observed_mask_codes(observed_mask: np.ndarray) -> np.ndarray:
+    """Encode each observed-feature pattern exactly in a portable unsigned integer.
+
+    The heart benchmark has thirteen features, so a 64-bit code is lossless and
+    materially stronger evidence than comparing only the observed fraction. For
+    wider external tables use :func:`observed_mask_hashes` instead.
+    """
+    observed = np.asarray(observed_mask)
+    if observed.ndim != 2 or observed.shape[1] == 0:
+        raise ValueError("Observed masks must be a non-empty two-dimensional matrix")
+    if observed.shape[1] > 64:
+        raise ValueError("Integer mask codes support at most 64 features")
+    if not np.isin(observed, (0, 1, False, True)).all():
+        raise ValueError("Observed masks must contain only binary values")
+    weights = np.left_shift(np.uint64(1), np.arange(observed.shape[1], dtype=np.uint64))
+    return observed.astype(np.uint64, copy=False) @ weights
+
+
+def observed_mask_hashes(
+    observed_mask: np.ndarray,
+    feature_columns: tuple[str, ...] | list[str],
+) -> np.ndarray:
+    """Return schema-bound SHA-256 fingerprints for arbitrary-width masks."""
+    observed = np.asarray(observed_mask)
+    columns = tuple(str(value) for value in feature_columns)
+    if observed.ndim != 2 or observed.shape[1] != len(columns) or not columns:
+        raise ValueError("Mask width and feature schema must match")
+    if len(set(columns)) != len(columns):
+        raise ValueError("Feature schema contains duplicate columns")
+    if not np.isin(observed, (0, 1, False, True)).all():
+        raise ValueError("Observed masks must contain only binary values")
+    schema = hashlib.sha256("\x1f".join(columns).encode("utf-8")).digest()
+    packed = np.packbits(observed.astype(np.uint8, copy=False), axis=1, bitorder="little")
+    return np.asarray(
+        [hashlib.sha256(schema + row.tobytes()).hexdigest() for row in packed],
+        dtype=object,
+    )
+
+
 def _eligible_columns(policy: MaskPolicy) -> np.ndarray:
     eligible = np.ones(len(FEATURE_COLUMNS), dtype=bool)
     if policy.protect_core:
