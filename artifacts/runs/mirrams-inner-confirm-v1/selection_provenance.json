@@ -1,0 +1,10 @@
+{
+  "mode": "source_only_fixed_candidate_confirmation",
+  "sources": [
+    {
+      "path": "artifacts\\runs\\mirrams-inner-v1\\selected_configurations.csv",
+      "selection_source": "default",
+      "sha256": "B82CAF40DC113897E8A3EB7B1B9AA1E95F3CD2FD71491E6BB45325C113165DBC"
+    }
+  ]
+}
