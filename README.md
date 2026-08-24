@@ -37,8 +37,18 @@ mechanism analysis is in
 passed all eight gates; its [prediction-reconstructed result](docs/SYNTHETIC_V3_RESULT.md)
 separates pure label shift from MAR acquisition shift, conditional shift, and
 target-only MNAR. The independent readmission source-only study and its evidence
-audit are also complete. Heart and readmission test targets remain locked until
-the clean protocol-v3 candidate freeze is generated and verified.
+audit are also complete.
+
+Five protocol-v3 outer evaluations completed and independently reconstruct with
+zero prediction-ensemble and metric differences: classical, modern-v2,
+modern-2026, TabPFN-v3, and patient-disjoint readmission. The first MIRRAMS v3
+shard encountered a non-adaptable orchestration defect before any held-out heart
+endpoint was loaded; that failed run is preserved and PS-MaskDRO v3 was not
+launched. The exact disclosure and neural-only v4 recovery are documented in
+[the v3 failure and v4 recovery record](docs/OUTER_V3_FAILURE_AND_V4_RECOVERY.md).
+The final combined findings will be recorded in
+[the locked v4 result](docs/HEART_OUTER_V4_RESULT.md) after the two recovery runs
+and prediction-derived report pass their audits.
 
 Research documentation:
 
@@ -47,6 +57,8 @@ Research documentation:
 - [Reproducibility runbook](docs/REPRODUCIBILITY.md)
 - [Synthetic protocol-v3 result](docs/SYNTHETIC_V3_RESULT.md)
 - [Independent readmission source-only result](docs/READMISSION_INNER_V1_RESULT.md)
+- [Outer evidence audit](docs/OUTER_EVIDENCE_AUDIT.md)
+- [v3 failure and v4 neural recovery](docs/OUTER_V3_FAILURE_AND_V4_RECOVERY.md)
 - [Data card](docs/DATA_CARD.md)
 - [Model card](docs/MODEL_CARD.md)
 - [Limitations](docs/LIMITATIONS.md)

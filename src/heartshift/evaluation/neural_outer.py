@@ -405,10 +405,24 @@ def _adapt_predictions(
         ["policy", "mask_replicate"], sort=False
     ):
         target_group = target_group.copy()
-        source_group = source_predictions.loc[
-            source_predictions["evaluation_policy"].eq(policy)
-            & source_predictions["policy_replicate"].eq(replicate)
-        ].copy()
+        if adaptable:
+            required_source_columns = {"evaluation_policy", "policy_replicate"}
+            if missing := required_source_columns - set(source_predictions.columns):
+                raise AssertionError(
+                    "Adaptable outer predictions require source-calibration columns: "
+                    f"{sorted(missing)}"
+                )
+            source_group = source_predictions.loc[
+                source_predictions["evaluation_policy"].eq(policy)
+                & source_predictions["policy_replicate"].eq(replicate)
+            ].copy()
+            if source_group.empty:
+                raise AssertionError(
+                    "Adaptable outer predictions require a matching source-calibration group "
+                    f"for policy={policy!r}, mask_replicate={replicate!r}"
+                )
+        else:
+            source_group = pd.DataFrame()
         target_group["calibrated_evidence_logit"] = np.nan
         target_group["y_score_calibrated_equal_prior"] = np.nan
         target_group["estimated_target_prevalence_mlls"] = np.nan

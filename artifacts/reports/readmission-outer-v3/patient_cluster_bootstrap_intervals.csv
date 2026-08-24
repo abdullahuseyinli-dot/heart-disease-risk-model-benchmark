@@ -1,0 +1,6 @@
+experiment,reference_experiment,mean_difference,ci_025,ci_975,probability_better
+mirrams_equation9,logistic_environment_class_balanced,-0.12554399106964045,-0.13026374179898645,-0.1207912037660921,1.0
+pooled_erm,logistic_environment_class_balanced,-0.13760845175233982,-0.14220594900228617,-0.13291509704435195,1.0
+prior_separated,logistic_environment_class_balanced,-0.17435709447144832,-0.17961289631418842,-0.16896078994857994,1.0
+ps_maskdro,logistic_environment_class_balanced,-0.18529381685245397,-0.19067606938023027,-0.17994100237193167,1.0
+ps_maskdro_ane,logistic_environment_class_balanced,-0.18432801648992558,-0.1898070986327314,-0.17885171399876387,1.0

@@ -1,0 +1,34 @@
+{
+  "audit_kind": "heart_classical_outer",
+  "canonical_label_max_abs_difference": 0.0,
+  "endpoint_loaded_only_for_post_run_validation": true,
+  "ensemble_max_abs_difference": 0.0,
+  "metric_max_abs_difference": 0.0,
+  "metric_rows": 1728,
+  "models": [
+    "ft_transformer",
+    "realmlp",
+    "tabicl",
+    "tabm"
+  ],
+  "outer_targets": [
+    "cleveland",
+    "hungary",
+    "switzerland",
+    "va_long_beach"
+  ],
+  "prediction_rows": 397440,
+  "run_dir": "artifacts/runs/modern-2026-outer-v3",
+  "run_git_commit": "e787c199b59ef77b839f22c8415375b83f573074",
+  "sample_count": 920,
+  "seed_prediction_rows": 1192320,
+  "status": "passed_independent_reconstruction",
+  "target_absent_from_unlabelled_artifacts": true,
+  "training_seeds": [
+    5062,
+    5063,
+    5064
+  ],
+  "unlabelled_labelled_max_abs_difference": 0.0,
+  "unlabelled_seed_labelled_max_abs_difference": 0.0
+}

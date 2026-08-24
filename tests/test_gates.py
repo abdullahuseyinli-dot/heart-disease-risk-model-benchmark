@@ -11,6 +11,8 @@ from heartshift.data.uci import sha256_file
 from heartshift.research.gates import (
     evaluate_psmask_confirmation_gate,
     evaluate_psmask_pivot_selection,
+    validate_completed_outer_evidence,
+    validate_failed_outer_evidence,
     validate_source_only_run,
     verify_frozen_candidate,
 )
@@ -86,6 +88,33 @@ def test_v3_freeze_prespecifies_mechanism_gated_outer_study() -> None:
     assert policies["mcar_50"] == {"name": "mcar_50", "kind": "mcar", "rate": 0.5}
 
 
+def test_v4_freeze_is_a_neural_only_mechanical_recovery() -> None:
+    config = load_yaml(REPO_ROOT / "configs/release/freeze_v4_neural_recovery.yaml")
+    assert set(config["prior_outer_runs"]) == {
+        "classical_v3",
+        "modern_v2_v3",
+        "modern_2026_v3",
+        "tabpfn_v3",
+        "readmission_v3",
+    }
+    assert config["failed_outer_runs"] == {
+        "mirrams_v3": "artifacts/runs/mirrams-outer-v3"
+    }
+    assert config["outer_configs"] == [
+        "configs/benchmark/mirrams_outer_v4.yaml",
+        "configs/benchmark/psmask_outer_v4.yaml",
+    ]
+    for relative in config["outer_configs"]:
+        outer = load_yaml(REPO_ROOT / relative)
+        assert outer["freeze_lock"].endswith("heartshift_candidate_v4_neural_recovery.json")
+        assert str(outer["locked_run_name"]).endswith("-v4")
+    psmask = load_yaml(REPO_ROOT / "configs/benchmark/psmask_outer_v4.yaml")
+    assert set(psmask["adaptable_variants"]) == {"v2", "v5_mask"}
+    assert psmask["diagnostic"] == load_yaml(
+        REPO_ROOT / "configs/benchmark/psmask_outer_v3.yaml"
+    )["diagnostic"]
+
+
 def test_source_gate_rejects_outer_target_predictions(tmp_path: Path) -> None:
     sites = ["cleveland", "hungary", "switzerland", "va_long_beach"]
     validation_sites = ["hungary", "cleveland", "cleveland", "cleveland"]
@@ -159,6 +188,102 @@ def test_frozen_candidate_detects_pivot_record_changes(tmp_path: Path) -> None:
     assert verify_frozen_candidate(tmp_path, lock_path)["status"] == "frozen_pre_outer"
     pivot.write_text('{"selected_experiment": "changed"}\n', encoding="utf-8")
     with pytest.raises(AssertionError, match="pivot evidence changed"):
+        verify_frozen_candidate(tmp_path, lock_path)
+
+
+def test_frozen_candidate_binds_completed_outer_artifact_tree(tmp_path: Path) -> None:
+    run_dir = tmp_path / "completed"
+    run_dir.mkdir()
+    artifact = run_dir / "predictions.txt"
+    artifact.write_text("fixed predictions\n", encoding="utf-8")
+    validation = run_dir / "independent_validation.json"
+    validation.write_text(
+        json.dumps(
+            {
+                "status": "passed_independent_reconstruction",
+                "target_absent_from_unlabelled_artifacts": True,
+                "run_git_commit": "test",
+                "prediction_rows": 2,
+                "metric_rows": 1,
+            }
+        ),
+        encoding="utf-8",
+    )
+    audit = run_dir / "evidence_audit.json"
+    hashes = {
+        "independent_validation.json": sha256_file(validation),
+        "predictions.txt": sha256_file(artifact),
+    }
+    audit.write_text(
+        json.dumps(
+            {
+                "audit_status": "complete_locked_outer_evidence",
+                "audit_kind": "test",
+                "artifact_count": len(hashes),
+                "independent_validation_sha256": sha256_file(validation),
+                "sha256": hashes,
+            }
+        ),
+        encoding="utf-8",
+    )
+    evidence = validate_completed_outer_evidence(run_dir)
+    lock_path = tmp_path / "lock.json"
+    lock_path.write_text(
+        json.dumps(
+            {
+                "status": "frozen_pre_outer",
+                "git_commit": "unavailable",
+                "frozen_files": [],
+                "source_evidence": {},
+                "prior_outer_evidence": {
+                    "completed": {"run_dir": "completed", **evidence}
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+    assert verify_frozen_candidate(tmp_path, lock_path)["status"] == "frozen_pre_outer"
+    artifact.write_text("changed predictions\n", encoding="utf-8")
+    with pytest.raises(AssertionError, match="artifact hash failed"):
+        verify_frozen_candidate(tmp_path, lock_path)
+
+
+def test_frozen_candidate_binds_failed_pre_endpoint_run(tmp_path: Path) -> None:
+    run_dir = tmp_path / "failed"
+    run_dir.mkdir()
+    failure = run_dir / "failure.json"
+    failure.write_text(
+        json.dumps(
+            {
+                "status": "failed_preserved",
+                "target_endpoint_loaded": False,
+                "rerun_under_same_protocol_or_name": False,
+                "failure_stage": "unlabelled",
+                "exception_type": "KeyError",
+                "git_commit": "test",
+            }
+        ),
+        encoding="utf-8",
+    )
+    evidence = validate_failed_outer_evidence(run_dir)
+    lock_path = tmp_path / "lock.json"
+    lock_path.write_text(
+        json.dumps(
+            {
+                "status": "frozen_pre_outer",
+                "git_commit": "unavailable",
+                "frozen_files": [],
+                "source_evidence": {},
+                "failed_outer_evidence": {
+                    "failed": {"run_dir": "failed", **evidence}
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+    assert verify_frozen_candidate(tmp_path, lock_path)["status"] == "frozen_pre_outer"
+    (run_dir / "outer_metrics.csv").write_text("metric\n", encoding="utf-8")
+    with pytest.raises(AssertionError, match="labelled outputs"):
         verify_frozen_candidate(tmp_path, lock_path)
 
 

@@ -57,6 +57,46 @@ def test_neural_outer_loader_excludes_locked_endpoint_until_scoring() -> None:
     assert target_unlabelled["site"].eq("cleveland").all()
 
 
+def test_non_adaptable_outer_does_not_require_source_predictions() -> None:
+    target = pd.DataFrame(
+        {
+            "sample_id": ["target-0", "target-1"],
+            "site": ["held-out", "held-out"],
+            "record_sha256": ["sha-0", "sha-1"],
+            "policy": ["natural", "natural"],
+            "mask_replicate": [0, 0],
+            "evidence_logit": [-0.5, 0.5],
+            "y_score_zero_shot": [0.25, 0.75],
+            "observed_fraction": [1.0, 1.0],
+        }
+    )
+
+    adapted, diagnostics, summary = _adapt_predictions(
+        target,
+        pd.DataFrame(),
+        adaptable=False,
+        diagnostic_config={"mode": "composite_multiview_v3"},
+        base_seed=5062,
+    )
+
+    assert adapted["adaptation_status"].eq("not_applicable").all()
+    assert not adapted["adaptation_allowed"].any()
+    assert adapted[
+        [
+            "calibrated_evidence_logit",
+            "y_score_calibrated_equal_prior",
+            "estimated_target_prevalence_mlls",
+            "estimated_target_prevalence_soft_bbse",
+            "y_score_uda_mlls_research",
+            "y_score_uda_soft_bbse_research",
+            "y_score_uda_mlls",
+            "y_score_uda_soft_bbse",
+        ]
+    ].isna().all().all()
+    assert diagnostics.empty
+    assert summary.empty
+
+
 @pytest.mark.parametrize("accepted", [False, True])
 def test_v3_outer_adaptation_separates_research_from_gated_scores(
     monkeypatch: pytest.MonkeyPatch,

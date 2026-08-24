@@ -604,6 +604,103 @@ def _tree_hash(paths: list[Path], repo_root: Path) -> tuple[str, list[dict[str, 
     return digest.hexdigest(), records
 
 
+def _safe_evidence_path(run_dir: Path, relative: str) -> Path:
+    relative_path = Path(relative)
+    if relative_path.is_absolute():
+        raise AssertionError(f"Evidence audit contains an absolute artifact path: {relative}")
+    resolved_run = run_dir.resolve()
+    artifact = (resolved_run / relative_path).resolve()
+    if not artifact.is_relative_to(resolved_run):
+        raise AssertionError(f"Evidence audit path escapes its run directory: {relative}")
+    return artifact
+
+
+def validate_completed_outer_evidence(run_dir: Path) -> dict[str, Any]:
+    """Validate a completed outer run's independent audit and exact artifact tree."""
+    audit_path = run_dir / "evidence_audit.json"
+    validation_path = run_dir / "independent_validation.json"
+    if not audit_path.is_file() or not validation_path.is_file():
+        raise FileNotFoundError(f"Completed outer evidence is missing its audit: {run_dir}")
+    audit = cast(dict[str, Any], json.loads(audit_path.read_text(encoding="utf-8")))
+    validation = cast(
+        dict[str, Any], json.loads(validation_path.read_text(encoding="utf-8"))
+    )
+    if audit.get("audit_status") != "complete_locked_outer_evidence":
+        raise AssertionError(f"Outer audit is not complete: {audit_path}")
+    if validation.get("status") != "passed_independent_reconstruction":
+        raise AssertionError(f"Outer reconstruction did not pass: {validation_path}")
+    if not bool(validation.get("target_absent_from_unlabelled_artifacts")):
+        raise AssertionError(
+            f"Outer audit does not prove endpoint-free artifacts: {validation_path}"
+        )
+    expected_hashes = cast(dict[str, str], audit.get("sha256", {}))
+    actual_paths = {
+        path.relative_to(run_dir).as_posix()
+        for path in run_dir.rglob("*")
+        if path.is_file() and path != audit_path
+    }
+    if actual_paths != set(expected_hashes):
+        missing = sorted(set(expected_hashes) - actual_paths)
+        extra = sorted(actual_paths - set(expected_hashes))
+        raise AssertionError(
+            f"Completed outer artifact tree changed; missing={missing}, extra={extra}"
+        )
+    for relative, expected_hash in expected_hashes.items():
+        artifact = _safe_evidence_path(run_dir, relative)
+        if not artifact.is_file() or sha256_file(artifact) != expected_hash:
+            raise AssertionError(f"Completed outer artifact hash failed: {artifact}")
+    validation_hash = sha256_file(validation_path)
+    if audit.get("independent_validation_sha256") != validation_hash:
+        raise AssertionError("Outer independent-validation hash does not match its audit")
+    if int(audit.get("artifact_count", -1)) != len(expected_hashes):
+        raise AssertionError("Outer evidence artifact count does not match its audit")
+    return {
+        "audit_kind": audit.get("audit_kind"),
+        "audit_sha256": sha256_file(audit_path),
+        "independent_validation_sha256": validation_hash,
+        "artifact_count": len(expected_hashes),
+        "run_git_commit": validation.get("run_git_commit"),
+        "prediction_rows": validation.get("prediction_rows"),
+        "metric_rows": validation.get("metric_rows"),
+    }
+
+
+def validate_failed_outer_evidence(run_dir: Path) -> dict[str, Any]:
+    """Validate a preserved pre-endpoint outer failure and hash its exact artifact tree."""
+    failure_path = run_dir / "failure.json"
+    if not failure_path.is_file():
+        raise FileNotFoundError(f"Preserved outer failure record is missing: {failure_path}")
+    failure = cast(dict[str, Any], json.loads(failure_path.read_text(encoding="utf-8")))
+    if failure.get("status") != "failed_preserved":
+        raise AssertionError("Failed outer record does not have failed_preserved status")
+    if failure.get("target_endpoint_loaded") is not False:
+        raise AssertionError("Failed outer record does not prove that the endpoint remained closed")
+    if failure.get("rerun_under_same_protocol_or_name") is not False:
+        raise AssertionError("Failed outer record does not prohibit an in-place rerun")
+    forbidden_outputs = [
+        run_dir / "outer_predictions.parquet",
+        run_dir / "outer_metrics.csv",
+        run_dir / "test_predictions.parquet",
+        run_dir / "test_metrics.csv",
+    ]
+    if any(path.exists() for path in forbidden_outputs):
+        raise AssertionError("A failed pre-endpoint run unexpectedly contains labelled outputs")
+    hashes = {
+        path.relative_to(run_dir).as_posix(): sha256_file(path)
+        for path in sorted(run_dir.rglob("*"))
+        if path.is_file()
+    }
+    return {
+        "failure_sha256": sha256_file(failure_path),
+        "artifact_count": len(hashes),
+        "artifacts_sha256": hashes,
+        "failure_stage": failure.get("failure_stage"),
+        "exception_type": failure.get("exception_type"),
+        "target_endpoint_loaded": False,
+        "run_git_commit": failure.get("git_commit"),
+    }
+
+
 def _git_value(repo_root: Path, *arguments: str) -> str:
     process = subprocess.run(
         ["git", "-C", str(repo_root), *arguments],
@@ -730,6 +827,23 @@ def freeze_candidate(
             if not artifact.is_file() or sha256_file(artifact) != expected_hash:
                 raise AssertionError(f"Synthetic evidence audit hash failed: {artifact}")
 
+    prior_outer_evidence = {}
+    for name, relative in freeze_config.get("prior_outer_runs", {}).items():
+        relative_path = Path(str(relative))
+        evidence = validate_completed_outer_evidence(repo_root / relative_path)
+        prior_outer_evidence[str(name)] = {
+            "run_dir": relative_path.as_posix(),
+            **evidence,
+        }
+    failed_outer_evidence = {}
+    for name, relative in freeze_config.get("failed_outer_runs", {}).items():
+        relative_path = Path(str(relative))
+        evidence = validate_failed_outer_evidence(repo_root / relative_path)
+        failed_outer_evidence[str(name)] = {
+            "run_dir": relative_path.as_posix(),
+            **evidence,
+        }
+
     git_status = _git_value(repo_root, "status", "--porcelain")
     if bool(freeze_config.get("require_clean_git", True)) and git_status:
         raise AssertionError("Candidate freeze requires a clean, committed worktree")
@@ -760,6 +874,10 @@ def freeze_candidate(
         "synthetic_config_sha256": sha256_file(synthetic_config_path),
         "synthetic_summary_sha256": sha256_file(synthetic_summary_path),
     }
+    if prior_outer_evidence:
+        lock["prior_outer_evidence"] = prior_outer_evidence
+    if failed_outer_evidence:
+        lock["failed_outer_evidence"] = failed_outer_evidence
     if synthetic_audit is not None:
         lock["synthetic_evidence_audit_path"] = str(synthetic_audit_path.relative_to(repo_root))
         lock["synthetic_evidence_audit_sha256"] = sha256_file(synthetic_audit_path)
@@ -830,6 +948,18 @@ def verify_frozen_candidate(repo_root: Path, lock_path: Path) -> dict[str, Any]:
                 path = evidence_dir / str(name)
                 if not path.is_file() or sha256_file(path) != expected_hash:
                     raise AssertionError(f"Frozen source audit evidence changed: {path}")
+    for name, evidence in lock.get("prior_outer_evidence", {}).items():
+        run_dir = repo_root / str(evidence["run_dir"])
+        current = validate_completed_outer_evidence(run_dir)
+        expected = {key: value for key, value in evidence.items() if key != "run_dir"}
+        if current != expected:
+            raise AssertionError(f"Prior completed outer evidence changed: {name}")
+    for name, evidence in lock.get("failed_outer_evidence", {}).items():
+        run_dir = repo_root / str(evidence["run_dir"])
+        current = validate_failed_outer_evidence(run_dir)
+        expected = {key: value for key, value in evidence.items() if key != "run_dir"}
+        if current != expected:
+            raise AssertionError(f"Preserved failed outer evidence changed: {name}")
     expected_synthetic_hash = lock.get("synthetic_gate_sha256")
     if expected_synthetic_hash:
         gate_path = repo_root / str(lock["synthetic_gate_path"])

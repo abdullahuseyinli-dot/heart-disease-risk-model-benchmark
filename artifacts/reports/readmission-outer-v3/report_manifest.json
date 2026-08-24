@@ -1,0 +1,17 @@
+{
+  "bootstrap_unit": "patient_cluster",
+  "endpoint": "any_readmission_TableShift_compatibility",
+  "experiments": [
+    "catboost_environment_class_balanced",
+    "lightgbm_environment_class_balanced",
+    "logistic_environment_class_balanced",
+    "logistic_pooled",
+    "mirrams_equation9",
+    "pooled_erm",
+    "prior_separated",
+    "ps_maskdro",
+    "ps_maskdro_ane"
+  ],
+  "prediction_rows": 9771660,
+  "status": "derived_from_locked_sample_level_predictions"
+}

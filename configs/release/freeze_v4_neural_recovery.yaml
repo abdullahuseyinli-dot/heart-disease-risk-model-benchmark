@@ -1,0 +1,79 @@
+protocol_version: heartshift-freeze-v4-neural-mechanical-recovery
+legacy_tag: legacy-v1-development-consumed
+require_clean_git: true
+source_runs:
+  classical: artifacts/runs/classical-inner-confirm-v1
+  modern_v2: artifacts/runs/modern-inner-confirm-v1
+  modern_2026: artifacts/runs/modern-2026-inner-v1
+  tabpfn_v3: artifacts/runs/tabpfn-v3-inner-confirm-v1
+  psmask: artifacts/runs/psmask-inner-confirm-v1
+  mirrams: artifacts/runs/mirrams-inner-confirm-v1
+  readmission: artifacts/runs/readmission-inner-v1
+synthetic_run: artifacts/runs/synthetic-mechanism-v3
+psmask_v1_gate_record: artifacts/runs/psmask-inner-confirm-v1/acceptance_gate_v1.json
+psmask_pivot_record: artifacts/runs/psmask-inner-confirm-v1/pivot_selection_v2.json
+psmask_v1_acceptance_gates:
+  required_experiments: [v0_pooled_erm, v2_prior_separated, v4_structured_policy_bank, v5_site_only_dro, v5_mask_only_dro, v5_site_mask_dro_brier, v7_ane]
+  minimum_confirmation_seeds: 3
+  minimum_prior_separation_improvement: 0.01
+  maximum_dro_macro_noninferiority_margin: 0.01
+  minimum_dro_worst_cell_improvement: 0.0
+  maximum_joint_axis_macro_noninferiority_margin: 0.01
+  minimum_joint_axis_worst_cell_improvement: 0.0
+  maximum_ane_natural_auroc_loss: 0.01
+psmask_pivot_selection:
+  protocol_version: psmask-measurement-policy-pivot-v2
+  candidate_experiments: [v3_mcar_augmentation, v4_structured_policy_bank, v5_site_only_dro, v5_mask_only_dro, v5_site_mask_dro, v5_site_mask_dro_brier, v7_ane]
+  reference_experiment: v4_structured_policy_bank
+  minimum_confirmation_seeds: 3
+  maximum_natural_auroc_loss: 0.01
+  maximum_worst_cell_regression: 0.0
+  expected_selected_experiment: v5_mask_only_dro
+
+# These outcomes were already generated under the v3 lock. Their independent
+# audits are bound here so recovery cannot alter, omit, or silently replace them.
+prior_outer_runs:
+  classical_v3: artifacts/runs/classical-outer-v3
+  modern_v2_v3: artifacts/runs/modern-v2-outer-v3
+  modern_2026_v3: artifacts/runs/modern-2026-outer-v3
+  tabpfn_v3: artifacts/runs/tabpfn-v3-outer-v3
+  readmission_v3: artifacts/runs/readmission-outer-v3
+failed_outer_runs:
+  mirrams_v3: artifacts/runs/mirrams-outer-v3
+
+# Only the two neural evaluations are newly executed under this recovery lock.
+outer_configs:
+  - configs/benchmark/mirrams_outer_v4.yaml
+  - configs/benchmark/psmask_outer_v4.yaml
+frozen_files:
+  - configs/release/freeze_v4_neural_recovery.yaml
+  - configs/benchmark/mirrams_outer_v4.yaml
+  - configs/benchmark/psmask_outer_v4.yaml
+  - configs/reporting/heart_outer_v4.yaml
+  - configs/reporting/readmission_outer_v3.yaml
+  - configs/synthetic/mechanism_v3.yaml
+  - configs/independent/readmission_inner_v1.yaml
+  - configs/independent/readmission_outer_v3.yaml
+  - artifacts/locks/heartshift_candidate_v3.json
+  - artifacts/reports/readmission-outer-v3/split_policy_metrics.csv
+  - artifacts/reports/readmission-outer-v3/primary_estimands.csv
+  - artifacts/reports/readmission-outer-v3/patient_cluster_bootstrap.parquet
+  - artifacts/reports/readmission-outer-v3/patient_cluster_bootstrap_intervals.csv
+  - artifacts/reports/readmission-outer-v3/report_manifest.json
+  - artifacts/reports/readmission-outer-v3/independent_validation.json
+  - artifacts/reports/readmission-outer-v3/evidence_audit.json
+  - docs/OUTER_V3_FAILURE_AND_V4_RECOVERY.md
+  - docs/OUTER_EVIDENCE_AUDIT.md
+  - docs/SYNTHETIC_V3_PROTOCOL.md
+  - docs/SYNTHETIC_V3_RESULT.md
+  - docs/READMISSION_INNER_V1_RESULT.md
+  - docs/RESEARCH_PROTOCOL.md
+  - docs/METHOD_SPECIFICATION.md
+  - docs/REPRODUCIBILITY.md
+  - docs/DATA_CARD.md
+  - docs/LIMITATIONS.md
+  - .gitattributes
+  - AGENTS.md
+  - README.md
+  - pyproject.toml
+  - uv.lock

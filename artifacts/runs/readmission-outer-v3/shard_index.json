@@ -1,0 +1,24 @@
+{
+  "ensemble_prediction_shards": [
+    "artifacts\\runs\\readmission-outer-v3\\shards\\logistic_pooled\\unlabelled_ensemble_predictions.parquet",
+    "artifacts\\runs\\readmission-outer-v3\\shards\\logistic_environment_class_balanced\\unlabelled_ensemble_predictions.parquet",
+    "artifacts\\runs\\readmission-outer-v3\\shards\\lightgbm_environment_class_balanced\\unlabelled_ensemble_predictions.parquet",
+    "artifacts\\runs\\readmission-outer-v3\\shards\\catboost_environment_class_balanced\\unlabelled_ensemble_predictions.parquet",
+    "artifacts\\runs\\readmission-outer-v3\\shards\\pooled_erm\\unlabelled_ensemble_predictions.parquet",
+    "artifacts\\runs\\readmission-outer-v3\\shards\\prior_separated\\unlabelled_ensemble_predictions.parquet",
+    "artifacts\\runs\\readmission-outer-v3\\shards\\mirrams_equation9\\unlabelled_ensemble_predictions.parquet",
+    "artifacts\\runs\\readmission-outer-v3\\shards\\ps_maskdro\\unlabelled_ensemble_predictions.parquet",
+    "artifacts\\runs\\readmission-outer-v3\\shards\\ps_maskdro_ane\\unlabelled_ensemble_predictions.parquet"
+  ],
+  "seed_prediction_shards": [
+    "artifacts\\runs\\readmission-outer-v3\\shards\\logistic_pooled\\unlabelled_seed_predictions.parquet",
+    "artifacts\\runs\\readmission-outer-v3\\shards\\logistic_environment_class_balanced\\unlabelled_seed_predictions.parquet",
+    "artifacts\\runs\\readmission-outer-v3\\shards\\lightgbm_environment_class_balanced\\unlabelled_seed_predictions.parquet",
+    "artifacts\\runs\\readmission-outer-v3\\shards\\catboost_environment_class_balanced\\unlabelled_seed_predictions.parquet",
+    "artifacts\\runs\\readmission-outer-v3\\shards\\pooled_erm\\unlabelled_seed_predictions.parquet",
+    "artifacts\\runs\\readmission-outer-v3\\shards\\prior_separated\\unlabelled_seed_predictions.parquet",
+    "artifacts\\runs\\readmission-outer-v3\\shards\\mirrams_equation9\\unlabelled_seed_predictions.parquet",
+    "artifacts\\runs\\readmission-outer-v3\\shards\\ps_maskdro\\unlabelled_seed_predictions.parquet",
+    "artifacts\\runs\\readmission-outer-v3\\shards\\ps_maskdro_ane\\unlabelled_seed_predictions.parquet"
+  ]
+}

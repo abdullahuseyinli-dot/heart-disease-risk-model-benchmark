@@ -105,3 +105,49 @@ inference over future hospitals.
 Classical and modern heart runs emit both raw and `source_oof_platt` methods. The
 calibrator CSV is fixed from hospital-held-out source predictions before outer
 labels are loaded. These are sensitivity results, not target recalibration.
+
+## Protocol-v4 neural-only mechanical recovery
+
+The v3 MIRRAMS command failed in its first non-adaptable shard before the heart
+endpoint-loading block. Preserve `artifacts/runs/mirrams-outer-v3` and do not run
+either neural evaluator under a v3 name. The completed v3 baseline/readmission
+runs and failed MIRRAMS run are bound into the recovery lock. See
+`docs/OUTER_V3_FAILURE_AND_V4_RECOVERY.md` for the scope and disclosure.
+
+First reconstruct the completed evidence:
+
+```powershell
+.venv\Scripts\python.exe -m heartshift.cli.audit_outer --repo-root . --run-dir artifacts/runs/classical-outer-v3 --kind heart-classical --workers 8
+.venv\Scripts\python.exe -m heartshift.cli.audit_outer --repo-root . --run-dir artifacts/runs/modern-v2-outer-v3 --kind heart-classical --workers 8
+.venv\Scripts\python.exe -m heartshift.cli.audit_outer --repo-root . --run-dir artifacts/runs/modern-2026-outer-v3 --kind heart-classical --workers 8
+.venv\Scripts\python.exe -m heartshift.cli.audit_outer --repo-root . --run-dir artifacts/runs/tabpfn-v3-outer-v3 --kind heart-classical --workers 8
+.venv\Scripts\python.exe -m heartshift.cli.audit_outer --repo-root . --run-dir artifacts/runs/readmission-outer-v3 --kind readmission --workers 8
+```
+
+After committing the mechanical fix, recovery configurations, audits, and all
+preserved v3 evidence with a clean worktree, generate the recovery lock:
+
+```powershell
+.venv\Scripts\python.exe -m heartshift.cli.freeze --repo-root . --config configs/release/freeze_v4_neural_recovery.yaml --output artifacts/locks/heartshift_candidate_v4_neural_recovery.json
+```
+
+Run each unopened neural target once, without code, configuration, documentation,
+or commit changes between the freeze and both commands:
+
+```powershell
+.venv\Scripts\python.exe -m heartshift.cli.psmask --repo-root . --config configs/benchmark/mirrams_outer_v4.yaml --phase outer --confirmation RUN_LOCKED_OUTER_ONCE
+.venv\Scripts\python.exe -m heartshift.cli.psmask --repo-root . --config configs/benchmark/psmask_outer_v4.yaml --phase outer --confirmation RUN_LOCKED_OUTER_ONCE
+```
+
+Then audit the neural runs and build the mixed-provenance report from immutable v3
+baseline plus v4 neural predictions:
+
+```powershell
+.venv\Scripts\python.exe -m heartshift.cli.audit_outer --repo-root . --run-dir artifacts/runs/mirrams-outer-v4 --kind heart-neural
+.venv\Scripts\python.exe -m heartshift.cli.audit_outer --repo-root . --run-dir artifacts/runs/psmask-outer-v4 --kind heart-neural
+.venv\Scripts\python.exe -m heartshift.cli.report_heart --repo-root . --config configs/reporting/heart_outer_v4.yaml --output-dir artifacts/reports/heart-outer-v4
+```
+
+The completed v3 outcomes were known before the recovery lock, so this must be
+reported as a mechanical recovery of two still-unopened neural evaluations, not
+as a fresh joint preregistration of the already completed comparisons.

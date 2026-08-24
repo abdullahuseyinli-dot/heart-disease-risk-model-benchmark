@@ -1,0 +1,35 @@
+{
+  "audit_kind": "readmission_outer",
+  "canonical_label_max_abs_difference": 0.0,
+  "endpoint_loaded_only_for_post_run_validation": true,
+  "ensemble_max_abs_difference": 0.0,
+  "experiments": [
+    "catboost_environment_class_balanced",
+    "lightgbm_environment_class_balanced",
+    "logistic_environment_class_balanced",
+    "logistic_pooled",
+    "mirrams_equation9",
+    "pooled_erm",
+    "prior_separated",
+    "ps_maskdro",
+    "ps_maskdro_ane"
+  ],
+  "known_nonsemantic_dtype_coercion": "epochs null/object shards to float64 concatenation",
+  "metric_max_abs_difference": 0.0,
+  "metric_rows": 360,
+  "patient_count": 39597,
+  "prediction_rows": 9771660,
+  "refit_test_patient_overlap": 0,
+  "run_dir": "artifacts/runs/readmission-outer-v3",
+  "run_git_commit": "e787c199b59ef77b839f22c8415375b83f573074",
+  "sample_count": 54287,
+  "shard_top_level_max_abs_difference": 0.0,
+  "status": "passed_independent_reconstruction",
+  "target_absent_from_unlabelled_artifacts": true,
+  "threaded_metric_max_abs_difference": 0.0,
+  "training_seeds": [
+    7201,
+    7202,
+    7203
+  ]
+}

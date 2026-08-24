@@ -1,0 +1,18 @@
+{
+  "data": {
+    "canonical_path": "data/processed/uci_heart_canonical_v1.parquet",
+    "outer_manifest": "data/splits/uci_heart_outer_loho_v1.parquet"
+  },
+  "evaluation_seed": 5062,
+  "freeze_lock": "artifacts/locks/heartshift_candidate_v3.json",
+  "locked_run_name": "modern-v2-outer-v3",
+  "outer_mask_replicates": 10,
+  "protocol_version": "modern-v2-outer-v3-mechanism-gated",
+  "seed": 5062,
+  "seeds": [
+    5062,
+    5063,
+    5064
+  ],
+  "source_oof_platt_calibration": true
+}

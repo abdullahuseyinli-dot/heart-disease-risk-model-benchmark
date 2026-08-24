@@ -1,0 +1,23 @@
+{
+  "backend": "classical",
+  "epochs": null,
+  "experiment": "lightgbm_environment_class_balanced",
+  "model": "lightgbm",
+  "parameter_id": 1,
+  "parameters": {
+    "colsample_bytree": 0.8,
+    "learning_rate": 0.03,
+    "min_child_samples": 50,
+    "n_estimators": 500,
+    "num_leaves": 31,
+    "reg_lambda": 5.0,
+    "subsample": 0.8
+  },
+  "seeds": [
+    7201,
+    7202,
+    7203
+  ],
+  "variant": "not_applicable",
+  "weighting": "environment_class_balanced"
+}
