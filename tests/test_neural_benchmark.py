@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+from collections.abc import Iterable
 from pathlib import Path
+from typing import cast
 
 import numpy as np
 import pandas as pd
@@ -155,8 +157,8 @@ def test_v3_outer_adaptation_separates_research_from_gated_scores(
     def fake_diagnostic(*args: object, **kwargs: object) -> CompositeMixtureDiagnostic:
         observed_calls.append(
             (
-                list(kwargs["source_sample_ids"]),  # type: ignore[arg-type]
-                list(kwargs["target_sample_ids"]),  # type: ignore[arg-type]
+                list(cast(Iterable[str], kwargs["source_sample_ids"])),
+                list(cast(Iterable[str], kwargs["target_sample_ids"])),
             )
         )
         support = MaskSupportAudit(

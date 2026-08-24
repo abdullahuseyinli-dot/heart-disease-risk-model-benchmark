@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark/schemas/github_workflow_run.schema.json",
+  "title": "GitHub Actions workflow-run evidence used by the HeartShift release gate",
+  "type": "object",
+  "required": [
+    "id",
+    "head_sha",
+    "status",
+    "conclusion",
+    "html_url",
+    "run_attempt",
+    "repository"
+  ],
+  "properties": {
+    "id": {"type": "integer", "minimum": 1},
+    "head_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "status": {"const": "completed"},
+    "conclusion": {"const": "success"},
+    "html_url": {
+      "type": "string",
+      "pattern": "^https://github\\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+/actions/runs/[1-9][0-9]*$"
+    },
+    "run_attempt": {"type": "integer", "minimum": 1},
+    "repository": {
+      "type": "object",
+      "required": ["full_name"],
+      "properties": {
+        "full_name": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
+        }
+      }
+    }
+  }
+}

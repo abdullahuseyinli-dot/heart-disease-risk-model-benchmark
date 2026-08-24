@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark/schemas/dataset_manifest.schema.json",
+  "title": "HeartShift dataset manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "record_kind", "dataset_id", "title", "status", "release", "license", "provenance", "artifacts", "record_sha256"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_kind": {"const": "dataset_manifest"},
+    "dataset_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]+$"},
+    "title": {"type": "string", "minLength": 1},
+    "status": {"enum": ["available", "terms_gated", "smoke_only", "protected_not_acquired"]},
+    "release": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "doi", "landing_url"],
+      "properties": {
+        "version": {"type": "string", "minLength": 1},
+        "doi": {"type": "string", "minLength": 1},
+        "landing_url": {"type": "string", "format": "uri", "pattern": "^https://"},
+        "published_date": {"type": ["string", "null"], "format": "date"}
+      }
+    },
+    "license": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["identifier", "name", "url", "redistribution_policy"],
+      "properties": {
+        "identifier": {"type": "string", "minLength": 1},
+        "name": {"type": "string", "minLength": 1},
+        "url": {"type": "string", "format": "uri"},
+        "redistribution_policy": {"enum": ["redistributable_with_attribution", "retain_under_database_terms", "do_not_redistribute", "terms_gated"]},
+        "notes": {"type": "string"}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["official_repository_url", "hash_provenance"],
+      "properties": {
+        "official_repository_url": {"type": "string", "format": "uri", "pattern": "^https://"},
+        "retrieved_date": {"type": ["string", "null"], "format": "date"},
+        "hash_provenance": {"type": "string", "minLength": 1},
+        "citation": {"type": "string"}
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["artifact_id", "role", "storage_path", "expected_size_bytes", "expected_sha256", "git_policy", "acquisition"],
+        "properties": {
+          "artifact_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]+$"},
+          "role": {"type": "string", "minLength": 1},
+          "source_url": {"type": ["string", "null"], "format": "uri"},
+          "storage_path": {"type": "string", "pattern": "^(?![A-Za-z]:|/|.*\\.\\.).+"},
+          "expected_size_bytes": {"type": "integer", "minimum": 1},
+          "expected_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "hash_provenance": {"type": "string"},
+          "git_policy": {"enum": ["tracked_raw_evidence", "git_lfs", "exclude_from_git", "external_release_asset"]},
+          "acquisition": {"enum": ["download", "manual_terms_gated", "derived_create_only"]}
+        }
+      }
+    },
+    "claim_scope": {"type": "string"},
+    "record_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

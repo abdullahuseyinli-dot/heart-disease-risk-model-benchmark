@@ -1,4 +1,4 @@
-name: Release security
+name: Release candidate evidence
 
 on:
   workflow_dispatch:
@@ -16,14 +16,14 @@ env:
   UV_NO_PROGRESS: "1"
 
 jobs:
-  release-security:
-    name: Candidate tree and history audit
+  release-candidate:
+    name: Exact candidate and release gates
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
 
     steps:
       - name: Check out complete history without credentials
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd6 # v6.0.2
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -41,54 +41,176 @@ jobs:
           cache-dependency-glob: uv.lock
 
       - name: Install locked release environment
-        run: uv sync --locked --extra dev --group release
+        run: >-
+          uv sync --locked --extra dev --extra reporting --extra neural-cpu
+          --group release
 
       - name: Prepare candidate-scoped reports
         shell: bash
-        run: mkdir -p ".audit/release-security/${GITHUB_SHA}"
+        run: mkdir -p ".audit/release/${GITHUB_SHA}"
+
+      - name: Scan the exact candidate tree
+        shell: bash
+        run: |
+          report_dir=".audit/release/${GITHUB_SHA}"
+          uv run heartshift release scan \
+            --candidate "${GITHUB_SHA}" \
+            --policy configs/release/release_gate_policy_v1.json \
+            --output "${report_dir}/candidate-tree.json"
+          uv run heartshift release record-gate \
+            --candidate "${GITHUB_SHA}" --gate candidate_tree --status pass \
+            --evidence "${report_dir}/candidate-tree.json" \
+            --output "${report_dir}/candidate_tree.status.json"
+
+      - name: Validate release-facing contracts
+        shell: bash
+        run: |
+          report_dir=".audit/release/${GITHUB_SHA}"
+          {
+            uv run heartshift contracts validate --repo-root .
+            uv run heartshift methods validate --repo-root .
+          } 2>&1 | tee "${report_dir}/contracts.log"
+          uv run heartshift release record-gate \
+            --candidate "${GITHUB_SHA}" --gate contracts --status pass \
+            --evidence "${report_dir}/contracts.log" \
+            --output "${report_dir}/contracts.status.json"
+
+      - name: Validate public repository surface
+        shell: bash
+        run: |
+          report_dir=".audit/release/${GITHUB_SHA}"
+          uv run python tools/validate_repository.py 2>&1 | tee "${report_dir}/repository.log"
+          uv run heartshift release record-gate \
+            --candidate "${GITHUB_SHA}" --gate repository --status pass \
+            --evidence "${report_dir}/repository.log" \
+            --output "${report_dir}/repository.status.json"
+
+      - name: Run tests and measured coverage gate
+        shell: bash
+        run: |
+          report_dir=".audit/release/${GITHUB_SHA}"
+          uv run pytest -q --cov=heartshift --cov-report=term-missing --cov-report=xml \
+            2>&1 | tee "${report_dir}/pytest.log"
+          uv run heartshift release record-gate \
+            --candidate "${GITHUB_SHA}" --gate tests --status pass \
+            --evidence "${report_dir}/pytest.log" \
+            --output "${report_dir}/tests.status.json"
+
+      - name: Lint
+        shell: bash
+        run: |
+          report_dir=".audit/release/${GITHUB_SHA}"
+          uv run ruff check src tests tools 2>&1 | tee "${report_dir}/ruff-check.log"
+          uv run heartshift release record-gate \
+            --candidate "${GITHUB_SHA}" --gate lint --status pass \
+            --evidence "${report_dir}/ruff-check.log" \
+            --output "${report_dir}/lint.status.json"
+
+      - name: Check formatting
+        shell: bash
+        run: |
+          report_dir=".audit/release/${GITHUB_SHA}"
+          uv run ruff format --check src tests tools 2>&1 | tee "${report_dir}/ruff-format.log"
+          uv run heartshift release record-gate \
+            --candidate "${GITHUB_SHA}" --gate format --status pass \
+            --evidence "${report_dir}/ruff-format.log" \
+            --output "${report_dir}/format.status.json"
+
+      - name: Strict type-check
+        shell: bash
+        run: |
+          report_dir=".audit/release/${GITHUB_SHA}"
+          uv run mypy 2>&1 | tee "${report_dir}/mypy.log"
+          uv run heartshift release record-gate \
+            --candidate "${GITHUB_SHA}" --gate typing --status pass \
+            --evidence "${report_dir}/mypy.log" \
+            --output "${report_dir}/typing.status.json"
+
+      - name: Build distributions
+        shell: bash
+        run: |
+          report_dir=".audit/release/${GITHUB_SHA}"
+          uv build 2>&1 | tee "${report_dir}/build.log"
+          uv run heartshift release record-gate \
+            --candidate "${GITHUB_SHA}" --gate build --status pass \
+            --evidence "${report_dir}/build.log" \
+            --output "${report_dir}/build.status.json"
+
+      - name: Validate distribution boundary
+        shell: bash
+        run: |
+          report_dir=".audit/release/${GITHUB_SHA}"
+          uv run python tools/validate_distribution.py 2>&1 | tee "${report_dir}/distribution.log"
+          uv run heartshift release record-gate \
+            --candidate "${GITHUB_SHA}" --gate distribution --status pass \
+            --evidence "${report_dir}/distribution.log" \
+            --output "${report_dir}/distribution.status.json"
+
+      - name: Smoke-test clean wheel
+        shell: bash
+        run: |
+          report_dir=".audit/release/${GITHUB_SHA}"
+          uv run python tools/smoke_install_distribution.py 2>&1 | tee "${report_dir}/wheel-smoke.log"
+          uv run heartshift release record-gate \
+            --candidate "${GITHUB_SHA}" --gate wheel_smoke --status pass \
+            --evidence "${report_dir}/wheel-smoke.log" \
+            --output "${report_dir}/wheel_smoke.status.json"
+
+      - name: Record dependency licences
+        shell: bash
+        run: |
+          report_dir=".audit/release/${GITHUB_SHA}"
+          uv run pip-licenses --format=json --with-urls \
+            --output-file="${report_dir}/python-licenses.json"
+          uv run heartshift release record-gate \
+            --candidate "${GITHUB_SHA}" --gate licenses --status pass \
+            --evidence "${report_dir}/python-licenses.json" \
+            --output "${report_dir}/licenses.status.json"
 
       - name: Download and verify Gitleaks 8.30.1
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          report_dir=".audit/release-security/${GITHUB_SHA}"
-          gh release download v8.30.1 --repo gitleaks/gitleaks --pattern gitleaks_8.30.1_linux_x64.tar.gz --dir "${report_dir}"
-          echo "551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb  ${report_dir}/gitleaks_8.30.1_linux_x64.tar.gz" | sha256sum --check --strict
-          tar -xzf "${report_dir}/gitleaks_8.30.1_linux_x64.tar.gz" -C "${report_dir}" gitleaks
+          report_dir=".audit/release/${GITHUB_SHA}"
+          gh release download v8.30.1 --repo gitleaks/gitleaks \
+            --pattern gitleaks_8.30.1_linux_x64.tar.gz --dir "${report_dir}"
+          echo "551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb  ${report_dir}/gitleaks_8.30.1_linux_x64.tar.gz" \
+            | sha256sum --check --strict
+          tar -xzf "${report_dir}/gitleaks_8.30.1_linux_x64.tar.gz" \
+            -C "${report_dir}" gitleaks
           test "$("${report_dir}/gitleaks" version)" = "8.30.1"
 
-      - name: Scan the complete Git history
+      - name: Scan complete Git history for secrets
         shell: bash
         run: |
-          report_dir=".audit/release-security/${GITHUB_SHA}"
-          "${report_dir}/gitleaks" git --no-banner --redact=100 --config .gitleaks.toml --log-opts=--all --report-format json --report-path "${report_dir}/gitleaks.json"
+          report_dir=".audit/release/${GITHUB_SHA}"
+          "${report_dir}/gitleaks" git --no-banner --redact=100 \
+            --config .gitleaks.toml --log-opts=--all --report-format json \
+            --report-path "${report_dir}/gitleaks.json"
+          test -f "${report_dir}/gitleaks.json" || printf '[]\n' > "${report_dir}/gitleaks.json"
+          uv run heartshift release record-gate \
+            --candidate "${GITHUB_SHA}" --gate history_secret_scan --status pass \
+            --evidence "${report_dir}/gitleaks.json" \
+            --output "${report_dir}/history_secret_scan.status.json"
 
-      - name: Record dependency licenses
+      - name: Assemble candidate attestation
+        if: always()
         shell: bash
         run: |
-          report_dir=".audit/release-security/${GITHUB_SHA}"
-          uv run pip-licenses --format=json --with-urls --output-file="${report_dir}/python-licenses.json"
+          report_dir=".audit/release/${GITHUB_SHA}"
+          uv run heartshift release assemble \
+            --candidate "${GITHUB_SHA}" --version 0.1.0 \
+            --policy configs/release/release_gate_policy_v1.json \
+            --status-directory "${report_dir}" \
+            --output "${report_dir}/candidate-attestation.json" \
+            --mode candidate_attestation
 
-      - name: Run source release gates
-        shell: bash
-        run: |
-          report_dir=".audit/release-security/${GITHUB_SHA}"
-          uv run pytest -q --cov=heartshift --cov-report=term-missing --cov-report=xml --cov-fail-under=45 | tee "${report_dir}/pytest.log"
-          uv run ruff check src tests tools | tee "${report_dir}/ruff-check.log"
-          uv run ruff format --check src tests tools | tee "${report_dir}/ruff-format.log"
-          uv run mypy src/heartshift | tee "${report_dir}/mypy.log"
-          uv run heartshift-validate --help | tee "${report_dir}/cli-help.log"
-          uv run python tools/validate_repository.py | tee "${report_dir}/repository.log"
-          uv build | tee "${report_dir}/build.log"
-          uv run python tools/validate_distribution.py | tee "${report_dir}/distribution.log"
-          uv run python tools/smoke_install_distribution.py | tee "${report_dir}/wheel-smoke.log"
-
-      - name: Upload candidate-scoped reports
+      - name: Upload candidate-scoped evidence
         if: always()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
-          name: release-security-${{ github.sha }}
-          path: .audit/release-security/${{ github.sha }}/
+          name: release-candidate-${{ github.sha }}
+          path: .audit/release/${{ github.sha }}/
           if-no-files-found: error
-          retention-days: 30
+          retention-days: 90

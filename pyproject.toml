@@ -32,15 +32,14 @@ classifiers = [
   "Typing :: Typed",
 ]
 dependencies = [
+  "jsonschema>=4.23,<5",
   "joblib>=1.5",
-  "matplotlib>=3.10",
   "numpy>=2.0,<3",
   "pandas>=2.2,<4",
   "pyarrow>=16",
   "pyyaml>=6",
   "scikit-learn>=1.5",
   "scipy>=1.13",
-  "seaborn>=0.13",
 ]
 
 [project.urls]
@@ -54,7 +53,6 @@ models = [
   "catboost>=1.2",
   "lightgbm>=4.5",
   "optuna>=4",
-  "torch>=2.7",
   "xgboost>=3",
 ]
 modern = [
@@ -65,13 +63,36 @@ modern = [
   "tabm>=0.0.3",
   "tabpfn>=6",
 ]
+reporting = [
+  "matplotlib>=3.10",
+  "seaborn>=0.13",
+]
+classical = [
+  "catboost>=1.2",
+  "interpret>=0.7",
+  "lightgbm>=4.5",
+  "optuna>=4",
+  "xgboost>=3",
+]
+foundation-models = [
+  "pytabkit>=1.7.3",
+  "skorch>=1.4.0",
+  "tabicl>=2.1.1",
+  "tabm>=0.0.3",
+  "tabpfn>=6",
+]
+neural-cpu = [
+  "torch==2.13.0",
+]
+neural-cuda = [
+  "torch==2.13.0",
+]
 dev = [
   "coverage[toml]>=7.6",
   "mypy>=1.15",
   "pytest>=8.3",
   "pytest-cov>=6",
   "ruff>=0.11",
-  "torch>=2.7",
 ]
 
 [dependency-groups]
@@ -80,6 +101,7 @@ release = [
 ]
 
 [project.scripts]
+heartshift = "heartshift.cli.main:main"
 heartshift-prepare = "heartshift.cli.prepare:main"
 heartshift-prepare-readmission = "heartshift.cli.prepare_readmission:main"
 heartshift-prepare-external = "heartshift.cli.prepare_external:main"
@@ -124,13 +146,27 @@ include = [
 ]
 
 [[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[[tool.uv.index]]
 name = "pytorch-cu130"
 url = "https://download.pytorch.org/whl/cu130"
 explicit = true
 
 [tool.uv.sources]
 torch = [
-  { index = "pytorch-cu130", marker = "sys_platform == 'win32'" },
+  { index = "pytorch-cpu", extra = "neural-cpu" },
+  { index = "pytorch-cu130", extra = "neural-cuda" },
+]
+
+[tool.uv]
+conflicts = [
+  [
+    { extra = "neural-cpu" },
+    { extra = "neural-cuda" },
+  ],
 ]
 
 [tool.pytest.ini_options]
@@ -141,7 +177,7 @@ testpaths = ["tests"]
 source = ["heartshift"]
 
 [tool.coverage.report]
-fail_under = 45
+fail_under = 55
 show_missing = true
 skip_covered = true
 
@@ -161,8 +197,6 @@ known-first-party = ["heartshift"]
 
 [tool.mypy]
 python_version = "3.11"
-warn_return_any = true
-warn_unused_configs = true
-disallow_untyped_defs = true
+strict = true
 ignore_missing_imports = true
-packages = ["heartshift"]
+files = ["src/heartshift", "tests"]

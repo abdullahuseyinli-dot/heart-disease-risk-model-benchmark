@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark/schemas/failure_record.schema.json",
+  "title": "HeartShift failure record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "record_kind", "failure_id", "created_at_utc", "stage", "exception_type", "message", "target_use", "preservation", "record_sha256"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_kind": {"const": "failure_record"},
+    "failure_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]+$"},
+    "created_at_utc": {"type": "string", "format": "date-time"},
+    "stage": {"type": "string", "minLength": 1},
+    "exception_type": {"type": "string", "minLength": 1},
+    "message": {"type": "string", "minLength": 1},
+    "target_use": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["features_loaded", "labels_loaded"],
+      "properties": {
+        "features_loaded": {"type": "boolean"},
+        "labels_loaded": {"type": "boolean"}
+      }
+    },
+    "preservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "path"],
+      "properties": {
+        "status": {"const": "preserved"},
+        "path": {"type": "string", "pattern": "^(?![A-Za-z]:|/|.*\\.\\.).+"}
+      }
+    },
+    "record_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

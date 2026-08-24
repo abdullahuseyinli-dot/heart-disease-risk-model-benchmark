@@ -12,6 +12,12 @@ The current evidence supports a benchmark and mechanism-safety paper centered on
 4. cross-task heterogeneity between the heart and readmission evaluations; and
 5. the negative routing result and post-outcome seed-stability analysis.
 
+Manuscript preparation starts with the [section outline](OUTLINE.md), the
+[claim-to-evidence crosswalk](CLAIM_EVIDENCE_CROSSWALK.md), and the checked
+[`references.bib`](references.bib) bibliography. The crosswalk is normative for
+claim scope; unsupported architecture, state-of-the-art, or clinical-use claims
+must not be inferred from point estimates.
+
 Primary sources include current reports and frozen study records:
 
 - `docs/RESEARCH_PROTOCOL.md`

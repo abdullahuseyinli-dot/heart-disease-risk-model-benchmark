@@ -25,6 +25,16 @@ release or archive DOI is claimed here.
 - Repository-level and file-scoped attribution, licence, transformation, and
   claim-boundary notices for the eICU Collaborative Research Database Demo
   v2.0.1 and the derived smoke-test database.
+- Draft 2020-12 schemas and self-hashed dataset, environment, prediction,
+  metric, and report contracts.
+- Manifest-driven, explicit-network acquisition and create-only publication for
+  raw and canonical evidence.
+- A typed method registry with dependency profiles, target-information
+  capabilities, implementation fidelity, versions, licences, and evidence status.
+- A unified `heartshift` CLI, strict configuration loading, exact-candidate
+  release attestations, and full Git/Git-LFS release inventories.
+- Architecture, hardware, acquisition, release, manuscript-outline,
+  bibliography, and claim-to-evidence documentation.
 
 ### Changed
 
@@ -35,3 +45,6 @@ release or archive DOI is claimed here.
   offline model-hub settings in repository workflows.
 - Expanded third-party notices to distinguish the repository's MIT-licensed
   software from CC BY 4.0 datasets and the ODbL 1.0 eICU database materials.
+- Split optional dependencies into reporting, classical, foundation-model,
+  CPU-neural, and CUDA-neural profiles and made the two PyTorch profiles
+  mutually exclusive.

@@ -1,0 +1,21 @@
+{
+  "claim_scope": "Locked independent method-validation task on UCI diabetes readmission; not evidence for the angiographic heart endpoint or clinical deployment.",
+  "evidence_status": "locked",
+  "headline_tables": [
+    {"path": "artifacts/reports/readmission-outer-v3/primary_estimands.csv", "sha256": "bb96f3bed2efa4fbc4995f30d93dc6d914b09e1e494d763f45c6bca1e03d6a5b", "size_bytes": 1644},
+    {"path": "artifacts/reports/readmission-outer-v3/patient_cluster_bootstrap_intervals.csv", "sha256": "aa70eb577a1b69b636772f79fc7686fae6ef20b084c30ad71aaee958d2f7dee3", "size_bytes": 671}
+  ],
+  "record_kind": "report_evidence_manifest",
+  "record_sha256": "17220beca035c82e7d81d9570e18f7895ed6766d1a7aa4c740dc542ae58d0f22",
+  "report_id": "readmission-outer-v3",
+  "schema_version": "1.0.0",
+  "source_records": [
+    {"path": "artifacts/runs/readmission-outer-v3/test_predictions.parquet", "sha256": "db8eb4c3ee77b73b75a31e8fdddc1c77b857939181f91d8e554bd964b68b5e33", "size_bytes": 210394026},
+    {"path": "artifacts/reports/readmission-outer-v3/report_manifest.json", "sha256": "507a940fe989d90b585a07fdeb617c339b36b71aeed00fd993a1674294f56718", "size_bytes": 488}
+  ],
+  "validation": {
+    "evidence": {"path": "artifacts/reports/readmission-outer-v3/independent_validation.json", "sha256": "3682bb0262fa3174099b01454d8c0c5c4f4bf57a23dbfff0fdd8fc298f2fa34d", "size_bytes": 577},
+    "status": "pass",
+    "validator": "independent prediction-to-report recomputation"
+  }
+}

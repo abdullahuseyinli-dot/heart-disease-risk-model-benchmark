@@ -5,7 +5,7 @@ from __future__ import annotations
 import gc
 import json
 from pathlib import Path
-from typing import Any, cast
+from typing import Any
 
 import numpy as np
 import pandas as pd
@@ -169,7 +169,12 @@ def run_synthetic_experiment(
                 str(scenario),
                 n_per_environment=int(config["n_per_environment"]),
                 seed=int(seed),
-                prevalences=cast(tuple[float, float, float, float], prevalence_values),
+                prevalences=(
+                    prevalence_values[0],
+                    prevalence_values[1],
+                    prevalence_values[2],
+                    prevalence_values[3],
+                ),
             )
             training = data.loc[data["site"].isin(["synthetic_e0", "synthetic_e1"])].copy()
             validation = data.loc[data["site"].eq("synthetic_e2")].copy()

@@ -406,7 +406,7 @@ def fit_ps_maskdro(
                 brier_beta=float(parameters.get("brier_beta", 0.1)),
             )
         optimizer.zero_grad(set_to_none=True)
-        objective.backward()
+        objective.backward()  # type: ignore[no-untyped-call]
         torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
         optimizer.step()
 
@@ -553,7 +553,7 @@ def fit_ps_maskdro_fixed_epochs(
                 brier_beta=float(parameters.get("brier_beta", 0.1)),
             )
         optimizer.zero_grad(set_to_none=True)
-        objective.backward()
+        objective.backward()  # type: ignore[no-untyped-call]
         torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
         optimizer.step()
         if epoch % evaluation_interval == 0 or epoch == epochs:

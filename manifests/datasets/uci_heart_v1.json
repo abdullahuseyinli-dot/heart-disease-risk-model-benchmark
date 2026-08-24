@@ -1,0 +1,41 @@
+{
+  "artifacts": [
+    {
+      "acquisition": "download",
+      "artifact_id": "heart-disease.zip",
+      "expected_sha256": "b17cd273da9ce1caa4710fce80227ea454d4dbf9fcbc8e6a9121672751563adc",
+      "expected_size_bytes": 128894,
+      "git_policy": "tracked_raw_evidence",
+      "hash_provenance": "Verified from the preserved archive on 2026-08-23.",
+      "role": "authoritative_raw_archive",
+      "source_url": "https://archive.ics.uci.edu/static/public/45/heart+disease.zip",
+      "storage_path": "data/raw/uci_heart/doi-10.24432-C52P4X/heart-disease.zip"
+    }
+  ],
+  "claim_scope": "Historical referred cohorts with angiographically defined disease status (num > 0); not prospective population risk.",
+  "dataset_id": "uci-heart-doi-10.24432-c52p4x",
+  "license": {
+    "identifier": "CC-BY-4.0",
+    "name": "Creative Commons Attribution 4.0 International",
+    "notes": "Attribution and transformation notices are recorded in THIRD_PARTY_NOTICES.md.",
+    "redistribution_policy": "redistributable_with_attribution",
+    "url": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  "provenance": {
+    "citation": "Janosi, Steinbrunn, Pfisterer, and Detrano (1989), Heart Disease, UCI Machine Learning Repository.",
+    "hash_provenance": "SHA-256 and byte count were computed from the preserved raw archive before this release contract was created.",
+    "official_repository_url": "https://archive.ics.uci.edu/dataset/45/heart+disease",
+    "retrieved_date": "2026-08-23"
+  },
+  "record_kind": "dataset_manifest",
+  "record_sha256": "1209e51571debe97354b8bf3be46ccb8150816126d344ad11062dcd4c31df984",
+  "release": {
+    "doi": "10.24432/C52P4X",
+    "landing_url": "https://archive.ics.uci.edu/dataset/45/heart+disease",
+    "published_date": null,
+    "version": "UCI repository release retrieved 2026-08-23"
+  },
+  "schema_version": "1.0.0",
+  "status": "available",
+  "title": "UCI Heart Disease"
+}

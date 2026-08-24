@@ -1,0 +1,21 @@
+{
+  "claim_scope": "Post-outcome descriptive development analysis after the UCI outer outcomes were consumed; no new confirmatory claim is permitted.",
+  "evidence_status": "post_outcome",
+  "headline_tables": [
+    {"path": "artifacts/reports/heart-research-development-v1/primary_estimands.csv", "sha256": "41ca4129c6e6fd5afacb9683addf5a4099192aa5769bf44dcceda8550a45edb8", "size_bytes": 2904},
+    {"path": "artifacts/reports/heart-research-development-v1/paired_contrast_intervals.csv", "sha256": "a635752e99b63bcf3680464f3e04fd73a11d8ea2fa87ad1174c625005ad1b42c", "size_bytes": 3151}
+  ],
+  "record_kind": "report_evidence_manifest",
+  "record_sha256": "d29013118ba91a947d4776c33275a61ad267b8c067014bdc9de5070c5e062e4d",
+  "report_id": "heart-research-development-v1",
+  "schema_version": "1.0.0",
+  "source_records": [
+    {"path": "artifacts/reports/heart-research-development-v1/normalized_predictions.parquet", "sha256": "b502b0606341bc565e65c8cf7b06ab262874c13c11188b94eeb76f73a0ec7297", "size_bytes": 6490853},
+    {"path": "artifacts/reports/heart-research-development-v1/report_manifest.json", "sha256": "baa710aa45a77086f2aed2a326b64f4f994973d1d603afceba458cf102ecccc1", "size_bytes": 508}
+  ],
+  "validation": {
+    "evidence": {"path": "artifacts/reports/heart-research-development-v1/evidence_audit.json", "sha256": "6bbae2f4768ec17f83448a376fb675c49326f56d57f37d3c62d78946fd876d3e", "size_bytes": 1250},
+    "status": "pass",
+    "validator": "artifact hash and row-count audit"
+  }
+}

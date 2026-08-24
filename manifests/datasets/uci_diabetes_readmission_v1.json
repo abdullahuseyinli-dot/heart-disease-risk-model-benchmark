@@ -1,0 +1,41 @@
+{
+  "artifacts": [
+    {
+      "acquisition": "download",
+      "artifact_id": "diabetes-130-us-hospitals.zip",
+      "expected_sha256": "f82ac129da2ddd2299391ff6fbae3a6a58b3edcf59ac9d7bd480c00fe453112a",
+      "expected_size_bytes": 3170254,
+      "git_policy": "tracked_raw_evidence",
+      "hash_provenance": "Verified from the preserved archive on 2026-08-23.",
+      "role": "authoritative_raw_archive",
+      "source_url": "https://archive.ics.uci.edu/static/public/296/diabetes+130-us+hospitals+for+years+1999-2008.zip",
+      "storage_path": "data/raw/uci_diabetes_readmission/doi-10.24432-C5230J/diabetes-130-us-hospitals.zip"
+    }
+  ],
+  "claim_scope": "Independent method-validation task; the TableShift-compatible any-readmission endpoint and the under-30-day sensitivity endpoint remain distinct.",
+  "dataset_id": "uci-diabetes-readmission-doi-10.24432-c5230j",
+  "license": {
+    "identifier": "CC-BY-4.0",
+    "name": "Creative Commons Attribution 4.0 International",
+    "notes": "Attribution and endpoint transformation notices are recorded in THIRD_PARTY_NOTICES.md.",
+    "redistribution_policy": "redistributable_with_attribution",
+    "url": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  "provenance": {
+    "citation": "Clore, Cios, DeShazo, and Strack (2014), Diabetes 130-US Hospitals for Years 1999-2008, UCI Machine Learning Repository.",
+    "hash_provenance": "SHA-256 and byte count were computed from the preserved raw archive before this release contract was created.",
+    "official_repository_url": "https://archive.ics.uci.edu/dataset/296/diabetes+130-us+hospitals+for+years+1999+2008",
+    "retrieved_date": "2026-08-23"
+  },
+  "record_kind": "dataset_manifest",
+  "record_sha256": "19ae271fda4987162cc4d74aee4a79d5ddd6cca035b5169b3dbdbfc0caa42b69",
+  "release": {
+    "doi": "10.24432/C5230J",
+    "landing_url": "https://archive.ics.uci.edu/dataset/296/diabetes+130-us+hospitals+for+years+1999+2008",
+    "published_date": null,
+    "version": "UCI repository release retrieved 2026-08-23"
+  },
+  "schema_version": "1.0.0",
+  "status": "available",
+  "title": "Diabetes 130-US Hospitals for Years 1999-2008"
+}

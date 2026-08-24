@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 import pytest
@@ -33,7 +35,7 @@ def test_simplex_grid_and_fixed_blend_selection() -> None:
 
 
 def test_router_alignment_rejects_equal_fraction_but_different_exact_masks(
-    tmp_path,
+    tmp_path: Path,
 ) -> None:
     neural_dir = tmp_path / "neural"
     control_dir = tmp_path / "control"

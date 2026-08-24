@@ -41,13 +41,13 @@ jobs:
           cache-dependency-glob: uv.lock
 
       - name: Install locked development environment
-        run: uv sync --locked --extra dev
+        run: uv sync --locked --extra dev --extra reporting --extra neural-cpu
 
       - name: Verify Git LFS objects
         run: git lfs fsck
 
       - name: Validate current benchmark evidence
-        run: uv run heartshift-validate --repo-root .
+        run: uv run heartshift validate --repo-root .
 
       - name: Validate archived v1 evidence
         run: uv run python tools/validate_repository.py

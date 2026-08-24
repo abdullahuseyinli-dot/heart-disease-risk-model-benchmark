@@ -347,7 +347,7 @@ def fit_generic_observed_model(
                     brier_beta=float(parameters.get("brier_beta", 0.0)),
                 )
             optimizer.zero_grad(set_to_none=True)
-            objective.backward()
+            objective.backward()  # type: ignore[no-untyped-call]
             nn.utils.clip_grad_norm_(model.parameters(), 1.0)
             optimizer.step()
             epoch_objectives.append(float(objective.detach()))
@@ -515,7 +515,7 @@ def fit_generic_observed_fixed_epochs(
                     brier_beta=float(parameters.get("brier_beta", 0.0)),
                 )
             optimizer.zero_grad(set_to_none=True)
-            objective.backward()
+            objective.backward()  # type: ignore[no-untyped-call]
             nn.utils.clip_grad_norm_(model.parameters(), 1.0)
             optimizer.step()
             epoch_objectives.append(float(objective.detach()))

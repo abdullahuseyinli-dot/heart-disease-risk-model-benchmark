@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark/schemas/freeze_record.schema.json",
+  "title": "HeartShift freeze sidecar",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "record_kind", "freeze_id", "evidence_status", "created_at_utc", "code_commit", "target_opening", "frozen_files", "record_sha256"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_kind": {"const": "freeze_record"},
+    "freeze_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]+$"},
+    "evidence_status": {"enum": ["locked", "post_outcome", "development", "archived"]},
+    "created_at_utc": {"type": "string", "format": "date-time"},
+    "code_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "target_opening": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["consumed", "opening_count", "rerun_permitted"],
+      "properties": {
+        "consumed": {"type": "boolean"},
+        "opening_count": {"type": "integer", "minimum": 0},
+        "rerun_permitted": {"type": "boolean"}
+      }
+    },
+    "frozen_files": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256"],
+        "properties": {
+          "path": {"type": "string", "pattern": "^(?![A-Za-z]:|/|.*\\.\\.).+"},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    },
+    "record_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

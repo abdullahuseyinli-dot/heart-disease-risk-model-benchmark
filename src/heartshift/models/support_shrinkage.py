@@ -407,7 +407,7 @@ def fit_support_aware_router(
             entropy_bonus=float(parameters.get("entropy_bonus", 0.001)),
         )
         optimizer.zero_grad(set_to_none=True)
-        objective.backward()
+        objective.backward()  # type: ignore[no-untyped-call]
         nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
         optimizer.step()
         score = _evaluation_score(

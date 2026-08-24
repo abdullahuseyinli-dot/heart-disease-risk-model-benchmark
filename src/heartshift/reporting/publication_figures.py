@@ -13,6 +13,7 @@ import pandas as pd
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import seaborn as sns
+from matplotlib.figure import Figure
 
 from heartshift.data.uci import sha256_file
 from heartshift.metrics import balanced_log_loss
@@ -65,7 +66,7 @@ def _label(method: str) -> str:
     return method.replace("classical:", "").replace("modern_2026:", "")
 
 
-def _save_figure(figure: plt.Figure, output_dir: Path, stem: str) -> list[Path]:
+def _save_figure(figure: Figure, output_dir: Path, stem: str) -> list[Path]:
     paths = [output_dir / f"{stem}.png", output_dir / f"{stem}.pdf"]
     figure.savefig(paths[0], dpi=220, bbox_inches="tight")
     figure.savefig(paths[1], bbox_inches="tight")

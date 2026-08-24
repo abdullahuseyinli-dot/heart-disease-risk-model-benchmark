@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark/schemas/final_release_gate_report.schema.json",
+  "title": "HeartShift final release gate report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "record_kind", "mode", "candidate_commit", "created_at_utc", "version", "workflow_url", "gates", "status", "record_sha256"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_kind": {"const": "final_release_gate_report"},
+    "mode": {"enum": ["candidate_attestation", "completed_remote_attestation"]},
+    "candidate_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "created_at_utc": {"type": "string", "format": "date-time"},
+    "version": {"type": "string", "minLength": 1},
+    "workflow_url": {"type": ["string", "null"], "format": "uri"},
+    "gates": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["status", "evidence"],
+        "properties": {
+          "status": {"enum": ["pass", "fail", "not_run"]},
+          "evidence": {
+            "oneOf": [
+              {"type": "null"},
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["path", "sha256", "size_bytes"],
+                "properties": {
+                  "path": {"type": "string"},
+                  "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+                  "size_bytes": {"type": "integer", "minimum": 0}
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "status": {"enum": ["pass", "fail", "pending_remote_ci"]},
+    "record_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"mode": {"const": "candidate_attestation"}}},
+      "then": {
+        "properties": {
+          "workflow_url": {"type": "null"},
+          "status": {"enum": ["pending_remote_ci", "fail"]}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"mode": {"const": "completed_remote_attestation"}}},
+      "then": {
+        "properties": {
+          "workflow_url": {"type": "string", "format": "uri"},
+          "status": {"enum": ["pass", "fail"]}
+        }
+      }
+    }
+  ]
+}

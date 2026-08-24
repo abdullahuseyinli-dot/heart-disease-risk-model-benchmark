@@ -1,0 +1,23 @@
+{
+  "columns": [
+    {"logical_type": "string", "name": "method", "nullable": false, "role": "fully_qualified_method"},
+    {"logical_type": "float64", "name": "macro_site_worst_mask_balanced_log_loss", "nullable": false, "role": "primary_estimand"},
+    {"logical_type": "float64", "name": "worst_site_mask_balanced_log_loss", "nullable": false, "role": "stress_estimand"},
+    {"logical_type": "float64", "name": "macro_site_worst_mask_balanced_brier", "nullable": false, "role": "calibration_estimand"},
+    {"logical_type": "float64", "name": "macro_site_worst_mask_aurc", "nullable": false, "role": "selective_prediction_estimand"},
+    {"logical_type": "float64", "name": "macro_natural_roc_auc", "nullable": false, "role": "natural_policy_discrimination"},
+    {"logical_type": "float64", "name": "macro_mcar_balanced_log_loss_auc", "nullable": false, "role": "missingness_curve_estimand"},
+    {"logical_type": "float64", "name": "macro_mcar50_minus_natural_balanced_log_loss", "nullable": false, "role": "missingness_degradation_estimand"}
+  ],
+  "contract_id": "heart-outer-primary-estimands-v1",
+  "primary_key": ["method"],
+  "record_kind": "metric_table_contract",
+  "record_sha256": "aca4162beb529c76fe66692c64ba6afb9ca667229ccf533cff472be6ef3a7866",
+  "schema_version": "1.0.0",
+  "table_format": "csv",
+  "uncertainty": {
+    "method": "paired patient-within-hospital bootstrap",
+    "scope": "Conditional on the four observed historical hospitals and fitted models.",
+    "unit": "patient within held-out hospital"
+  }
+}

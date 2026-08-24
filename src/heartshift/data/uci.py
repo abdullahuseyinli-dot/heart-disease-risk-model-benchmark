@@ -3,13 +3,18 @@
 from __future__ import annotations
 
 import hashlib
-import json
 from collections.abc import Iterable
 from pathlib import Path
 from typing import Any
 
 import numpy as np
 import pandas as pd
+
+from heartshift.immutable import (
+    preflight_create_only,
+    write_json_create_only,
+    write_parquet_create_only,
+)
 
 SCHEMA_VERSION = "uci-heart-canonical-v1"
 UCI_DOI = "10.24432/C52P4X"
@@ -222,24 +227,24 @@ def prepare_uci_heart(repo_root: Path) -> dict[str, Path]:
     processed_dir = repo_root / "data" / "processed"
     manifests_dir = repo_root / "data" / "manifests"
     splits_dir = repo_root / "data" / "splits"
-    for directory in (processed_dir, manifests_dir, splits_dir):
-        directory.mkdir(parents=True, exist_ok=True)
-
     canonical_path = processed_dir / "uci_heart_canonical_v1.parquet"
     profile_path = processed_dir / "uci_heart_profile_v1.json"
     raw_manifest_path = manifests_dir / "uci_heart_raw_manifest_v1.json"
     outer_path = splits_dir / "uci_heart_outer_loho_v1.parquet"
     inner_path = splits_dir / "uci_heart_inner_loho_v1.parquet"
+    split_json = splits_dir / "uci_heart_loho_v2.json"
 
-    data.to_parquet(canonical_path, index=False)
+    preflight_create_only(
+        (canonical_path, profile_path, raw_manifest_path, outer_path, inner_path, split_json)
+    )
+
+    write_parquet_create_only(canonical_path, data)
     profile = build_profile(data)
     profile["canonical_sha256"] = sha256_file(canonical_path)
-    profile_path.write_text(json.dumps(profile, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    raw_manifest_path.write_text(
-        json.dumps(_raw_manifest(raw_root), indent=2, sort_keys=True) + "\n", encoding="utf-8"
-    )
-    build_outer_manifest(data).to_parquet(outer_path, index=False)
-    build_inner_manifest(data).to_parquet(inner_path, index=False)
+    write_json_create_only(profile_path, profile)
+    write_json_create_only(raw_manifest_path, _raw_manifest(raw_root))
+    write_parquet_create_only(outer_path, build_outer_manifest(data))
+    write_parquet_create_only(inner_path, build_inner_manifest(data))
 
     split_manifest = {
         "schema_version": "heartshift-split-manifest-v2",
@@ -254,10 +259,7 @@ def prepare_uci_heart(repo_root: Path) -> dict[str, Path]:
         },
         "rule": "outer leave-one-hospital-out; inner leave-one-source-hospital-out",
     }
-    split_json = splits_dir / "uci_heart_loho_v2.json"
-    split_json.write_text(
-        json.dumps(split_manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-    )
+    write_json_create_only(split_json, split_manifest)
     return {
         "canonical": canonical_path,
         "profile": profile_path,

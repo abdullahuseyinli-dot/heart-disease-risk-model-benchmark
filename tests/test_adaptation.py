@@ -99,14 +99,9 @@ def test_multiview_diagnostic_accepts_empirical_mixture_and_rejects_core_shift()
     target_evidence = source_evidence[target_indices]
     target_core = source_core[target_indices]
     target_mask = source_mask[target_indices]
-    common = {
-        "source_sample_ids": [f"source-{index}" for index in range(len(source_labels))],
-        "target_sample_ids": [f"target-{index}" for index in range(len(target_labels))],
-        "prior_grid": [0.55, 0.65, 0.75, 0.85, 0.95],
-        "bootstrap_repetitions": 99,
-        "rff_features_per_view": 64,
-        "seed": 17,
-    }
+    source_ids = [f"source-{index}" for index in range(len(source_labels))]
+    target_ids = [f"target-{index}" for index in range(len(target_labels))]
+    prior_grid = [0.55, 0.65, 0.75, 0.85, 0.95]
     accepted = acquisition_aware_label_shift_diagnostic(
         source_evidence,
         source_labels,
@@ -115,7 +110,12 @@ def test_multiview_diagnostic_accepts_empirical_mixture_and_rejects_core_shift()
         target_evidence,
         target_core,
         target_mask,
-        **common,
+        source_sample_ids=source_ids,
+        target_sample_ids=target_ids,
+        prior_grid=prior_grid,
+        bootstrap_repetitions=99,
+        rff_features_per_view=64,
+        seed=17,
     )
     shifted_core = target_core.copy()
     shifted_core[:, 0] += 6.0
@@ -127,7 +127,12 @@ def test_multiview_diagnostic_accepts_empirical_mixture_and_rejects_core_shift()
         target_evidence,
         shifted_core,
         target_mask,
-        **common,
+        source_sample_ids=source_ids,
+        target_sample_ids=target_ids,
+        prior_grid=prior_grid,
+        bootstrap_repetitions=99,
+        rff_features_per_view=64,
+        seed=17,
     )
     assert accepted.accepted
     assert accepted.mask_support.passed

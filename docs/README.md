@@ -10,7 +10,12 @@ status under which each result was produced.
 - [Project status](PROJECT_STATUS.md): current evidence classes and completed evaluations.
 - [Installation and verification](USAGE.md): lightweight checkout and complete evidence audit.
 - [Method specification](METHOD_SPECIFICATION.md): mathematical definitions and controlled ablations.
+- [Architecture](ARCHITECTURE.md): package boundaries, trust boundaries, and extension contract.
 - [Artifact storage](ARTIFACTS.md): Git LFS, archive tiers, and integrity checks.
+- [Data acquisition runbook](DATA_ACQUISITION_RUNBOOK.md): manifest verification and create-only reconstruction.
+- [Hardware profiles](HARDWARE.md): privacy-safe execution environment and dependency profiles.
+- [Release evidence gate](RELEASE_EVIDENCE_GATE.md): exact-candidate attestations and inventory.
+- [Versioning](VERSIONING.md): software, evidence, tags, releases, and DOI boundaries.
 
 ## Results
 
@@ -26,6 +31,7 @@ status under which each result was produced.
 - [Model card](MODEL_CARD.md)
 - [Reporting and bias-audit checklist](REPORTING_CHECKLIST.md)
 - [Publication and claim guide](PUBLICATION_ROUTE.md)
+- [Manuscript outline and claim crosswalk](../paper/README.md)
 
 ## Frozen study records
 

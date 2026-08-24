@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark/schemas/acquisition_receipt.schema.json",
+  "title": "HeartShift dataset acquisition receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "record_kind", "receipt_id", "dataset_id", "created_at_utc", "manifest", "artifacts", "network_explicitly_enabled", "status", "record_sha256"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_kind": {"const": "acquisition_receipt"},
+    "receipt_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]+$"},
+    "dataset_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]+$"},
+    "created_at_utc": {"type": "string", "format": "date-time"},
+    "manifest": {"$ref": "#/$defs/binding"},
+    "artifacts": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/artifact"}},
+    "network_explicitly_enabled": {"type": "boolean"},
+    "failure": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["exception_type", "message", "preserved_partial_path"],
+      "properties": {
+        "exception_type": {"type": "string", "minLength": 1},
+        "message": {"type": "string", "minLength": 1},
+        "preserved_partial_path": {"type": ["string", "null"], "pattern": "^(?![A-Za-z]:|/|.*\\.\\.).+"}
+      }
+    },
+    "status": {"enum": ["complete", "failed"]},
+    "record_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "$defs": {
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "size_bytes"],
+      "properties": {
+        "path": {"type": "string", "pattern": "^(?![A-Za-z]:|/|.*\\.\\.).+"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "size_bytes": {"type": "integer", "minimum": 1}
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_id", "path", "status", "sha256", "size_bytes"],
+      "properties": {
+        "artifact_id": {"type": "string", "minLength": 1},
+        "path": {"type": "string", "pattern": "^(?![A-Za-z]:|/|.*\\.\\.).+"},
+        "status": {"enum": ["verified", "missing", "mismatch"]},
+        "sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "size_bytes": {"type": ["integer", "null"], "minimum": 0}
+      }
+    }
+  }
+}
