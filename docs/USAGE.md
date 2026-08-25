@@ -30,7 +30,8 @@ uv sync --locked --extra dev --extra reporting --extra neural-cpu
 Run the portable quality gate:
 
 ```powershell
-uv run pytest -q --cov=heartshift --cov-report=term-missing
+uv run pytest -q -m "not full_evidence" --cov=heartshift `
+  --cov-config=configs/coverage/source-only.coveragerc --cov-report=term-missing
 uv run ruff check src tests tools
 uv run ruff format --check src tests tools
 uv run mypy
@@ -44,7 +45,11 @@ uv run python tools/smoke_install_distribution.py
 
 These commands exercise package behavior, static checks, public documentation,
 licensing markers, the archived compact benchmark record, and the wheel/sdist
-boundary. They do not assert that large prediction objects are present.
+boundary. Contract validation in this profile checks schemas and self-hashes;
+it does not assert that large bound prediction objects are materialized. The
+source-only profile excludes only the full-LFS validator and publication-figure
+module and enforces a 54% floor; the complete-evidence profile measures those
+modules and retains the 55% floor.
 
 ## Evidence checkout
 
@@ -60,6 +65,8 @@ Fetch and verify the complete preserved evidence store:
 git lfs pull
 git lfs fsck
 uv run heartshift validate --repo-root .
+uv run heartshift contracts validate --repo-root . --verify-bindings
+uv run pytest -q --cov=heartshift --cov-report=term-missing
 ```
 
 The complete checkout is several gigabytes. Missing LFS objects are a failed

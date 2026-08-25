@@ -248,9 +248,6 @@ def acquire_dataset_manifest(
             validate_document(receipt, repo_root / "configs/schema/acquisition_receipt.schema.json")
             write_json_create_only(receipt_path, receipt)
         return results
-    if not allow_network or os.environ.get("HEARTSHIFT_OFFLINE") == "1":
-        raise AcquisitionError("network acquisition is disabled; pass --allow-network explicitly")
-
     destinations = [
         _repository_path(repo_root, str(artifact["storage_path"])) for artifact in absent
     ]
@@ -258,6 +255,8 @@ def acquire_dataset_manifest(
     if receipt_path is not None:
         publication_targets.append(receipt_path)
     preflight_create_only(publication_targets)
+    if not allow_network or os.environ.get("HEARTSHIFT_OFFLINE") == "1":
+        raise AcquisitionError("network acquisition is disabled; pass --allow-network explicitly")
     staged: Path | None = None
     try:
         for artifact, destination in zip(absent, destinations, strict=True):

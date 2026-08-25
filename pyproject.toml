@@ -172,6 +172,9 @@ conflicts = [
 [tool.pytest.ini_options]
 addopts = "-ra --strict-config --strict-markers"
 testpaths = ["tests"]
+markers = [
+  "full_evidence: requires materialized Git LFS evidence and validates frozen artifacts",
+]
 
 [tool.coverage.run]
 source = ["heartshift"]

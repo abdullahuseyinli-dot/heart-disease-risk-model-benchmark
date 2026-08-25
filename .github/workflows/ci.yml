@@ -60,7 +60,10 @@ jobs:
         run: uv run python -m compileall -q src scripts tools
 
       - name: Run tests
-        run: uv run pytest -q --cov=heartshift --cov-report=term-missing --cov-report=xml
+        run: >-
+          uv run pytest -q -m "not full_evidence" --cov=heartshift
+          --cov-config=configs/coverage/source-only.coveragerc
+          --cov-report=term-missing --cov-report=xml
 
       - name: Lint
         run: uv run ruff check src tests tools

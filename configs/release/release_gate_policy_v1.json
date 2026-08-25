@@ -32,6 +32,7 @@
     "benchmark_card": "docs/BENCHMARK_CARD.md",
     "changelog": "CHANGELOG.md",
     "citation": "CITATION.cff",
+    "coverage_source_profile": "configs/coverage/source-only.coveragerc",
     "dataset_card": "docs/DATA_CARD.md",
     "dataset_eicu_manifest": "manifests/datasets/eicu_crd_demo_v2.0.1.json",
     "dataset_heart_manifest": "manifests/datasets/uci_heart_v1.json",

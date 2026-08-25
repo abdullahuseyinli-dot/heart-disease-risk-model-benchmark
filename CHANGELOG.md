@@ -48,3 +48,5 @@ release or archive DOI is claimed here.
 - Split optional dependencies into reporting, classical, foundation-model,
   CPU-neural, and CUDA-neural profiles and made the two PyTorch profiles
   mutually exclusive.
+- Split source-only and full-LFS test profiles while requiring both the remote
+  candidate gate and full-evidence audit before a completed release attestation.

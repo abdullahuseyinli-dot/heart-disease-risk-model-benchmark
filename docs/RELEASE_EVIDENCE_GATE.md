@@ -31,33 +31,43 @@ uv run heartshift release assemble `
 
 ## Stage B: completed remote attestation
 
-After the exact candidate's remote CI run succeeds, its externally retrieved
-workflow evidence is hash-bound as the `remote_ci` gate. A completed report
-requires an HTTPS workflow URL, every Stage A gate, the remote-CI gate, matching
-candidate commits, valid self-hashes, and matching evidence hashes. Only this
-mode can have status `pass`.
+After the exact candidate's release-candidate and full-evidence workflows
+succeed, their externally retrieved API responses are hash-bound as the
+`remote_ci` and `full_evidence` gates. A completed report requires every Stage A
+gate, both remote gates, matching candidate commits, valid self-hashes, and
+matching evidence hashes. Only this mode can have status `pass`.
 
 The remote evidence is the GitHub Actions workflow-run API response. The gate
-checks its run ID, canonical workflow URL, repository, completed/successful
-state, and `head_sha` against the candidate; a generic log or locally written
-success flag is not accepted. A passing gate always requires a non-empty,
-hash-bound evidence file. The declared release version is also read from the
-candidate's own `pyproject.toml` rather than trusted from a command argument.
+checks each run ID, canonical workflow URL, repository, workflow path,
+completed/successful state, and `head_sha` against the candidate. The
+`remote_ci` record must name `release-security.yml`; `full_evidence` must name
+`evidence.yml`. A generic log or locally written success flag is not accepted.
+A passing gate always requires a non-empty, hash-bound evidence file. The
+declared release version is also read from the candidate's own
+`pyproject.toml` rather than trusted from a command argument.
 
 For a successful run, retrieve and bind the API response before assembling the
 completed report (all output paths are create-only):
 
 ```powershell
-$runId = "123456789"
-$workflowUrl = "https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark/actions/runs/$runId"
-$remoteEvidence = ".audit/release/$commit/github-workflow-run-$runId.json"
-gh api "repos/abdullahuseyinli-dot/heart-disease-risk-model-benchmark/actions/runs/$runId" |
-  Set-Content -LiteralPath $remoteEvidence -Encoding utf8NoBOM
+$releaseRunId = "123456789"
+$evidenceRunId = "123456790"
+$workflowUrl = "https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark/actions/runs/$releaseRunId"
+$releaseEvidence = ".audit/release/$commit/github-release-run-$releaseRunId.json"
+$fullEvidence = ".audit/release/$commit/github-evidence-run-$evidenceRunId.json"
+gh api "repos/abdullahuseyinli-dot/heart-disease-risk-model-benchmark/actions/runs/$releaseRunId" |
+  Set-Content -LiteralPath $releaseEvidence -Encoding utf8NoBOM
+gh api "repos/abdullahuseyinli-dot/heart-disease-risk-model-benchmark/actions/runs/$evidenceRunId" |
+  Set-Content -LiteralPath $fullEvidence -Encoding utf8NoBOM
 
 uv run heartshift release record-gate `
   --candidate $commit --gate remote_ci --status pass `
-  --evidence $remoteEvidence `
+  --evidence $releaseEvidence `
   --output ".audit/release/$commit/remote_ci.status.json"
+uv run heartshift release record-gate `
+  --candidate $commit --gate full_evidence --status pass `
+  --evidence $fullEvidence `
+  --output ".audit/release/$commit/full_evidence.status.json"
 
 uv run heartshift release assemble `
   --candidate $commit --version 0.1.0 `

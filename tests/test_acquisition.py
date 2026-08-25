@@ -118,6 +118,7 @@ def test_acquire_is_explicit_verified_and_create_only(
     root, manifest_path = _manifest_repository(tmp_path, payload)
     with pytest.raises(AcquisitionError, match="disabled"):
         acquire_dataset_manifest(root, manifest_path, allow_network=False)
+    monkeypatch.delenv("HEARTSHIFT_OFFLINE", raising=False)
 
     def fake_download(
         url: str,
@@ -159,6 +160,7 @@ def test_acquire_preserves_bad_partial(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     root, manifest_path = _manifest_repository(tmp_path)
+    monkeypatch.delenv("HEARTSHIFT_OFFLINE", raising=False)
 
     def corrupt_download(
         _url: str,

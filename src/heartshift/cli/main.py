@@ -8,7 +8,11 @@ from pathlib import Path
 
 from heartshift import __version__
 from heartshift.cli.validate import validate_repository
-from heartshift.contracts import validate_contract_file, validate_contract_repository
+from heartshift.contracts import (
+    validate_contract_file,
+    validate_contract_repository,
+    validate_record_bindings,
+)
 from heartshift.data.acquisition import (
     acquire_dataset_manifest,
     verification_as_dict,
@@ -46,6 +50,11 @@ def build_parser() -> argparse.ArgumentParser:
     contract_validate = contract_commands.add_parser("validate", help="validate contract records")
     _repo_argument(contract_validate)
     contract_validate.add_argument("--path", type=Path)
+    contract_validate.add_argument(
+        "--verify-bindings",
+        action="store_true",
+        help="also verify every bound file byte count and SHA-256 (requires Git LFS)",
+    )
 
     methods = commands.add_parser("methods", help="inspect the typed method registry")
     method_commands = methods.add_subparsers(dest="method_command", required=True)
@@ -112,7 +121,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 def _validate(repo_root: Path) -> None:
     validate_repository(repo_root)
-    validate_contract_repository(repo_root)
+    validate_contract_repository(repo_root, verify_bindings=True)
     load_method_registry(repo_root)
     validate_release_policy(repo_root, repo_root / "configs/release/release_gate_policy_v1.json")
     for manifest in sorted((repo_root / "manifests/datasets").glob("*.json")):
@@ -121,12 +130,25 @@ def _validate(repo_root: Path) -> None:
 
 def _run_contracts(args: argparse.Namespace, repo_root: Path) -> None:
     if args.path is None:
-        paths = validate_contract_repository(repo_root)
+        paths = validate_contract_repository(
+            repo_root,
+            verify_bindings=bool(args.verify_bindings),
+        )
     else:
         path = _path(repo_root, args.path)
-        validate_contract_file(repo_root, path)
+        payload = validate_contract_file(repo_root, path)
+        if args.verify_bindings:
+            validate_record_bindings(repo_root, payload)
         paths = [path]
-    print(json.dumps({"status": "pass", "validated": [str(path) for path in paths]}))
+    print(
+        json.dumps(
+            {
+                "status": "pass",
+                "bindings_verified": bool(args.verify_bindings),
+                "validated": [str(path) for path in paths],
+            }
+        )
+    )
 
 
 def _run_methods(args: argparse.Namespace, repo_root: Path) -> None:

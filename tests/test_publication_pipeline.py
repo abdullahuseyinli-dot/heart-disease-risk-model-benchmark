@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
 from heartshift.config import load_yaml
 from heartshift.data.uci import sha256_file
 from heartshift.reporting.publication_figures import build_publication_figures
@@ -10,6 +12,7 @@ from heartshift.reporting.publication_figures import build_publication_figures
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
 
+@pytest.mark.full_evidence
 def test_publication_figures_reconstruct_with_hashed_plot_data(tmp_path: Path) -> None:
     config = load_yaml(REPO_ROOT / "configs/reporting/publication_figures_v2.yaml")
     output = tmp_path / "publication-figures"

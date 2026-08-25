@@ -20,7 +20,7 @@ official source -> raw manifest -> create-only canonicalization -> split contrac
 | Selection | Preprocessing, model choice, early stopping, calibration, thresholds, and auditors use source folds only. |
 | Adaptation | Zero-shot, unlabelled-target, and labelled-target tracks are separate. Target labels never enter an unlabelled track. |
 | Reporting | Aggregates are reconstructed from immutable rows keyed by `sample_id`; report sidecars bind every input and headline table by hash. |
-| Release | The exact Git commit is scanned. A final inventory is impossible until an independently completed remote-CI attestation passes. |
+| Release | The exact Git commit is scanned. A final inventory is impossible until both the remote candidate-gate run and full-LFS evidence audit pass for that commit. |
 
 ## Package map
 

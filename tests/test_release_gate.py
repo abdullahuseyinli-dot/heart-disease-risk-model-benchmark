@@ -156,6 +156,7 @@ def test_two_stage_gate_and_inventory_are_candidate_bound(tmp_path: Path) -> Non
                 "status": "completed",
                 "conclusion": "success",
                 "html_url": "https://github.com/example/project/actions/runs/1",
+                "path": ".github/workflows/release-security.yml",
                 "run_attempt": 1,
                 "repository": {"full_name": "example/project"},
             }
@@ -169,6 +170,30 @@ def test_two_stage_gate_and_inventory_are_candidate_bound(tmp_path: Path) -> Non
         status="pass",
         evidence_path=remote_log,
         output_path=audit / "remote_ci.status.json",
+    )
+    full_evidence_log = audit / "full-evidence.json"
+    full_evidence_log.write_text(
+        json.dumps(
+            {
+                "id": 2,
+                "head_sha": candidate,
+                "status": "completed",
+                "conclusion": "success",
+                "html_url": "https://github.com/example/project/actions/runs/2",
+                "path": ".github/workflows/evidence.yml",
+                "run_attempt": 1,
+                "repository": {"full_name": "example/project"},
+            }
+        ),
+        encoding="utf-8",
+    )
+    record_gate_status(
+        root,
+        candidate=candidate,
+        gate="full_evidence",
+        status="pass",
+        evidence_path=full_evidence_log,
+        output_path=audit / "full_evidence.status.json",
     )
     completed_path = audit / "completed-attestation.json"
     completed = assemble_release_gate_report(

@@ -1,0 +1,10 @@
+[run]
+source = heartshift
+omit =
+    src/heartshift/cli/validate.py
+    src/heartshift/reporting/publication_figures.py
+
+[report]
+fail_under = 54
+show_missing = true
+skip_covered = true

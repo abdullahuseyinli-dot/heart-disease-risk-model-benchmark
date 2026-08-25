@@ -225,8 +225,12 @@ def iter_contract_files(repo_root: Path) -> list[Path]:
     return sorted(path for root in roots if root.is_dir() for path in root.glob("*.json"))
 
 
-def validate_contract_repository(repo_root: Path) -> list[Path]:
-    """Validate every schema and every tracked release-facing contract."""
+def validate_contract_repository(
+    repo_root: Path,
+    *,
+    verify_bindings: bool = False,
+) -> list[Path]:
+    """Validate every schema and contract, optionally materialized evidence bytes."""
     schema_root = repo_root / "configs" / "schema"
     schema_paths = sorted(schema_root.glob("*.schema.json"))
     if not schema_paths:
@@ -238,5 +242,6 @@ def validate_contract_repository(repo_root: Path) -> list[Path]:
         raise ContractError("no release-facing contract records were found")
     for path in contract_paths:
         payload = validate_contract_file(repo_root, path)
-        validate_record_bindings(repo_root, payload)
+        if verify_bindings:
+            validate_record_bindings(repo_root, payload)
     return contract_paths

@@ -111,8 +111,11 @@ def validate_release_policy(repo_root: Path, path: Path) -> dict[str, Any]:
     role_paths = [str(value) for value in dict(policy["required_roles"]).values()]
     if len(role_paths) != len(set(role_paths)):
         raise ReleaseGateError("required release roles must map to unique paths")
-    if "remote_ci" in policy["required_gates"]:
-        raise ReleaseGateError("remote_ci is reserved for completed remote attestations")
+    reserved_remote_gates = {"remote_ci", "full_evidence"}
+    if reserved_remote_gates.intersection(policy["required_gates"]):
+        raise ReleaseGateError(
+            "remote_ci and full_evidence are reserved for completed remote attestations"
+        )
     return policy
 
 
@@ -487,27 +490,32 @@ def _validate_candidate_tree_gate(
         raise ReleaseGateError("candidate_tree gate does not bind a passing exact-policy scan")
 
 
-def _validate_remote_ci_gate(
+def _validate_remote_workflow_gate(
     repo_root: Path,
     record: Mapping[str, Any],
     *,
+    gate: str,
     candidate: str,
-    workflow_url: str,
+    expected_workflow_path: str,
+    workflow_url: str | None = None,
 ) -> None:
-    match = GITHUB_WORKFLOW_URL.fullmatch(workflow_url)
-    if match is None:
-        raise ReleaseGateError("completed attestation requires a canonical GitHub workflow URL")
-    evidence_path = _gate_evidence_file(repo_root, record, gate="remote_ci")
+    evidence_path = _gate_evidence_file(repo_root, record, gate=gate)
     evidence = load_json(evidence_path)
     validate_document(evidence, repo_root / "configs/schema/github_workflow_run.schema.json")
+    observed_url = str(evidence["html_url"])
+    if workflow_url is not None and observed_url != workflow_url:
+        raise ReleaseGateError(f"{gate} evidence URL does not match the declared workflow URL")
+    match = GITHUB_WORKFLOW_URL.fullmatch(observed_url)
+    if match is None:
+        raise ReleaseGateError(f"{gate} evidence has no canonical GitHub workflow URL")
     expected_repository = f"{match.group('owner')}/{match.group('repository')}"
     if (
         evidence["head_sha"] != candidate
-        or evidence["html_url"] != workflow_url
         or int(evidence["id"]) != int(match.group("run_id"))
+        or evidence["path"] != expected_workflow_path
         or str(evidence["repository"]["full_name"]).casefold() != expected_repository.casefold()
     ):
-        raise ReleaseGateError("remote_ci evidence does not match the candidate workflow run")
+        raise ReleaseGateError(f"{gate} evidence does not match the candidate workflow run")
 
 
 def assemble_release_gate_report(
@@ -535,7 +543,7 @@ def assemble_release_gate_report(
     if mode == "completed_remote_attestation":
         if workflow_url is None or GITHUB_WORKFLOW_URL.fullmatch(workflow_url) is None:
             raise ReleaseGateError("completed attestation requires a canonical GitHub workflow URL")
-        required.append("remote_ci")
+        required.extend(("remote_ci", "full_evidence"))
     gates: dict[str, dict[str, object]] = {}
     for gate in required:
         path = status_directory / f"{gate}.status.json"
@@ -551,14 +559,20 @@ def assemble_release_gate_report(
                 policy_relative=policy_relative,
                 policy_sha256=policy_sha256,
             )
-        if gate == "remote_ci" and record["status"] == "pass":
+        if gate in {"remote_ci", "full_evidence"} and record["status"] == "pass":
             if workflow_url is None:
-                raise ReleaseGateError("remote_ci evidence requires a workflow URL")
-            _validate_remote_ci_gate(
+                raise ReleaseGateError("remote workflow evidence requires a workflow URL")
+            _validate_remote_workflow_gate(
                 repo_root,
                 record,
+                gate=gate,
                 candidate=resolved,
-                workflow_url=workflow_url,
+                expected_workflow_path=(
+                    ".github/workflows/release-security.yml"
+                    if gate == "remote_ci"
+                    else ".github/workflows/evidence.yml"
+                ),
+                workflow_url=workflow_url if gate == "remote_ci" else None,
             )
         gates[gate] = {"status": record["status"], "evidence": record["evidence"]}
     all_pass = all(value["status"] == "pass" for value in gates.values())

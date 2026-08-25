@@ -30,8 +30,9 @@ from heartshift.registry import load_method_registry
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
 
+@pytest.mark.full_evidence
 def test_repository_contracts_bind_real_evidence() -> None:
-    paths = validate_contract_repository(REPO_ROOT)
+    paths = validate_contract_repository(REPO_ROOT, verify_bindings=True)
     assert len(paths) == 9
     assert any(path.name == "heart_outer_v5_report_v1.json" for path in paths)
 

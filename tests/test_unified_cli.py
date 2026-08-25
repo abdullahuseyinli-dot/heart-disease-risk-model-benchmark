@@ -80,6 +80,7 @@ def test_unified_cli_version(
     assert "HeartShift 0.1.0" in capsys.readouterr().out
 
 
+@pytest.mark.full_evidence
 def test_unified_cli_complete_validation(
     monkeypatch: pytest.MonkeyPatch,
     capsys: pytest.CaptureFixture[str],

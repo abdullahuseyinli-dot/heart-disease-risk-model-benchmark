@@ -34,6 +34,7 @@ REQUIRED_FILES = (
     "docs/legacy/LEGACY_BENCHMARK.md",
     "configs/research/method_registry_v2.yaml",
     "configs/research/method_registry_v3.yaml",
+    "configs/coverage/source-only.coveragerc",
     "configs/release/release_gate_policy_v1.json",
     "configs/schema/release_gate_policy.schema.json",
     "manifests/datasets/uci_heart_v1.json",
