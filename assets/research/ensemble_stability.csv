@@ -1,0 +1,11 @@
+experiment,label,three_seed_bll,ten_seed_bll,evidence_scope
+v0_pooled_erm,V0 pooled ERM,0.6477786383237008,0.6391197060589282,post_outcome_sensitivity
+v1_site_balanced,V1 site balanced,0.6807228543773371,0.6864558389061186,post_outcome_sensitivity
+v2_prior_separated,V2 prior separated,0.6025088335421755,0.6034340659455871,post_outcome_sensitivity
+v3_mcar_augmentation,V3 MCAR augmentation,0.6159557678546476,0.6065472056758565,post_outcome_sensitivity
+v4_structured_policy_bank,V4 structured policies,0.6180713536874614,0.6004580840476486,post_outcome_sensitivity
+v5_site_only_dro,V5 site-axis DRO,0.6405003449640447,0.6270009541614281,post_outcome_sensitivity
+v5_mask_only_dro,V5 mask-axis DRO,0.6259485409171809,0.6111895905602818,post_outcome_sensitivity
+v5_site_mask_dro,V5 joint DRO,0.624153283791868,0.6221193337568891,post_outcome_sensitivity
+v5_site_mask_dro_brier,V5 joint DRO + Brier,0.6164417529017989,0.6108123393969767,post_outcome_sensitivity
+v7_ane,V7 acquisition-neutral evidence,0.6261495073598315,0.6225038562946512,post_outcome_sensitivity

@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0.0",
+  "scope": "presentation_of_existing_evidence_no_new_fits",
+  "generator": "tools/plot_research_overview.py",
+  "sources": [
+    {
+      "path": "artifacts/reports/historical-psmask-ten-seed-sensitivity-v2-stability/three_vs_ten_seed_comparison.csv",
+      "sha256": "e9892d9704cc2e25980fc50dae5c6ea1b6483a75d0b9f3b51752a42d7df9652f"
+    },
+    {
+      "path": "artifacts/reports/historical-psmask-ten-seed-sensitivity-v2-stability/primary_estimands.csv",
+      "sha256": "2f3e25a23b150aede5f6fce10fa4b019718db35f9c8cc88d4df0acdbe35ab2b5"
+    },
+    {
+      "path": "artifacts/reports/historical-psmask-ten-seed-sensitivity-v2-stability/paired_bootstrap_intervals.csv",
+      "sha256": "c28868384e0c3095331320cdd478eeb748ea06118ab1a3f1c0a0610b247a2749"
+    },
+    {
+      "path": "artifacts/reports/historical-psmask-ten-seed-sensitivity-v2-stability/posthoc_multiplicity_sensitivity.csv",
+      "sha256": "d67ddcfea4e289d68a144b7a21b266d59d96266016c4b52be27423730d9455f8"
+    },
+    {
+      "path": "artifacts/reports/shiftguard-revisions-v3-final-development/revision_comparison.csv",
+      "sha256": "55dda06a42f426b157fb7a1c15b0bb038cac47f51e5743f7a7ca33684003f164"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "assets/research/ensemble_stability.csv",
+      "sha256": "71309a1499375bc9c67bdc6c160417438c6068d9919156a16666b13c1347046f"
+    },
+    {
+      "path": "assets/research/ensemble_stability.png",
+      "sha256": "dd62260cb24a94e6bf1ed3b66180d4dc957c6428595c8e47802764ad761fb23b"
+    },
+    {
+      "path": "assets/research/ensemble_stability.svg",
+      "sha256": "0ba256cf91961b566200f398d620c3106fa24859ae7ec0d5d1262273862fca2f"
+    },
+    {
+      "path": "assets/research/shiftguard_revision_limits.csv",
+      "sha256": "55dda06a42f426b157fb7a1c15b0bb038cac47f51e5743f7a7ca33684003f164"
+    },
+    {
+      "path": "assets/research/shiftguard_revision_limits.png",
+      "sha256": "37dfe44292e7c5623f229957d67686adfa095c73d276bb5c36fdcbef4b58392f"
+    },
+    {
+      "path": "assets/research/shiftguard_revision_limits.svg",
+      "sha256": "f338d38fa1ba72646c3af41e7d3371f9f8959ffeaae309cbdc0d2ab6bbf48806"
+    },
+    {
+      "path": "assets/research/v4_interval_context.csv",
+      "sha256": "6445ada1ae2ebdd034538c44142a4c0d617275d0c1512571a9166fe76860894d"
+    }
+  ]
+}

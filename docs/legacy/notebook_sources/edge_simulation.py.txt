@@ -1,0 +1,460 @@
+# Archived coursework notebook source; NOT an executable reproduction recipe.
+# Extracted 2026-09-20. Outputs and notebook metadata stay in the local original.
+# Notebook magics and cell order are retained; workstation paths are redacted.
+# See ../COURSEWORK_PROVENANCE.md for limitations and original hashes.
+
+# Cell 0; original execution count: 1
+from google.colab import files
+
+# Upload lgbm_deployment_bundle.joblib from your local machine
+uploaded = files.upload()  # choose lgbm_deployment_bundle.joblib
+
+
+# Cell 1; original execution count: 2
+import os
+os.makedirs("deployment_bundle", exist_ok=True)
+os.rename("lgbm_deployment_bundle.joblib",
+          "deployment_bundle/lgbm_deployment_bundle.joblib")
+
+
+# Cell 2; original execution count: 3
+!pip install fastapi uvicorn[standard] pandas numpy scikit-learn lightgbm joblib shap requests
+
+
+# Cell 3; original execution count: 4
+import uvicorn
+from threading import Thread
+
+def run_app():
+    uvicorn.run(
+        "inference_service:app",
+        host="0.0.0.0",
+        port=8000,
+        reload=False,
+        log_level="info",
+    )
+
+# Start the server in a background thread
+server_thread = Thread(target=run_app, daemon=True)
+server_thread.start()
+
+
+# Cell 4; original execution count: 5
+%%writefile inference_service.py
+from pathlib import Path
+from typing import Dict, List
+
+import joblib
+import numpy as np
+import pandas as pd
+import shap
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+
+# -------------------------------------------------------------------
+# 0. Load deployment bundle (model + feature names)
+# -------------------------------------------------------------------
+
+BUNDLE_PATH = Path("deployment_bundle") / "lgbm_deployment_bundle.joblib"
+if not BUNDLE_PATH.exists():
+    raise RuntimeError(f"Bundle not found at {BUNDLE_PATH}")
+
+bundle = joblib.load(BUNDLE_PATH)
+
+# Saved from your notebook as {"pipeline": lgb_final, "feature_names": ...}
+MODEL = bundle["pipeline"]
+FEATURE_NAMES = bundle["feature_names"]
+
+# Optional: force single-thread for nicer latency analysis
+try:
+    MODEL.set_params(n_jobs=1)
+except Exception:
+    pass
+
+# SHAP explainer for LightGBM model
+EXPLAINER = shap.TreeExplainer(MODEL)
+
+THRESHOLD = 0.30  # use your chosen decision threshold
+
+
+# -------------------------------------------------------------------
+# 1. FastAPI setup
+# -------------------------------------------------------------------
+
+app = FastAPI(
+    title="Heart Disease Risk API",
+    description="LightGBM-based risk prediction with optional SHAP explanations.",
+    version="1.0.0",
+)
+
+
+class PredictRequest(BaseModel):
+    features: Dict[str, float]
+
+
+class PredictionResponse(BaseModel):
+    probability: float
+    label: int
+
+
+class SHAPFeature(BaseModel):
+    feature: str
+    shap_value: float
+
+
+class PredictionWithSHAPResponse(BaseModel):
+    probability: float
+    label: int
+    top_features: List[SHAPFeature]
+
+
+# -------------------------------------------------------------------
+# 2. Helper: JSON -> one-row DataFrame
+# -------------------------------------------------------------------
+
+def _make_dataframe(features: Dict[str, float]) -> pd.DataFrame:
+    missing = [f for f in FEATURE_NAMES if f not in features]
+    if missing:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Missing features in request: {missing}",
+        )
+
+    row = [features[f] for f in FEATURE_NAMES]
+    return pd.DataFrame([row], columns=FEATURE_NAMES)
+
+
+# -------------------------------------------------------------------
+# 3. Routes
+# -------------------------------------------------------------------
+
+@app.get("/ping")
+def ping():
+    return {"status": "ok"}
+
+
+@app.post("/predict", response_model=PredictionResponse)
+def predict(req: PredictRequest):
+    x = _make_dataframe(req.features)
+    proba = float(MODEL.predict_proba(x)[0, 1])
+    label = int(proba >= THRESHOLD)
+    return PredictionResponse(probability=proba, label=label)
+
+
+@app.post("/predict_with_shap", response_model=PredictionWithSHAPResponse)
+def predict_with_shap(req: PredictRequest):
+    x = _make_dataframe(req.features)
+
+    proba = float(MODEL.predict_proba(x)[0, 1])
+    label = int(proba >= THRESHOLD)
+
+    shap_vals_all = EXPLAINER.shap_values(x)
+
+    # shap can return list (per class) or array depending on version
+    if isinstance(shap_vals_all, list):
+        shap_vals = np.array(shap_vals_all[1][0])  # class 1, first sample
+    else:
+        shap_vals = np.array(shap_vals_all[0])
+
+    top_idx = np.argsort(np.abs(shap_vals))[::-1][:5]
+    top_feats = [
+        SHAPFeature(feature=FEATURE_NAMES[i], shap_value=float(shap_vals[i]))
+        for i in top_idx
+    ]
+
+    return PredictionWithSHAPResponse(
+        probability=proba,
+        label=label,
+        top_features=top_feats,
+    )
+
+
+# Cell 5; original execution count: 11
+import requests
+
+r = requests.get("http://127.0.0.1:8000/ping")
+print(r.status_code, r.json())
+
+
+# Cell 6; original execution count: 10
+payload = {
+    "features": {
+        "age": 63,
+        "sex": 1,
+        "trestbps": 145,
+        "chol": 233,
+        "fbs": 1,
+        "thalch": 150,
+        "exang": 0,
+        "oldpeak": 2.3,
+        "ca": 0,
+        "ca_missing": 0,
+        "thal_missing": 0,
+        "cp_asymptomatic": 1,
+        "cp_atypical angina": 0,
+        "cp_non-anginal": 0,
+        "cp_typical angina": 0,
+        "restecg_lv hypertrophy": 0,
+        "restecg_nan": 0,
+        "restecg_normal": 1,
+        "restecg_st-t abnormality": 0,
+        "slope_downsloping": 0,
+        "slope_flat": 1,
+        "slope_nan": 0,
+        "slope_upsloping": 0,
+        "thal_fixed defect": 0,
+        "thal_nan": 0,
+        "thal_normal": 1,
+        "thal_reversable defect": 0
+    }
+}
+
+r = requests.post("http://127.0.0.1:8000/predict_with_shap", json=payload)
+print(r.json())
+
+
+# Cell 7; original execution count: 13
+from google.colab import files
+
+# Upload lgbm_deployment_bundle.joblib from your local machine
+uploaded = files.upload()  # choose lgbm_deployment_bundle.joblib
+
+# Cell 8; original execution count: 20
+!pip install pyarrow
+
+
+# Cell 9; original execution count: 14
+import pandas as pd
+import numpy as np
+import joblib
+from pathlib import Path
+
+# Load feature names from the deployment bundle
+bundle = joblib.load(Path("deployment_bundle") / "lgbm_deployment_bundle.joblib")
+feature_names = bundle["feature_names"]
+
+# Get the uploaded filename (whatever you selected)
+parquet_filename = list(uploaded.keys())[0]
+print("Using file:", parquet_filename)
+
+# Read the Parquet file
+df = pd.read_parquet(parquet_filename)
+
+# Use the same features the model expects
+X_test = df[feature_names]
+
+print("X_test shape:", X_test.shape)
+
+
+
+# Cell 10; original execution count: 15
+import time
+import requests
+
+latencies = []
+n_repeats = 3  # or whatever you choose
+
+for _ in range(n_repeats):
+    for i in range(len(X_test)):
+        payload = {"features": X_test.iloc[i].to_dict()}
+        t0 = time.perf_counter()
+        r = requests.post("http://127.0.0.1:8000/predict", json=payload)
+        r.raise_for_status()
+        t1 = time.perf_counter()
+        latencies.append(t1 - t0)
+
+latencies = np.array(latencies)
+latencies_ms = latencies * 1e3
+
+
+# Cell 11; original execution count: 25
+!pip install matplot
+import matplotlib.pyplot as plt
+
+
+# Cell 12; original execution count: 27
+import numpy as np
+import pandas as pd
+
+# If you only have 'latencies' (in seconds), convert to ms:
+try:
+    latencies_ms
+except NameError:
+    latencies_ms = np.array(latencies) * 1e3  # seconds -> ms
+
+n_requests = len(latencies_ms)
+n_patients = len(X_test)
+
+df_lat = pd.DataFrame({
+    "request_idx": np.arange(n_requests),
+    "latency_ms": latencies_ms,
+})
+
+# Derive repeat & patient index (same as before)
+df_lat["repeat"] = df_lat["request_idx"] // n_patients
+df_lat["patient_idx"] = df_lat["request_idx"] % n_patients
+
+# Warmup vs steady
+df_lat["phase"] = np.where(df_lat["repeat"] == 0, "warmup", "steady")
+
+# Early / mid / late
+df_lat["stage"] = pd.cut(
+    df_lat["request_idx"],
+    bins=[-1, n_requests // 3, 2 * n_requests // 3, n_requests],
+    labels=["early", "mid", "late"]
+)
+
+df_lat.head()
+
+
+# Cell 13; original execution count: 46
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(6, 4))
+plt.hist(df_lat["latency_ms"], bins=30)
+plt.xlabel("Latency (ms)")
+plt.ylabel("Count")
+plt.title("API per-request latency distribution")
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.savefig("latency_Api_per-request.png", dpi=200)
+plt.show()
+
+
+# Cell 14; original execution count: 44
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(8, 4))
+plt.plot(df_lat["request_idx"], df_lat["latency_ms"], marker=".", linestyle="-", alpha=0.6)
+plt.xlabel("Request index (time)")
+plt.ylabel("Latency (ms)")
+plt.title("Per-request latency over the run")
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.savefig("latency_pre-request.png", dpi=200)
+plt.show()
+
+
+# Cell 15; original execution count: 43
+plt.figure(figsize=(5, 4))
+df_lat.boxplot(column="latency_ms", by="phase")
+plt.ylabel("Latency (ms)")
+plt.title("Latency: warmup vs steady-state")
+plt.suptitle("")  # remove automatic extra title
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.savefig("latency_warmup_vs_steady_colab.png", dpi=200)
+plt.show()
+
+
+
+# Cell 16; original execution count: 42
+plt.figure(figsize=(5, 4))
+df_lat.boxplot(column="latency_ms", by="stage")
+plt.ylabel("Latency (ms)")
+plt.title("Latency distribution by stage of run")
+plt.suptitle("")
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.savefig("latency_latency_distribution_colab.png", dpi=200)
+plt.show()
+
+
+# Cell 17; original execution count: 33
+# Create jitter column if it doesn't exist
+if "delta_ms" not in df_lat.columns:
+    df_lat["delta_ms"] = df_lat["latency_ms"].diff().abs()
+
+
+# Cell 18; original execution count: 41
+plt.figure(figsize=(8, 4))
+plt.plot(df_lat["request_idx"], df_lat["delta_ms"], marker=".", linestyle="-", alpha=0.6)
+plt.xlabel("Request index")
+plt.ylabel("Absolute change in latency (ms)")
+plt.title("Latency jitter between consecutive requests")
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.savefig("latency_jitter_colab.png", dpi=200)
+plt.show()
+
+
+# Cell 19; original execution count: 35
+import pandas as pd
+
+# CSV
+df_lat.to_csv("latency_samples_colab.csv", index=False)
+
+# (optional) Parquet version – smaller / nicer
+df_lat.to_parquet("latency_samples_colab.parquet", index=False)
+print("Saved latency samples to CSV and Parquet.")
+
+
+# Cell 20; original execution count: 36
+from google.colab import files
+files.download("latency_samples_colab.csv")
+# or:
+# files.download("latency_samples_colab.parquet")
+
+
+# Cell 21; original execution count: 37
+import json
+import numpy as np
+
+summary = {
+    "n_requests": int(len(df_lat)),
+    "mean_ms": float(df_lat["latency_ms"].mean()),
+    "median_ms": float(df_lat["latency_ms"].median()),
+    "std_ms": float(df_lat["latency_ms"].std()),
+    "p90_ms": float(np.percentile(df_lat["latency_ms"], 90)),
+    "p95_ms": float(np.percentile(df_lat["latency_ms"], 95)),
+    "p99_ms": float(np.percentile(df_lat["latency_ms"], 99)),
+    "max_ms": float(df_lat["latency_ms"].max()),
+    "throughput_rps": float(1000.0 / df_lat["latency_ms"].median()),
+}
+
+with open("latency_summary_colab.json", "w") as f:
+    json.dump(summary, f, indent=2)
+
+print("Saved summary to latency_summary_colab.json")
+
+
+# Cell 22; original execution count: 38
+from google.colab import files
+files.download("latency_summary_colab.json")
+
+
+# Cell 23; original execution count: 39
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(6, 4))
+plt.hist(df_lat["latency_ms"], bins=30)
+plt.xlabel("Latency (ms)")
+plt.ylabel("Count")
+plt.title("API per-request latency distribution")
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.savefig("latency_hist_colab.png", dpi=200)
+plt.show()
+
+
+# Cell 24; original execution count: 40
+plt.figure(figsize=(8, 4))
+plt.plot(df_lat["request_idx"], df_lat["latency_ms"], marker=".", linestyle="-", alpha=0.6)
+plt.xlabel("Request index (time)")
+plt.ylabel("Latency (ms)")
+plt.title("Per-request latency over the run")
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.savefig("latency_over_time_colab.png", dpi=200)
+plt.show()
+
+
+# Cell 25; original execution count: 47
+from google.colab import files
+files.download("latency_hist_colab.png")
+files.download("latency_over_time_colab.png")
+files.download("latency_jitter_colab.png")
+files.download("latency_warmup_vs_steady_colab.png")
+files.download("latency_pre-request.png")
+files.download("latency_Api_per-request.png")
+

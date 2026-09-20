@@ -85,6 +85,11 @@ jobs:
       - name: Validate public repository surface
         run: uv run python tools/validate_repository.py
 
+      - name: Verify research inventory and figure provenance
+        run: |
+          uv run python tools/build_research_atlas.py --check
+          uv run python tools/plot_research_overview.py --check
+
       - name: Build wheel and source distribution
         run: uv build
 

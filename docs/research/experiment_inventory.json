@@ -1,0 +1,2272 @@
+{
+  "schema_version": "1.0.0",
+  "interpretation": "inventory_not_new_evaluation",
+  "counts": {
+    "failures": 1,
+    "reports": 12,
+    "runs": 56
+  },
+  "coursework_recovery": {
+    "original_retained_locally_indexed": 4,
+    "already_tracked_byte_identical": 27,
+    "recovered_original_output": 121
+  },
+  "entries": [
+    {
+      "path": "artifacts/failures/heart-outer-v5-sensitivity-v1-20260824T131522",
+      "family": "Post-outcome reporting sensitivity",
+      "scope": "post_outcome_sensitivity",
+      "note": "Failed reporting attempt retained; no substitute result inferred",
+      "reference": "docs/HEART_OUTER_V5_SENSITIVITY.md",
+      "kind": "failures",
+      "created_utc": "not_recorded",
+      "run_commit": "not_recorded",
+      "retained_file_count": 1,
+      "recorded_signals": [
+        "failure_interrupted.json: {\"status\": \"interrupted_for_performance_correction\"}"
+      ],
+      "status_records": [
+        {
+          "path": "artifacts/failures/heart-outer-v5-sensitivity-v1-20260824T131522/failure_interrupted.json",
+          "sha256": "c0d9d719f385e530bfe889e438d224875b48b9195b058844659e071f4c406e8a",
+          "fields": {
+            "status": "interrupted_for_performance_correction"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/reports/heart-outer-v5",
+      "family": "Locked heart report",
+      "scope": "locked_heart_with_disclosed_recoveries",
+      "note": "Registered candidate superiority not confirmed",
+      "reference": "docs/HEART_OUTER_V5_RESULT.md",
+      "kind": "reports",
+      "created_utc": "not_recorded",
+      "run_commit": "not_recorded",
+      "retained_file_count": 10,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/reports/heart-outer-v5/independent_validation.json",
+          "sha256": "9f4603ceab649062ff94a5dd6d2ed61bcf42883233e258fae9a138fae888c613",
+          "fields": {
+            "status": "passed_independent_report_reconstruction"
+          }
+        },
+        {
+          "path": "artifacts/reports/heart-outer-v5/report_manifest.json",
+          "sha256": "3461092cd01568d6a5d82406e6dc0a2e83390190f75ef8922cbdf6edf9c607c2",
+          "fields": {
+            "status": "derived_from_locked_sample_level_predictions"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/reports/heart-outer-v5-sensitivity-v1",
+      "family": "Post-outcome reporting sensitivity",
+      "scope": "post_outcome_sensitivity",
+      "note": "Bootstrap/reporting sensitivity after outcomes",
+      "reference": "docs/HEART_OUTER_V5_SENSITIVITY.md",
+      "kind": "reports",
+      "created_utc": "not_recorded",
+      "run_commit": "not_recorded",
+      "retained_file_count": 8,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/reports/heart-outer-v5-sensitivity-v1/report_manifest.json",
+          "sha256": "b2477dfd59af0efd5e2c533f35ddd3bc087919751fde963076418f3656465cf8",
+          "fields": {
+            "status": "post_outcome_consumed_evidence_sensitivity_only"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/reports/heart-research-development-smoke-v1",
+      "family": "Combined development report",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md",
+      "kind": "reports",
+      "created_utc": "not_recorded",
+      "run_commit": "not_recorded",
+      "retained_file_count": 12,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/reports/heart-research-development-smoke-v1/evidence_audit.json",
+          "sha256": "f5814138dd2fb29b2770bf270cf40afd4e94be3a0372b9f4a55c131efa47e2b3",
+          "fields": {
+            "status": "complete_prediction_reconstructed_development_report"
+          }
+        },
+        {
+          "path": "artifacts/reports/heart-research-development-smoke-v1/report_manifest.json",
+          "sha256": "4c8afc952208b97f19b47c8fff190818bd84091f74838c446559fc4e94c7e98b",
+          "fields": {
+            "status": "code_smoke_not_scientific_result"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/reports/heart-research-development-smoke-v2-ensembles",
+      "family": "Combined development report",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md",
+      "kind": "reports",
+      "created_utc": "not_recorded",
+      "run_commit": "not_recorded",
+      "retained_file_count": 12,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/reports/heart-research-development-smoke-v2-ensembles/evidence_audit.json",
+          "sha256": "0ab9f9408f8a47c1367a08a45a8e16b1e4e91cd1f0c54c50ec33fb4e49e736f0",
+          "fields": {
+            "status": "complete_prediction_reconstructed_development_report"
+          }
+        },
+        {
+          "path": "artifacts/reports/heart-research-development-smoke-v2-ensembles/report_manifest.json",
+          "sha256": "3920a8cc9a2df4647c162d3c18c3a0e799f8ec70d238ca4352f239bb9285fb42",
+          "fields": {
+            "status": "code_smoke_not_scientific_result"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/reports/heart-research-development-v1",
+      "family": "Combined development report",
+      "scope": "post_outcome_development",
+      "note": "Combined controls, backbones and router report",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md",
+      "kind": "reports",
+      "created_utc": "not_recorded",
+      "run_commit": "not_recorded",
+      "retained_file_count": 12,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/reports/heart-research-development-v1/evidence_audit.json",
+          "sha256": "6bbae2f4768ec17f83448a376fb675c49326f56d57f37d3c62d78946fd876d3e",
+          "fields": {
+            "status": "complete_prediction_reconstructed_development_report"
+          }
+        },
+        {
+          "path": "artifacts/reports/heart-research-development-v1/report_manifest.json",
+          "sha256": "baa710aa45a77086f2aed2a326b64f4f994973d1d603afceba458cf102ecccc1",
+          "fields": {
+            "status": "post_outcome_consumed_uci_development_only"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/reports/historical-psmask-ten-seed-sensitivity-v1",
+      "family": "Exact ten-seed sensitivity",
+      "scope": "post_outcome_sensitivity",
+      "note": "Historical three-seed fits extended; no new confirmation",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md",
+      "kind": "reports",
+      "created_utc": "not_recorded",
+      "run_commit": "not_recorded",
+      "retained_file_count": 10,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/reports/historical-psmask-ten-seed-sensitivity-v1/evidence_audit.json",
+          "sha256": "ce95b3f680217c3fbebf65b9bccc8f2ab32df29efe28b85536702cfa983427af",
+          "fields": {
+            "status": "complete_post_outcome_seed_extension_report"
+          }
+        },
+        {
+          "path": "artifacts/reports/historical-psmask-ten-seed-sensitivity-v1/exact_reproduction.json",
+          "sha256": "01b3e52e698cc19a225b9ac20bcc9f395dd7879ed1cb94e8b4d35229f38efeb0",
+          "fields": {
+            "status": "exact_value_reproduction"
+          }
+        },
+        {
+          "path": "artifacts/reports/historical-psmask-ten-seed-sensitivity-v1/report_manifest.json",
+          "sha256": "8bc728025a699a9d0621321d1f7f014fd2ea1bbde5cf453571c57c0fa0809ed4",
+          "fields": {
+            "status": "post_outcome_consumed_uci_seed_sensitivity_only"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/reports/historical-psmask-ten-seed-sensitivity-v2-stability",
+      "family": "Exact ten-seed sensitivity",
+      "scope": "post_outcome_sensitivity",
+      "note": "Historical three-seed fits extended; no new confirmation",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md",
+      "kind": "reports",
+      "created_utc": "not_recorded",
+      "run_commit": "not_recorded",
+      "retained_file_count": 12,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/reports/historical-psmask-ten-seed-sensitivity-v2-stability/evidence_audit.json",
+          "sha256": "686a498cab88a6eb9cc8171f96f3608db306323f01c3fe6715a9a50ea2d033f7",
+          "fields": {
+            "status": "complete_post_outcome_seed_extension_report"
+          }
+        },
+        {
+          "path": "artifacts/reports/historical-psmask-ten-seed-sensitivity-v2-stability/exact_reproduction.json",
+          "sha256": "01b3e52e698cc19a225b9ac20bcc9f395dd7879ed1cb94e8b4d35229f38efeb0",
+          "fields": {
+            "status": "exact_value_reproduction"
+          }
+        },
+        {
+          "path": "artifacts/reports/historical-psmask-ten-seed-sensitivity-v2-stability/report_manifest.json",
+          "sha256": "8bc728025a699a9d0621321d1f7f014fd2ea1bbde5cf453571c57c0fa0809ed4",
+          "fields": {
+            "status": "post_outcome_consumed_uci_seed_sensitivity_only"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/reports/readmission-outer-v3",
+      "family": "Independent readmission task",
+      "scope": "independent_task_exploratory",
+      "note": "Patient-disjoint task; admission source is a domain proxy",
+      "reference": "docs/READMISSION_OUTER_V3_RESULT.md",
+      "kind": "reports",
+      "created_utc": "not_recorded",
+      "run_commit": "not_recorded",
+      "retained_file_count": 7,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/reports/readmission-outer-v3/independent_validation.json",
+          "sha256": "3682bb0262fa3174099b01454d8c0c5c4f4bf57a23dbfff0fdd8fc298f2fa34d",
+          "fields": {
+            "status": "passed_independent_report_reconstruction"
+          }
+        },
+        {
+          "path": "artifacts/reports/readmission-outer-v3/report_manifest.json",
+          "sha256": "507a940fe989d90b585a07fdeb617c339b36b71aeed00fd993a1674294f56718",
+          "fields": {
+            "status": "derived_from_locked_sample_level_predictions"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/reports/shiftguard-revisions-v1",
+      "family": "ShiftGuard revisions",
+      "scope": "synthetic_development",
+      "note": "Closed negative result; retain revisions and failed gates",
+      "reference": "docs/SHIFTGUARD_DEVELOPMENT_RESULT.md",
+      "kind": "reports",
+      "created_utc": "not_recorded",
+      "run_commit": "not_recorded",
+      "retained_file_count": 4,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/reports/shiftguard-revisions-v1/evidence_audit.json",
+          "sha256": "b1edea763f0bb66d6ec8bc36c67bf3249647b6e752bc3bdde47235d4897e9e6b",
+          "fields": {
+            "status": "complete"
+          }
+        },
+        {
+          "path": "artifacts/reports/shiftguard-revisions-v1/report_manifest.json",
+          "sha256": "9bab738e07f210c4f5e578e818d21da72f99fbe92338c35fc9a2ec398d726787",
+          "fields": {
+            "status": "sample_reconstructed_synthetic_revision_comparison"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/reports/shiftguard-revisions-v2",
+      "family": "ShiftGuard revisions",
+      "scope": "synthetic_development",
+      "note": "Closed negative result; retain revisions and failed gates",
+      "reference": "docs/SHIFTGUARD_DEVELOPMENT_RESULT.md",
+      "kind": "reports",
+      "created_utc": "not_recorded",
+      "run_commit": "not_recorded",
+      "retained_file_count": 5,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/reports/shiftguard-revisions-v2/evidence_audit.json",
+          "sha256": "51e497cf66bf9394f2eb381dd2eb30904f34e8e10fc1a22ee131d26d763daa0f",
+          "fields": {
+            "status": "complete"
+          }
+        },
+        {
+          "path": "artifacts/reports/shiftguard-revisions-v2/report_manifest.json",
+          "sha256": "d6f92625a8d8aad022d1ce8675f4d9aa33c6cd71ff3285d6cb3247ad4e38a958",
+          "fields": {
+            "status": "sample_reconstructed_synthetic_revision_comparison"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/reports/shiftguard-revisions-v2-power-audit",
+      "family": "ShiftGuard revisions",
+      "scope": "synthetic_development",
+      "note": "Closed negative result; retain revisions and failed gates",
+      "reference": "docs/SHIFTGUARD_DEVELOPMENT_RESULT.md",
+      "kind": "reports",
+      "created_utc": "not_recorded",
+      "run_commit": "not_recorded",
+      "retained_file_count": 7,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/reports/shiftguard-revisions-v2-power-audit/evidence_audit.json",
+          "sha256": "5f9df9344ae4d8d0938294e636bd64449cb2fd12688d2abf453d2b6df218c215",
+          "fields": {
+            "status": "complete"
+          }
+        },
+        {
+          "path": "artifacts/reports/shiftguard-revisions-v2-power-audit/report_manifest.json",
+          "sha256": "d6f92625a8d8aad022d1ce8675f4d9aa33c6cd71ff3285d6cb3247ad4e38a958",
+          "fields": {
+            "status": "sample_reconstructed_synthetic_revision_comparison"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/reports/shiftguard-revisions-v3-final-development",
+      "family": "ShiftGuard revisions",
+      "scope": "synthetic_development",
+      "note": "Closed negative result; retain revisions and failed gates",
+      "reference": "docs/SHIFTGUARD_DEVELOPMENT_RESULT.md",
+      "kind": "reports",
+      "created_utc": "not_recorded",
+      "run_commit": "not_recorded",
+      "retained_file_count": 7,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/reports/shiftguard-revisions-v3-final-development/evidence_audit.json",
+          "sha256": "ab7676524cf2c14f8fbc4486666356d5d35912c2af2fe8ea869fc86dca63bdd0",
+          "fields": {
+            "status": "complete"
+          }
+        },
+        {
+          "path": "artifacts/reports/shiftguard-revisions-v3-final-development/report_manifest.json",
+          "sha256": "9570c78dc88b24b0d183cbbdba9216ff0362efbabbfd4fc7ca733bcbb4a95a2b",
+          "fields": {
+            "status": "sample_reconstructed_synthetic_revision_comparison"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/classical-inner-confirm-v1",
+      "family": "Comparator baselines",
+      "scope": "source_only_selection",
+      "note": "Retained source selection and implementation record",
+      "reference": "docs/REPRODUCIBILITY.md",
+      "kind": "runs",
+      "created_utc": "2026-08-23T23:45:54.770175+00:00",
+      "run_commit": "c7c5280ddd8973bfecb63dd71849f6ba61f4456e",
+      "retained_file_count": 6,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/classical-inner-confirm-v1/run_manifest.json",
+          "sha256": "ff707840007537d38763f9661dc0babd9e747d7dd87cca14f6a75c0e49c699ba",
+          "fields": {
+            "phase": "inner_source_only"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/classical-inner-v1",
+      "family": "Comparator baselines",
+      "scope": "source_only_selection",
+      "note": "Retained source selection and implementation record",
+      "reference": "docs/REPRODUCIBILITY.md",
+      "kind": "runs",
+      "created_utc": "2026-08-23T20:34:39.825171+00:00",
+      "run_commit": "551d4706b02538e9a096b4a4b5b544f0484091a5",
+      "retained_file_count": 2,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/classical-inner-v1/run_manifest.json",
+          "sha256": "9fedc607f323b75514f0244ae8e5fd2ccfb354dc61b963456a213214ed0ea970",
+          "fields": {
+            "phase": "inner_source_only"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/classical-inner-v1-rerun1",
+      "family": "Comparator baselines",
+      "scope": "source_only_selection",
+      "note": "Retained source selection and implementation record",
+      "reference": "docs/REPRODUCIBILITY.md",
+      "kind": "runs",
+      "created_utc": "2026-08-23T20:36:23.601674+00:00",
+      "run_commit": "551d4706b02538e9a096b4a4b5b544f0484091a5",
+      "retained_file_count": 2,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/classical-inner-v1-rerun1/run_manifest.json",
+          "sha256": "baa28b99cd9f19a82cb9c2cc095475ca7b2b57f73538f0089090ba4b82eea9e3",
+          "fields": {
+            "phase": "inner_source_only"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/classical-inner-v1-rerun2",
+      "family": "Comparator baselines",
+      "scope": "source_only_selection",
+      "note": "Retained source selection and implementation record",
+      "reference": "docs/REPRODUCIBILITY.md",
+      "kind": "runs",
+      "created_utc": "2026-08-23T20:38:45.089449+00:00",
+      "run_commit": "551d4706b02538e9a096b4a4b5b544f0484091a5",
+      "retained_file_count": 2,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/classical-inner-v1-rerun2/run_manifest.json",
+          "sha256": "23e9343beff192e0ffe4142c5e00daf62fa994d8d24023411af6619a829697a4",
+          "fields": {
+            "phase": "inner_source_only"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/classical-inner-v1-rerun3",
+      "family": "Comparator baselines",
+      "scope": "source_only_selection",
+      "note": "Retained source selection and implementation record",
+      "reference": "docs/REPRODUCIBILITY.md",
+      "kind": "runs",
+      "created_utc": "2026-08-23T20:39:29.855535+00:00",
+      "run_commit": "551d4706b02538e9a096b4a4b5b544f0484091a5",
+      "retained_file_count": 5,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/classical-inner-v1-rerun3/run_manifest.json",
+          "sha256": "817dff4b90d09774479775a947dbec125eed6f941f92ccafb4aeb0d6c72c4d83",
+          "fields": {
+            "phase": "inner_source_only"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/classical-outer-v3",
+      "family": "Comparator baselines",
+      "scope": "locked_heart_with_disclosed_recoveries",
+      "note": "Retained locked heart evidence; see recovery chronology",
+      "reference": "docs/HEART_OUTER_V5_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T05:30:11.633844+00:00",
+      "run_commit": "e787c199b59ef77b839f22c8415375b83f573074",
+      "retained_file_count": 10,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/classical-outer-v3/independent_validation.json",
+          "sha256": "6dc23d4146fb7514277b0a94b4391e866a1223f79b55ddf7ebbad4df12e7249e",
+          "fields": {
+            "status": "passed_independent_reconstruction"
+          }
+        },
+        {
+          "path": "artifacts/runs/classical-outer-v3/run_manifest.json",
+          "sha256": "7f8233048bf1b2a67537f546da74fb1a6118d31ecc84ae49f55ca41616b77141",
+          "fields": {
+            "phase": "locked_outer_loho"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/eicu-demo-model-smoke-v1",
+      "family": "External pipeline smoke",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/EICU_DEMO_SMOKE_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T13:23:43.688716+00:00",
+      "run_commit": "be485afcc257ea2f0f04b201a9ee9b0cde9966c0",
+      "retained_file_count": 6,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/eicu-demo-model-smoke-v1/config.resolved.json",
+          "sha256": "6fb8194748a11272b9506266673929d13737294a3890879c4866c286200373db",
+          "fields": {
+            "status": "public_demo_not_scientific_evaluation"
+          }
+        },
+        {
+          "path": "artifacts/runs/eicu-demo-model-smoke-v1/evidence_audit.json",
+          "sha256": "ef322e87841564907f40f94356b37121dd8ae6852273c97f8a9fa838229cfa6d",
+          "fields": {
+            "status": "complete_demo_smoke_evidence"
+          }
+        },
+        {
+          "path": "artifacts/runs/eicu-demo-model-smoke-v1/run_manifest.json",
+          "sha256": "0e4c4e1ade81ab22a37d239248df925bc2f66d71f85f9bd78ac8ecc4cd424bfb",
+          "fields": {
+            "phase": "public_eicu_demo_pipeline_smoke"
+          }
+        },
+        {
+          "path": "artifacts/runs/eicu-demo-model-smoke-v1/smoke_result.json",
+          "sha256": "610d73adf42190e1b75d995977185934795995662003057b9bd94c281cf16f3d",
+          "fields": {
+            "status": "passed_end_to_end_public_demo_smoke"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/heart-controls-development-v1",
+      "family": "Post-outcome classical controls",
+      "scope": "post_outcome_development",
+      "note": "Interrupted for mask-seed alignment; preserved before corrected v2",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T12:52:15.024850+00:00",
+      "run_commit": "be485afcc257ea2f0f04b201a9ee9b0cde9966c0",
+      "retained_file_count": 178,
+      "recorded_signals": [
+        "failure_mask_seed_alignment.json: {\"status\": \"interrupted_before_aggregation\"}"
+      ],
+      "status_records": [
+        {
+          "path": "artifacts/runs/heart-controls-development-v1/config.resolved.json",
+          "sha256": "c2d18090c7a07f240e8ad63caff3bc86f4cafea788af71dbab5883197acd71c0",
+          "fields": {
+            "status": "consumed_uci_development_only"
+          }
+        },
+        {
+          "path": "artifacts/runs/heart-controls-development-v1/failure_mask_seed_alignment.json",
+          "sha256": "64d07e701ccef13ec274b4f85fcf953ac3bd983bbbbc6c32f4e186ff0e59ecd5",
+          "fields": {
+            "status": "interrupted_before_aggregation"
+          }
+        },
+        {
+          "path": "artifacts/runs/heart-controls-development-v1/run_manifest.json",
+          "sha256": "65635b113dcda45430760c70fe461c9edb5054f2e817849cc381f60953e01e71",
+          "fields": {
+            "phase": "consumed_uci_development_controls"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/heart-controls-development-v2-aligned",
+      "family": "Post-outcome classical controls",
+      "scope": "post_outcome_development",
+      "note": "Consumed UCI outcomes; exact-mask controls",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T12:55:14.729005+00:00",
+      "run_commit": "be485afcc257ea2f0f04b201a9ee9b0cde9966c0",
+      "retained_file_count": 1932,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/heart-controls-development-v2-aligned/config.resolved.json",
+          "sha256": "67921d3967fe35935fdb8e3c6c20de3e76ed0e8c1fd4f18dcac614329d0190c7",
+          "fields": {
+            "status": "consumed_uci_development_only"
+          }
+        },
+        {
+          "path": "artifacts/runs/heart-controls-development-v2-aligned/evidence_audit.json",
+          "sha256": "b2c2f36002176656adf4096d78fe766b9e13592f5561a4159c68d4fbf02b6f13",
+          "fields": {
+            "status": "complete_consumed_uci_development_only"
+          }
+        },
+        {
+          "path": "artifacts/runs/heart-controls-development-v2-aligned/post_run_source_snapshot.json",
+          "sha256": "9f7dbb8cf7084d88622adaf1ed28271ea35f3bd792b5fd607111b71fdf8fce60",
+          "fields": {
+            "status": "post_run_exact_source_snapshot"
+          }
+        },
+        {
+          "path": "artifacts/runs/heart-controls-development-v2-aligned/run_manifest.json",
+          "sha256": "899d77c6734182685659d37bc6c5214678e1ac2e6f7caaf4e734f1922fb56207",
+          "fields": {
+            "phase": "consumed_uci_development_controls"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/heart-controls-smoke-v1",
+      "family": "Post-outcome classical controls",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T12:51:28.100128+00:00",
+      "run_commit": "be485afcc257ea2f0f04b201a9ee9b0cde9966c0",
+      "retained_file_count": 43,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/heart-controls-smoke-v1/config.resolved.json",
+          "sha256": "81a59c1e3f87567393f6b038c8ed4b75efe77a603fff5e42c0b54f5e0bb0c33b",
+          "fields": {
+            "status": "code_smoke_not_scientific_result"
+          }
+        },
+        {
+          "path": "artifacts/runs/heart-controls-smoke-v1/evidence_audit.json",
+          "sha256": "a42d11ea5cab06dda75490a7fbc8f778e3a4b7907092d9ae2f755a3446047019",
+          "fields": {
+            "status": "complete_consumed_uci_development_only"
+          }
+        },
+        {
+          "path": "artifacts/runs/heart-controls-smoke-v1/run_manifest.json",
+          "sha256": "865aaf659a5ab4d2f46a8afecf9ac7f6c1cbb91599660ea631fe8719f2bc4333",
+          "fields": {
+            "phase": "consumed_uci_development_controls"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/historical-psmask-ten-seed-sensitivity-v1",
+      "family": "Exact ten-seed sensitivity",
+      "scope": "post_outcome_sensitivity",
+      "note": "Historical three-seed fits extended; no new confirmation",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T18:23:15.344353+00:00",
+      "run_commit": "be485afcc257ea2f0f04b201a9ee9b0cde9966c0",
+      "retained_file_count": 371,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/historical-psmask-ten-seed-sensitivity-v1/config.resolved.json",
+          "sha256": "db056cb7357f67d39f88374c5928f0bc7c35129e67da69d57c4d4aabc5ba7172",
+          "fields": {
+            "status": "consumed_uci_development_only"
+          }
+        },
+        {
+          "path": "artifacts/runs/historical-psmask-ten-seed-sensitivity-v1/evidence_audit.json",
+          "sha256": "17c63befc07ca0d66617171c15fc1ba39dd2ddf717343172e6634c0537ab1712",
+          "fields": {
+            "status": "complete_consumed_uci_development_only"
+          }
+        },
+        {
+          "path": "artifacts/runs/historical-psmask-ten-seed-sensitivity-v1/post_run_source_snapshot.json",
+          "sha256": "437a0b432ceb67d384bd4838321e069432e160e603e57eb0e133dd153f250e92",
+          "fields": {
+            "status": "post_run_exact_source_snapshot"
+          }
+        },
+        {
+          "path": "artifacts/runs/historical-psmask-ten-seed-sensitivity-v1/run_manifest.json",
+          "sha256": "476af64ac758e776f0be7aab3fc5b911a02a7a6d3990466c85e85add9a9d654d",
+          "fields": {
+            "phase": "consumed_uci_post_outcome_seed_extension_sensitivity"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/mirrams-inner-confirm-v1",
+      "family": "MIRRAMS external comparator",
+      "scope": "source_only_selection",
+      "note": "External method control; attribution retained",
+      "reference": "docs/METHOD_SPECIFICATION.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T00:03:18.761967+00:00",
+      "run_commit": "26cd45ce8f94107cd42dd446a26f01aefcecae16",
+      "retained_file_count": 44,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/mirrams-inner-confirm-v1/run_manifest.json",
+          "sha256": "a9ee254c04ef4302af7f9e4fe599998eada8e8d04f0f2bc9b03accdcd69a0850",
+          "fields": {
+            "phase": "psmask_inner_source_only"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/mirrams-inner-v1",
+      "family": "MIRRAMS external comparator",
+      "scope": "source_only_selection",
+      "note": "External method control; attribution retained",
+      "reference": "docs/METHOD_SPECIFICATION.md",
+      "kind": "runs",
+      "created_utc": "2026-08-23T22:33:22.539164+00:00",
+      "run_commit": "551d4706b02538e9a096b4a4b5b544f0484091a5",
+      "retained_file_count": 79,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/mirrams-inner-v1/run_manifest.json",
+          "sha256": "5ed2502fd95aa5f342ca13152aeb5d49e87c3650256fc35bd3534f41eaedf750",
+          "fields": {
+            "phase": "psmask_inner_source_only"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/mirrams-outer-v3",
+      "family": "MIRRAMS external comparator",
+      "scope": "locked_heart_with_disclosed_recoveries",
+      "note": "Failed execution preserved; not a completed comparison",
+      "reference": "docs/OUTER_V3_FAILURE_AND_V4_RECOVERY.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T06:44:42.981793+00:00",
+      "run_commit": "e787c199b59ef77b839f22c8415375b83f573074",
+      "retained_file_count": 3,
+      "recorded_signals": [
+        "failure.json: {\"status\": \"failed_preserved\"}"
+      ],
+      "status_records": [
+        {
+          "path": "artifacts/runs/mirrams-outer-v3/failure.json",
+          "sha256": "851c8218bae8493c6333e757de3e5c34675b160bf0a8bde80e33074e1463b928",
+          "fields": {
+            "status": "failed_preserved"
+          }
+        },
+        {
+          "path": "artifacts/runs/mirrams-outer-v3/run_manifest.json",
+          "sha256": "0f8e996b8de420e55d138e5217e28669ee008562f4edbf8536eaf1dfa6f2329b",
+          "fields": {
+            "phase": "locked_outer_psmask"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/mirrams-outer-v4",
+      "family": "MIRRAMS external comparator",
+      "scope": "locked_heart_with_disclosed_recoveries",
+      "note": "Failed execution preserved; not a completed comparison",
+      "reference": "docs/OUTER_V4_FAILURE_AND_V5_RECOVERY.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T09:12:12.539558+00:00",
+      "run_commit": "b855cd50403dcad4874dcb51e38b8e9e5d9e067e",
+      "retained_file_count": 45,
+      "recorded_signals": [
+        "failure.json: {\"status\": \"failed_preserved\"}"
+      ],
+      "status_records": [
+        {
+          "path": "artifacts/runs/mirrams-outer-v4/failure.json",
+          "sha256": "1810bf5fb5c5e39ea36de48160167da4194b51c0e5cc70220d87db7754944562",
+          "fields": {
+            "status": "failed_preserved"
+          }
+        },
+        {
+          "path": "artifacts/runs/mirrams-outer-v4/run_manifest.json",
+          "sha256": "d09c1e3174aa5ecc38053851625c032c560d5b1afe0b853d905556e5fa265ee8",
+          "fields": {
+            "phase": "locked_outer_psmask"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/mirrams-outer-v5-finalized",
+      "family": "MIRRAMS external comparator",
+      "scope": "locked_heart_with_disclosed_recoveries",
+      "note": "Retained locked heart evidence; see recovery chronology",
+      "reference": "docs/HEART_OUTER_V5_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T09:21:39.585321+00:00",
+      "run_commit": "15d9fee74f73d5fc65156603ec6baf331d94e139",
+      "retained_file_count": 48,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/mirrams-outer-v5-finalized/finalization_provenance.json",
+          "sha256": "9e91f147380d54c35078c5440665e09f25dc4ede4ee984e1ab3577b62b3ee64f",
+          "fields": {
+            "status": "completed_no_refit_shard_finalization"
+          }
+        },
+        {
+          "path": "artifacts/runs/mirrams-outer-v5-finalized/independent_validation.json",
+          "sha256": "6c17fc306bd5e3901e392828fabdff94d2f5d9c3ebcceed0816c1125cb15d563",
+          "fields": {
+            "status": "passed_independent_reconstruction"
+          }
+        },
+        {
+          "path": "artifacts/runs/mirrams-outer-v5-finalized/run_manifest.json",
+          "sha256": "8e63fd984f6f24155b4abf21cc615d33c80bae7534b44e734295ebef0c737c23",
+          "fields": {
+            "phase": "locked_outer_neural_finalization_no_refit"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/modern-2026-inner-v1",
+      "family": "Comparator baselines",
+      "scope": "source_only_selection",
+      "note": "Retained source selection and implementation record",
+      "reference": "docs/REPRODUCIBILITY.md",
+      "kind": "runs",
+      "created_utc": "2026-08-23T23:57:19.951406+00:00",
+      "run_commit": "522ed23bd815607aa5c7ae5746a1ae6251c4028f",
+      "retained_file_count": 5,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/modern-2026-inner-v1/run_manifest.json",
+          "sha256": "405c188e98885acf8bb5731e3b5cbf67d1fc3b1660af84a8feeeb0f6821de7c5",
+          "fields": {
+            "phase": "inner_source_only"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/modern-2026-outer-v3",
+      "family": "Comparator baselines",
+      "scope": "locked_heart_with_disclosed_recoveries",
+      "note": "Retained locked heart evidence; see recovery chronology",
+      "reference": "docs/HEART_OUTER_V5_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T06:15:05.780278+00:00",
+      "run_commit": "e787c199b59ef77b839f22c8415375b83f573074",
+      "retained_file_count": 10,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/modern-2026-outer-v3/independent_validation.json",
+          "sha256": "ab7dbcb781376d14d78e2285e181b172d04c1eedcb6dd65126a522735af29a13",
+          "fields": {
+            "status": "passed_independent_reconstruction"
+          }
+        },
+        {
+          "path": "artifacts/runs/modern-2026-outer-v3/run_manifest.json",
+          "sha256": "fa1666ef78e8f253e71ee9afac60633aa9769f484fa44bc7bafdc58c9cb7224c",
+          "fields": {
+            "phase": "locked_outer_loho"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/modern-inner-confirm-v1",
+      "family": "Comparator baselines",
+      "scope": "source_only_selection",
+      "note": "Retained source selection and implementation record",
+      "reference": "docs/REPRODUCIBILITY.md",
+      "kind": "runs",
+      "created_utc": "2026-08-23T23:49:47.640702+00:00",
+      "run_commit": "8bf5462ba1d95876a98a4f466836f271f5b5f4d3",
+      "retained_file_count": 6,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/modern-inner-confirm-v1/run_manifest.json",
+          "sha256": "a3a616c7b3deb391b6f11780c213cb96c12f6230f208476ac5e482602d7a0b74",
+          "fields": {
+            "phase": "inner_source_only"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/modern-inner-v1",
+      "family": "Comparator baselines",
+      "scope": "source_only_selection",
+      "note": "Retained source selection and implementation record",
+      "reference": "docs/REPRODUCIBILITY.md",
+      "kind": "runs",
+      "created_utc": "2026-08-23T20:44:50.347977+00:00",
+      "run_commit": "551d4706b02538e9a096b4a4b5b544f0484091a5",
+      "retained_file_count": 5,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/modern-inner-v1/run_manifest.json",
+          "sha256": "f39d6ca435c822d5b6f64d29211381067ffba410f73bf57388c1ece1dedf0d68",
+          "fields": {
+            "phase": "inner_source_only"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/modern-v2-outer-v3",
+      "family": "Comparator baselines",
+      "scope": "locked_heart_with_disclosed_recoveries",
+      "note": "Retained locked heart evidence; see recovery chronology",
+      "reference": "docs/HEART_OUTER_V5_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T05:57:10.162025+00:00",
+      "run_commit": "e787c199b59ef77b839f22c8415375b83f573074",
+      "retained_file_count": 10,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/modern-v2-outer-v3/independent_validation.json",
+          "sha256": "7af56e57d2d1de5facf86ea8732fc7856612d2cbeea3904db2c063606cbe7cd9",
+          "fields": {
+            "status": "passed_independent_reconstruction"
+          }
+        },
+        {
+          "path": "artifacts/runs/modern-v2-outer-v3/run_manifest.json",
+          "sha256": "b114785f6d91cba3139b2988cdac83332827acece55d4b3be5a1d1645c4b0096",
+          "fields": {
+            "phase": "locked_outer_loho"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/observed-backbones-development-v1",
+      "family": "Post-outcome backbones",
+      "scope": "post_outcome_development",
+      "note": "Equal-budget attention and DeepSets; averaging and selection",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T13:31:10.077220+00:00",
+      "run_commit": "be485afcc257ea2f0f04b201a9ee9b0cde9966c0",
+      "retained_file_count": 489,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/observed-backbones-development-v1/config.resolved.json",
+          "sha256": "94c5f492ae42cb216a95a2add32fa18feb98a690dca3c1fb417add6aa48b13e5",
+          "fields": {
+            "status": "consumed_uci_development_only"
+          }
+        },
+        {
+          "path": "artifacts/runs/observed-backbones-development-v1/evidence_audit.json",
+          "sha256": "3105979bae5ea22078ab44de0d8cdb672e3f6f145efe2d2a655cdbc4b976e6d0",
+          "fields": {
+            "status": "complete_source_only_inner_evidence_post_run_audit"
+          }
+        },
+        {
+          "path": "artifacts/runs/observed-backbones-development-v1/post_run_source_snapshot.json",
+          "sha256": "345464b865baf2f9c9f4a261da6b4f7335e78ef2a1d54c414e0ec1835fd8ca1b",
+          "fields": {
+            "status": "post_run_exact_source_snapshot"
+          }
+        },
+        {
+          "path": "artifacts/runs/observed-backbones-development-v1/run_manifest.json",
+          "sha256": "9611c6b104fc8719c6a1ae5ced56f1f1f55b0ca844af163616766329804879fb",
+          "fields": {
+            "phase": "psmask_inner_source_only"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/observed-backbones-outer-development-v1",
+      "family": "Post-outcome backbones",
+      "scope": "post_outcome_development",
+      "note": "Equal-budget attention and DeepSets; averaging and selection",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T17:22:15.945083+00:00",
+      "run_commit": "be485afcc257ea2f0f04b201a9ee9b0cde9966c0",
+      "retained_file_count": 155,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/observed-backbones-outer-development-v1/config.resolved.json",
+          "sha256": "ddc15892111e1e4ccc7f438870eb68a7513045715df57c665254bf44474e15af",
+          "fields": {
+            "status": "consumed_uci_development_only"
+          }
+        },
+        {
+          "path": "artifacts/runs/observed-backbones-outer-development-v1/evidence_audit.json",
+          "sha256": "7ba424e9d9635c96980a59d0cf5026d99f533707d06a7b5a71c17ce3ae672811",
+          "fields": {
+            "status": "complete_consumed_uci_development_only"
+          }
+        },
+        {
+          "path": "artifacts/runs/observed-backbones-outer-development-v1/post_run_source_snapshot.json",
+          "sha256": "fa83482f36f5cad3d9e588e8c1d0b78d07c4a29a13d3d13c247884c980a06964",
+          "fields": {
+            "status": "post_run_exact_source_snapshot"
+          }
+        },
+        {
+          "path": "artifacts/runs/observed-backbones-outer-development-v1/run_manifest.json",
+          "sha256": "2130f947b637a38aeedb1754d1572e74e380a256f8e119bf5eaff51193775048",
+          "fields": {
+            "phase": "consumed_uci_descriptive_neural_outer"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/observed-backbones-outer-smoke-v1",
+      "family": "Post-outcome backbones",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T14:31:10.092328+00:00",
+      "run_commit": "be485afcc257ea2f0f04b201a9ee9b0cde9966c0",
+      "retained_file_count": 83,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/observed-backbones-outer-smoke-v1/config.resolved.json",
+          "sha256": "5724571a8c4d2d364b191e13792dcb51121d1330855e77450498e1c864e47275",
+          "fields": {
+            "status": "code_smoke_not_scientific_result"
+          }
+        },
+        {
+          "path": "artifacts/runs/observed-backbones-outer-smoke-v1/evidence_audit.json",
+          "sha256": "fd3f21a9003c079e0d3ef044cea96a764b98eaae2acd2cf71c0a519c2f5701d0",
+          "fields": {
+            "status": "complete_code_smoke_not_scientific_result"
+          }
+        },
+        {
+          "path": "artifacts/runs/observed-backbones-outer-smoke-v1/post_run_source_snapshot.json",
+          "sha256": "8e458cce14129143728970701d07e705252b01cbcdb1de76a2349dc90d78f6f5",
+          "fields": {
+            "status": "post_run_exact_source_snapshot"
+          }
+        },
+        {
+          "path": "artifacts/runs/observed-backbones-outer-smoke-v1/run_manifest.json",
+          "sha256": "b0728f739bef0c45430710a6890d284a4070ccf460a3f81c4182e02d60af134d",
+          "fields": {
+            "phase": "endpoint_isolation_code_smoke"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/observed-backbones-smoke-v1",
+      "family": "Post-outcome backbones",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T13:26:08.080372+00:00",
+      "run_commit": "be485afcc257ea2f0f04b201a9ee9b0cde9966c0",
+      "retained_file_count": 31,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/observed-backbones-smoke-v1/config.resolved.json",
+          "sha256": "988f16cf0ba0033c244e0861905cad53fda6daed72127fe3a55ded3f9e54e286",
+          "fields": {
+            "status": "code_smoke_not_scientific_result"
+          }
+        },
+        {
+          "path": "artifacts/runs/observed-backbones-smoke-v1/run_manifest.json",
+          "sha256": "b17b4d843be8a61a1d5e71c8a886c72e2ef6771822fe5b11d188f81a97d7d6f3",
+          "fields": {
+            "phase": "psmask_inner_source_only"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/psmask-factorial-inner-v1",
+      "family": "PS-MaskDRO and ANE",
+      "scope": "source_only_selection",
+      "note": "Factorial ablation or source confirmation record",
+      "reference": "docs/METHOD_SPECIFICATION.md",
+      "kind": "runs",
+      "created_utc": "2026-08-23T23:03:23.401177+00:00",
+      "run_commit": "7443d23e01c31471e73bd16bc4ab4443addc4c49",
+      "retained_file_count": 151,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/psmask-factorial-inner-v1/run_manifest.json",
+          "sha256": "87a151629bd3662d18fed3dd5e47c4d0e1debf5530df2aa8149925d259bb1bea",
+          "fields": {
+            "phase": "psmask_inner_source_only"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/psmask-inner-confirm-v1",
+      "family": "PS-MaskDRO and ANE",
+      "scope": "source_only_selection",
+      "note": "Joint-axis gate failed; separate mask-axis pivot recorded",
+      "reference": "docs/METHOD_SPECIFICATION.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T00:16:26.537633+00:00",
+      "run_commit": "22daad0e9858cbd367a3f3e7f7f7957d63104be4",
+      "retained_file_count": 370,
+      "recorded_signals": [
+        "acceptance_gate_v1.json: {\"passed\": false}"
+      ],
+      "status_records": [
+        {
+          "path": "artifacts/runs/psmask-inner-confirm-v1/acceptance_gate_v1.json",
+          "sha256": "de9d9316ac8c3304807464444e74c8076684733f3c575795de07e23c3f4fb9b6",
+          "fields": {
+            "passed": false
+          }
+        },
+        {
+          "path": "artifacts/runs/psmask-inner-confirm-v1/pivot_selection_v2.json",
+          "sha256": "bd341f3802f6e853640e01ab2ae49a84ed3626c3a17bf5b89e72214da5461fd9",
+          "fields": {
+            "passed": true
+          }
+        },
+        {
+          "path": "artifacts/runs/psmask-inner-confirm-v1/run_manifest.json",
+          "sha256": "95b9043db3c375c7e6d7c35e937c82230c08ff98d8b2ae3290220125ccabdfe6",
+          "fields": {
+            "phase": "psmask_inner_source_only"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/psmask-inner-v1",
+      "family": "PS-MaskDRO and ANE",
+      "scope": "source_only_selection",
+      "note": "Factorial ablation or source confirmation record",
+      "reference": "docs/METHOD_SPECIFICATION.md",
+      "kind": "runs",
+      "created_utc": "2026-08-23T21:04:59.824811+00:00",
+      "run_commit": "551d4706b02538e9a096b4a4b5b544f0484091a5",
+      "retained_file_count": 7,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/psmask-inner-v1/run_manifest.json",
+          "sha256": "342d09fb67182d2a969ce4a7694bdc40bc3ee9b964dee0d35ad7e2eedc883459",
+          "fields": {
+            "phase": "psmask_inner_source_only"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/psmask-outer-v5",
+      "family": "PS-MaskDRO and ANE",
+      "scope": "locked_heart_with_disclosed_recoveries",
+      "note": "Retained locked heart evidence; see recovery chronology",
+      "reference": "docs/HEART_OUTER_V5_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T09:22:09.926983+00:00",
+      "run_commit": "15d9fee74f73d5fc65156603ec6baf331d94e139",
+      "retained_file_count": 371,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/psmask-outer-v5/independent_validation.json",
+          "sha256": "02031a92d01bb9f66d54b4558d76612c9cff28924b3d37e45b9062e36b2197c9",
+          "fields": {
+            "status": "passed_independent_reconstruction"
+          }
+        },
+        {
+          "path": "artifacts/runs/psmask-outer-v5/run_manifest.json",
+          "sha256": "67ed320401fca5bf6a8949bc40ce5b717e028dcbb5de8a0a7177af51a71eb3f4",
+          "fields": {
+            "phase": "locked_outer_psmask"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/psmask-smoke-v1",
+      "family": "PS-MaskDRO and ANE",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/METHOD_SPECIFICATION.md",
+      "kind": "runs",
+      "created_utc": "2026-08-23T21:04:17.423613+00:00",
+      "run_commit": "551d4706b02538e9a096b4a4b5b544f0484091a5",
+      "retained_file_count": 7,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/psmask-smoke-v1/run_manifest.json",
+          "sha256": "b6c65d29bab4d590eabdfbd196507eeaa21df18b654ea4ec7b1742e76fb4a090",
+          "fields": {
+            "phase": "psmask_inner_source_only"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/readmission-inner-v1",
+      "family": "Independent readmission task",
+      "scope": "source_only_selection",
+      "note": "Patient-disjoint task; admission source is a domain proxy",
+      "reference": "docs/READMISSION_OUTER_V3_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T04:00:27.188022+00:00",
+      "run_commit": "e16cdd6c54107795fa0f8af9cc3963117cb607ba",
+      "retained_file_count": 51,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/readmission-inner-v1/independent_validation.json",
+          "sha256": "9510d6c8fba4ebeee02093a1f132796ed5c6bbb83f2a468d33a451c56249ee4a",
+          "fields": {
+            "status": "passed_source_only_inner_validation"
+          }
+        },
+        {
+          "path": "artifacts/runs/readmission-inner-v1/run_manifest.json",
+          "sha256": "ed20a6ae00926e3dfc05e27506f7cb169ef05d741e7cef178ef578da31b135bd",
+          "fields": {
+            "phase": "readmission_source_only"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/readmission-outer-v3",
+      "family": "Independent readmission task",
+      "scope": "independent_task_exploratory",
+      "note": "Patient-disjoint task; admission source is a domain proxy",
+      "reference": "docs/READMISSION_OUTER_V3_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T06:46:12.902230+00:00",
+      "run_commit": "e787c199b59ef77b839f22c8415375b83f573074",
+      "retained_file_count": 43,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/readmission-outer-v3/independent_validation.json",
+          "sha256": "8267920975fb0bc458e14c25b7ef277911540418e52e5918725bcc1a9fd4c69e",
+          "fields": {
+            "status": "passed_independent_reconstruction"
+          }
+        },
+        {
+          "path": "artifacts/runs/readmission-outer-v3/run_manifest.json",
+          "sha256": "7c4f14dd1ad5d360c43309d0dd4868ff6d52c8dcc3127649d9d5a038fe5403bc",
+          "fields": {
+            "phase": "locked_independent_readmission_test"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/shiftguard-synthetic-development-v1",
+      "family": "ShiftGuard revisions",
+      "scope": "synthetic_development",
+      "note": "Closed negative result; retain revisions and failed gates",
+      "reference": "docs/SHIFTGUARD_DEVELOPMENT_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T12:46:46.835522+00:00",
+      "run_commit": "be485afcc257ea2f0f04b201a9ee9b0cde9966c0",
+      "retained_file_count": 9,
+      "recorded_signals": [
+        "synthetic_gates.json: {\"status\": \"failed_one_or_more_synthetic_gates\"}"
+      ],
+      "status_records": [
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v1/config.resolved.json",
+          "sha256": "ffa802fc8c523248309bbb1289a3caf76b3e1e6a8e368b7a91db5076d0f84bd3",
+          "fields": {
+            "status": "source_only_synthetic_development"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v1/evidence_audit.json",
+          "sha256": "da38a026c8a78ed8842b22656c3fea9d88e86405f560d31fd0f30203a9be513e",
+          "fields": {
+            "status": "complete_source_only_synthetic_evidence"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v1/run_manifest.json",
+          "sha256": "03dea0f0730bddcff4fedb8acfcb7acb8c57b081699f5d7f59eef57a8117563d",
+          "fields": {
+            "phase": "source_only_synthetic_falsification"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v1/synthetic_gates.json",
+          "sha256": "87038ddf0420ebed7504393cf26c28f17e20bd018598a4ac55c7ed8f692a9d3f",
+          "fields": {
+            "status": "failed_one_or_more_synthetic_gates"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/shiftguard-synthetic-development-v2-omnibus",
+      "family": "ShiftGuard revisions",
+      "scope": "synthetic_development",
+      "note": "Closed negative result; retain revisions and failed gates",
+      "reference": "docs/SHIFTGUARD_DEVELOPMENT_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T13:04:39.659169+00:00",
+      "run_commit": "be485afcc257ea2f0f04b201a9ee9b0cde9966c0",
+      "retained_file_count": 9,
+      "recorded_signals": [
+        "synthetic_gates.json: {\"status\": \"failed_one_or_more_synthetic_gates\"}"
+      ],
+      "status_records": [
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v2-omnibus/config.resolved.json",
+          "sha256": "5aca3570bbe38f7264c18824a2cc70c27bf8c7ae8b998f7d06236941df56f1b1",
+          "fields": {
+            "status": "source_only_synthetic_revision_after_v1_gate_failure"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v2-omnibus/evidence_audit.json",
+          "sha256": "90454d5df83fae43434b6dbb068fe92596fae6b57a9021ecb523abed971d224b",
+          "fields": {
+            "status": "complete_source_only_synthetic_evidence"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v2-omnibus/run_manifest.json",
+          "sha256": "805096a09a22bd1c60a63dabb0f430f6233fe4cbdfee5d04f46a354642e347a4",
+          "fields": {
+            "phase": "source_only_synthetic_falsification"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v2-omnibus/synthetic_gates.json",
+          "sha256": "323396ec08d5471e356e7ab04a5f95536a98ca98b428a71e9ebb63a1bb0f8f05",
+          "fields": {
+            "status": "failed_one_or_more_synthetic_gates"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/shiftguard-synthetic-development-v3-max-moment",
+      "family": "ShiftGuard revisions",
+      "scope": "synthetic_development",
+      "note": "Closed negative result; retain revisions and failed gates",
+      "reference": "docs/SHIFTGUARD_DEVELOPMENT_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T13:13:54.866282+00:00",
+      "run_commit": "be485afcc257ea2f0f04b201a9ee9b0cde9966c0",
+      "retained_file_count": 9,
+      "recorded_signals": [
+        "synthetic_gates.json: {\"status\": \"failed_one_or_more_synthetic_gates\"}"
+      ],
+      "status_records": [
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v3-max-moment/config.resolved.json",
+          "sha256": "4eecb648c90ba00d377b6cbd01ca68465a79961dc117496d45febbcd0a039d7e",
+          "fields": {
+            "status": "source_only_revision_after_v2_sparse_alternative_failure"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v3-max-moment/evidence_audit.json",
+          "sha256": "673340bbfda43bb83965a82c93a7b29eee0fbe596430617267f2294175380fe6",
+          "fields": {
+            "status": "complete_source_only_synthetic_evidence"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v3-max-moment/run_manifest.json",
+          "sha256": "f70f9a882c3607b13b67c9392a3ec34bdcc0ae6c607bc04e2beccc5377f822cb",
+          "fields": {
+            "phase": "source_only_synthetic_falsification"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v3-max-moment/synthetic_gates.json",
+          "sha256": "25bc0e84f0d0480dfe9f3ad9afa56189b20df3fbab40bae618b3b45c5fcb84f3",
+          "fields": {
+            "status": "failed_one_or_more_synthetic_gates"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/shiftguard-synthetic-development-v4-spectral-pilot",
+      "family": "ShiftGuard revisions",
+      "scope": "synthetic_pilot",
+      "note": "Pilot only; not comparable to full-revision estimates",
+      "reference": "docs/SHIFTGUARD_DEVELOPMENT_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T13:31:28.026580+00:00",
+      "run_commit": "be485afcc257ea2f0f04b201a9ee9b0cde9966c0",
+      "retained_file_count": 9,
+      "recorded_signals": [
+        "synthetic_gates.json: {\"status\": \"failed_one_or_more_synthetic_gates\"}"
+      ],
+      "status_records": [
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v4-spectral-pilot/config.resolved.json",
+          "sha256": "64b84e4e3f2829f8e225088516d6107ebf073f1e5d4e1675bb29a4508c3f0a71",
+          "fields": {
+            "status": "source_only_pilot_not_confirmatory"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v4-spectral-pilot/evidence_audit.json",
+          "sha256": "83b867d381bdd91690283e47d3d74539a8056e7500fdfabbbd96d2ce1b8f1e4b",
+          "fields": {
+            "status": "complete_source_only_synthetic_evidence"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v4-spectral-pilot/run_manifest.json",
+          "sha256": "2e73523d325d20b6680ba6bf9f7a02c43b8f5ba79479c2f312b8dada455469a1",
+          "fields": {
+            "phase": "source_only_synthetic_falsification"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v4-spectral-pilot/synthetic_gates.json",
+          "sha256": "2acf8db92c41b73d3ec6ade7aec9cbe978775c7f9ce0a25e5ae5f8f5d482d226",
+          "fields": {
+            "status": "failed_one_or_more_synthetic_gates"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/shiftguard-synthetic-development-v4-spectral-ridge",
+      "family": "ShiftGuard revisions",
+      "scope": "synthetic_development",
+      "note": "Closed negative result; retain revisions and failed gates",
+      "reference": "docs/SHIFTGUARD_DEVELOPMENT_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T13:32:28.378113+00:00",
+      "run_commit": "be485afcc257ea2f0f04b201a9ee9b0cde9966c0",
+      "retained_file_count": 9,
+      "recorded_signals": [
+        "synthetic_gates.json: {\"status\": \"failed_one_or_more_synthetic_gates\"}"
+      ],
+      "status_records": [
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v4-spectral-ridge/config.resolved.json",
+          "sha256": "4eafb54b862ba8c275751412e683a8a77a0bf5832a9933379ec6bac5d128e167",
+          "fields": {
+            "status": "source_only_revision_after_v3_covariance_power_failure"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v4-spectral-ridge/evidence_audit.json",
+          "sha256": "7b2f3675d2376f73f84b1d3ba58251ec8580c415785d493e222380395c220b46",
+          "fields": {
+            "status": "complete_source_only_synthetic_evidence"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v4-spectral-ridge/run_manifest.json",
+          "sha256": "54f882c7c482beb38e8bd2f10a35195bb969f4d2dd200c371980ab912bcecaf4",
+          "fields": {
+            "phase": "source_only_synthetic_falsification"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v4-spectral-ridge/synthetic_gates.json",
+          "sha256": "da4736a7a71dd68bf382a22cd4d353cf1142b78e01779d261e545fbb11f01faa",
+          "fields": {
+            "status": "failed_one_or_more_synthetic_gates"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/shiftguard-synthetic-development-v5-joint-null-pilot",
+      "family": "ShiftGuard revisions",
+      "scope": "synthetic_pilot",
+      "note": "Pilot only; not comparable to full-revision estimates",
+      "reference": "docs/SHIFTGUARD_DEVELOPMENT_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T13:41:26.083004+00:00",
+      "run_commit": "be485afcc257ea2f0f04b201a9ee9b0cde9966c0",
+      "retained_file_count": 9,
+      "recorded_signals": [
+        "synthetic_gates.json: {\"status\": \"failed_one_or_more_synthetic_gates\"}"
+      ],
+      "status_records": [
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v5-joint-null-pilot/config.resolved.json",
+          "sha256": "d71c01113dff40156031d8525ec37f7144aff5248ed7394d8162df08813b9731",
+          "fields": {
+            "status": "source_only_pilot_not_confirmatory"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v5-joint-null-pilot/evidence_audit.json",
+          "sha256": "d18faf77dc566aeda593f80eb6ff0c491e94dac031f33e195b0686f747d7248d",
+          "fields": {
+            "status": "complete_source_only_synthetic_evidence"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v5-joint-null-pilot/run_manifest.json",
+          "sha256": "eeb936dc8106d48325657d7eb7fff965d03404b7e2aa057a5ac502e1b2ee0eb1",
+          "fields": {
+            "phase": "source_only_synthetic_falsification"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v5-joint-null-pilot/synthetic_gates.json",
+          "sha256": "03a19a3dbc2f5a32934f117b682aacc58cbea262f877ecdb962ceae0b422dfa4",
+          "fields": {
+            "status": "failed_one_or_more_synthetic_gates"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/shiftguard-synthetic-development-v6-quantile-copula-pilot",
+      "family": "ShiftGuard revisions",
+      "scope": "synthetic_pilot",
+      "note": "Pilot only; not comparable to full-revision estimates",
+      "reference": "docs/SHIFTGUARD_DEVELOPMENT_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T13:48:17.533929+00:00",
+      "run_commit": "be485afcc257ea2f0f04b201a9ee9b0cde9966c0",
+      "retained_file_count": 9,
+      "recorded_signals": [
+        "synthetic_gates.json: {\"status\": \"failed_one_or_more_synthetic_gates\"}"
+      ],
+      "status_records": [
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v6-quantile-copula-pilot/config.resolved.json",
+          "sha256": "935408d8e78650c62ff5bcd5f3a770e64e282dd0122eccd2ab0e867b6cbdbe4c",
+          "fields": {
+            "status": "source_only_pilot_not_confirmatory"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v6-quantile-copula-pilot/evidence_audit.json",
+          "sha256": "2f5dc6bceaaca7484f52e9e179425c7a39c5507373a207497e1b25bffa118845",
+          "fields": {
+            "status": "complete_source_only_synthetic_evidence"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v6-quantile-copula-pilot/run_manifest.json",
+          "sha256": "16035601c652451c6a06e5e1163909c66c7a27b95f06f8018c1c173b35b436ad",
+          "fields": {
+            "phase": "source_only_synthetic_falsification"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v6-quantile-copula-pilot/synthetic_gates.json",
+          "sha256": "f9149fecfe6424be9f83cc442f51d20ca2b4005c90e48710d75d37160e56ab7c",
+          "fields": {
+            "status": "failed_one_or_more_synthetic_gates"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/shiftguard-synthetic-development-v7-power-guard",
+      "family": "ShiftGuard revisions",
+      "scope": "synthetic_development",
+      "note": "Closed negative result; retain revisions and failed gates",
+      "reference": "docs/SHIFTGUARD_DEVELOPMENT_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T13:54:30.886456+00:00",
+      "run_commit": "be485afcc257ea2f0f04b201a9ee9b0cde9966c0",
+      "retained_file_count": 11,
+      "recorded_signals": [
+        "synthetic_gates.json: {\"status\": \"failed_one_or_more_synthetic_gates\"}"
+      ],
+      "status_records": [
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v7-power-guard/config.resolved.json",
+          "sha256": "3e2a87f790aab8dc48b41db46905eee2de470ab1200b5c1ee5cfb46ca454086d",
+          "fields": {
+            "status": "source_only_revision_after_v7_pilot_near_gate"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v7-power-guard/evidence_audit.json",
+          "sha256": "eacb319838f78ab142610b9eb068c8d870f19261ed7e23b45f374a8352319d24",
+          "fields": {
+            "status": "complete_source_only_synthetic_evidence"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v7-power-guard/run_manifest.json",
+          "sha256": "a38d3cb87744654aed26dee1c679d92237fc724705759bede0acc764022dc5f5",
+          "fields": {
+            "phase": "source_only_synthetic_falsification"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v7-power-guard/synthetic_gates.json",
+          "sha256": "b4af710707eb438c3896436a4353145767bf9e8ced0d2fa076276b9a73a46910",
+          "fields": {
+            "status": "failed_one_or_more_synthetic_gates"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/shiftguard-synthetic-development-v7-power-guard-pilot",
+      "family": "ShiftGuard revisions",
+      "scope": "synthetic_pilot",
+      "note": "Pilot only; not comparable to full-revision estimates",
+      "reference": "docs/SHIFTGUARD_DEVELOPMENT_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T13:52:08.038651+00:00",
+      "run_commit": "be485afcc257ea2f0f04b201a9ee9b0cde9966c0",
+      "retained_file_count": 10,
+      "recorded_signals": [
+        "synthetic_gates.json: {\"status\": \"failed_one_or_more_synthetic_gates\"}"
+      ],
+      "status_records": [
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v7-power-guard-pilot/config.resolved.json",
+          "sha256": "5b6fcec606645b0779bb2d623ec483cf73ce589ba4d0d739afdff02504b47b24",
+          "fields": {
+            "status": "source_only_pilot_not_confirmatory"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v7-power-guard-pilot/evidence_audit.json",
+          "sha256": "ea04ed22dcfdfa63156c8187a5f84aa36a8c457da60d1207cec29e50a7a4b9c8",
+          "fields": {
+            "status": "complete_source_only_synthetic_evidence"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v7-power-guard-pilot/run_manifest.json",
+          "sha256": "cffd227579f2f72b6fdf0820764d86c988761948e703568ace2bc28c1074d695",
+          "fields": {
+            "phase": "source_only_synthetic_falsification"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-development-v7-power-guard-pilot/synthetic_gates.json",
+          "sha256": "b746defb9473643be94a3e7a6fadafb8dfeea4c68bdda02728934d93a4cdbecb",
+          "fields": {
+            "status": "failed_one_or_more_synthetic_gates"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/shiftguard-synthetic-smoke-v1",
+      "family": "ShiftGuard revisions",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/SHIFTGUARD_DEVELOPMENT_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T12:46:21.094956+00:00",
+      "run_commit": "be485afcc257ea2f0f04b201a9ee9b0cde9966c0",
+      "retained_file_count": 9,
+      "recorded_signals": [
+        "synthetic_gates.json: {\"status\": \"failed_one_or_more_synthetic_gates\"}"
+      ],
+      "status_records": [
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-smoke-v1/config.resolved.json",
+          "sha256": "5e01d12765b6bf54207350dce188fa8098e430c2e071ba25100467eb19c04ce7",
+          "fields": {
+            "status": "code_smoke_not_scientific_result"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-smoke-v1/evidence_audit.json",
+          "sha256": "3ee9d2221bd66f649e516b22253bc0e926ca7413603ff23eeb42946f8de2da0e",
+          "fields": {
+            "status": "complete_source_only_synthetic_evidence"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-smoke-v1/run_manifest.json",
+          "sha256": "95a8f5bf1b9e42c130bdf442ca2865e8b3278422d04d12e99ae8afc10c1a5c9a",
+          "fields": {
+            "phase": "source_only_synthetic_falsification"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-smoke-v1/synthetic_gates.json",
+          "sha256": "66220042433da859971def663cdb7cf157864a20f2ade586fe8a2a8e34d5fa32",
+          "fields": {
+            "status": "failed_one_or_more_synthetic_gates"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/shiftguard-synthetic-v2-smoke",
+      "family": "ShiftGuard revisions",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/SHIFTGUARD_DEVELOPMENT_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T13:04:20.588481+00:00",
+      "run_commit": "be485afcc257ea2f0f04b201a9ee9b0cde9966c0",
+      "retained_file_count": 9,
+      "recorded_signals": [
+        "synthetic_gates.json: {\"status\": \"failed_one_or_more_synthetic_gates\"}"
+      ],
+      "status_records": [
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-v2-smoke/config.resolved.json",
+          "sha256": "255d6a1f4ffac777e187729801c09c984e4bf47799c4d3209699408ac31b03dd",
+          "fields": {
+            "status": "code_smoke_not_scientific_result"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-v2-smoke/evidence_audit.json",
+          "sha256": "6a84995a321686313c13d808a77c35eb81c141ddd8d828f2b76470629701fcf4",
+          "fields": {
+            "status": "complete_source_only_synthetic_evidence"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-v2-smoke/run_manifest.json",
+          "sha256": "6e0cd8b4c4e62669fe964cb383d796606241176ab1a6958adb001e7573aa14a2",
+          "fields": {
+            "phase": "source_only_synthetic_falsification"
+          }
+        },
+        {
+          "path": "artifacts/runs/shiftguard-synthetic-v2-smoke/synthetic_gates.json",
+          "sha256": "ab438d11fd2c1378b4708076840916042e8698f9c765435986c37b65f8910d0e",
+          "fields": {
+            "status": "failed_one_or_more_synthetic_gates"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/support-router-nested-anchor-smoke-v2",
+      "family": "Support-aware routing",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T14:09:31.848249+00:00",
+      "run_commit": "be485afcc257ea2f0f04b201a9ee9b0cde9966c0",
+      "retained_file_count": 3,
+      "recorded_signals": [
+        "failure.json: {\"status\": \"failed_closed_before_router_training\"}"
+      ],
+      "status_records": [
+        {
+          "path": "artifacts/runs/support-router-nested-anchor-smoke-v2/config.resolved.json",
+          "sha256": "c9385cb5efa3834a04a4a7f2d3524917a2da96b4396f39cb0539121a253179a5",
+          "fields": {
+            "status": "code_smoke_not_scientific_result"
+          }
+        },
+        {
+          "path": "artifacts/runs/support-router-nested-anchor-smoke-v2/failure.json",
+          "sha256": "faca7f73201da34b6375be08cbe35d8e8d44dc8614c020588066d8302648d09e",
+          "fields": {
+            "status": "failed_closed_before_router_training"
+          }
+        },
+        {
+          "path": "artifacts/runs/support-router-nested-anchor-smoke-v2/run_manifest.json",
+          "sha256": "eb5f9c39c88325dab5b790c4433c268c413f7906fcb9624b8a19cd0f4f90dbcf",
+          "fields": {
+            "phase": "consumed_source_oof_router_development"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/support-router-nested-anchor-smoke-v3",
+      "family": "Support-aware routing",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T14:09:54.528095+00:00",
+      "run_commit": "be485afcc257ea2f0f04b201a9ee9b0cde9966c0",
+      "retained_file_count": 11,
+      "recorded_signals": [
+        "router_gates.json: {\"status\": \"failed_one_or_more_source_router_gates\"}"
+      ],
+      "status_records": [
+        {
+          "path": "artifacts/runs/support-router-nested-anchor-smoke-v3/config.resolved.json",
+          "sha256": "6b7ba444bd35f8ff0658f20193a26454a8ff73e1e20636c490dbf10f1d2aef8e",
+          "fields": {
+            "status": "code_smoke_not_scientific_result"
+          }
+        },
+        {
+          "path": "artifacts/runs/support-router-nested-anchor-smoke-v3/evidence_audit.json",
+          "sha256": "c96b7a351cd2b072a96658fc3a9599e4caaff1b21ef0acb627ee5afdfe33bdf2",
+          "fields": {
+            "status": "complete_consumed_source_oof_development_only"
+          }
+        },
+        {
+          "path": "artifacts/runs/support-router-nested-anchor-smoke-v3/router_gates.json",
+          "sha256": "1229c1f83e49580fad6361fa3eb21f0b2bf40a7a91d4e55428fba5b38674cfb5",
+          "fields": {
+            "status": "failed_one_or_more_source_router_gates"
+          }
+        },
+        {
+          "path": "artifacts/runs/support-router-nested-anchor-smoke-v3/run_manifest.json",
+          "sha256": "d503f4e41f5c74b6b88ccd66995a86575ce2f54a6b0c43c455c0960f1619b714",
+          "fields": {
+            "phase": "consumed_source_oof_router_development"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/support-router-outer-development-v1",
+      "family": "Support-aware routing",
+      "scope": "post_outcome_development",
+      "note": "Full router did not improve on strongest fixed blend",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T17:28:43.776376+00:00",
+      "run_commit": "be485afcc257ea2f0f04b201a9ee9b0cde9966c0",
+      "retained_file_count": 26,
+      "recorded_signals": [
+        "router_gates.json: {\"status\": \"failed_one_or_more_development_gates\"}"
+      ],
+      "status_records": [
+        {
+          "path": "artifacts/runs/support-router-outer-development-v1/config.resolved.json",
+          "sha256": "85219fd6ec902af0dfad0ce3d151290802afa426c1bd54cb60d5922ae79b40ab",
+          "fields": {
+            "status": "consumed_uci_development_only"
+          }
+        },
+        {
+          "path": "artifacts/runs/support-router-outer-development-v1/evidence_audit.json",
+          "sha256": "88663611226b827138342c111d1f3a4bd1700b8a3d7f6d4395792737f0a1287d",
+          "fields": {
+            "status": "complete_consumed_uci_development_only"
+          }
+        },
+        {
+          "path": "artifacts/runs/support-router-outer-development-v1/post_run_source_snapshot.json",
+          "sha256": "617bee9a8ea4ac968e93db715395fe564f6fd31d14af0c942770209e47ce6ac4",
+          "fields": {
+            "status": "post_run_exact_source_snapshot"
+          }
+        },
+        {
+          "path": "artifacts/runs/support-router-outer-development-v1/router_gates.json",
+          "sha256": "767adbd631f84c066a84f2c79b13faeb831ef344366b4d7270c43bbd719d66d1",
+          "fields": {
+            "status": "failed_one_or_more_development_gates"
+          }
+        },
+        {
+          "path": "artifacts/runs/support-router-outer-development-v1/run_manifest.json",
+          "sha256": "b5bc22f687d4c758354dc8317f780daf582b24ba44501152fe68b42f367bba4d",
+          "fields": {
+            "phase": "consumed_uci_source_selected_outer_router_development"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/support-router-outer-smoke-v1",
+      "family": "Support-aware routing",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T14:31:35.781207+00:00",
+      "run_commit": "be485afcc257ea2f0f04b201a9ee9b0cde9966c0",
+      "retained_file_count": 25,
+      "recorded_signals": [
+        "router_gates.json: {\"status\": \"passed_all_development_gates\"}"
+      ],
+      "status_records": [
+        {
+          "path": "artifacts/runs/support-router-outer-smoke-v1/config.resolved.json",
+          "sha256": "12a8ea7ea8d39cc5bbb471b529089885d090ae7a0ed9da4050ca5d889e3ad53d",
+          "fields": {
+            "status": "code_smoke_not_scientific_result"
+          }
+        },
+        {
+          "path": "artifacts/runs/support-router-outer-smoke-v1/evidence_audit.json",
+          "sha256": "09eab55f6ad1bb9a68e6a6838834ea0f64555ae9fb670af7f281a20d542dc6ea",
+          "fields": {
+            "status": "complete_code_smoke_not_scientific_result"
+          }
+        },
+        {
+          "path": "artifacts/runs/support-router-outer-smoke-v1/router_gates.json",
+          "sha256": "1739d503c40d3d9c183e99362f80aa01a1cad562f849ea8d492631abc8d58eff",
+          "fields": {
+            "status": "passed_all_development_gates"
+          }
+        },
+        {
+          "path": "artifacts/runs/support-router-outer-smoke-v1/run_manifest.json",
+          "sha256": "a8a82a8006d5027368d7c890c7e899b1d1efad1335254a0058a80ad2fbc6e9f9",
+          "fields": {
+            "phase": "consumed_uci_source_selected_outer_router_development"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/support-router-outer-smoke-v2-strongest-fixed",
+      "family": "Support-aware routing",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T14:35:04.524682+00:00",
+      "run_commit": "be485afcc257ea2f0f04b201a9ee9b0cde9966c0",
+      "retained_file_count": 26,
+      "recorded_signals": [
+        "router_gates.json: {\"status\": \"failed_one_or_more_development_gates\"}"
+      ],
+      "status_records": [
+        {
+          "path": "artifacts/runs/support-router-outer-smoke-v2-strongest-fixed/config.resolved.json",
+          "sha256": "151b336af15b7f22415cd46b20ffd97a2c50ee0c2f40a6e3e1ed993bd2086205",
+          "fields": {
+            "status": "code_smoke_not_scientific_result"
+          }
+        },
+        {
+          "path": "artifacts/runs/support-router-outer-smoke-v2-strongest-fixed/evidence_audit.json",
+          "sha256": "645e4401026d3942f9e32ff8b25d239943e9a1a6f1474b2cc77714d9babc3ae3",
+          "fields": {
+            "status": "complete_code_smoke_not_scientific_result"
+          }
+        },
+        {
+          "path": "artifacts/runs/support-router-outer-smoke-v2-strongest-fixed/post_run_source_snapshot.json",
+          "sha256": "63b87747c0919f1674f074c8a71baa7b706b5f6939bd561a192cfbd4d551c102",
+          "fields": {
+            "status": "post_run_exact_source_snapshot"
+          }
+        },
+        {
+          "path": "artifacts/runs/support-router-outer-smoke-v2-strongest-fixed/router_gates.json",
+          "sha256": "0fbf31e008ee632b91c3acfa9c907227e780f46cb8e5e1f8acf2559fc927cdd1",
+          "fields": {
+            "status": "failed_one_or_more_development_gates"
+          }
+        },
+        {
+          "path": "artifacts/runs/support-router-outer-smoke-v2-strongest-fixed/run_manifest.json",
+          "sha256": "9a99eea8a269faabfd1ca874cbfb28010df14657ef7470f5edaa8d57ef2345a0",
+          "fields": {
+            "phase": "consumed_uci_source_selected_outer_router_development"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/support-router-smoke-v1",
+      "family": "Support-aware routing",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T12:58:51.668994+00:00",
+      "run_commit": "be485afcc257ea2f0f04b201a9ee9b0cde9966c0",
+      "retained_file_count": 9,
+      "recorded_signals": [
+        "router_gates.json: {\"status\": \"passed_all_source_router_gates\"}"
+      ],
+      "status_records": [
+        {
+          "path": "artifacts/runs/support-router-smoke-v1/config.resolved.json",
+          "sha256": "c9385cb5efa3834a04a4a7f2d3524917a2da96b4396f39cb0539121a253179a5",
+          "fields": {
+            "status": "code_smoke_not_scientific_result"
+          }
+        },
+        {
+          "path": "artifacts/runs/support-router-smoke-v1/evidence_audit.json",
+          "sha256": "30aeed8bc1f30e580d94f3aa52e99189d86b22640339b025c104117746ae4427",
+          "fields": {
+            "status": "complete_consumed_source_oof_development_only"
+          }
+        },
+        {
+          "path": "artifacts/runs/support-router-smoke-v1/router_gates.json",
+          "sha256": "5f6d3018e5e4bb94bead56f86052fc4391d2ae146ea545e2463df95d3cbf6709",
+          "fields": {
+            "status": "passed_all_source_router_gates"
+          }
+        },
+        {
+          "path": "artifacts/runs/support-router-smoke-v1/run_manifest.json",
+          "sha256": "2fa126c0eed93197bc4c1a77490647fa9d8caecbcda2bc7554ce8aaff764dfdb",
+          "fields": {
+            "phase": "consumed_source_oof_router_development"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/synthetic-mechanism-v2",
+      "family": "Registered synthetic mechanisms",
+      "scope": "registered_synthetic_mechanism",
+      "note": "Failed mechanism gate; preserved before v3",
+      "reference": "docs/SYNTHETIC_V2_FAILURE.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T01:54:32.204993+00:00",
+      "run_commit": "c46ab83e89746ebdfdbb68fa748da0c626ba320f",
+      "retained_file_count": 9,
+      "recorded_signals": [
+        "acceptance_gate.json: {\"passed\": false}"
+      ],
+      "status_records": [
+        {
+          "path": "artifacts/runs/synthetic-mechanism-v2/acceptance_gate.json",
+          "sha256": "182da0b09585cbf1a8bb16eb251e0a0e24342676393c93fd2287666056b32aa2",
+          "fields": {
+            "passed": false
+          }
+        },
+        {
+          "path": "artifacts/runs/synthetic-mechanism-v2/evidence_audit.json",
+          "sha256": "a47c5867c330cac352270ad86b5d3beeab08fb99801d0b01a3305cb9e54bad6d",
+          "fields": {
+            "gate_passed": false
+          }
+        },
+        {
+          "path": "artifacts/runs/synthetic-mechanism-v2/run_manifest.json",
+          "sha256": "668811cfa8f68bdd089feaf2331d7bb619c17ebe840516bb15c80c4b92155935",
+          "fields": {
+            "phase": "synthetic_mechanism_validation"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/synthetic-mechanism-v3",
+      "family": "Registered synthetic mechanisms",
+      "scope": "registered_synthetic_mechanism",
+      "note": "Mechanism-specific evidence; no general shift guarantee",
+      "reference": "docs/SYNTHETIC_V3_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T03:29:49.707024+00:00",
+      "run_commit": "4ce3223a4a055e460869c1f61b04acca9d543c48",
+      "retained_file_count": 11,
+      "recorded_signals": [
+        "acceptance_gate.json: {\"passed\": true}"
+      ],
+      "status_records": [
+        {
+          "path": "artifacts/runs/synthetic-mechanism-v3/acceptance_gate.json",
+          "sha256": "86fd90643533e9f0f2f396b8af5ae5c68554359cac8a361363e8f5d69ad70502",
+          "fields": {
+            "passed": true
+          }
+        },
+        {
+          "path": "artifacts/runs/synthetic-mechanism-v3/evidence_audit.json",
+          "sha256": "b652aa3b960c5c257a0e5700fb0a6332b6f35a9501b39524dddb9fec9ec76d21",
+          "fields": {
+            "gate_passed": true
+          }
+        },
+        {
+          "path": "artifacts/runs/synthetic-mechanism-v3/independent_validation.json",
+          "sha256": "a70581f192315fcb88d70aae043268022dc16e22c63bf62a1d4a99397a2775e4",
+          "fields": {
+            "status": "passed_after_explicit_float_storage_tolerance",
+            "gate_passed": true
+          }
+        },
+        {
+          "path": "artifacts/runs/synthetic-mechanism-v3/run_manifest.json",
+          "sha256": "07e9bb37fcbcaec0d3d6cdf358fa8857b40d0cc49c5800bbad01e38970f770fa",
+          "fields": {
+            "phase": "synthetic_mechanism_validation"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/synthetic-mechanism-v3-code-dryrun-1",
+      "family": "Registered synthetic mechanisms",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/SYNTHETIC_V3_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T03:18:44.692397+00:00",
+      "run_commit": "21c798b75ddef2df667ec2d5d0e5e87f7414dfff",
+      "retained_file_count": 11,
+      "recorded_signals": [
+        "acceptance_gate.json: {\"passed\": true}"
+      ],
+      "status_records": [
+        {
+          "path": "artifacts/runs/synthetic-mechanism-v3-code-dryrun-1/acceptance_gate.json",
+          "sha256": "25cb8ea4ec1c9b59c16ecf16cb8bbb6efb32b92796c9ba78efca4a6a571fd450",
+          "fields": {
+            "passed": true
+          }
+        },
+        {
+          "path": "artifacts/runs/synthetic-mechanism-v3-code-dryrun-1/evidence_audit.json",
+          "sha256": "468648159a0adf3da0ebc6766fec6fd6ccedcb54344b2a1a9f927d1e3c971e23",
+          "fields": {
+            "gate_passed": true
+          }
+        },
+        {
+          "path": "artifacts/runs/synthetic-mechanism-v3-code-dryrun-1/run_manifest.json",
+          "sha256": "bab6e23af7e202f9abb2b5746fadc94ad82cffef9a4c1c088f339e20bb45f81b",
+          "fields": {
+            "phase": "synthetic_mechanism_validation"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/synthetic-v3-diagnostic-devcheck-1",
+      "family": "Registered synthetic mechanisms",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/SYNTHETIC_V3_RESULT.md",
+      "kind": "runs",
+      "created_utc": "not_recorded",
+      "run_commit": "not_recorded",
+      "retained_file_count": 1,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/synthetic-v3-diagnostic-devcheck-1/development_check.json",
+          "sha256": "7fa252b85cf8b2f98840bef89c4aae5cb7be5ff109f7eab1d8b0e7bd368b8a4b",
+          "fields": {
+            "status": "method_development_not_confirmatory"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/tabpfn-v3-inner-confirm-v1",
+      "family": "Comparator baselines",
+      "scope": "source_only_selection",
+      "note": "Retained source selection and implementation record",
+      "reference": "docs/REPRODUCIBILITY.md",
+      "kind": "runs",
+      "created_utc": "2026-08-23T23:55:44.193037+00:00",
+      "run_commit": "c0ddc02900037d05b8f788320f9358f583c335fc",
+      "retained_file_count": 6,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/tabpfn-v3-inner-confirm-v1/run_manifest.json",
+          "sha256": "1b3275738c64240c478ca01a6201b46e5709b673e2e701f951464183298dde82",
+          "fields": {
+            "phase": "inner_source_only"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/tabpfn-v3-inner-v1",
+      "family": "Comparator baselines",
+      "scope": "source_only_selection",
+      "note": "Retained source selection and implementation record",
+      "reference": "docs/REPRODUCIBILITY.md",
+      "kind": "runs",
+      "created_utc": "2026-08-23T23:54:15.181867+00:00",
+      "run_commit": "420daae74a7ffa159df87b22ca2186cdf8929023",
+      "retained_file_count": 5,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/tabpfn-v3-inner-v1/run_manifest.json",
+          "sha256": "371c9994be2688b0932864a4627c83ba16d81cbdd7da21cba27d0a5f65cf6b3a",
+          "fields": {
+            "phase": "inner_source_only"
+          }
+        }
+      ]
+    },
+    {
+      "path": "artifacts/runs/tabpfn-v3-outer-v3",
+      "family": "Comparator baselines",
+      "scope": "locked_heart_with_disclosed_recoveries",
+      "note": "Retained locked heart evidence; see recovery chronology",
+      "reference": "docs/HEART_OUTER_V5_RESULT.md",
+      "kind": "runs",
+      "created_utc": "2026-08-24T06:31:47.797573+00:00",
+      "run_commit": "e787c199b59ef77b839f22c8415375b83f573074",
+      "retained_file_count": 10,
+      "recorded_signals": [],
+      "status_records": [
+        {
+          "path": "artifacts/runs/tabpfn-v3-outer-v3/independent_validation.json",
+          "sha256": "c58e82a5adae16d6191ba56d075c4a77706d335f5766ee51a8a59a3cdfaa6fac",
+          "fields": {
+            "status": "passed_independent_reconstruction"
+          }
+        },
+        {
+          "path": "artifacts/runs/tabpfn-v3-outer-v3/run_manifest.json",
+          "sha256": "4e2335030d29f1155abcdd950671730445f246361ce8cdde3e144b54591df221",
+          "fields": {
+            "phase": "locked_outer_loho"
+          }
+        }
+      ]
+    }
+  ]
+}

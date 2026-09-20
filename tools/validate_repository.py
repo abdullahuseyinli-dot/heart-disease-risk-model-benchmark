@@ -190,7 +190,11 @@ def validate_document_links(relative_path: str) -> None:
     document = ROOT / relative_path
     text = document.read_text(encoding="utf-8")
     for target in re.findall(r"!?(?:\[[^]]*\])\(([^)]+)\)", text):
-        target = target.strip().split(maxsplit=1)[0].strip("<>")
+        target = target.strip()
+        if target.startswith("<"):
+            target = target[1:].split(">", 1)[0]
+        else:
+            target = target.split(maxsplit=1)[0]
         if target.startswith(("http://", "https://", "#", "mailto:")):
             continue
         local = unquote(target.split("#", 1)[0])
@@ -234,6 +238,12 @@ def validate_public_documentation() -> None:
         "docs/RELEASE_EVIDENCE_GATE.md",
         "docs/USAGE.md",
         "docs/VERSIONING.md",
+        "docs/RESEARCH_ATLAS.md",
+        "docs/research/EXPERIMENT_LEDGER.md",
+        "docs/legacy/COURSEWORK_PROVENANCE.md",
+        "docs/audit/2026-09-20/REPOSITORY_AUDIT.md",
+        "docs/audit/2026-09-20/VALIDATION.md",
+        "results/legacy_coursework_2025/README.md",
         "docs/legacy/LEGACY_BENCHMARK.md",
         "paper/README.md",
         "paper/OUTLINE.md",
@@ -326,6 +336,17 @@ def validate_release_metadata() -> None:
     )
 
 
+def validate_workflow_pins() -> None:
+    for workflow in sorted((ROOT / ".github/workflows").glob("*.yml")):
+        for action in re.findall(r"uses:\s*([^\s]+)", workflow.read_text(encoding="utf-8")):
+            if action.startswith("./"):
+                continue
+            require(
+                bool(re.fullmatch(r"[^@]+@[0-9a-f]{40}", action)),
+                f"{workflow.name}: action must use a 40-character commit pin: {action}",
+            )
+
+
 def main() -> None:
     validate_required_files()
     validate_holdout_results()
@@ -334,6 +355,7 @@ def main() -> None:
     validate_licensing()
     validate_public_paths()
     validate_release_metadata()
+    validate_workflow_pins()
     print("Repository validation passed.")
 
 

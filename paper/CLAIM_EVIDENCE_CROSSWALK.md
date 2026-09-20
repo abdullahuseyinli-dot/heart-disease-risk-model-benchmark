@@ -11,13 +11,18 @@ when the named artifact, evidence class, and limitation accompany it.
 | Robust proper-score rankings differed from natural-policy AUROC rankings. | Heart v5 and readmission v3 primary/secondary tables | Locked plus independent-task exploratory evidence | Describe metric trade-off; do not imply improved clinical decisions. |
 | The compatibility gate prevented negative transfer by abstaining in all evaluated heart cells. | Heart v5 adaptation summary and independent validation | Locked mechanism/safety result | State that no successful real-data adaptation was demonstrated. |
 | Joint PS-MaskDRO improved the readmission worst-mask point estimate relative to pooled ERM. | `artifacts/reports/readmission-outer-v3/`; `manifests/evidence/readmission_outer_v3_report_v1.json` | Independent-task exploratory contrast | Keep the any-readmission endpoint and admission-source domain proxy explicit. |
-| Ten-seed analysis favored a structured-policy ensemble by point estimate. | `artifacts/reports/heart-research-development-v1/`; corresponding sidecar | Post-outcome | Familywise intervals crossed zero; not confirmation. |
+| Ten-seed analysis favored a structured-policy ensemble by point estimate. | [Historical seed-extension stability report](../artifacts/reports/historical-psmask-ten-seed-sensitivity-v2-stability/), especially `three_vs_ten_seed_comparison.csv` and `posthoc_multiplicity_sensitivity.csv` | Post-outcome | Familywise intervals crossed zero; not confirmation. |
 | The support-aware router did not beat equal-logit blending. | Research-development primary estimands and paired intervals | Post-outcome negative result | Preserve as a negative architectural result. |
 | ShiftGuard is a new generally valid shift detector. | No qualifying evidence | Unsupported | Prohibited. Current ShiftGuard evidence is development-only and synthetic failures remain visible. |
 | HeartShift predicts prospective cardiovascular risk or is clinically deployable. | No qualifying evidence | Unsupported | Prohibited. Endpoint is historical angiographic disease in referred cohorts; software is not a medical device. |
 | PS-MaskDRO is a novel state-of-the-art architecture. | No qualifying evidence | Unsupported | Prohibited without an exhaustive prior-art review and untouched external confirmation. |
 
 ## Promotion rule
+
+The [research atlas](../docs/RESEARCH_ATLAS.md) provides the method-development
+map and current figures. Its [complete ledger](../docs/research/EXPERIMENT_LEDGER.md)
+includes failed, pilot, and smoke runs; a successful execution audit does not
+override a failed scientific gate.
 
 Before submission, a reviewer must regenerate every numeric statement from the
 hash-bound prediction rows, verify the sidecar, confirm its evidence class, and

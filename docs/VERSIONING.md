@@ -11,9 +11,13 @@ The package, `heartshift.__version__`, `CITATION.cff`, and `.zenodo.json` declar
 tag and release are created, this is release-candidate metadata rather than a
 published release. No DOI is currently claimed.
 
-The historical tag `legacy-v1-development-consumed` preserves the original
-pre-release development evidence. It is not equivalent to software version
-1.0.0 and must not be moved or deleted.
+The preservation tag `legacy-v1-development-consumed` points to
+`551d4706b02538e9a096b4a4b5b544f0484091a5`, the exact commit documented by the
+legacy validity audit. The September 2026 reconciliation found the tag absent
+locally and on GitHub and restored it on 2026-09-20. Its annotation explicitly
+records the restoration date; it does not claim to reproduce missing original
+tag metadata. It is not software version 1.0.0 and must not be moved or deleted.
+See the [reconciliation record](audit/2026-09-20/REPOSITORY_AUDIT.md).
 
 ## Version changes
 

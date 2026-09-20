@@ -19,6 +19,15 @@ and threshold selection use source hospitals only.
 > HeartShift is research software, not a medical device. Its outputs are not
 > suitable for diagnosis, treatment, or individual clinical decisions.
 
+**Explore the work:** [research ideas and outcomes](docs/RESEARCH_ATLAS.md) ·
+[complete experiment ledger](docs/research/EXPERIMENT_LEDGER.md) ·
+[local/Git audit](docs/audit/2026-09-20/REPOSITORY_AUDIT.md) ·
+[recovered coursework](docs/legacy/COURSEWORK_PROVENANCE.md).
+
+The ledger covers 56 retained runs and 12 report packages. The September 2026
+audit also recovered 121 original coursework outputs and indexed 68 notebook
+code cells. These are preserved artifacts, not additional independent trials.
+
 ## Results at a glance
 
 The primary heart metric is macro hospital worst-policy balanced log loss; lower
@@ -42,6 +51,15 @@ generalization to future hospitals.
 Detailed results are available in the [locked heart report](docs/HEART_OUTER_V5_RESULT.md),
 the [ten-seed stability report](docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md), and the
 [readmission report](docs/READMISSION_OUTER_V3_RESULT.md).
+
+![Locked heart results showing that natural-policy AUROC and worst-policy balanced log loss rank models differently](artifacts/figures/heartshift-v5-r2/heart_robustness_vs_auc.png)
+
+*Descriptive view of the locked heart report. Better AUROC does not necessarily
+mean better worst-policy probability scores. See the
+[plotted data](artifacts/figures/heartshift-v5-r2/heart_robustness_vs_auc.csv)
+and [figure provenance](artifacts/figures/heartshift-v5-r2/figure_manifest.json).
+The [research atlas](docs/RESEARCH_ATLAS.md) adds the full seed-stability comparison
+and the ShiftGuard revision/failure plot.*
 
 ## Evidence classes
 
@@ -110,6 +128,8 @@ uv run mypy
 uv run heartshift --version
 uv run heartshift contracts validate --repo-root .
 uv run python tools/validate_repository.py
+uv run python tools/build_research_atlas.py --check
+uv run python tools/plot_research_overview.py --check
 uv build
 uv run python tools/validate_distribution.py
 uv run python tools/smoke_install_distribution.py
@@ -142,6 +162,7 @@ data/                  raw sources, canonical tables, profiles, and split manife
 artifacts/             locks, prediction evidence, reports, figures, and preserved failures
 docs/                  protocol, cards, results, limitations, and audit history
 results/               preserved legacy benchmark outputs
+results/legacy_coursework_2025/ recovered original coursework tables and plots
 scripts/               preserved legacy benchmark and systems scripts
 paper/                 manuscript-facing evidence index
 ```
@@ -164,6 +185,10 @@ site-level conclusions require particular care.
 The original holdout benchmark remains available for provenance in the
 [legacy benchmark record](docs/legacy/LEGACY_BENCHMARK.md). It is not part of the
 current HeartShift comparison.
+
+The [coursework provenance guide](docs/legacy/COURSEWORK_PROVENANCE.md) credits
+the original group project and maps its notebooks, detailed tables, diagnostic
+plots, failed Dask experiment, and Colab latency trial to retained evidence.
 
 ## Citation and licensing
 

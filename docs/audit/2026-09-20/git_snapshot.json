@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0.0",
+  "audit_date": "2026-09-20",
+  "reference_commit": "d67941271b80961b0a24d7e459a8918e3e2510e4",
+  "remote_refs_before_changes": [
+    {
+      "oid": "1b8def77d67902f02c1cccd233f227a9d510dd8c",
+      "ref": "refs/heads/main"
+    },
+    {
+      "oid": "d67941271b80961b0a24d7e459a8918e3e2510e4",
+      "ref": "refs/heads/release/heartshift-v0.1.0-contracts"
+    },
+    {
+      "oid": "be485afcc257ea2f0f04b201a9ee9b0cde9966c0",
+      "ref": "refs/heads/research/heartshift-ps-maskdro"
+    },
+    {
+      "oid": "e08a1875d4ad3f6bd1ff4353fe966b91939b8314",
+      "ref": "refs/heads/research/shiftguard-v1-development"
+    }
+  ],
+  "remote_main_commit": "1b8def77d67902f02c1cccd233f227a9d510dd8c",
+  "unmerged_release_commits": [
+    "d67941271b80961b0a24d7e459a8918e3e2510e4",
+    "732b3b6a0461c175d33e7f31a1abbacb24a506a3"
+  ],
+  "research_branch_tree_equals_main": true,
+  "local_clones": [
+    {
+      "source_id": "audit_checkout",
+      "commit": "d67941271b80961b0a24d7e459a8918e3e2510e4",
+      "branch": "release/heartshift-v0.1.0-contracts",
+      "status": "",
+      "untracked": [],
+      "ignored_noncache": [],
+      "tags": [],
+      "local_not_remotes": []
+    },
+    {
+      "source_id": "downloads_checkout",
+      "commit": "d111b7bc7534c021b554da6dfaeb6b0c870aed7d",
+      "branch": "main",
+      "status": "",
+      "untracked": [],
+      "ignored_noncache": [],
+      "tags": [],
+      "local_not_remotes": [],
+      "tracked_blob_comparison": {
+        "present_in_remote_history": 7,
+        "present_in_current_tree": 33
+      },
+      "historical_local_variant_paths": []
+    },
+    {
+      "source_id": "portfolio_checkout",
+      "commit": "551d4706b02538e9a096b4a4b5b544f0484091a5",
+      "branch": "main",
+      "status": "",
+      "untracked": [],
+      "ignored_noncache": [],
+      "tags": [],
+      "local_not_remotes": [],
+      "tracked_blob_comparison": {
+        "present_in_remote_history": 8,
+        "present_in_current_tree": 39
+      },
+      "historical_local_variant_paths": []
+    }
+  ],
+  "backup_bundle_head": "37cb2ec30e4f74a717bd2ab285f1b06d968169ce",
+  "legacy_documented_commit": "551d4706b02538e9a096b4a4b5b544f0484091a5",
+  "legacy_tag_at_audit_start": "absent_locally_and_remote",
+  "scope": [
+    "Desktop (including thesis audit checkout)",
+    "Downloads (three checkouts and coursework locations)",
+    "Documents/Codex",
+    "OneDrive",
+    "atlas-stage",
+    "atlas-github",
+    "D drive filename search"
+  ],
+  "limitations": [
+    "Local scans cover accessible paths on this machine; historical run manifests refer to a different workstation.",
+    "Cache and installed dependency directories were excluded from research-file comparison.",
+    "No claim that historical PDF conclusions are validated; originals are indexed, not reclassified."
+  ]
+}

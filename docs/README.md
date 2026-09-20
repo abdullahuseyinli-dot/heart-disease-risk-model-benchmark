@@ -6,6 +6,9 @@ status under which each result was produced.
 
 ## Start here
 
+- [Research atlas](RESEARCH_ATLAS.md): ideas, attribution, development flow, figures, and supported conclusions.
+- [Complete experiment ledger](research/EXPERIMENT_LEDGER.md): every retained run/report, with explicit evidence scope and recorded failures.
+- [Local/Git reconciliation](audit/2026-09-20/REPOSITORY_AUDIT.md): branch integration, recovered outputs, and preservation gaps.
 - [Benchmark card](BENCHMARK_CARD.md): reusable task, split, metric, and evidence contract.
 - [Project status](PROJECT_STATUS.md): current evidence classes and completed evaluations.
 - [Installation and verification](USAGE.md): lightweight checkout and complete evidence audit.
@@ -53,6 +56,7 @@ historical context, not the current repository status or a public roadmap.
 - [v4 aggregation failure and v5 recovery](OUTER_V4_FAILURE_AND_V5_RECOVERY.md)
 - [Synthetic v2 failure](SYNTHETIC_V2_FAILURE.md)
 - [Archived v1 benchmark](legacy/LEGACY_BENCHMARK.md)
+- [Recovered coursework provenance](legacy/COURSEWORK_PROVENANCE.md): 152-file source inventory and all 68 notebook cells.
 - [Archived v1 validity audit](legacy/VALIDITY_AUDIT.md)
 
 Historical failures and superseded records remain available because they explain

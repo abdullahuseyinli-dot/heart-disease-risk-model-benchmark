@@ -1,0 +1,4 @@
+interval,observed_difference,lower,upper,evidence_scope
+Unadjusted percentile,-0.02500492963783918,-0.048843275647676085,-0.0025783718541295864,post_outcome_sensitivity
+Bonferroni (10 methods),-0.02500492963783918,-0.05729044295348497,0.008648396433178697,post_outcome_sensitivity
+Joint max-error,-0.02500492963783918,-0.07086702136552826,0.020857162089849904,post_outcome_sensitivity

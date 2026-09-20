@@ -4,6 +4,11 @@ data/raw/** -text -diff
 # Columnar evidence is binary and must never receive line-ending conversion.
 *.parquet -text
 
+# Recovered coursework outputs retain the exact bytes of the local originals.
+results/legacy_coursework_2025/** -text -whitespace
+docs/legacy/notebook_sources/** -text -whitespace
+assets/research/** -text -whitespace
+
 # Generated run evidence is hashed byte-for-byte. Do not normalize line endings
 # or ask textual-diff whitespace checks to reinterpret Windows CSV/JSON records.
 artifacts/runs/** -text -diff

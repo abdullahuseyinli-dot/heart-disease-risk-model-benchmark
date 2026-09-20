@@ -1,0 +1,1160 @@
+{
+  "schema_version": "1.0.0",
+  "audit_date": "2026-09-20",
+  "evidence_class": "legacy_development_consumed",
+  "source_id": "coursework_download",
+  "source_root_hint": "Downloads/CS5079_Group3_Assessment2",
+  "reference_commit": "d67941271b80961b0a24d7e459a8918e3e2510e4",
+  "counts": {
+    "original_retained_locally_indexed": 4,
+    "already_tracked_byte_identical": 27,
+    "recovered_original_output": 121
+  },
+  "files": [
+    {
+      "path": "assignment2_group3.pdf",
+      "bytes": 3553734,
+      "sha256": "03865a7f453912311d7554b19d690c23264f57a53972dbdafc71919b60d83dc7",
+      "disposition": "original_retained_locally_indexed",
+      "repository_path": null
+    },
+    {
+      "path": "Dask_Distributed/dask_lightgbm_experiment.ipynb",
+      "bytes": 11449,
+      "sha256": "ad37326273b2759f72f646885ce97a894927ac547c6744c526c685d0728a4a5b",
+      "disposition": "original_retained_locally_indexed",
+      "repository_path": null
+    },
+    {
+      "path": "Dask_Distributed/heart_disease_processed.parquet",
+      "bytes": 23962,
+      "sha256": "19a53ede51fb66c1eb9317a8cd88da9be4440be0729adf2c6c8cfef22ea92399",
+      "disposition": "already_tracked_byte_identical",
+      "repository_path": "data/heart_disease_processed.parquet",
+      "repository_normalization": "none",
+      "repository_bytes": 23962,
+      "repository_sha256": "19a53ede51fb66c1eb9317a8cd88da9be4440be0729adf2c6c8cfef22ea92399"
+    },
+    {
+      "path": "Dask_Distributed/results/figures/model_performance/lgbm_single_vs_dask_arp.png",
+      "bytes": 43156,
+      "sha256": "1e846ddbd0a6ec68aaaea80adf517f2772d47db4b498d5c71315f90218b63e4b",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Dask_Distributed/results/figures/model_performance/lgbm_single_vs_dask_arp.png"
+    },
+    {
+      "path": "Dask_Distributed/results/figures/model_performance/lgbm_single_vs_dask_auc_f1.png",
+      "bytes": 36251,
+      "sha256": "559d5536ae470a7f62405fc215637a6f9ad0c0c8b6dba09574dab41584683336",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Dask_Distributed/results/figures/model_performance/lgbm_single_vs_dask_auc_f1.png"
+    },
+    {
+      "path": "Dask_Distributed/results/figures/model_performance/lgbm_single_vs_dask_auc_vs_time.png",
+      "bytes": 45985,
+      "sha256": "9644400e081571dd5318277a314d1911ca290ce147776376e8ca1eca391d6872",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Dask_Distributed/results/figures/model_performance/lgbm_single_vs_dask_auc_vs_time.png"
+    },
+    {
+      "path": "Dask_Distributed/results/figures/model_performance/lgbm_single_vs_dask_brier.png",
+      "bytes": 43957,
+      "sha256": "acbbea249d4650b8b0fde6e53552832ca1d32ded552a7319e1d8d0691faa356f",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Dask_Distributed/results/figures/model_performance/lgbm_single_vs_dask_brier.png"
+    },
+    {
+      "path": "Dask_Distributed/results/figures/model_performance/lgbm_single_vs_dask_panel.png",
+      "bytes": 125900,
+      "sha256": "a02e7ddf3963a5193c644d09dda3ca94425e3011549ee700ea693a0a86ebc08a",
+      "disposition": "already_tracked_byte_identical",
+      "repository_path": "results/dask/figures/model_performance/lgbm_single_vs_dask_panel.png",
+      "repository_normalization": "none",
+      "repository_bytes": 125900,
+      "repository_sha256": "a02e7ddf3963a5193c644d09dda3ca94425e3011549ee700ea693a0a86ebc08a"
+    },
+    {
+      "path": "Dask_Distributed/results/figures/model_performance/lgbm_single_vs_dask_radar.png",
+      "bytes": 154936,
+      "sha256": "4fcd5373e2d3e841451a545dad49c065e7fb3b94b85924a5bef9b140a9415dd3",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Dask_Distributed/results/figures/model_performance/lgbm_single_vs_dask_radar.png"
+    },
+    {
+      "path": "Dask_Distributed/results/figures/model_performance/lgbm_single_vs_dask_train_time.png",
+      "bytes": 32969,
+      "sha256": "8d938c7a40c4db3fb24a6bfe843d9a266a83157e260a80535c54214cb116a395",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Dask_Distributed/results/figures/model_performance/lgbm_single_vs_dask_train_time.png"
+    },
+    {
+      "path": "Dask_Distributed/results/metrics/lightgbm_distributed_summary_colab.csv",
+      "bytes": 366,
+      "sha256": "41ff9831bdcbf638ebf3731fe7d21e914f93115d6759745a1e8f9cd4d9809cb5",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Dask_Distributed/results/metrics/lightgbm_distributed_summary_colab.csv"
+    },
+    {
+      "path": "Embedded Device Simulation/Embedded Device Simulation.ipynb",
+      "bytes": 778518,
+      "sha256": "cab713310319554e02604631a718938d4b7e17986bb5de52b539c60e0089d900",
+      "disposition": "original_retained_locally_indexed",
+      "repository_path": null
+    },
+    {
+      "path": "Embedded Device Simulation/Figures/latency_Api_per-request.png",
+      "bytes": 38845,
+      "sha256": "27d5e4713f2abe051c1853ac2639b19fe2b0e444f115a0867df20da4f0193901",
+      "disposition": "already_tracked_byte_identical",
+      "repository_path": "results/edge/figures/latency_hist.png",
+      "repository_normalization": "none",
+      "repository_bytes": 38845,
+      "repository_sha256": "27d5e4713f2abe051c1853ac2639b19fe2b0e444f115a0867df20da4f0193901"
+    },
+    {
+      "path": "Embedded Device Simulation/Figures/latency_hist_colab.png",
+      "bytes": 38845,
+      "sha256": "27d5e4713f2abe051c1853ac2639b19fe2b0e444f115a0867df20da4f0193901",
+      "disposition": "already_tracked_byte_identical",
+      "repository_path": "results/edge/figures/latency_hist.png",
+      "repository_normalization": "none",
+      "repository_bytes": 38845,
+      "repository_sha256": "27d5e4713f2abe051c1853ac2639b19fe2b0e444f115a0867df20da4f0193901"
+    },
+    {
+      "path": "Embedded Device Simulation/Figures/latency_jitter_colab.png",
+      "bytes": 214614,
+      "sha256": "92daf7f5c93ff7741e280b88568598a10fce13a5c0700a5156a45e20df72b6cf",
+      "disposition": "already_tracked_byte_identical",
+      "repository_path": "results/edge/figures/latency_jitter.png",
+      "repository_normalization": "none",
+      "repository_bytes": 214614,
+      "repository_sha256": "92daf7f5c93ff7741e280b88568598a10fce13a5c0700a5156a45e20df72b6cf"
+    },
+    {
+      "path": "Embedded Device Simulation/Figures/latency_over_time_colab.png",
+      "bytes": 243733,
+      "sha256": "a0ed9e9aed04c4c323fa38ede535901da18949c674aa2efb8124552d708268ac",
+      "disposition": "already_tracked_byte_identical",
+      "repository_path": "results/edge/figures/latency_over_time.png",
+      "repository_normalization": "none",
+      "repository_bytes": 243733,
+      "repository_sha256": "a0ed9e9aed04c4c323fa38ede535901da18949c674aa2efb8124552d708268ac"
+    },
+    {
+      "path": "Embedded Device Simulation/Figures/latency_pre-request.png",
+      "bytes": 243733,
+      "sha256": "a0ed9e9aed04c4c323fa38ede535901da18949c674aa2efb8124552d708268ac",
+      "disposition": "already_tracked_byte_identical",
+      "repository_path": "results/edge/figures/latency_over_time.png",
+      "repository_normalization": "none",
+      "repository_bytes": 243733,
+      "repository_sha256": "a0ed9e9aed04c4c323fa38ede535901da18949c674aa2efb8124552d708268ac"
+    },
+    {
+      "path": "Embedded Device Simulation/Figures/latency_warmup_vs_steady_colab.png",
+      "bytes": 53629,
+      "sha256": "f3023213cc00ea892a9365d3540076d0554111fab9f0250f9eff28eb8c8f06c9",
+      "disposition": "already_tracked_byte_identical",
+      "repository_path": "results/edge/figures/latency_warmup_vs_steady.png",
+      "repository_normalization": "none",
+      "repository_bytes": 53629,
+      "repository_sha256": "f3023213cc00ea892a9365d3540076d0554111fab9f0250f9eff28eb8c8f06c9"
+    },
+    {
+      "path": "Embedded Device Simulation/metrics/latency_samples_colab.csv",
+      "bytes": 164670,
+      "sha256": "1c04174655bee4233ed918969792591901d3fcf13abd2f04a5ad85ff839c6376",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Embedded Device Simulation/metrics/latency_samples_colab.csv"
+    },
+    {
+      "path": "Embedded Device Simulation/metrics/latency_summary_colab.json",
+      "bytes": 287,
+      "sha256": "468a86257b7fc15f6e598284177170aa4edd4a71792e9df500081f889fb8e66f",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Embedded Device Simulation/metrics/latency_summary_colab.json"
+    },
+    {
+      "path": "Main_Experiment/Heart_disease.ipynb.ipynb",
+      "bytes": 6332188,
+      "sha256": "0eac190c84006b6cc858cc22d696af5e57c7d2f93dd45d4e88ea2e9210d2c750",
+      "disposition": "original_retained_locally_indexed",
+      "repository_path": null
+    },
+    {
+      "path": "Main_Experiment/figures/eda/age_by_class.png",
+      "bytes": 36293,
+      "sha256": "f29ccc43a12a4b5a56af484e81a05790cc7dbbe02898091d05ec9ba99c49ec52",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/eda/age_by_class.png"
+    },
+    {
+      "path": "Main_Experiment/figures/eda/ca_vs_class.png",
+      "bytes": 36970,
+      "sha256": "22faa638af2692956d08e4e73f8c821cf4652d8c1748703f9920ab9bd989af87",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/eda/ca_vs_class.png"
+    },
+    {
+      "path": "Main_Experiment/figures/eda/corr_heatmap.png",
+      "bytes": 246686,
+      "sha256": "26b42ed871388bf1a4ed2b3dc28eb9bac70753ff367422f5edd1f798b139129b",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/eda/corr_heatmap.png"
+    },
+    {
+      "path": "Main_Experiment/figures/eda/oldpeak_by_class.png",
+      "bytes": 39679,
+      "sha256": "4e8433797a47a1b789d543db757753bcfd1bcd3cedea9a025095ba0fff368b97",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/eda/oldpeak_by_class.png"
+    },
+    {
+      "path": "Main_Experiment/figures/eda/sex_vs_class.png",
+      "bytes": 32511,
+      "sha256": "6d46dacf11f9650f17afaa622dc3385240c37f3b1733f98f5fcae6d37ef99fd7",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/eda/sex_vs_class.png"
+    },
+    {
+      "path": "Main_Experiment/figures/eda/target_distribution.png",
+      "bytes": 32544,
+      "sha256": "5647fc662d1d8c78a74fde8b72f79a4f13127d6b66b19a27ea18cf2c9d095f5f",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/eda/target_distribution.png"
+    },
+    {
+      "path": "Main_Experiment/figures/eda/thalch_by_class.png",
+      "bytes": 40028,
+      "sha256": "1c13edfaf74411c53ea8b983643e0d9001608577820061ee7456c88799bff547",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/eda/thalch_by_class.png"
+    },
+    {
+      "path": "Main_Experiment/figures/eda/thal_vs_class.png",
+      "bytes": 50192,
+      "sha256": "3f9041adee4e5ce40d11e001c9f526792fae3de47e1e83ed7f960453a96f6e60",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/eda/thal_vs_class.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/brier_decomposition_components.png",
+      "bytes": 52735,
+      "sha256": "766c969088e305525cad7cd0f056d822eb435812df0bf7f4b2d92dde9b7afaa5",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/brier_decomposition_components.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/calibration_curves.png",
+      "bytes": 118999,
+      "sha256": "6461d70a3c3179bd33cffea7d10dfa282c25bc8e953e2c0277692421f88935cb",
+      "disposition": "already_tracked_byte_identical",
+      "repository_path": "results/main/figures/model_performance/calibration_curves.png",
+      "repository_normalization": "none",
+      "repository_bytes": 118999,
+      "repository_sha256": "6461d70a3c3179bd33cffea7d10dfa282c25bc8e953e2c0277692421f88935cb"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/lgbm_cost_vs_threshold.png",
+      "bytes": 64284,
+      "sha256": "26f465ea0802671941d4f24e976645c094179c3f42fe8939fc5129e07f05596e",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/lgbm_cost_vs_threshold.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/lgbm_deployment_latency_hist.png",
+      "bytes": 34686,
+      "sha256": "a55511bbf3675c36fb45f397f4ca35d564fde86968026618d41e97ca51b3af19",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/lgbm_deployment_latency_hist.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/lgbm_f1_vs_threshold.png",
+      "bytes": 66499,
+      "sha256": "510262afee81a6929def33f8fb09fd857b5849de7c3faf964eeeb79d59aff826",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/lgbm_f1_vs_threshold.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/lgbm_latency_by_stage.png",
+      "bytes": 45897,
+      "sha256": "2718e2bc117b1423ed2a7234c006ebc7dd0b584c07f8c143f874fb600326c51d",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/lgbm_latency_by_stage.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/lgbm_latency_over_time.png",
+      "bytes": 77100,
+      "sha256": "e8fa4003979dd659fccfbf4d360cf9c2ba4a7b9ddc053d5d8d7320c5b411e8fa",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/lgbm_latency_over_time.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/lgbm_latency_warmup_vs_steady.png",
+      "bytes": 46108,
+      "sha256": "d0a57b930815adac25f6cc691cd3e7b6ffd91bac25220f95055c4b1276f68711",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/lgbm_latency_warmup_vs_steady.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/lgbm_parallel_infer_time.png",
+      "bytes": 53314,
+      "sha256": "111983e9e90bcb64595073b815dc128e843f0d17e7d181d3b256c5e9a80bdfeb",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/lgbm_parallel_infer_time.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/lgbm_parallel_train_time.png",
+      "bytes": 38452,
+      "sha256": "985121d660285f1daaa3b147488bb80b59ba2da7c8edb2565d7cc700ceac8359",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/lgbm_parallel_train_time.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/lgbm_sex_fairness_deltas.png",
+      "bytes": 36456,
+      "sha256": "aec7921656a03e17d7a3a1a92744ab6b4da27dbb9258759109192a660c6e979a",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/lgbm_sex_fairness_deltas.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/lgbm_threshold_panel.png",
+      "bytes": 148281,
+      "sha256": "a9a9ceda40ba1b17824abeeef555de8910acae8e3ac29f7b6c6beb3b84db5d41",
+      "disposition": "already_tracked_byte_identical",
+      "repository_path": "results/main/figures/model_performance/lgbm_threshold_panel.png",
+      "repository_normalization": "none",
+      "repository_bytes": 148281,
+      "repository_sha256": "a9a9ceda40ba1b17824abeeef555de8910acae8e3ac29f7b6c6beb3b84db5d41"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/lgbm_train_valid_accuracy.png",
+      "bytes": 67392,
+      "sha256": "1cabaafd9f557f39931b27fcfb4f87c7c6c8605198f2da59da4724ed37ef8809",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/lgbm_train_valid_accuracy.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/lgbm_train_valid_auc.png",
+      "bytes": 82686,
+      "sha256": "ac9e8851f99c525085e00e3073cf5d63140880c67adce0c0cf7c66afa6c196da",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/lgbm_train_valid_auc.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/lgbm_train_valid_logloss.png",
+      "bytes": 76088,
+      "sha256": "e8941ca9a124251169594359bdeabd3b6dc00df9bc5ef897d54e32f57aaa83ca",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/lgbm_train_valid_logloss.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/lgbm_youdenJ_vs_threshold.png",
+      "bytes": 70655,
+      "sha256": "1c27ad54c51d3141675a119659e5fcfe7a61c204bc8fe9bef0fbe1a28bb44856",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/lgbm_youdenJ_vs_threshold.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/LightGBM_confusion_counts.png",
+      "bytes": 60761,
+      "sha256": "3dc6b8b79befd7746473b4fadcf7fe320192fa3b3d5122e560e6a64dcab90009",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/LightGBM_confusion_counts.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/LightGBM_confusion_norm.png",
+      "bytes": 61794,
+      "sha256": "97a1f8f9c0d2e600219b23c41169665825ff34a506acc61c332b56557bf238fe",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/LightGBM_confusion_norm.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/LogisticRegression_confusion_counts.png",
+      "bytes": 61081,
+      "sha256": "b592eb1b455af7f242b11a6d3d220156c055abc8c378a4635b016cbcbd8bf96f",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/LogisticRegression_confusion_counts.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/LogisticRegression_confusion_norm.png",
+      "bytes": 63237,
+      "sha256": "d9d8e8943a94f79434de68830b90abb9f401cd6f35be3f4e424e4c8e2e62054c",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/LogisticRegression_confusion_norm.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/logreg_sex_fairness_deltas.png",
+      "bytes": 40302,
+      "sha256": "761d3cee4fba6e2f7a0d9179a5be18b443e5c7e88a6584123d4b06d9d87fedc5",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/logreg_sex_fairness_deltas.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/models_bar_accuracy.png",
+      "bytes": 37386,
+      "sha256": "4000da34f31700698e52fba493e096c9360d5793b2197d3ef671a6d2247e1a5a",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/models_bar_accuracy.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/models_bar_auc.png",
+      "bytes": 34255,
+      "sha256": "903aa6e3317ca662f0ca53106c5711f0c5fc620c5a3b21b7bbf8c2373b3ea2db",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/models_bar_auc.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/models_bar_f1.png",
+      "bytes": 32667,
+      "sha256": "e282cb0ef3c6b1fd880b5b35925c327c620b2e593fb6d00a332dbca56f96b0b4",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/models_bar_f1.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/models_bar_latency.png",
+      "bytes": 45119,
+      "sha256": "2fabd9ad77d0ab822afc00a2859912e2c73fef55b4624c6c0b458afc7ee3158a",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/models_bar_latency.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/models_bar_metrics_panel.png",
+      "bytes": 176379,
+      "sha256": "3d484ac1038c5f2f2904966d3c70dbc0ddcfcbee42e2ee17c3811f14d27291d3",
+      "disposition": "already_tracked_byte_identical",
+      "repository_path": "results/main/figures/model_performance/models_bar_metrics_panel.png",
+      "repository_normalization": "none",
+      "repository_bytes": 176379,
+      "repository_sha256": "3d484ac1038c5f2f2904966d3c70dbc0ddcfcbee42e2ee17c3811f14d27291d3"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/models_bar_precision.png",
+      "bytes": 42225,
+      "sha256": "4f6e3c61bfffff826614942abbe35c7663fc2ff735d1f87adffcd60daf77218c",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/models_bar_precision.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/models_bar_recall.png",
+      "bytes": 34793,
+      "sha256": "94793db6aea30971c8cc2ce6360f5e18ea7423050f3f0a94fe53ad88d376afb5",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/models_bar_recall.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/models_bar_train_time.png",
+      "bytes": 34291,
+      "sha256": "6e5d0d88e5fea2bb56b1ecfae6e35c15b79b124242a9f947c0e8a1fb25c17e43",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/models_bar_train_time.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/models_confusion_panel.png",
+      "bytes": 447771,
+      "sha256": "9d61aa0254bcd78eb2498877dbcfefa34eac9e730254fc38611810fc24d7f377",
+      "disposition": "already_tracked_byte_identical",
+      "repository_path": "results/main/figures/model_performance/models_confusion_panel.png",
+      "repository_normalization": "none",
+      "repository_bytes": 447771,
+      "repository_sha256": "9d61aa0254bcd78eb2498877dbcfefa34eac9e730254fc38611810fc24d7f377"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/models_latency_vs_auc.png",
+      "bytes": 61231,
+      "sha256": "dc35f45bb767e1e4d252780e63492ab0c9e4eeef13d6e4138e5fd6c37ddd33dd",
+      "disposition": "already_tracked_byte_identical",
+      "repository_path": "results/main/figures/model_performance/models_latency_vs_auc.png",
+      "repository_normalization": "none",
+      "repository_bytes": 61231,
+      "repository_sha256": "dc35f45bb767e1e4d252780e63492ab0c9e4eeef13d6e4138e5fd6c37ddd33dd"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/models_sex_fairness_deltas.png",
+      "bytes": 54391,
+      "sha256": "b224eb9dea2a5a9a0a00032456fa278e0e97d13bdfdb12f3538874180bc653d7",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/models_sex_fairness_deltas.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/pr_comparison.png",
+      "bytes": 78185,
+      "sha256": "5f2b90ee912f3d0a93f5d37b6907ce337a64e4047fb57a0a6c94eb31f9e634fd",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/pr_comparison.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/roc_comparison.png",
+      "bytes": 74791,
+      "sha256": "2bc01fc825a1f0bc8b321ec508a5b589b746f6385e770ea6c51762f2114bf82c",
+      "disposition": "already_tracked_byte_identical",
+      "repository_path": "results/main/figures/model_performance/roc_comparison.png",
+      "repository_normalization": "none",
+      "repository_bytes": 74791,
+      "repository_sha256": "2bc01fc825a1f0bc8b321ec508a5b589b746f6385e770ea6c51762f2114bf82c"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/TabNet_confusion_counts.png",
+      "bytes": 60085,
+      "sha256": "159b6e4c82a905b54de671507637ce32662fa11815be68f675e053cfd14c3086",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/TabNet_confusion_counts.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/TabNet_confusion_norm.png",
+      "bytes": 61529,
+      "sha256": "3d3b70eb3e9c134569e0b3ad269b63c8ec6b39c81f1111cf248d491d5611a079",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/TabNet_confusion_norm.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/XGBoost_confusion_counts.png",
+      "bytes": 60183,
+      "sha256": "6934ccc4c2af06e29ae21b09cf75964db6cb49f8f8ce09a52e394828f63cd373",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/XGBoost_confusion_counts.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/XGBoost_confusion_norm.png",
+      "bytes": 61878,
+      "sha256": "5145adbce4813570238d5be32bdf3c799419c72c1034555b28a60800be344062",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/XGBoost_confusion_norm.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/xgb_sex_fairness_deltas.png",
+      "bytes": 45787,
+      "sha256": "ead56348f254c62c02267b104d1ccdd361fb309015b65338cf5bcff8b700cb43",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/xgb_sex_fairness_deltas.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/xgb_train_valid_accuracy.png",
+      "bytes": 70165,
+      "sha256": "9eddf66a327e63c8935bd342262b149d7d82af84932dee0fe23911f60f9c3d51",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/xgb_train_valid_accuracy.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/xgb_train_valid_auc.png",
+      "bytes": 82282,
+      "sha256": "f87e19502ee4df514922d5076bb93a71d47efd4e23230d97f4b8ed570040d23a",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/xgb_train_valid_auc.png"
+    },
+    {
+      "path": "Main_Experiment/figures/model_performance/xgb_train_valid_logloss.png",
+      "bytes": 75099,
+      "sha256": "07d5d212c258d35a04a7eb6225d25512b760bc436adf74ca1fc7dad7d84aa075",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/model_performance/xgb_train_valid_logloss.png"
+    },
+    {
+      "path": "Main_Experiment/figures/nested_cv/lgbm_nested_param_dist_feature_fraction.png",
+      "bytes": 40119,
+      "sha256": "f47aab4eae67ef340b506e4504ee9c097103036cb87e384fc83aff0d8d44b4af",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/nested_cv/lgbm_nested_param_dist_feature_fraction.png"
+    },
+    {
+      "path": "Main_Experiment/figures/nested_cv/lgbm_nested_param_dist_learning_rate.png",
+      "bytes": 36831,
+      "sha256": "f4f64eac6eec5e43ee51320b1f08915aee3b6593cdf13912e2ddc3f2fd3adb23",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/nested_cv/lgbm_nested_param_dist_learning_rate.png"
+    },
+    {
+      "path": "Main_Experiment/figures/nested_cv/lgbm_nested_param_dist_max_depth.png",
+      "bytes": 36239,
+      "sha256": "cfc0597c9d520de8eebba5ad824d8973cd5e2b4d58d471012dcc542b396954ed",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/nested_cv/lgbm_nested_param_dist_max_depth.png"
+    },
+    {
+      "path": "Main_Experiment/figures/nested_cv/lgbm_nested_param_dist_num_leaves.png",
+      "bytes": 36257,
+      "sha256": "1f8e6475476e3febc3ebbd2b524308a1af2597b629d4c7e4abb5df237903287b",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/nested_cv/lgbm_nested_param_dist_num_leaves.png"
+    },
+    {
+      "path": "Main_Experiment/figures/nested_cv/lgbm_nested_param_dist_n_estimators.png",
+      "bytes": 37264,
+      "sha256": "aa7133fbcc853b968fc6ba61ca8323bea79c3641157820482330f12f1411be2b",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/nested_cv/lgbm_nested_param_dist_n_estimators.png"
+    },
+    {
+      "path": "Main_Experiment/figures/nested_cv/lgbm_nested_param_dist_panel.png",
+      "bytes": 152994,
+      "sha256": "eba45427cc015628c604042beeb98d9b7a4d7a2f0aa1f8ebdf5d733a20e68ff2",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/nested_cv/lgbm_nested_param_dist_panel.png"
+    },
+    {
+      "path": "Main_Experiment/figures/nested_cv/lgbm_nested_param_dist_subsample.png",
+      "bytes": 36166,
+      "sha256": "81b39e3906ecfebc1f65b77cb2ae68679095974b171bb54ba68e7b1fe63b4356",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/nested_cv/lgbm_nested_param_dist_subsample.png"
+    },
+    {
+      "path": "Main_Experiment/figures/shap/shap_importance_scatter_lgb_vs_lr.png",
+      "bytes": 80988,
+      "sha256": "8928357b1d5a63457d7e5f327fa917fbb62cf5c310760495abc386088509be2c",
+      "disposition": "already_tracked_byte_identical",
+      "repository_path": "results/main/figures/shap/shap_importance_scatter_lgb_vs_lr.png",
+      "repository_normalization": "none",
+      "repository_bytes": 80988,
+      "repository_sha256": "8928357b1d5a63457d7e5f327fa917fbb62cf5c310760495abc386088509be2c"
+    },
+    {
+      "path": "Main_Experiment/figures/shap/shap_lgbm_bar.png",
+      "bytes": 114117,
+      "sha256": "db069dc5005a2dd1fc8c733c4772ef9d5635132b9d1232dedec47ec3f527765d",
+      "disposition": "already_tracked_byte_identical",
+      "repository_path": "results/main/figures/shap/shap_lgbm_bar.png",
+      "repository_normalization": "none",
+      "repository_bytes": 114117,
+      "repository_sha256": "db069dc5005a2dd1fc8c733c4772ef9d5635132b9d1232dedec47ec3f527765d"
+    },
+    {
+      "path": "Main_Experiment/figures/shap/shap_lgbm_beeswarm.png",
+      "bytes": 240023,
+      "sha256": "692d6b2912a4cf91e546f9f4af5a1717777c4b247e95098144909fa784a76054",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/shap/shap_lgbm_beeswarm.png"
+    },
+    {
+      "path": "Main_Experiment/figures/shap/shap_lgbm_dependence_ca.png",
+      "bytes": 45782,
+      "sha256": "0a53fa3df81bae4cb3a072c52726cf003c499a3a1e23d876990ac9167840c897",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/shap/shap_lgbm_dependence_ca.png"
+    },
+    {
+      "path": "Main_Experiment/figures/shap/shap_lgbm_dependence_oldpeak.png",
+      "bytes": 61592,
+      "sha256": "c71099be706e08ed78e76caa62983567dfecc1d92ef3cb71f7758b794534b368",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/shap/shap_lgbm_dependence_oldpeak.png"
+    },
+    {
+      "path": "Main_Experiment/figures/shap/shap_lgbm_dependence_thalch.png",
+      "bytes": 75302,
+      "sha256": "ac1f86f8e3cdd09248faa7850a4901901effb9b4deb83ca0ca16988ebdf836f5",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/shap/shap_lgbm_dependence_thalch.png"
+    },
+    {
+      "path": "Main_Experiment/figures/shap/shap_lgbm_interaction_oldpeak_exang.png",
+      "bytes": 75198,
+      "sha256": "c14613f88ef615fedc71d05dd3b865439e13e961a2c66d4d3af3f4278d556b15",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/shap/shap_lgbm_interaction_oldpeak_exang.png"
+    },
+    {
+      "path": "Main_Experiment/figures/shap/shap_lr_bar.png",
+      "bytes": 111119,
+      "sha256": "a99c43db7a5c6908327fa087d55edcf35c8c7a3fa3f5c51a55315e31a7d711e8",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/shap/shap_lr_bar.png"
+    },
+    {
+      "path": "Main_Experiment/figures/shap/shap_lr_beeswarm.png",
+      "bytes": 155346,
+      "sha256": "e2029dffdd563643dcec49d4575ba1a9171af71033f7545f048bd42241ed1a02",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/figures/shap/shap_lr_beeswarm.png"
+    },
+    {
+      "path": "Main_Experiment/metrics/counterfactual_examples.json",
+      "bytes": 1472,
+      "sha256": "7c6009dc7f6771d0a2d49b34156f56a42bbdfbb8c925ebb31e143aa1df42ccdc",
+      "disposition": "already_tracked_byte_identical",
+      "repository_path": "results/main/metrics/counterfactual_examples.json",
+      "repository_normalization": "git_text_lf",
+      "repository_bytes": 1376,
+      "repository_sha256": "9eface1034222aee19dd20c318af5d06a938cedadc390653f2b81ab4df52b0e0"
+    },
+    {
+      "path": "Main_Experiment/metrics/cv_models_summary.csv",
+      "bytes": 316,
+      "sha256": "76091245fae88095d044e26ebfbec9f1cfaa5776788f33bd6acfead9ce7a2e60",
+      "disposition": "already_tracked_byte_identical",
+      "repository_path": "results/main/metrics/cv_models_summary.csv",
+      "repository_normalization": "git_text_lf",
+      "repository_bytes": 311,
+      "repository_sha256": "649f613ec786dab8d446426cf3adcc8ea6d7cadc808c6ced827cd5c2a9b70609"
+    },
+    {
+      "path": "Main_Experiment/metrics/optuna_lgbm_best_params.json",
+      "bytes": 251,
+      "sha256": "0cf2981ab313bfd72306bc646c71b55eedaea48a0c5d83b286a3208aecdd3757",
+      "disposition": "already_tracked_byte_identical",
+      "repository_path": "results/main/metrics/optuna_lgbm_best_params.json",
+      "repository_normalization": "git_text_lf",
+      "repository_bytes": 242,
+      "repository_sha256": "ec419c79ad87bcb26cf25b1ba853cd461fc1ae8ed21f038a0d9dc41330120c19"
+    },
+    {
+      "path": "Main_Experiment/metrics/surrogate_tree_lgbm_rules.txt",
+      "bytes": 505,
+      "sha256": "0d250d16d78c020fc9c4aac312210a45e7e70eec1d36c9206740587c4065e963",
+      "disposition": "already_tracked_byte_identical",
+      "repository_path": "results/main/metrics/surrogate_tree_lgbm_rules.txt",
+      "repository_normalization": "git_text_lf",
+      "repository_bytes": 486,
+      "repository_sha256": "a4d362c749a5b4f52c6916e8f75ab2b6c91bb42b9efbc16ecc8c6124efb6c75d"
+    },
+    {
+      "path": "Main_Experiment/metrics/cv/CatBoost_10fold.csv",
+      "bytes": 1421,
+      "sha256": "f9f4206c0031f39d8ed8614a2c9bddb4dc6813d8d4bf0294ec4d6716b5adfd2d",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/metrics/cv/CatBoost_10fold.csv"
+    },
+    {
+      "path": "Main_Experiment/metrics/cv/LightGBM_10fold.csv",
+      "bytes": 1442,
+      "sha256": "335480a9e413e3e51fd2eba701b3e4381b400e9baade2de4b800df9ef62eebf2",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/metrics/cv/LightGBM_10fold.csv"
+    },
+    {
+      "path": "Main_Experiment/metrics/cv/LightGBM_10x10fold.csv",
+      "bytes": 13785,
+      "sha256": "b7eb55688afc6c01282668c26c3908bc835ab7451cbcb6148a3c5a42d80ebe01",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/metrics/cv/LightGBM_10x10fold.csv"
+    },
+    {
+      "path": "Main_Experiment/metrics/cv/LogisticRegression_10fold.csv",
+      "bytes": 1401,
+      "sha256": "09162d17f3202299f26e272245c7b88606dd57d38dba8f5a8573631339f987f6",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/metrics/cv/LogisticRegression_10fold.csv"
+    },
+    {
+      "path": "Main_Experiment/metrics/cv/LogisticRegression_10x10fold.csv",
+      "bytes": 13918,
+      "sha256": "50f6f5cd4b010cd7697f2f8535fc266fec0b17bf97e58610e0bcf042c21cba4b",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/metrics/cv/LogisticRegression_10x10fold.csv"
+    },
+    {
+      "path": "Main_Experiment/metrics/cv/TabNet_10fold.csv",
+      "bytes": 1246,
+      "sha256": "e871789bb0c89df8c0e0e1ca414f1eb68b97a679325a3a9ed804b810eb6eff53",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/metrics/cv/TabNet_10fold.csv"
+    },
+    {
+      "path": "Main_Experiment/metrics/cv/XGBoost_10fold.csv",
+      "bytes": 1397,
+      "sha256": "41e3be512635118f0091b5a13a21ede7db55d7e7e0ef41471ca6e7f85448babd",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/metrics/cv/XGBoost_10fold.csv"
+    },
+    {
+      "path": "Main_Experiment/metrics/cv/XGBoost_10x10fold.csv",
+      "bytes": 13689,
+      "sha256": "7d06d76302ebf6f5776904c47918dc3cfbe2a5ab39b179fa75ed2d1b4595c52d",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/metrics/cv/XGBoost_10x10fold.csv"
+    },
+    {
+      "path": "Main_Experiment/metrics/model_performance/lgbm_training_curves.csv",
+      "bytes": 47629,
+      "sha256": "585ced64bac1e183e209be14cea095c36858cfb3ac78f947b0d4b90553af0b56",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/metrics/model_performance/lgbm_training_curves.csv"
+    },
+    {
+      "path": "Main_Experiment/metrics/model_performance/xgb_training_curves.csv",
+      "bytes": 47487,
+      "sha256": "7bc2ff61624d0ff2ff998b8116f8ea79ed306e7809ca09320588c1244eb42081",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/metrics/model_performance/xgb_training_curves.csv"
+    },
+    {
+      "path": "Main_Experiment/metrics/nested_cv/LightGBM_nestedCV.csv",
+      "bytes": 2527,
+      "sha256": "48f18cf530284ca517deb77e42f1f26856d85ec14ba9c2582b5832d6ed10ee0b",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/metrics/nested_cv/LightGBM_nestedCV.csv"
+    },
+    {
+      "path": "Main_Experiment/metrics/nested_cv/LightGBM_nested_best_params.csv",
+      "bytes": 398,
+      "sha256": "52821ca9e60554a211ff80c77bdd90a6161f54ceabdb4b34ce16b7c39d6c9b23",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/metrics/nested_cv/LightGBM_nested_best_params.csv"
+    },
+    {
+      "path": "Main_Experiment/metrics/nested_cv/LogisticRegression_nestedCV.csv",
+      "bytes": 1650,
+      "sha256": "81dea0f865febff312132edd399f8c968da70bf5535ed89de5a1e3ccf462eeb8",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/metrics/nested_cv/LogisticRegression_nestedCV.csv"
+    },
+    {
+      "path": "Main_Experiment/metrics/nested_cv/LogisticRegression_nested_best_params.csv",
+      "bytes": 136,
+      "sha256": "2e633a8b2afdbf5c89d96f48ee6b807618d564fff01f6e2156d4753d19daa6b0",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/metrics/nested_cv/LogisticRegression_nested_best_params.csv"
+    },
+    {
+      "path": "Main_Experiment/metrics/test/brier_decomposition_and_calibration.csv",
+      "bytes": 581,
+      "sha256": "0a5705b28a5bb70ff0e8a120504e558a941e09502ee4422ea374cbcf97fe407f",
+      "disposition": "already_tracked_byte_identical",
+      "repository_path": "results/main/metrics/test/brier_decomposition_and_calibration.csv",
+      "repository_normalization": "git_text_lf",
+      "repository_bytes": 576,
+      "repository_sha256": "f20bcedefda9fde2e15a157668c5933d4f988dce03ecb88ee15dc3a4f2ada042"
+    },
+    {
+      "path": "Main_Experiment/metrics/test/holdout_auc_bootstrap_ci.csv",
+      "bytes": 319,
+      "sha256": "b98c5ec2aef3dc5cd897b58ae87516dbc732e3626a0651be8f34453c954512bb",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/metrics/test/holdout_auc_bootstrap_ci.csv"
+    },
+    {
+      "path": "Main_Experiment/metrics/test/holdout_bootstrap_ci.csv",
+      "bytes": 557,
+      "sha256": "29127a0121bcb95142bebfb57b883841a320c11a9af14fc42960ba8486347519",
+      "disposition": "already_tracked_byte_identical",
+      "repository_path": "results/main/metrics/test/holdout_bootstrap_ci.csv",
+      "repository_normalization": "git_text_lf",
+      "repository_bytes": 552,
+      "repository_sha256": "aa3007b56fda65394b4e3cc15a8622db4516e50ef4e63461749b373356e54551"
+    },
+    {
+      "path": "Main_Experiment/metrics/test/holdout_models.csv",
+      "bytes": 639,
+      "sha256": "c375a1eb89c3eb062d33e580d207c82a0cfa10d664342fc811aed7a1af4b9f22",
+      "disposition": "already_tracked_byte_identical",
+      "repository_path": "results/main/metrics/test/holdout_models.csv",
+      "repository_normalization": "git_text_lf",
+      "repository_bytes": 634,
+      "repository_sha256": "9be303e7cbf92a8d5116fbf798009e146cfc7f99a3eac4e97e94d1328209b38f"
+    },
+    {
+      "path": "Main_Experiment/metrics/test/lgbm_parallelism.csv",
+      "bytes": 155,
+      "sha256": "87fc246344f3b83182ca2d2c7cd02a83e0a32ac31be24cc0f8e0a83698a20e13",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/metrics/test/lgbm_parallelism.csv"
+    },
+    {
+      "path": "Main_Experiment/metrics/test/lgbm_shap_bootstrap_frequency.csv",
+      "bytes": 439,
+      "sha256": "c6414cdd198b1a3e12afb96dd6c30a3cc875e6a353765f8c3ab4cb64d7031de5",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/metrics/test/lgbm_shap_bootstrap_frequency.csv"
+    },
+    {
+      "path": "Main_Experiment/metrics/test/lgbm_shap_interaction_importance.csv",
+      "bytes": 933,
+      "sha256": "e9952ab812d845c83af1119a8689d7fa0363d39260983db199ce756f968f885a",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/metrics/test/lgbm_shap_interaction_importance.csv"
+    },
+    {
+      "path": "Main_Experiment/metrics/test/lgbm_subgroup_sex.csv",
+      "bytes": 218,
+      "sha256": "ddd647aeff54df05b5a3b5ce83571ee6cec7e13fe6a8e67b4eea3578ef66f512",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/metrics/test/lgbm_subgroup_sex.csv"
+    },
+    {
+      "path": "Main_Experiment/metrics/test/lgbm_threshold_analysis.csv",
+      "bytes": 1782,
+      "sha256": "c43696ea455bdcf533ffd3ea61ea25c519640fb66a722df489507e700dbb6c70",
+      "disposition": "already_tracked_byte_identical",
+      "repository_path": "results/main/metrics/test/lgbm_threshold_analysis.csv",
+      "repository_normalization": "git_text_lf",
+      "repository_bytes": 1762,
+      "repository_sha256": "6544fc55a60fafeb26bff95840175404fbc8d84fb4d6cfa4bd29432c6df0c549"
+    },
+    {
+      "path": "Main_Experiment/metrics/test/LightGBM_classification_report.csv",
+      "bytes": 402,
+      "sha256": "4507e1a23788ca0f94a107ed0f63f398ca6fb001123b78e47e540839cac3d54e",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/metrics/test/LightGBM_classification_report.csv"
+    },
+    {
+      "path": "Main_Experiment/metrics/test/lightgbm_single_node_summary.csv",
+      "bytes": 211,
+      "sha256": "ac096d238d21748144c75b003f8327449bf0ce51fee27f560db5428670b33204",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/metrics/test/lightgbm_single_node_summary.csv"
+    },
+    {
+      "path": "Main_Experiment/metrics/test/LogisticRegression_classification_report.csv",
+      "bytes": 408,
+      "sha256": "5c92ba184c4fa56833ff1ded793a652dbc6dc21bb0f1c6da079dec175deb14d9",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/metrics/test/LogisticRegression_classification_report.csv"
+    },
+    {
+      "path": "Main_Experiment/metrics/test/model_complexity_latency.csv",
+      "bytes": 401,
+      "sha256": "05a80c2cad441298389c2ef6947ef28ca0e7c112fa0ee7e643fb70165a95d9e3",
+      "disposition": "already_tracked_byte_identical",
+      "repository_path": "results/main/metrics/test/model_complexity_latency.csv",
+      "repository_normalization": "git_text_lf",
+      "repository_bytes": 396,
+      "repository_sha256": "91db41e902faf5688c6e97f98a0a40b7dc485fb48242a2ccbd414bb766d22fea"
+    },
+    {
+      "path": "Main_Experiment/metrics/test/shap_importance_lgb_vs_lr.csv",
+      "bytes": 1443,
+      "sha256": "74a95d01c0fab7ffe995c04feb52d6c01296cc967eb136e35ddcdfa1def26ea3",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/metrics/test/shap_importance_lgb_vs_lr.csv"
+    },
+    {
+      "path": "Main_Experiment/metrics/test/shap_lgb_vs_lr_spearman.csv",
+      "bytes": 55,
+      "sha256": "15bdc2a1479fc1258eea94e319821650cae9efd12fc97c70232219f9e943bfcd",
+      "disposition": "already_tracked_byte_identical",
+      "repository_path": "results/main/metrics/test/shap_lgb_vs_lr_spearman.csv",
+      "repository_normalization": "git_text_lf",
+      "repository_bytes": 53,
+      "repository_sha256": "bc561f2374a069e8e2c5cecf84599bdecd87f0c03522fd20e04ca51fc50ece7a"
+    },
+    {
+      "path": "Main_Experiment/metrics/test/subgroup_sex_metrics_and_fairness.csv",
+      "bytes": 1306,
+      "sha256": "2ebce2845a4022c4637c52fb441372e77e68f7b0706ab53fd9cab7d039cd40ef",
+      "disposition": "already_tracked_byte_identical",
+      "repository_path": "results/main/metrics/test/subgroup_sex_metrics_and_fairness.csv",
+      "repository_normalization": "git_text_lf",
+      "repository_bytes": 1296,
+      "repository_sha256": "2976f9cb67c19bf37d98201a29fa7d6e5b6d5eed8a8bc27be4fe63a8be67bc31"
+    },
+    {
+      "path": "Main_Experiment/metrics/test/TabNet_classification_report.csv",
+      "bytes": 406,
+      "sha256": "c1bca898144477d3f44fff4a4d6851b9aed9b285ee432fb7252650fc54d2856f",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/metrics/test/TabNet_classification_report.csv"
+    },
+    {
+      "path": "Main_Experiment/metrics/test/wilcoxon_xgb_vs_lgb_auc.csv",
+      "bytes": 36,
+      "sha256": "97f81d1803ebd3640fc4484262eced232ff5e317ebe0db32f2d9902d0d5fb79a",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/metrics/test/wilcoxon_xgb_vs_lgb_auc.csv"
+    },
+    {
+      "path": "Main_Experiment/metrics/test/XGBoost_classification_report.csv",
+      "bytes": 409,
+      "sha256": "0e8bf51299b89868a0e24348a363ce4fb0977c06ee5b04fbc2139f6830efde29",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/metrics/test/XGBoost_classification_report.csv"
+    },
+    {
+      "path": "Main_Experiment/tables_ascii/cv_models_summary.txt",
+      "bytes": 1024,
+      "sha256": "4536a87147d5518e0f7c5628d2d5a93cc862903ae66b46e2bed1c72123aba2bb",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/tables_ascii/cv_models_summary.txt"
+    },
+    {
+      "path": "Main_Experiment/tables_ascii/cv/CatBoost_10fold_summary.txt",
+      "bytes": 1008,
+      "sha256": "5f8a329c49bd02ac4d5ad20ced9fe67df3784917274b57083402585a8242f6cb",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/tables_ascii/cv/CatBoost_10fold_summary.txt"
+    },
+    {
+      "path": "Main_Experiment/tables_ascii/cv/LightGBM_10fold_summary.txt",
+      "bytes": 1008,
+      "sha256": "7657f1df506b6977964011cd7e14d06ee74fe52194f5038baf0302cfc2bc134c",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/tables_ascii/cv/LightGBM_10fold_summary.txt"
+    },
+    {
+      "path": "Main_Experiment/tables_ascii/cv/LightGBM_10x10fold_summary.txt",
+      "bytes": 1092,
+      "sha256": "ec8f356fde06eec5da1be60ed15506d8268a61126217fb02b0b2eb4b08318d52",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/tables_ascii/cv/LightGBM_10x10fold_summary.txt"
+    },
+    {
+      "path": "Main_Experiment/tables_ascii/cv/LogisticRegression_10fold_summary.txt",
+      "bytes": 1008,
+      "sha256": "71f72260073d5c067d4cf3c7acc7a623a922172f4aa96f83b562622da88c4661",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/tables_ascii/cv/LogisticRegression_10fold_summary.txt"
+    },
+    {
+      "path": "Main_Experiment/tables_ascii/cv/LogisticRegression_10x10fold_summary.txt",
+      "bytes": 1092,
+      "sha256": "48e1da6a637486e15de190528e46da28ca2015c5d7878de27835bdd4a00f69de",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/tables_ascii/cv/LogisticRegression_10x10fold_summary.txt"
+    },
+    {
+      "path": "Main_Experiment/tables_ascii/cv/TabNet_10fold_summary.txt",
+      "bytes": 1056,
+      "sha256": "62dce7322629e4e21eb9687772192b2c820ca0c36686308dcdfb47ca76b46864",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/tables_ascii/cv/TabNet_10fold_summary.txt"
+    },
+    {
+      "path": "Main_Experiment/tables_ascii/cv/XGBoost_10fold_summary.txt",
+      "bytes": 1008,
+      "sha256": "5b71b474a4451961300991c06604e4337dae3bc4942d6c0b2b7f8cd6b55ced02",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/tables_ascii/cv/XGBoost_10fold_summary.txt"
+    },
+    {
+      "path": "Main_Experiment/tables_ascii/cv/XGBoost_10x10fold_summary.txt",
+      "bytes": 1092,
+      "sha256": "64f1be2b91cf9f163df87c61aa90d5effb1e9b0a2ce00914449c02de268dec48",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/tables_ascii/cv/XGBoost_10x10fold_summary.txt"
+    },
+    {
+      "path": "Main_Experiment/tables_ascii/nested_cv/LightGBM_nestedCV_summary.txt",
+      "bytes": 979,
+      "sha256": "666061edd9d3215864af89000e002b27cefa5dd4336d157719b962f6cfed5107",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/tables_ascii/nested_cv/LightGBM_nestedCV_summary.txt"
+    },
+    {
+      "path": "Main_Experiment/tables_ascii/nested_cv/LightGBM_nested_best_params_summary.txt",
+      "bytes": 1100,
+      "sha256": "782d47d7d1ed1886d8009e47c0d7d1238028cb9816622f8be91fe95262fc50d5",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/tables_ascii/nested_cv/LightGBM_nested_best_params_summary.txt"
+    },
+    {
+      "path": "Main_Experiment/tables_ascii/nested_cv/LogisticRegression_nestedCV_summary.txt",
+      "bytes": 935,
+      "sha256": "219e9831c774e87632e66a46288c0d45aa3a9418291d1ca86453db383d29d38b",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/tables_ascii/nested_cv/LogisticRegression_nestedCV_summary.txt"
+    },
+    {
+      "path": "Main_Experiment/tables_ascii/nested_cv/LogisticRegression_nested_best_params_summary.txt",
+      "bytes": 889,
+      "sha256": "fff3eb1ca9fc2c25624db101f1d97efc5e37320376b6478e74936eb005be50f4",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/tables_ascii/nested_cv/LogisticRegression_nested_best_params_summary.txt"
+    },
+    {
+      "path": "Main_Experiment/tables_ascii/test/brier_decomposition_and_calibration.txt",
+      "bytes": 864,
+      "sha256": "132f6a98232dbb73e8eeda392fb35d2a4327e9a28a7624cd3154efb5585ae58f",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/tables_ascii/test/brier_decomposition_and_calibration.txt"
+    },
+    {
+      "path": "Main_Experiment/tables_ascii/test/holdout_auc_bootstrap_ci.txt",
+      "bytes": 624,
+      "sha256": "5d7dbe9fd6d44c1d7ef5669325348419d68822c40cf5b974c7f5d680eb8bfd82",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/tables_ascii/test/holdout_auc_bootstrap_ci.txt"
+    },
+    {
+      "path": "Main_Experiment/tables_ascii/test/holdout_bootstrap_ci.txt",
+      "bytes": 832,
+      "sha256": "1874c48d6edeb1cb558e511fb867d05d0a74cbd234161d9622324981e4faa1de",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/tables_ascii/test/holdout_bootstrap_ci.txt"
+    },
+    {
+      "path": "Main_Experiment/tables_ascii/test/holdout_models.txt",
+      "bytes": 864,
+      "sha256": "a7b87b7be515794d71ab7fa24aef34767fdfcb76af882208c7770c4da16de481",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/tables_ascii/test/holdout_models.txt"
+    },
+    {
+      "path": "Main_Experiment/tables_ascii/test/lgbm_parallelism.txt",
+      "bytes": 414,
+      "sha256": "f9fd5d11025c1df467585dcf1c79b3faa7d5e03ac51fd73c2e0cbad18ae19ecb",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/tables_ascii/test/lgbm_parallelism.txt"
+    },
+    {
+      "path": "Main_Experiment/tables_ascii/test/lgbm_threshold_analysis.txt",
+      "bytes": 1771,
+      "sha256": "9d98c76d9ff8a55b4b48df3384ed4c828730fdabcd648f7379ea9909c8f5bc34",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/tables_ascii/test/lgbm_threshold_analysis.txt"
+    },
+    {
+      "path": "Main_Experiment/tables_ascii/test/LightGBM_classification_report.txt",
+      "bytes": 657,
+      "sha256": "f46ae1fe13ab0527a9fd86e744ab89ad15a523a2a487eef2844828842efba438",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/tables_ascii/test/LightGBM_classification_report.txt"
+    },
+    {
+      "path": "Main_Experiment/tables_ascii/test/lightgbm_single_node_summary.txt",
+      "bytes": 550,
+      "sha256": "e71fe919b6c811bf6b1d8addeb9b12335e709742593af2e02998ba609e4ea148",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/tables_ascii/test/lightgbm_single_node_summary.txt"
+    },
+    {
+      "path": "Main_Experiment/tables_ascii/test/LogisticRegression_classification_report.txt",
+      "bytes": 657,
+      "sha256": "6e2a7950c3d1015fed62ad03cdc7d9d038357728eec22c44105213aed5d554ed",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/tables_ascii/test/LogisticRegression_classification_report.txt"
+    },
+    {
+      "path": "Main_Experiment/tables_ascii/test/model_complexity_latency.txt",
+      "bytes": 928,
+      "sha256": "7f18c692e3209372c31fc3d920125917c02a60e2ec44b63727db767e14aeb536",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/tables_ascii/test/model_complexity_latency.txt"
+    },
+    {
+      "path": "Main_Experiment/tables_ascii/test/shap_lgb_vs_lr_spearman.txt",
+      "bytes": 140,
+      "sha256": "6a4965a442eca0acdc5636ce512bbaeae43f5664a50380ceb040af4b6032e82d",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/tables_ascii/test/shap_lgb_vs_lr_spearman.txt"
+    },
+    {
+      "path": "Main_Experiment/tables_ascii/test/subgroup_sex_metrics_and_fairness.txt",
+      "bytes": 1430,
+      "sha256": "ac7eb6af277ba2761c5bbb56ad876968bf5b453406c0e1e2f484f63c167c1430",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/tables_ascii/test/subgroup_sex_metrics_and_fairness.txt"
+    },
+    {
+      "path": "Main_Experiment/tables_ascii/test/TabNet_classification_report.txt",
+      "bytes": 657,
+      "sha256": "ba8bc099e76d528141b8c0e7d6fff9559f98367c444328e2065de1c6e0d0681e",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/tables_ascii/test/TabNet_classification_report.txt"
+    },
+    {
+      "path": "Main_Experiment/tables_ascii/test/wilcoxon_xgb_vs_lgb_auc.txt",
+      "bytes": 170,
+      "sha256": "16e1a4cf6279670e3e0ec12eb1c8502eee6bdd5fe5ad279cece0f0491c67d3ba",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/tables_ascii/test/wilcoxon_xgb_vs_lgb_auc.txt"
+    },
+    {
+      "path": "Main_Experiment/tables_ascii/test/XGBoost_classification_report.txt",
+      "bytes": 657,
+      "sha256": "0b0f9837320c8785d056acb72b25a2a1075b84cebdf90c6b30c050aeefa3e5c2",
+      "disposition": "recovered_original_output",
+      "repository_path": "results/legacy_coursework_2025/Main_Experiment/tables_ascii/test/XGBoost_classification_report.txt"
+    }
+  ]
+}
