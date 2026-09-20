@@ -9,6 +9,9 @@ results/legacy_coursework_2025/** -text -whitespace
 docs/legacy/notebook_sources/** -text -whitespace
 assets/research/** -text -whitespace
 
+# The exact-candidate scanner compares this policy byte-for-byte with its Git blob.
+configs/release/release_gate_policy_v1.json -text
+
 # Generated run evidence is hashed byte-for-byte. Do not normalize line endings
 # or ask textual-diff whitespace checks to reinterpret Windows CSV/JSON records.
 artifacts/runs/** -text -diff

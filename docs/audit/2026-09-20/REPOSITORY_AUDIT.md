@@ -18,6 +18,7 @@ This is a preservation and representation audit, not a new model evaluation.
 | Archived `throughput_rps` was liable to overinterpretation | Original edge notebook computes `1000 / median(latency_ms)` | Explain that this is a latency-derived rate proxy; retain the raw field and value. |
 | Release workflow had a malformed action pin | Checkout reference was 41 hex characters; official v6.0.2 resolves to `de0fac2e4500dabe0009e67214ff5f5447ce83dd` | Correct the pin and validate action-reference shape in the repository check. |
 | Contributor instructions lagged the release branch | Missing reporting/neural extras and old method registry version | Align source/full-evidence commands and the v3 registry with the current CLI. |
+| Exact-candidate scan failed on Windows Git newline conversion | Committed release policy used LF; the checkout had CRLF | Mark the policy byte-stable and materialize the existing Git blob. Policy values and the committed policy are unchanged; original checkout bytes and the failure record remain local. |
 
 The [Git snapshot](git_snapshot.json) records exact remote OIDs, initial clone
 states, historical blob comparisons, and scope limits. It is a dated observation,

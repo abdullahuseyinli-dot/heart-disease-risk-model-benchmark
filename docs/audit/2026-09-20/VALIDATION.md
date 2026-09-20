@@ -60,6 +60,13 @@ explicitly handles Git's declared CRLF-to-LF conversion for old tracked text,
 while new recovered files retain exact original bytes. Numeric corruption still
 fails the check.
 
+The first exact-candidate scan also exposed Git's CRLF checkout conversion of
+the release-policy JSON. The scanner correctly refused to attest different
+bytes. The policy is now explicitly byte-stable in `.gitattributes`, and the
+worktree uses the existing committed LF bytes. The previous CRLF checkout and
+failure record are retained locally; no policy values or committed policy bytes
+were changed.
+
 Validation log files remain under the ignored local `.audit/verification/`
 directory. The current [audit](REPOSITORY_AUDIT.md), manifests, and figure
 sidecars are the compact public evidence for this preservation work.
