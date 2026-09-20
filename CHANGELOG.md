@@ -12,6 +12,10 @@ release or archive DOI is claimed here.
 
 ### Added
 
+- Visitor-facing metric definitions and natural-measurement classification tables:
+  five method examples in the README and all 45 methods with a downloadable CSV.
+  Scores retain the saved 0.5 threshold and equal-hospital averaging, with checks
+  for complete cohorts, finite values, and agreement with the frozen AUROC report.
 - Complete result tables for the locked heart, readmission, matched-development,
   and seed-stability reports, including every reported method and registered
   heart/readmission contrast, familywise sensitivity intervals, and failed gates.

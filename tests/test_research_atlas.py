@@ -154,6 +154,7 @@ def results_workspace(tmp_path: Path) -> Path:
         *results.TABLES,
         *results.JSON_SOURCES,
         results.DOCUMENT,
+        results.NATURAL_EXPORT,
         results.MANIFEST,
         "README.md",
     ]
@@ -256,3 +257,100 @@ def test_comparison_table_uses_bootstrap_mean_not_point_estimate_subtraction() -
 def test_nonfinite_result_is_not_presented_as_a_completed_metric(value: str) -> None:
     with pytest.raises(ValueError, match="Non-finite metric"):
         tool("build_results_document").number(value)
+
+
+@pytest.fixture
+def natural_cells() -> list[dict[str, str]]:
+    results = tool("build_results_document")
+    cells = []
+    for (site, size), value, precision in zip(
+        results.NATURAL_SITES.items(), (0.1, 0.2, 0.6, 0.9), (0.2, 0.4, 0.6, 0.8), strict=True
+    ):
+        recall = 1 - precision
+        cells.append(
+            {
+                "method": "fixture",
+                "track": "dg_zero_shot",
+                "policy": "natural",
+                "outer_target": site,
+                "mask_replicate": "0",
+                "n": str(size),
+                **{metric: str(value) for metric in results.NATURAL_METRICS},
+                "precision": str(precision),
+                "recall": str(recall),
+                "f1": str(2 * precision * recall / (precision + recall)),
+            }
+        )
+    return cells
+
+
+def test_natural_metrics_weight_hospitals_equally_and_exclude_other_conditions(
+    natural_cells: list[dict[str, str]],
+) -> None:
+    results = tool("build_results_document")
+    rows = [
+        *natural_cells,
+        {**natural_cells[0], "policy": "drop_advanced", "accuracy": "1.0"},
+        {**natural_cells[0], "track": "uda", "accuracy": "1.0"},
+    ]
+    summary = results.summarize_natural_metrics(rows, ["fixture"])[0]
+    assert float(summary["accuracy"]) == pytest.approx(0.45)
+    pooled = sum(float(row["n"]) * float(row["accuracy"]) for row in natural_cells) / 920
+    assert float(summary["accuracy"]) != pytest.approx(pooled)
+    assert float(summary["precision"]) == pytest.approx(0.5)
+    assert float(summary["recall"]) == pytest.approx(0.5)
+    assert float(summary["f1"]) == pytest.approx(0.4)
+
+
+@pytest.mark.parametrize("problem", ["missing", "duplicate", "replicate", "size", "method"])
+def test_natural_metrics_require_complete_frozen_cohorts(
+    natural_cells: list[dict[str, str]], problem: str
+) -> None:
+    if problem == "missing":
+        natural_cells.pop()
+    elif problem == "duplicate":
+        natural_cells[-1] = natural_cells[0].copy()
+    elif problem == "replicate":
+        natural_cells[0]["mask_replicate"] = "1"
+    elif problem == "size":
+        natural_cells[0]["n"] = "300"
+    else:
+        natural_cells[0]["method"] = "different"
+    with pytest.raises(ValueError, match="Natural metric"):
+        tool("build_results_document").summarize_natural_metrics(natural_cells, ["fixture"])
+
+
+@pytest.mark.parametrize("value", ["nan", "inf", "-inf", "-0.1", "1.1"])
+def test_invalid_natural_metrics_cannot_enter_the_public_summary(
+    natural_cells: list[dict[str, str]], value: str
+) -> None:
+    natural_cells[0]["accuracy"] = value
+    with pytest.raises(ValueError, match="Invalid natural accuracy"):
+        tool("build_results_document").summarize_natural_metrics(natural_cells, ["fixture"])
+
+
+def test_natural_auc_must_agree_with_the_frozen_primary_report(results_workspace: Path) -> None:
+    results = tool("build_results_document")
+    tables = results.read_tables(results_workspace)
+    natural = next(
+        row
+        for row in tables[f"{results.HEART}/site_policy_metrics.csv"]
+        if row["policy"] == "natural"
+    )
+    natural["roc_auc"] = str(float(natural["roc_auc"]) - 0.1)
+    with pytest.raises(ValueError, match="Natural AUROC differs"):
+        results.natural_results(tables)
+
+
+def test_classification_headlines_and_csv_cannot_drift(results_workspace: Path) -> None:
+    results = tool("build_results_document")
+    readme = results_workspace / "README.md"
+    original = readme.read_text(encoding="utf-8")
+    readme.write_text(original.replace("77.57%", "99.99%", 1), encoding="utf-8")
+    with pytest.raises(ValueError, match="README classification results do not match"):
+        results.build(results_workspace, check=True)
+    readme.write_text(original, encoding="utf-8")
+    export = results_workspace / results.NATURAL_EXPORT
+    export.write_bytes(export.read_bytes() + b"\n")
+    with pytest.raises(ValueError, match=r"heart_natural_metrics\.csv"):
+        results.build(results_workspace, check=True)

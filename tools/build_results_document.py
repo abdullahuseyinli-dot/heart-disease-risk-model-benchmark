@@ -22,12 +22,26 @@ ADAPTATION = "artifacts/figures/heartshift-v5-r2/heart_rejected_adaptation.csv"
 SYNTHETIC = "artifacts/runs/synthetic-mechanism-v3/acceptance_gate.json"
 ROUTER = "artifacts/runs/support-router-outer-development-v1/router_gates.json"
 DOCUMENT = "docs/RESULTS.md"
+NATURAL_EXPORT = "docs/research/heart_natural_metrics.csv"
 MANIFEST = "docs/research/result_presentation_manifest.json"
 PRIMARY = "macro_site_worst_mask_balanced_log_loss"
 WORST = "worst_site_mask_balanced_log_loss"
 AUC = "macro_natural_roc_auc"
+NATURAL_SITES = {"cleveland": 303, "hungary": 294, "switzerland": 123, "va_long_beach": 200}
+NATURAL_METRICS = ("accuracy", "balanced_accuracy", "precision", "recall", "f1", "roc_auc", "brier")
+SELECTED_METHODS = {
+    "psmask:v2_prior_separated": "V2 · prior separation",
+    "psmask:v0_pooled_erm": "V0 · pooled ERM",
+    "psmask:v5_mask_only_dro": "V5 · mask-axis DRO (preselected)",
+    "classical:random_forest:site_class_balanced": "Random forest",
+    "classical:logistic:site_class_balanced": "Logistic regression",
+}
 TABLES = {
     f"{HEART}/primary_estimands.csv": (45, ("method",)),
+    f"{HEART}/site_policy_metrics.csv": (
+        9720,
+        ("method", "track", "outer_target", "policy", "mask_replicate"),
+    ),
     f"{HEART}/paired_bootstrap_intervals.csv": (16, ("method", "reference_method")),
     f"{READMISSION}/primary_estimands.csv": (9, ("experiment",)),
     f"{READMISSION}/patient_cluster_bootstrap_intervals.csv": (5, ("experiment",)),
@@ -107,6 +121,105 @@ def number(value: str | float) -> str:
     if not math.isfinite(numeric):
         raise ValueError("Non-finite metric cannot be presented as a completed result")
     return f"{numeric:.6f}"
+
+
+def summarize_natural_metrics(
+    site_rows: list[dict[str, str]], methods: list[str]
+) -> list[dict[str, str]]:
+    """Average saved natural-condition scores with equal weight for each hospital."""
+    natural = [
+        row for row in site_rows if row["track"] == "dg_zero_shot" and row["policy"] == "natural"
+    ]
+    if len(set(methods)) != len(methods) or {row["method"] for row in natural} != set(methods):
+        raise ValueError("Natural metric method set differs from the frozen report")
+    summaries = []
+    for method in methods:
+        cells = [row for row in natural if row["method"] == method]
+        if len(cells) != len(NATURAL_SITES) or {r["outer_target"] for r in cells} != set(
+            NATURAL_SITES
+        ):
+            raise ValueError(f"Natural metrics require one row per hospital: {method}")
+        cells = sorted(cells, key=lambda row: row["outer_target"])
+        if any(
+            row["mask_replicate"] != "0" or float(row["n"]) != NATURAL_SITES[row["outer_target"]]
+            for row in cells
+        ):
+            raise ValueError(f"Natural metric cohort size or replicate changed: {method}")
+        summary = {
+            "method": method,
+            "track": "dg_zero_shot",
+            "policy": "natural",
+            "decision_threshold": "0.5",
+            "aggregation": "equal_hospital_macro",
+            "hospital_count": str(len(NATURAL_SITES)),
+            "n_total": str(sum(NATURAL_SITES.values())),
+        }
+        for metric in NATURAL_METRICS:
+            values = [float(row[metric]) for row in cells]
+            if any(not math.isfinite(value) or not 0 <= value <= 1 for value in values):
+                raise ValueError(f"Invalid natural {metric}: {method}")
+            summary[metric] = str(math.fsum(values) / len(values))
+        summaries.append(summary)
+    return summaries
+
+
+def natural_results(tables: dict[str, list[dict[str, str]]]) -> list[dict[str, str]]:
+    primary = tables[f"{HEART}/primary_estimands.csv"]
+    rows = summarize_natural_metrics(
+        tables[f"{HEART}/site_policy_metrics.csv"], [row["method"] for row in primary]
+    )
+    for row, reference in zip(rows, primary, strict=True):
+        if not math.isclose(float(row["roc_auc"]), float(reference[AUC]), rel_tol=0, abs_tol=1e-12):
+            raise ValueError(f"Natural AUROC differs from the frozen aggregate: {row['method']}")
+    return rows
+
+
+def natural_csv(rows: list[dict[str, str]]) -> str:
+    output = io.StringIO()
+    writer = csv.DictWriter(output, fieldnames=list(rows[0]), lineterminator="\n")
+    writer.writeheader()
+    writer.writerows(rows)
+    return output.getvalue()
+
+
+def classification_table(rows: list[dict[str, str]], *, selected: bool = False) -> str:
+    if selected:
+        rows = [one(rows, "method", method) for method in SELECTED_METHODS]
+    return table(
+        [
+            "Model" if selected else "Method ID",
+            "Accuracy ↑",
+            "Balanced accuracy ↑",
+            "Precision ↑",
+            "Recall ↑",
+            "F1 ↑",
+            "AUROC ↑",
+            "Brier ↓",
+        ],
+        [
+            [SELECTED_METHODS[row["method"]] if selected else f"`{row['method']}`"]
+            + [f"{100 * float(row[metric]):.2f}%" for metric in NATURAL_METRICS[:5]]
+            + [f"{float(row['roc_auc']):.4f}", number(row["brier"])]
+            for row in rows
+        ],
+    )
+
+
+def classification_summary(rows: list[dict[str, str]]) -> str:
+    return (
+        "How well do the models classify disease at an unseen hospital using the measurements "
+        "as recorded? The table below answers this complementary question. **Natural measurements; "
+        "decision threshold 0.5; equal weight for each of the four hospitals.**\n\n"
+        + classification_table(rows, selected=True)
+        + "\n\nThese five methods illustrate prior separation, pooled training (ERM), the "
+        "preselected measurement-robust candidate (DRO), and two classical references. "
+        "The classical references use site/class-balanced training. "
+        "Values are descriptive point estimates, not a new model-selection result. "
+        "AUROC and Brier use probabilities without a decision threshold; Brier here is "
+        "unweighted within each hospital.\n\n"
+        "[All 45 methods and downloadable table](docs/RESULTS.md#natural-measurement-metrics) · "
+        "[Metric definitions and why log loss is primary](docs/METRICS.md)."
+    )
 
 
 def table(headers: list[str], rows: list[list[str]]) -> str:
@@ -215,13 +328,17 @@ def details(title: str, content: str) -> str:
     return f"<details>\n<summary>{title}</summary>\n\n{content}\n\n</details>"
 
 
-def render(root: Path, tables: dict[str, list[dict[str, str]]]) -> str:
+def render(
+    root: Path, tables: dict[str, list[dict[str, str]]], natural: list[dict[str, str]]
+) -> str:
     heart = tables[f"{HEART}/primary_estimands.csv"]
     readmission = tables[f"{READMISSION}/primary_estimands.csv"]
     sections = [
         "# Experiment results",
-        "These tables reproduce the retained report aggregates. Values are rounded to six "
-        "decimal places for reading; source CSVs retain their stored precision. "
+        "These tables reproduce the retained report aggregates. Losses and registered "
+        "aggregates use six decimal places; classification rates use two percentage decimals "
+        "and the natural-metric table uses four for AUROC. "
+        "Source CSVs retain their stored precision. "
         "Method IDs match the report keys, including training weights, calibration, and "
         "seed count. Each primary table includes its complete reported method set.",
         "[Heart](#locked-heart-evaluation) · [Readmission](#independent-readmission-task) · "
@@ -286,6 +403,29 @@ def render(root: Path, tables: dict[str, list[dict[str, str]]]) -> str:
             "All 45 locked methods",
             result_table(heart) + "\n\n" + source(f"{HEART}/primary_estimands.csv"),
         ),
+        "### Natural measurement metrics",
+        "These scores describe the naturally recorded measurements, including their existing "
+        "missingness, with no additional feature deletion. They use the same 45 frozen zero-shot "
+        "methods as the primary table. Accuracy, balanced accuracy, precision, recall, and F1 "
+        "use the report's fixed probability threshold of **0.5**; AUROC and Brier do not require "
+        "a threshold. Positive means angiographic disease (`num > 0`).",
+        "Each value is the arithmetic mean of four separately computed hospital scores: "
+        "Cleveland (303 records), Hungary (294), Switzerland (123), and VA Long Beach (200). "
+        "Every hospital receives equal weight regardless of size. F1 is averaged after "
+        "calculation within each hospital. Brier is unweighted within each hospital. "
+        "These are not pooled-patient metrics or worst-deletion-policy results. "
+        "The point estimates are descriptive and retain the original report order. "
+        "[How to interpret the metrics](METRICS.md).",
+        details(
+            "All 45 methods: accuracy, precision, recall, F1, AUROC, and Brier",
+            classification_table(natural),
+        ),
+        "[Download all 45 rows](research/heart_natural_metrics.csv) · "
+        + source(f"{HEART}/site_policy_metrics.csv", "Original hospital/policy scores")
+        + " · [Metric implementation](../src/heartshift/metrics.py). "
+        "The export records the condition, threshold, and averaging convention. "
+        "The generator checks all four hospitals, the complete method set, and agreement "
+        "with the frozen natural AUROC aggregate.",
         "### Registered comparisons",
         "All 16 registered comparisons use `classical:logistic:site_class_balanced` as "
         "the reference and 2,000 paired replicates. These are the saved marginal 95% "
@@ -533,18 +673,36 @@ def render(root: Path, tables: dict[str, list[dict[str, str]]]) -> str:
     return "\n\n".join(sections) + "\n"
 
 
-def manifest(root: Path, document: str, summary: str) -> str:
+def manifest(root: Path, outputs: dict[str, str], summaries: dict[str, str]) -> str:
     payload: dict[str, Any] = {
-        "schema_version": "1.0.0",
+        "schema_version": "1.1.0",
         "scope": "presentation_of_existing_results_no_new_evaluation",
         "generator": "tools/build_results_document.py",
         "sources": [
             {"path": path, "sha256": hashlib.sha256((root / path).read_bytes()).hexdigest()}
             for path in [*TABLES, *JSON_SOURCES]
         ],
-        "outputs": [{"path": DOCUMENT, "sha256": hashlib.sha256(document.encode()).hexdigest()}],
-        "readme_findings_sha256": hashlib.sha256(summary.encode()).hexdigest(),
+        "outputs": [
+            {"path": path, "sha256": hashlib.sha256(content.encode()).hexdigest()}
+            for path, content in outputs.items()
+        ],
+        "readme_findings_sha256": hashlib.sha256(summaries["Findings"].encode()).hexdigest(),
+        "readme_classification_sha256": hashlib.sha256(
+            summaries["Classification results"].encode()
+        ).hexdigest(),
         "readme_section_normalization": "utf8_lf_without_trailing_newline",
+        "natural_metrics": {
+            "source": f"{HEART}/site_policy_metrics.csv",
+            "track": "dg_zero_shot",
+            "policy": "natural",
+            "mask_replicate": 0,
+            "decision_threshold": 0.5,
+            "thresholded_metrics": list(NATURAL_METRICS[:5]),
+            "aggregation": "arithmetic_mean_of_four_hospital_metrics",
+            "hospital_records": NATURAL_SITES,
+            "within_hospital_brier_weighting": "unweighted",
+            "method_count": 45,
+        },
         "expected_rows": {path: count for path, (count, _) in TABLES.items()},
     }
     return json.dumps(payload, indent=2) + "\n"
@@ -552,26 +710,37 @@ def manifest(root: Path, document: str, summary: str) -> str:
 
 def build(root: Path, *, check: bool) -> None:
     tables = read_tables(root)
-    document = render(root, tables)
-    summary = findings(tables, "docs/")
+    natural = natural_results(tables)
+    outputs = {DOCUMENT: render(root, tables, natural), NATURAL_EXPORT: natural_csv(natural)}
+    summaries = {
+        "Findings": findings(tables, "docs/"),
+        "Classification results": classification_summary(natural),
+    }
     readme_path = root / "README.md"
     readme = readme_path.read_text(encoding="utf-8")
-    current = section(readme, "Findings")
-    outputs = {DOCUMENT: document, MANIFEST: manifest(root, document, summary)}
+    current = {heading: section(readme, heading) for heading in summaries}
+    outputs[MANIFEST] = manifest(root, outputs, summaries)
     if check:
-        if current != summary:
-            raise ValueError("README findings do not match the report tables")
+        for heading, summary in summaries.items():
+            if current[heading] != summary:
+                raise ValueError(f"README {heading.lower()} do not match the report tables")
         for path, expected in outputs.items():
             if (root / path).read_bytes() != expected.encode("utf-8"):
                 raise ValueError(
                     f"Result presentation is stale or its source bindings changed: {path}"
                 )
     else:
-        readme_path.write_text(readme.replace(current, summary, 1), encoding="utf-8", newline="\n")
+        for heading, summary in summaries.items():
+            readme = readme.replace(
+                f"## {heading}\n\n{current[heading]}", f"## {heading}\n\n{summary}", 1
+            )
+        readme_path.write_text(readme, encoding="utf-8", newline="\n")
         for path, content in outputs.items():
             (root / path).parent.mkdir(parents=True, exist_ok=True)
             (root / path).write_text(content, encoding="utf-8", newline="\n")
-    print("Complete result tables, README findings, and source bindings verified.")
+    print(
+        "Complete result tables, natural metrics, README summaries, and source bindings verified."
+    )
 
 
 def main() -> None:

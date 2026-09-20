@@ -73,11 +73,13 @@ New run or report directories also need an explicit evidence-scope entry in
 `uv run python tools/build_research_atlas.py`; keep failed and superseded records
 visible. New plots must retain source tables, plotted data, and hash bindings.
 
-Public result tables and the README findings are maintained by
+Public result tables and the README result sections are maintained by
 `tools/build_results_document.py`. Rebuild them from the saved reports and run
 `--check` before committing. Include complete comparison sets, distinguish
 point estimates from bootstrap means, and keep failed gates and post-outcome
-analyses labelled. A documentation update does not authorize refitting a model
+analyses labelled. Natural classification summaries average the four hospital
+scores equally at the saved 0.5 decision threshold; keep this condition distinct
+from worst-policy loss. A documentation update does not authorize refitting a model
 or changing a frozen report.
 
 Keep changes focused and include:
