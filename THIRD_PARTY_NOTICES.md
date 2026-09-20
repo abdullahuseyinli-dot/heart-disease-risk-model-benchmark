@@ -70,3 +70,22 @@ provides the required ODbL notice.
 The public demo is used only for non-confirmatory pipeline and schema smoke
 testing. It is not an external validation cohort, and neither PhysioNet nor the
 dataset authors endorse this project.
+
+## Optional model implementations
+
+Optional comparators are installed from upstream packages; their code and model
+weights are not relicensed by this repository. Exact resolved versions are in
+`uv.lock`, declared provenance is in
+`configs/research/method_registry_v3.yaml`, and the release workflow records the
+installed environment's licence metadata.
+
+- scikit-learn and TabICL use BSD 3-Clause licences.
+- XGBoost, CatBoost, TabM, and PyTabKit use Apache License 2.0.
+- LightGBM and InterpretML use the MIT License.
+- TabPFN 8.4.0 is governed by the Prior Labs License 1.2, which is based on
+  Apache 2.0 with an additional attribution provision. TabPFN model access and
+  provider terms remain separate from this repository's MIT licence.
+
+Upstream terms control in every case. The registry's licence field is an audited
+release input, not legal advice or permission to redistribute third-party model
+weights.

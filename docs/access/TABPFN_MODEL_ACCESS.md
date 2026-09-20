@@ -3,8 +3,8 @@
 Package installation date: 2026-08-23
 Installed package: `tabpfn==8.4.0`
 
-The default TabPFN v3 weights require the repository owner to accept a Prior Labs
-licence and authenticate. The owner completed that step manually. A credential is
+The default TabPFN v3 weights require the repository owner to accept the Prior
+Labs License 1.2 and authenticate. The owner completed that step manually. A credential is
 present in the standard user-level TabPFN cache, outside this repository; the
 credential value and any derived fingerprint are deliberately not recorded here.
 

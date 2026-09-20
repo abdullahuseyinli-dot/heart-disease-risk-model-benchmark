@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Any
 
 import pytest
 
@@ -38,7 +39,7 @@ def test_consumed_heart_cannot_be_relabelled_as_confirmation() -> None:
         )
 
 
-def _router_contract_configs():
+def _router_contract_configs() -> list[dict[str, Any]]:
     return [
         load_yaml(REPO_ROOT / "configs/research/heart_controls_v1.yaml"),
         load_yaml(REPO_ROOT / "configs/research/observed_backbones_v1.yaml"),
@@ -62,7 +63,7 @@ def test_router_development_contract_rejects_seed_drift() -> None:
         validate_router_development_contract(*configs)
 
 
-def _seed_extension_contract_configs():
+def _seed_extension_contract_configs() -> list[dict[str, Any]]:
     return [
         load_yaml(REPO_ROOT / "configs/research/heart_controls_v1.yaml"),
         load_yaml(REPO_ROOT / "configs/research/historical_psmask_seed_extension_v1.yaml"),

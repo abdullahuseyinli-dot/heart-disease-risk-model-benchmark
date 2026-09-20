@@ -28,12 +28,13 @@ Set-Location heart-disease-risk-model-benchmark
 ```
 
 ```powershell
-uv sync --locked --extra dev
-uv run pytest -q --cov=heartshift --cov-report=term-missing --cov-fail-under=45
+uv sync --locked --extra dev --extra reporting --extra neural-cpu
+uv run pytest -q --cov=heartshift --cov-report=term-missing
 uv run ruff check src tests tools
 uv run ruff format --check src tests tools
-uv run mypy src/heartshift
-uv run heartshift-validate --help
+uv run mypy
+uv run heartshift --version
+uv run heartshift contracts validate --repo-root .
 uv run python tools/validate_repository.py
 uv build
 uv run python tools/validate_distribution.py
@@ -57,7 +58,7 @@ For the complete evidence audit:
 git lfs install
 git lfs pull
 git lfs fsck
-uv run heartshift-validate --repo-root .
+uv run heartshift validate --repo-root .
 ```
 
 The full validator checks canonical data, split isolation, study contracts, and
@@ -84,3 +85,8 @@ Release bundles must record:
 
 No DOI or release checksum should be added until the corresponding immutable
 deposit exists.
+
+The exact-candidate procedure is specified in the
+[release evidence gate](RELEASE_EVIDENCE_GATE.md). A candidate attestation stays
+`pending_remote_ci`; only a separately bound successful remote run permits a
+completed report and full-tree inventory.

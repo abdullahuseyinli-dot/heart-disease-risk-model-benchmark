@@ -1,0 +1,21 @@
+{
+  "claim_scope": "Locked zero-shot domain-generalization evidence on four historical UCI hospitals; descriptive, non-deployment evidence only.",
+  "evidence_status": "locked",
+  "headline_tables": [
+    {"path": "artifacts/reports/heart-outer-v5/primary_estimands.csv", "sha256": "20da62b33f26b48e110421855947f46b19794fcac464ab62ede9ebe5a861d50c", "size_bytes": 8067},
+    {"path": "artifacts/reports/heart-outer-v5/paired_bootstrap_intervals.csv", "sha256": "a77c3cac665d012f706d0ba6cbcf1654f86d62b323a046cef03297d19fbda692", "size_bytes": 2299}
+  ],
+  "record_kind": "report_evidence_manifest",
+  "record_sha256": "4e622bbf81f6ad22c7278e7133168953332dfa88efebec1454b681e4c680a374",
+  "report_id": "heart-outer-v5",
+  "schema_version": "1.0.0",
+  "source_records": [
+    {"path": "artifacts/reports/heart-outer-v5/normalized_outer_predictions.parquet", "sha256": "40bd2b418de21861e5b7b2bcc9839b96d65c0ec796601370a4666b6257948347", "size_bytes": 13037209},
+    {"path": "artifacts/reports/heart-outer-v5/report_manifest.json", "sha256": "3461092cd01568d6a5d82406e6dc0a2e83390190f75ef8922cbdf6edf9c607c2", "size_bytes": 2416}
+  ],
+  "validation": {
+    "evidence": {"path": "artifacts/reports/heart-outer-v5/independent_validation.json", "sha256": "9f4603ceab649062ff94a5dd6d2ed61bcf42883233e258fae9a138fae888c613", "size_bytes": 775},
+    "status": "pass",
+    "validator": "independent prediction-to-report recomputation"
+  }
+}

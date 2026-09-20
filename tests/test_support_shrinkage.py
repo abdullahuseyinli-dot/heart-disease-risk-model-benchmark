@@ -47,7 +47,7 @@ def test_support_router_objective_is_finite_and_differentiable() -> None:
         natural_margin=0.01,
         entropy_bonus=0.001,
     )
-    objective.backward()
+    objective.backward()  # type: ignore[no-untyped-call]
     assert torch.isfinite(objective)
     assert all(np.isfinite(value) for value in components.values())
     assert all(parameter.grad is not None for parameter in router.parameters())

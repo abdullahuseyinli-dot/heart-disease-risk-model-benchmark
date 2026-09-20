@@ -1,0 +1,71 @@
+{
+  "max_git_blob_bytes": 52428800,
+  "prohibited_path_patterns": [
+    "(^|/)\\.env($|\\.)",
+    "(^|/)(id_rsa|id_ed25519)($|\\.)",
+    "(^|/)(credentials|secrets?)($|[./_-])",
+    "(^|/)\\.venv/",
+    "(^|/)\\.audit/"
+  ],
+  "prohibited_suffixes": [
+    ".key",
+    ".p12",
+    ".pfx",
+    ".pem"
+  ],
+  "required_gates": [
+    "candidate_tree",
+    "contracts",
+    "repository",
+    "tests",
+    "lint",
+    "format",
+    "typing",
+    "build",
+    "distribution",
+    "wheel_smoke",
+    "licenses",
+    "history_secret_scan"
+  ],
+  "required_roles": {
+    "architecture": "docs/ARCHITECTURE.md",
+    "benchmark_card": "docs/BENCHMARK_CARD.md",
+    "changelog": "CHANGELOG.md",
+    "citation": "CITATION.cff",
+    "coverage_source_profile": "configs/coverage/source-only.coveragerc",
+    "dataset_card": "docs/DATA_CARD.md",
+    "dataset_eicu_manifest": "manifests/datasets/eicu_crd_demo_v2.0.1.json",
+    "dataset_heart_manifest": "manifests/datasets/uci_heart_v1.json",
+    "dataset_readmission_manifest": "manifests/datasets/uci_diabetes_readmission_v1.json",
+    "hardware": "docs/HARDWARE.md",
+    "license": "LICENSE",
+    "method_registry": "configs/research/method_registry_v3.yaml",
+    "model_card": "docs/MODEL_CARD.md",
+    "paper_claim_crosswalk": "paper/CLAIM_EVIDENCE_CROSSWALK.md",
+    "paper_outline": "paper/OUTLINE.md",
+    "paper_references": "paper/references.bib",
+    "readme": "README.md",
+    "release_gate": "docs/RELEASE_EVIDENCE_GATE.md",
+    "third_party_notices": "THIRD_PARTY_NOTICES.md",
+    "versioning": "docs/VERSIONING.md"
+  },
+  "schema_version": "1.0.0",
+  "text_scan_exempt_prefixes": [
+    "artifacts/failures/",
+    "artifacts/locks/",
+    "artifacts/runs/",
+    "data/splits/uci_heart_loho_v1.json"
+  ],
+  "text_suffixes": [
+    ".bib",
+    ".cff",
+    ".csv",
+    ".json",
+    ".md",
+    ".py",
+    ".toml",
+    ".txt",
+    ".yaml",
+    ".yml"
+  ]
+}

@@ -1,6 +1,13 @@
 # Project status
 
-Status snapshot: 2026-08-24.
+Representation audit: 2026-09-20. Scientific outcomes remain those recorded with
+the August 2026 studies; no new model evaluation was conducted for this update.
+
+The [research atlas](RESEARCH_ATLAS.md) connects the ideas to the
+[56-run / 12-report ledger](research/EXPERIMENT_LEDGER.md). The
+[local/Git audit](audit/2026-09-20/REPOSITORY_AUDIT.md) found 121 additional
+coursework output files and documented the open contract-hardening PR. Consult
+the PR for current integration status; a pushed branch is not the same as `main`.
 
 Earlier freezes, failure records, manifests, and reports remain immutable. This
 page summarizes them; it does not replace their machine-readable status fields.
@@ -8,6 +15,7 @@ page summarizes them; it does not replace their machine-readable status fields.
 | Area | Status | Primary evidence |
 | --- | --- | --- |
 | Archived v1 benchmark | Preserved and independently checked | `results/`, `docs/legacy/`, tag `legacy-v1-development-consumed` |
+| Coursework detail | 121 original outputs recovered; all 68 notebook source cells indexed | `results/legacy_coursework_2025/`, `docs/legacy/COURSEWORK_PROVENANCE.md` |
 | UCI Heart canonical data | Complete | `data/processed/uci_heart_canonical_v1.parquet`, profile and split manifests |
 | Source-only method selection | Complete | source prediction artifacts and selection records under `artifacts/runs/` |
 | Locked heart evaluation | Complete with two disclosed mechanical recoveries | `artifacts/reports/heart-outer-v5/` |

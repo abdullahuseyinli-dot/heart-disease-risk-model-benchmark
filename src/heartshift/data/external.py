@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import hashlib
-import json
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -12,6 +11,11 @@ import numpy as np
 import pandas as pd
 
 from heartshift.data.uci import sha256_file
+from heartshift.immutable import (
+    preflight_create_only,
+    write_json_create_only,
+    write_parquet_create_only,
+)
 
 EICU_DEMO_FILES = (
     "patient.csv.gz",
@@ -227,7 +231,6 @@ def prepare_external_dataset(
             f"Authorized external raw file is unavailable: {raw_path}. "
             "Credentialed data must be obtained under its DUA before preparation."
         )
-    output_dir.mkdir(parents=True, exist_ok=False)
     frame = pd.read_csv(raw_path, low_memory=False)
     required = {
         contract.encounter_id_column,
@@ -249,25 +252,21 @@ def prepare_external_dataset(
     canonical_path = output_dir / "canonical.parquet"
     manifest_path = output_dir / "hospital_split.parquet"
     profile_path = output_dir / "profile.json"
-    selected.to_parquet(canonical_path, index=False)
-    manifest.to_parquet(manifest_path, index=False)
-    profile_path.write_text(
-        json.dumps(
-            {
-                **validation,
-                "raw_path": str(raw_path.relative_to(repo_root)),
-                "raw_sha256": sha256_file(raw_path),
-                "canonical_sha256": sha256_file(canonical_path),
-                "manifest_sha256": sha256_file(manifest_path),
-                "feature_columns": list(contract.feature_columns),
-                "hospital_used_only_for_split_and_audit": True,
-                "imputation_applied": False,
-            },
-            indent=2,
-            sort_keys=True,
-        )
-        + "\n",
-        encoding="utf-8",
+    preflight_create_only((canonical_path, manifest_path, profile_path))
+    write_parquet_create_only(canonical_path, selected)
+    write_parquet_create_only(manifest_path, manifest)
+    write_json_create_only(
+        profile_path,
+        {
+            **validation,
+            "raw_path": str(raw_path.relative_to(repo_root)),
+            "raw_sha256": sha256_file(raw_path),
+            "canonical_sha256": sha256_file(canonical_path),
+            "manifest_sha256": sha256_file(manifest_path),
+            "feature_columns": list(contract.feature_columns),
+            "hospital_used_only_for_split_and_audit": True,
+            "imputation_applied": False,
+        },
     )
     return {
         "canonical": canonical_path,
@@ -386,7 +385,6 @@ def prepare_eicu_demo_dataset(
         raw_directory = repo_root / raw_directory
     if not raw_directory.is_dir():
         raise FileNotFoundError(f"Public eICU demo directory is unavailable: {raw_directory}")
-    output_dir.mkdir(parents=True, exist_ok=False)
     frame = load_eicu_demo_relational_table(raw_directory)
     required = {
         contract.encounter_id_column,
@@ -407,30 +405,26 @@ def prepare_eicu_demo_dataset(
     canonical_path = output_dir / "canonical.parquet"
     manifest_path = output_dir / "hospital_split.parquet"
     profile_path = output_dir / "profile.json"
-    selected.to_parquet(canonical_path, index=False)
-    manifest.to_parquet(manifest_path, index=False)
+    preflight_create_only((canonical_path, manifest_path, profile_path))
+    write_parquet_create_only(canonical_path, selected)
+    write_parquet_create_only(manifest_path, manifest)
     raw_hashes = {name: sha256_file(raw_directory / name) for name in EICU_DEMO_FILES}
-    profile_path.write_text(
-        json.dumps(
-            {
-                **validation,
-                "status": "passed_public_demo_pipeline_smoke_only",
-                "scientific_evaluation_allowed": False,
-                "raw_directory": str(raw_directory.relative_to(repo_root)),
-                "raw_sha256": raw_hashes,
-                "canonical_sha256": sha256_file(canonical_path),
-                "manifest_sha256": sha256_file(manifest_path),
-                "feature_columns": list(contract.feature_columns),
-                "hospital_used_only_for_split_and_audit": True,
-                "apache_prediction_columns_excluded": True,
-                "apache_minus_one_converted_to_missing": True,
-                "age_above_89_encoded_as_90": True,
-                "imputation_applied": False,
-            },
-            indent=2,
-            sort_keys=True,
-        )
-        + "\n",
-        encoding="utf-8",
+    write_json_create_only(
+        profile_path,
+        {
+            **validation,
+            "status": "passed_public_demo_pipeline_smoke_only",
+            "scientific_evaluation_allowed": False,
+            "raw_directory": str(raw_directory.relative_to(repo_root)),
+            "raw_sha256": raw_hashes,
+            "canonical_sha256": sha256_file(canonical_path),
+            "manifest_sha256": sha256_file(manifest_path),
+            "feature_columns": list(contract.feature_columns),
+            "hospital_used_only_for_split_and_audit": True,
+            "apache_prediction_columns_excluded": True,
+            "apache_minus_one_converted_to_missing": True,
+            "age_above_89_encoded_as_90": True,
+            "imputation_applied": False,
+        },
     )
     return {"canonical": canonical_path, "manifest": manifest_path, "profile": profile_path}

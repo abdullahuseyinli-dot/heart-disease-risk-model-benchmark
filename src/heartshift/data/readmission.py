@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import hashlib
-import json
 from pathlib import Path
 from typing import Any
 
@@ -12,6 +11,11 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 from heartshift.data.uci import sha256_file
+from heartshift.immutable import (
+    preflight_create_only,
+    write_json_create_only,
+    write_parquet_create_only,
+)
 
 READMISSION_ARCHIVE_SHA256 = "F82AC129DA2DDD2299391FF6FBAE3A6A58B3EDCF59AC9D7BD480C00FE453112A"
 READMISSION_DOI = "10.24432/C5230J"
@@ -252,11 +256,10 @@ def prepare_readmission_dataset(
     table_split = tableshift_reproduction_split(frame)
     patient_split = patient_grouped_shift_split(frame)
     outputs = {key: repo_root / value for key, value in config["outputs"].items()}
-    for path in outputs.values():
-        path.parent.mkdir(parents=True, exist_ok=True)
-    frame.to_parquet(outputs["canonical"], index=False)
-    table_split.to_parquet(outputs["tableshift_split"], index=False)
-    patient_split.to_parquet(outputs["patient_split"], index=False)
+    preflight_create_only(outputs.values())
+    write_parquet_create_only(outputs["canonical"], frame)
+    write_parquet_create_only(outputs["tableshift_split"], table_split)
+    write_parquet_create_only(outputs["patient_split"], patient_split)
     profile = {
         "doi": READMISSION_DOI,
         "archive_sha256": READMISSION_ARCHIVE_SHA256,
@@ -271,7 +274,5 @@ def prepare_readmission_dataset(
         "tableshift": split_profile(frame, table_split),
         "patient_grouped": split_profile(frame, patient_split),
     }
-    outputs["profile"].write_text(
-        json.dumps(profile, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-    )
+    write_json_create_only(outputs["profile"], profile)
     return outputs

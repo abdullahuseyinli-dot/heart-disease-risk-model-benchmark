@@ -54,13 +54,16 @@ jobs:
           cache-dependency-glob: uv.lock
 
       - name: Install locked development environment
-        run: uv sync --locked --extra dev
+        run: uv sync --locked --extra dev --extra reporting --extra neural-cpu
 
       - name: Compile Python sources
         run: uv run python -m compileall -q src scripts tools
 
       - name: Run tests
-        run: uv run pytest -q --cov=heartshift --cov-report=term-missing --cov-report=xml --cov-fail-under=45
+        run: >-
+          uv run pytest -q -m "not full_evidence" --cov=heartshift
+          --cov-config=configs/coverage/source-only.coveragerc
+          --cov-report=term-missing --cov-report=xml
 
       - name: Lint
         run: uv run ruff check src tests tools
@@ -69,13 +72,24 @@ jobs:
         run: uv run ruff format --check src tests tools
 
       - name: Type-check
-        run: uv run mypy --python-version ${{ matrix.python }} src/heartshift
+        run: uv run mypy --python-version ${{ matrix.python }}
 
       - name: Smoke-test installed command
-        run: uv run heartshift-validate --help
+        run: uv run heartshift --version
+
+      - name: Validate release-facing contracts and registry
+        run: |
+          uv run heartshift contracts validate --repo-root .
+          uv run heartshift methods validate --repo-root .
 
       - name: Validate public repository surface
         run: uv run python tools/validate_repository.py
+
+      - name: Verify research inventory and figure provenance
+        run: |
+          uv run python tools/build_research_atlas.py --check
+          uv run python tools/build_results_document.py --check
+          uv run python tools/plot_research_overview.py --check
 
       - name: Build wheel and source distribution
         run: uv build

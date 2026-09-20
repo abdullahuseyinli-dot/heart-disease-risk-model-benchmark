@@ -85,7 +85,7 @@ def test_cross_role_patient_is_quarantined_without_moving_hospitals() -> None:
         manifest = build_hospital_disjoint_manifest(probe, contract)
         roles[name] = str(manifest.loc[0, "split"])
         hospital += 1
-    active = {}
+    active: dict[str, str] = {}
     for name, role in roles.items():
         if role in {"development", "architecture_selection", "locked_confirmation"}:
             active.setdefault(role, name)

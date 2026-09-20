@@ -77,6 +77,7 @@ def main() -> None:
                     "from importlib.metadata import entry_points, version; "
                     "assert heartshift.__version__ == version('heartshift'); "
                     "scripts = {point.name for point in entry_points(group='console_scripts')}; "
+                    "assert 'heartshift' in scripts; "
                     "assert 'heartshift-validate' in scripts; "
                     "assert 'heartshift-benchmark' in scripts"
                 ),

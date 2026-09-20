@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark/schemas/release_gate_status.schema.json",
+  "title": "HeartShift individual release gate status",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "record_kind", "candidate_commit", "gate", "status", "evidence", "created_at_utc", "record_sha256"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_kind": {"const": "release_gate_status"},
+    "candidate_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "gate": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_-]+$"},
+    "status": {"enum": ["pass", "fail", "not_run"]},
+    "evidence": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "sha256", "size_bytes"],
+          "properties": {
+            "path": {"type": "string", "pattern": "^(?![A-Za-z]:|/|.*\\.\\.).+"},
+            "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+            "size_bytes": {"type": "integer", "minimum": 0}
+          }
+        }
+      ]
+    },
+    "created_at_utc": {"type": "string", "format": "date-time"},
+    "record_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "pass"}}},
+      "then": {"properties": {"evidence": {"type": "object"}}}
+    },
+    {
+      "if": {"properties": {"status": {"const": "not_run"}}},
+      "then": {"properties": {"evidence": {"type": "null"}}}
+    }
+  ]
+}

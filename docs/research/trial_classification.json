@@ -1,0 +1,489 @@
+{
+  "schema_version": "1.0.0",
+  "classification_date": "2026-09-20",
+  "entries": [
+    {
+      "path": "artifacts/runs/classical-inner-confirm-v1",
+      "family": "Comparator baselines",
+      "scope": "source_only_selection",
+      "note": "Retained source selection and implementation record",
+      "reference": "docs/REPRODUCIBILITY.md"
+    },
+    {
+      "path": "artifacts/runs/classical-inner-v1",
+      "family": "Comparator baselines",
+      "scope": "source_only_selection",
+      "note": "Retained source selection and implementation record",
+      "reference": "docs/REPRODUCIBILITY.md"
+    },
+    {
+      "path": "artifacts/runs/classical-inner-v1-rerun1",
+      "family": "Comparator baselines",
+      "scope": "source_only_selection",
+      "note": "Retained source selection and implementation record",
+      "reference": "docs/REPRODUCIBILITY.md"
+    },
+    {
+      "path": "artifacts/runs/classical-inner-v1-rerun2",
+      "family": "Comparator baselines",
+      "scope": "source_only_selection",
+      "note": "Retained source selection and implementation record",
+      "reference": "docs/REPRODUCIBILITY.md"
+    },
+    {
+      "path": "artifacts/runs/classical-inner-v1-rerun3",
+      "family": "Comparator baselines",
+      "scope": "source_only_selection",
+      "note": "Retained source selection and implementation record",
+      "reference": "docs/REPRODUCIBILITY.md"
+    },
+    {
+      "path": "artifacts/runs/classical-outer-v3",
+      "family": "Comparator baselines",
+      "scope": "locked_heart_with_disclosed_recoveries",
+      "note": "Retained locked heart evidence; see recovery chronology",
+      "reference": "docs/HEART_OUTER_V5_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/eicu-demo-model-smoke-v1",
+      "family": "External pipeline smoke",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/EICU_DEMO_SMOKE_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/heart-controls-development-v1",
+      "family": "Post-outcome classical controls",
+      "scope": "post_outcome_development",
+      "note": "Interrupted for mask-seed alignment; preserved before corrected v2",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/heart-controls-development-v2-aligned",
+      "family": "Post-outcome classical controls",
+      "scope": "post_outcome_development",
+      "note": "Consumed UCI outcomes; exact-mask controls",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/heart-controls-smoke-v1",
+      "family": "Post-outcome classical controls",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/historical-psmask-ten-seed-sensitivity-v1",
+      "family": "Exact ten-seed sensitivity",
+      "scope": "post_outcome_sensitivity",
+      "note": "Historical three-seed fits extended; no new confirmation",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/mirrams-inner-confirm-v1",
+      "family": "MIRRAMS external comparator",
+      "scope": "source_only_selection",
+      "note": "External method control; attribution retained",
+      "reference": "docs/METHOD_SPECIFICATION.md"
+    },
+    {
+      "path": "artifacts/runs/mirrams-inner-v1",
+      "family": "MIRRAMS external comparator",
+      "scope": "source_only_selection",
+      "note": "External method control; attribution retained",
+      "reference": "docs/METHOD_SPECIFICATION.md"
+    },
+    {
+      "path": "artifacts/runs/mirrams-outer-v3",
+      "family": "MIRRAMS external comparator",
+      "scope": "locked_heart_with_disclosed_recoveries",
+      "note": "Failed execution preserved; not a completed comparison",
+      "reference": "docs/OUTER_V3_FAILURE_AND_V4_RECOVERY.md"
+    },
+    {
+      "path": "artifacts/runs/mirrams-outer-v4",
+      "family": "MIRRAMS external comparator",
+      "scope": "locked_heart_with_disclosed_recoveries",
+      "note": "Failed execution preserved; not a completed comparison",
+      "reference": "docs/OUTER_V4_FAILURE_AND_V5_RECOVERY.md"
+    },
+    {
+      "path": "artifacts/runs/mirrams-outer-v5-finalized",
+      "family": "MIRRAMS external comparator",
+      "scope": "locked_heart_with_disclosed_recoveries",
+      "note": "Retained locked heart evidence; see recovery chronology",
+      "reference": "docs/HEART_OUTER_V5_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/modern-2026-inner-v1",
+      "family": "Comparator baselines",
+      "scope": "source_only_selection",
+      "note": "Retained source selection and implementation record",
+      "reference": "docs/REPRODUCIBILITY.md"
+    },
+    {
+      "path": "artifacts/runs/modern-2026-outer-v3",
+      "family": "Comparator baselines",
+      "scope": "locked_heart_with_disclosed_recoveries",
+      "note": "Retained locked heart evidence; see recovery chronology",
+      "reference": "docs/HEART_OUTER_V5_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/modern-inner-confirm-v1",
+      "family": "Comparator baselines",
+      "scope": "source_only_selection",
+      "note": "Retained source selection and implementation record",
+      "reference": "docs/REPRODUCIBILITY.md"
+    },
+    {
+      "path": "artifacts/runs/modern-inner-v1",
+      "family": "Comparator baselines",
+      "scope": "source_only_selection",
+      "note": "Retained source selection and implementation record",
+      "reference": "docs/REPRODUCIBILITY.md"
+    },
+    {
+      "path": "artifacts/runs/modern-v2-outer-v3",
+      "family": "Comparator baselines",
+      "scope": "locked_heart_with_disclosed_recoveries",
+      "note": "Retained locked heart evidence; see recovery chronology",
+      "reference": "docs/HEART_OUTER_V5_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/observed-backbones-development-v1",
+      "family": "Post-outcome backbones",
+      "scope": "post_outcome_development",
+      "note": "Equal-budget attention and DeepSets; averaging and selection",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/observed-backbones-outer-development-v1",
+      "family": "Post-outcome backbones",
+      "scope": "post_outcome_development",
+      "note": "Equal-budget attention and DeepSets; averaging and selection",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/observed-backbones-outer-smoke-v1",
+      "family": "Post-outcome backbones",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/observed-backbones-smoke-v1",
+      "family": "Post-outcome backbones",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/psmask-factorial-inner-v1",
+      "family": "PS-MaskDRO and ANE",
+      "scope": "source_only_selection",
+      "note": "Factorial ablation or source confirmation record",
+      "reference": "docs/METHOD_SPECIFICATION.md"
+    },
+    {
+      "path": "artifacts/runs/psmask-inner-confirm-v1",
+      "family": "PS-MaskDRO and ANE",
+      "scope": "source_only_selection",
+      "note": "Joint-axis gate failed; separate mask-axis pivot recorded",
+      "reference": "docs/METHOD_SPECIFICATION.md"
+    },
+    {
+      "path": "artifacts/runs/psmask-inner-v1",
+      "family": "PS-MaskDRO and ANE",
+      "scope": "source_only_selection",
+      "note": "Factorial ablation or source confirmation record",
+      "reference": "docs/METHOD_SPECIFICATION.md"
+    },
+    {
+      "path": "artifacts/runs/psmask-outer-v5",
+      "family": "PS-MaskDRO and ANE",
+      "scope": "locked_heart_with_disclosed_recoveries",
+      "note": "Retained locked heart evidence; see recovery chronology",
+      "reference": "docs/HEART_OUTER_V5_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/psmask-smoke-v1",
+      "family": "PS-MaskDRO and ANE",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/METHOD_SPECIFICATION.md"
+    },
+    {
+      "path": "artifacts/runs/readmission-inner-v1",
+      "family": "Independent readmission task",
+      "scope": "source_only_selection",
+      "note": "Patient-disjoint task; admission source is a domain proxy",
+      "reference": "docs/READMISSION_OUTER_V3_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/readmission-outer-v3",
+      "family": "Independent readmission task",
+      "scope": "independent_task_exploratory",
+      "note": "Patient-disjoint task; admission source is a domain proxy",
+      "reference": "docs/READMISSION_OUTER_V3_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/shiftguard-synthetic-development-v1",
+      "family": "ShiftGuard revisions",
+      "scope": "synthetic_development",
+      "note": "Closed negative result; retain revisions and failed gates",
+      "reference": "docs/SHIFTGUARD_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/shiftguard-synthetic-development-v2-omnibus",
+      "family": "ShiftGuard revisions",
+      "scope": "synthetic_development",
+      "note": "Closed negative result; retain revisions and failed gates",
+      "reference": "docs/SHIFTGUARD_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/shiftguard-synthetic-development-v3-max-moment",
+      "family": "ShiftGuard revisions",
+      "scope": "synthetic_development",
+      "note": "Closed negative result; retain revisions and failed gates",
+      "reference": "docs/SHIFTGUARD_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/shiftguard-synthetic-development-v4-spectral-pilot",
+      "family": "ShiftGuard revisions",
+      "scope": "synthetic_pilot",
+      "note": "Pilot only; not comparable to full-revision estimates",
+      "reference": "docs/SHIFTGUARD_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/shiftguard-synthetic-development-v4-spectral-ridge",
+      "family": "ShiftGuard revisions",
+      "scope": "synthetic_development",
+      "note": "Closed negative result; retain revisions and failed gates",
+      "reference": "docs/SHIFTGUARD_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/shiftguard-synthetic-development-v5-joint-null-pilot",
+      "family": "ShiftGuard revisions",
+      "scope": "synthetic_pilot",
+      "note": "Pilot only; not comparable to full-revision estimates",
+      "reference": "docs/SHIFTGUARD_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/shiftguard-synthetic-development-v6-quantile-copula-pilot",
+      "family": "ShiftGuard revisions",
+      "scope": "synthetic_pilot",
+      "note": "Pilot only; not comparable to full-revision estimates",
+      "reference": "docs/SHIFTGUARD_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/shiftguard-synthetic-development-v7-power-guard",
+      "family": "ShiftGuard revisions",
+      "scope": "synthetic_development",
+      "note": "Closed negative result; retain revisions and failed gates",
+      "reference": "docs/SHIFTGUARD_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/shiftguard-synthetic-development-v7-power-guard-pilot",
+      "family": "ShiftGuard revisions",
+      "scope": "synthetic_pilot",
+      "note": "Pilot only; not comparable to full-revision estimates",
+      "reference": "docs/SHIFTGUARD_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/shiftguard-synthetic-smoke-v1",
+      "family": "ShiftGuard revisions",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/SHIFTGUARD_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/shiftguard-synthetic-v2-smoke",
+      "family": "ShiftGuard revisions",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/SHIFTGUARD_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/support-router-nested-anchor-smoke-v2",
+      "family": "Support-aware routing",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/support-router-nested-anchor-smoke-v3",
+      "family": "Support-aware routing",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/support-router-outer-development-v1",
+      "family": "Support-aware routing",
+      "scope": "post_outcome_development",
+      "note": "Full router did not improve on strongest fixed blend",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/support-router-outer-smoke-v1",
+      "family": "Support-aware routing",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/support-router-outer-smoke-v2-strongest-fixed",
+      "family": "Support-aware routing",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/support-router-smoke-v1",
+      "family": "Support-aware routing",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/synthetic-mechanism-v2",
+      "family": "Registered synthetic mechanisms",
+      "scope": "registered_synthetic_mechanism",
+      "note": "Failed mechanism gate; preserved before v3",
+      "reference": "docs/SYNTHETIC_V2_FAILURE.md"
+    },
+    {
+      "path": "artifacts/runs/synthetic-mechanism-v3",
+      "family": "Registered synthetic mechanisms",
+      "scope": "registered_synthetic_mechanism",
+      "note": "Mechanism-specific evidence; no general shift guarantee",
+      "reference": "docs/SYNTHETIC_V3_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/synthetic-mechanism-v3-code-dryrun-1",
+      "family": "Registered synthetic mechanisms",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/SYNTHETIC_V3_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/synthetic-v3-diagnostic-devcheck-1",
+      "family": "Registered synthetic mechanisms",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/SYNTHETIC_V3_RESULT.md"
+    },
+    {
+      "path": "artifacts/runs/tabpfn-v3-inner-confirm-v1",
+      "family": "Comparator baselines",
+      "scope": "source_only_selection",
+      "note": "Retained source selection and implementation record",
+      "reference": "docs/REPRODUCIBILITY.md"
+    },
+    {
+      "path": "artifacts/runs/tabpfn-v3-inner-v1",
+      "family": "Comparator baselines",
+      "scope": "source_only_selection",
+      "note": "Retained source selection and implementation record",
+      "reference": "docs/REPRODUCIBILITY.md"
+    },
+    {
+      "path": "artifacts/runs/tabpfn-v3-outer-v3",
+      "family": "Comparator baselines",
+      "scope": "locked_heart_with_disclosed_recoveries",
+      "note": "Retained locked heart evidence; see recovery chronology",
+      "reference": "docs/HEART_OUTER_V5_RESULT.md"
+    },
+    {
+      "path": "artifacts/reports/heart-outer-v5",
+      "family": "Locked heart report",
+      "scope": "locked_heart_with_disclosed_recoveries",
+      "note": "Registered candidate superiority not confirmed",
+      "reference": "docs/HEART_OUTER_V5_RESULT.md"
+    },
+    {
+      "path": "artifacts/reports/heart-outer-v5-sensitivity-v1",
+      "family": "Post-outcome reporting sensitivity",
+      "scope": "post_outcome_sensitivity",
+      "note": "Bootstrap/reporting sensitivity after outcomes",
+      "reference": "docs/HEART_OUTER_V5_SENSITIVITY.md"
+    },
+    {
+      "path": "artifacts/reports/heart-research-development-smoke-v1",
+      "family": "Combined development report",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/reports/heart-research-development-smoke-v2-ensembles",
+      "family": "Combined development report",
+      "scope": "pipeline_smoke",
+      "note": "Execution/development check only; gate values are not scientific evidence",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/reports/heart-research-development-v1",
+      "family": "Combined development report",
+      "scope": "post_outcome_development",
+      "note": "Combined controls, backbones and router report",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/reports/historical-psmask-ten-seed-sensitivity-v1",
+      "family": "Exact ten-seed sensitivity",
+      "scope": "post_outcome_sensitivity",
+      "note": "Historical three-seed fits extended; no new confirmation",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/reports/historical-psmask-ten-seed-sensitivity-v2-stability",
+      "family": "Exact ten-seed sensitivity",
+      "scope": "post_outcome_sensitivity",
+      "note": "Historical three-seed fits extended; no new confirmation",
+      "reference": "docs/HEART_RESEARCH_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/reports/readmission-outer-v3",
+      "family": "Independent readmission task",
+      "scope": "independent_task_exploratory",
+      "note": "Patient-disjoint task; admission source is a domain proxy",
+      "reference": "docs/READMISSION_OUTER_V3_RESULT.md"
+    },
+    {
+      "path": "artifacts/reports/shiftguard-revisions-v1",
+      "family": "ShiftGuard revisions",
+      "scope": "synthetic_development",
+      "note": "Closed negative result; retain revisions and failed gates",
+      "reference": "docs/SHIFTGUARD_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/reports/shiftguard-revisions-v2",
+      "family": "ShiftGuard revisions",
+      "scope": "synthetic_development",
+      "note": "Closed negative result; retain revisions and failed gates",
+      "reference": "docs/SHIFTGUARD_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/reports/shiftguard-revisions-v2-power-audit",
+      "family": "ShiftGuard revisions",
+      "scope": "synthetic_development",
+      "note": "Closed negative result; retain revisions and failed gates",
+      "reference": "docs/SHIFTGUARD_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/reports/shiftguard-revisions-v3-final-development",
+      "family": "ShiftGuard revisions",
+      "scope": "synthetic_development",
+      "note": "Closed negative result; retain revisions and failed gates",
+      "reference": "docs/SHIFTGUARD_DEVELOPMENT_RESULT.md"
+    },
+    {
+      "path": "artifacts/failures/heart-outer-v5-sensitivity-v1-20260824T131522",
+      "family": "Post-outcome reporting sensitivity",
+      "scope": "post_outcome_sensitivity",
+      "note": "Failed reporting attempt retained; no substitute result inferred",
+      "reference": "docs/HEART_OUTER_V5_SENSITIVITY.md"
+    }
+  ]
+}

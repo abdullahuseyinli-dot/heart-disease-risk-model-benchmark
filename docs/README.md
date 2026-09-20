@@ -1,18 +1,30 @@
 # Documentation
 
-HeartShift documentation is organized by purpose. Result documents are derived
-from the tracked prediction evidence; protocol and audit records retain the
-status under which each result was produced.
+Start with the results for the experimental findings, the research atlas for
+the development decisions, or the setup guide to run the software checks.
+Original protocols and execution records retain their historical status.
 
 ## Start here
 
+- [Experiment results](RESULTS.md): complete method tables, paired intervals, figures, and interpretation by evidence track.
+- [Research atlas](RESEARCH_ATLAS.md): hypotheses, implementation, development decisions, and prior-work attribution.
+- [Complete experiment ledger](research/EXPERIMENT_LEDGER.md): every retained run/report, with evidence scope and recorded failures.
 - [Benchmark card](BENCHMARK_CARD.md): reusable task, split, metric, and evidence contract.
 - [Project status](PROJECT_STATUS.md): current evidence classes and completed evaluations.
 - [Installation and verification](USAGE.md): lightweight checkout and complete evidence audit.
 - [Method specification](METHOD_SPECIFICATION.md): mathematical definitions and controlled ablations.
+- [Architecture](ARCHITECTURE.md): package boundaries, trust boundaries, and extension contract.
 - [Artifact storage](ARTIFACTS.md): Git LFS, archive tiers, and integrity checks.
+- [Data acquisition runbook](DATA_ACQUISITION_RUNBOOK.md): manifest verification and create-only reconstruction.
+- [Hardware profiles](HARDWARE.md): privacy-safe execution environment and dependency profiles.
+- [Release evidence gate](RELEASE_EVIDENCE_GATE.md): exact-candidate attestations and inventory.
+- [Versioning](VERSIONING.md): software, evidence, tags, releases, and DOI boundaries.
 
 ## Results
+
+The [results page](RESULTS.md) brings the saved report tables together without
+combining their endpoints or evidence classes. Report-specific interpretation
+and execution details remain in the following records:
 
 - [Locked heart evaluation](HEART_OUTER_V5_RESULT.md)
 - [Ten-seed stability and routing study](HEART_RESEARCH_DEVELOPMENT_RESULT.md)
@@ -26,6 +38,7 @@ status under which each result was produced.
 - [Model card](MODEL_CARD.md)
 - [Reporting and bias-audit checklist](REPORTING_CHECKLIST.md)
 - [Publication and claim guide](PUBLICATION_ROUTE.md)
+- [Manuscript outline and claim crosswalk](../paper/README.md)
 
 ## Frozen study records
 
@@ -42,11 +55,14 @@ historical context, not the current repository status or a public roadmap.
 
 ## Audit history
 
+- [Local/Git reconciliation](audit/2026-09-20/REPOSITORY_AUDIT.md): branch integration, recovered outputs, and preservation gaps.
+- [Presentation source bindings](research/result_presentation_manifest.json): input hashes and complete table counts.
 - [Outer evidence audit](OUTER_EVIDENCE_AUDIT.md)
 - [v3 execution failure and v4 recovery](OUTER_V3_FAILURE_AND_V4_RECOVERY.md)
 - [v4 aggregation failure and v5 recovery](OUTER_V4_FAILURE_AND_V5_RECOVERY.md)
 - [Synthetic v2 failure](SYNTHETIC_V2_FAILURE.md)
 - [Archived v1 benchmark](legacy/LEGACY_BENCHMARK.md)
+- [Recovered coursework provenance](legacy/COURSEWORK_PROVENANCE.md): 152-file source inventory and all 68 notebook cells.
 - [Archived v1 validity audit](legacy/VALIDITY_AUDIT.md)
 
 Historical failures and superseded records remain available because they explain

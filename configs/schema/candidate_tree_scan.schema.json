@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark/schemas/candidate_tree_scan.schema.json",
+  "title": "HeartShift exact-candidate tree scan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "record_kind", "candidate_commit", "created_at_utc", "policy", "entry_count", "tree_sha256", "lfs_object_count", "lfs_bytes", "findings", "status", "record_sha256"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_kind": {"const": "candidate_tree_scan"},
+    "candidate_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "created_at_utc": {"type": "string", "format": "date-time"},
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "pattern": "^(?![A-Za-z]:|/|.*\\.\\.).+"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "entry_count": {"type": "integer", "minimum": 1},
+    "tree_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "lfs_object_count": {"type": "integer", "minimum": 0},
+    "lfs_bytes": {"type": "integer", "minimum": 0},
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "path", "detail"],
+        "properties": {
+          "code": {"type": "string", "minLength": 1},
+          "path": {"type": "string", "minLength": 1},
+          "detail": {"type": "string"}
+        }
+      }
+    },
+    "status": {"enum": ["pass", "fail"]},
+    "record_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

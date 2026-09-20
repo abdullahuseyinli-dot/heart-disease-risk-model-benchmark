@@ -1,0 +1,25 @@
+{
+  "columns": [
+    {"logical_type": "string", "name": "sample_id", "nullable": false, "role": "immutable_sample_key"},
+    {"logical_type": "string", "name": "outer_target", "nullable": false, "role": "held_out_hospital"},
+    {"logical_type": "int8", "name": "target", "nullable": false, "role": "angiographic_disease_label"},
+    {"logical_type": "string", "name": "policy", "nullable": false, "role": "measurement_policy"},
+    {"logical_type": "int64", "name": "mask_replicate", "nullable": false, "role": "counterfactual_mask_replicate"},
+    {"logical_type": "float64", "name": "observed_fraction", "nullable": false, "role": "measurement_support"},
+    {"logical_type": "string", "name": "method", "nullable": false, "role": "fully_qualified_method"},
+    {"logical_type": "string", "name": "track", "nullable": false, "role": "adaptation_track"},
+    {"logical_type": "float64", "name": "score", "nullable": false, "role": "positive_class_probability"},
+    {"logical_type": "float64", "name": "sex", "nullable": true, "role": "descriptive_subgroup_attribute"}
+  ],
+  "contract_id": "heart-outer-normalized-predictions-v1",
+  "evidence_status": "locked",
+  "primary_key": ["sample_id", "method", "track", "policy", "mask_replicate"],
+  "record_kind": "prediction_table_contract",
+  "record_sha256": "3c13ed5fd86b4e66dd0b657b9e13cc24e2f798061d3f5cb7913364d6f9a855bc",
+  "schema_version": "1.0.0",
+  "table_format": "parquet",
+  "target_use": {
+    "labels_used_for_selection": false,
+    "unlabelled_features_used_for_adaptation": false
+  }
+}

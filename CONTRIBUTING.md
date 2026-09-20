@@ -7,12 +7,15 @@ evidence.
 ## Development setup
 
 ```powershell
-uv sync --locked --extra dev
-uv run pytest -q
+uv sync --locked --extra dev --extra reporting --extra neural-cpu
+uv run pytest -q -m "not full_evidence" --cov=heartshift --cov-config=configs/coverage/source-only.coveragerc
 uv run ruff check src tests tools
 uv run ruff format --check src tests tools
 uv run mypy src/heartshift
 uv run python tools/validate_repository.py
+uv run python tools/build_results_document.py --check
+uv run python tools/build_research_atlas.py --check
+uv run python tools/plot_research_overview.py --check
 uv build
 uv run python tools/validate_distribution.py
 ```
@@ -22,7 +25,8 @@ Changes that depend on the full prediction archive must also pass:
 ```powershell
 git lfs pull
 git lfs fsck
-uv run heartshift-validate --repo-root .
+uv run heartshift validate --repo-root .
+uv run pytest -q --cov=heartshift --cov-report=term-missing
 ```
 
 ## Research invariants
@@ -49,7 +53,7 @@ uv run heartshift-validate --repo-root .
    target-label access.
 2. Add a versioned configuration under `configs/`.
 3. Register provenance, dependency, and execution status in
-   `configs/research/method_registry_v2.yaml`.
+   `configs/research/method_registry_v3.yaml`.
 4. Add synthetic tests for missingness, mask identity, determinism, and leakage.
 5. Use the existing prediction schema and reporting interfaces.
 6. Record unavailable dependencies or incompatible protocols as explicit
@@ -63,6 +67,18 @@ exclusions, and redistribution status. Raw inputs are never overwritten.
 Patient or subject identifiers must be partitioned before row-level sampling.
 
 ## Pull requests
+
+New run or report directories also need an explicit evidence-scope entry in
+`docs/research/trial_classification.json`. Rebuild the ledger with
+`uv run python tools/build_research_atlas.py`; keep failed and superseded records
+visible. New plots must retain source tables, plotted data, and hash bindings.
+
+Public result tables and the README findings are maintained by
+`tools/build_results_document.py`. Rebuild them from the saved reports and run
+`--check` before committing. Include complete comparison sets, distinguish
+point estimates from bootstrap means, and keep failed gates and post-outcome
+analyses labelled. A documentation update does not authorize refitting a model
+or changing a frozen report.
 
 Keep changes focused and include:
 

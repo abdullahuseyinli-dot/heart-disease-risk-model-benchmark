@@ -1,0 +1,85 @@
+{
+  "artifacts": [
+    {
+      "acquisition": "download",
+      "artifact_id": "apacheapsvar.csv.gz",
+      "expected_sha256": "2dc6d63f9807c7e663ffa253998691605d527b702ac1db8cc5dda92308061e78",
+      "expected_size_bytes": 68194,
+      "git_policy": "tracked_raw_evidence",
+      "hash_provenance": "Verified from the preserved PhysioNet file on 2026-08-24.",
+      "role": "raw_demo_table",
+      "source_url": "https://physionet.org/files/eicu-crd-demo/2.0.1/apacheApsVar.csv.gz",
+      "storage_path": "data/raw/eicu-crd-demo/2.0.1/apacheApsVar.csv.gz"
+    },
+    {
+      "acquisition": "download",
+      "artifact_id": "apachepatientresult.csv.gz",
+      "expected_sha256": "ce799692737f7a712c59aa8fbb9a302cee7c719887f0638caed3ae144b166821",
+      "expected_size_bytes": 214122,
+      "git_policy": "tracked_raw_evidence",
+      "hash_provenance": "Verified from the preserved PhysioNet file on 2026-08-24.",
+      "role": "raw_demo_table",
+      "source_url": "https://physionet.org/files/eicu-crd-demo/2.0.1/apachePatientResult.csv.gz",
+      "storage_path": "data/raw/eicu-crd-demo/2.0.1/apachePatientResult.csv.gz"
+    },
+    {
+      "acquisition": "download",
+      "artifact_id": "hospital.csv.gz",
+      "expected_sha256": "4ed356f9c4e7c8ce80e89241697e94b77f21c2f325cd6ad126794b1e92805ef4",
+      "expected_size_bytes": 759,
+      "git_policy": "tracked_raw_evidence",
+      "hash_provenance": "Verified from the preserved PhysioNet file on 2026-08-24.",
+      "role": "raw_demo_table",
+      "source_url": "https://physionet.org/files/eicu-crd-demo/2.0.1/hospital.csv.gz",
+      "storage_path": "data/raw/eicu-crd-demo/2.0.1/hospital.csv.gz"
+    },
+    {
+      "acquisition": "download",
+      "artifact_id": "lab.csv.gz",
+      "expected_sha256": "e06852850abeb65211bc22ac43f17121ba41b14656fac862396449af84d8273a",
+      "expected_size_bytes": 5729763,
+      "git_policy": "tracked_raw_evidence",
+      "hash_provenance": "Verified from the preserved PhysioNet file on 2026-08-24.",
+      "role": "raw_demo_table",
+      "source_url": "https://physionet.org/files/eicu-crd-demo/2.0.1/lab.csv.gz",
+      "storage_path": "data/raw/eicu-crd-demo/2.0.1/lab.csv.gz"
+    },
+    {
+      "acquisition": "download",
+      "artifact_id": "patient.csv.gz",
+      "expected_sha256": "15e1eb52169828e3cfff3b67132a087298de4d0365bbb31bb294f6043bffd474",
+      "expected_size_bytes": 136791,
+      "git_policy": "tracked_raw_evidence",
+      "hash_provenance": "Verified from the preserved PhysioNet file on 2026-08-24.",
+      "role": "raw_demo_table",
+      "source_url": "https://physionet.org/files/eicu-crd-demo/2.0.1/patient.csv.gz",
+      "storage_path": "data/raw/eicu-crd-demo/2.0.1/patient.csv.gz"
+    }
+  ],
+  "claim_scope": "Public, non-confirmatory pipeline and schema smoke testing only; not an external validation cohort.",
+  "dataset_id": "eicu-crd-demo-2.0.1",
+  "license": {
+    "identifier": "ODbL-1.0",
+    "name": "Open Data Commons Open Database License v1.0",
+    "notes": "The scoped ODbL notice is preserved beside raw and adapted demo data.",
+    "redistribution_policy": "retain_under_database_terms",
+    "url": "https://opendatacommons.org/licenses/odbl/1-0/"
+  },
+  "provenance": {
+    "citation": "Johnson, Pollard, Badawi, and Raffa (2021), eICU Collaborative Research Database Demo, version 2.0.1, PhysioNet.",
+    "hash_provenance": "SHA-256 digests and byte counts were computed from the preserved source files; the original SHA256SUMS.json remains preserved.",
+    "official_repository_url": "https://physionet.org/content/eicu-crd-demo/2.0.1/",
+    "retrieved_date": "2026-08-24"
+  },
+  "record_kind": "dataset_manifest",
+  "record_sha256": "e06be09a60ec80f96cb5e4f35e3bfc2a25b920b4e8310e3fccd7ed4ff44756ed",
+  "release": {
+    "doi": "10.13026/4mxk-na84",
+    "landing_url": "https://physionet.org/content/eicu-crd-demo/2.0.1/",
+    "published_date": "2021-05-05",
+    "version": "2.0.1"
+  },
+  "schema_version": "1.0.0",
+  "status": "smoke_only",
+  "title": "eICU Collaborative Research Database Demo"
+}

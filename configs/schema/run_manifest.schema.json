@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark/schemas/run_manifest.schema.json",
+  "title": "HeartShift run manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "record_kind", "run_id", "evidence_status", "created_at_utc", "code", "configuration", "data", "target_use", "environment", "artifacts", "status", "record_sha256"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_kind": {"const": "run_manifest"},
+    "run_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]+$"},
+    "evidence_status": {"enum": ["locked", "post_outcome", "development", "smoke", "archived"]},
+    "created_at_utc": {"type": "string", "format": "date-time"},
+    "code": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["git_commit", "worktree_clean"],
+      "properties": {
+        "git_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "worktree_clean": {"type": "boolean"},
+        "source_snapshot_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "configuration": {"$ref": "#/$defs/file_binding"},
+    "data": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/file_binding"}},
+    "target_use": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["labels_loaded", "labels_used_for_selection", "unlabelled_features_used"],
+      "properties": {
+        "labels_loaded": {"type": "boolean"},
+        "labels_used_for_selection": {"type": "boolean"},
+        "unlabelled_features_used": {"type": "boolean"}
+      }
+    },
+    "environment": {"type": "object", "minProperties": 1},
+    "artifacts": {"type": "array", "items": {"$ref": "#/$defs/file_binding"}},
+    "status": {"enum": ["complete", "failed", "interrupted", "quarantined"]},
+    "record_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "$defs": {
+    "file_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "pattern": "^(?![A-Za-z]:|/|.*\\.\\.).+"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "size_bytes": {"type": "integer", "minimum": 0}
+      }
+    }
+  }
+}

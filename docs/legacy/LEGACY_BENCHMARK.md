@@ -48,6 +48,12 @@ The archived pipeline tuned some model choices before the final holdout split.
 Its saved holdout and bootstrap values are therefore development evidence, not
 an unbiased estimate of a locked model-selection procedure.
 
+The [coursework provenance guide](COURSEWORK_PROVENANCE.md) now links the
+additional per-fold tables, training curves, SHAP diagnostics, and all notebook
+source cells recovered from the local archive. It also documents that the Colab
+latency experiment's historical `throughput_rps` value is the reciprocal of
+median latency, not an observed service-throughput measurement.
+
 ## Archived reproduction
 
 The original scripts and dependency files remain at their historical paths:

@@ -1,0 +1,28 @@
+feature,freq
+age,19
+sex,19
+trestbps,6
+chol,20
+fbs,0
+thalch,17
+exang,18
+oldpeak,20
+ca,18
+ca_missing,4
+thal_missing,0
+cp_asymptomatic,20
+cp_atypical angina,18
+cp_non-anginal,0
+cp_typical angina,0
+restecg_lv hypertrophy,0
+restecg_nan,0
+restecg_normal,0
+restecg_st-t abnormality,0
+slope_downsloping,0
+slope_flat,14
+slope_nan,0
+slope_upsloping,0
+thal_fixed defect,0
+thal_nan,0
+thal_normal,6
+thal_reversable defect,1

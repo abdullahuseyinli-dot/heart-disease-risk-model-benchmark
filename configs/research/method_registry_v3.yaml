@@ -1,0 +1,364 @@
+schema_version: 1.0.0
+record_kind: method_registry
+status: release_method_inventory_not_a_result
+methods:
+  - method_id: balanced_logistic
+    version: sklearn-1.9.0
+    family: linear_baseline
+    factory: heartshift.models.classical:build_classical_pipeline[logistic]
+    dependency_profile: core
+    devices: [cpu]
+    capabilities:
+      missing_values: true
+      sample_weight: true
+      unlabelled_target: false
+      labelled_target: false
+    configuration_schema: null
+    output_schema_version: heartshift-prediction-v1
+    provenance:
+      paper_url: null
+      repository_url: https://github.com/scikit-learn/scikit-learn
+      audited_revision: locked-package-1.9.0
+      license: BSD-3-Clause
+      implementation_fidelity: upstream_package
+    evidence_eligibility: locked
+  - method_id: random_forest
+    version: sklearn-1.9.0
+    family: bagged_tree_baseline
+    factory: heartshift.models.classical:build_classical_pipeline[random_forest]
+    dependency_profile: core
+    devices: [cpu]
+    capabilities:
+      missing_values: true
+      sample_weight: true
+      unlabelled_target: false
+      labelled_target: false
+    configuration_schema: null
+    output_schema_version: heartshift-prediction-v1
+    provenance:
+      paper_url: null
+      repository_url: https://github.com/scikit-learn/scikit-learn
+      audited_revision: locked-package-1.9.0
+      license: BSD-3-Clause
+      implementation_fidelity: upstream_package
+    evidence_eligibility: locked
+  - method_id: histogram_gradient_boosting
+    version: sklearn-1.9.0
+    family: boosted_tree_baseline
+    factory: heartshift.models.classical:build_classical_pipeline[hist_gradient_boosting]
+    dependency_profile: core
+    devices: [cpu]
+    capabilities:
+      missing_values: true
+      sample_weight: true
+      unlabelled_target: false
+      labelled_target: false
+    configuration_schema: null
+    output_schema_version: heartshift-prediction-v1
+    provenance:
+      paper_url: null
+      repository_url: https://github.com/scikit-learn/scikit-learn
+      audited_revision: locked-package-1.9.0
+      license: BSD-3-Clause
+      implementation_fidelity: upstream_package
+    evidence_eligibility: locked
+  - method_id: xgboost
+    version: 3.2.0
+    family: boosted_tree_comparator
+    factory: heartshift.models.classical:build_classical_pipeline[xgboost]
+    dependency_profile: classical
+    devices: [cpu, cuda]
+    capabilities:
+      missing_values: true
+      sample_weight: true
+      unlabelled_target: false
+      labelled_target: false
+    configuration_schema: null
+    output_schema_version: heartshift-prediction-v1
+    provenance:
+      paper_url: https://doi.org/10.1145/2939672.2939785
+      repository_url: https://github.com/dmlc/xgboost
+      audited_revision: locked-package-3.2.0
+      license: Apache-2.0
+      implementation_fidelity: upstream_package
+    evidence_eligibility: locked
+  - method_id: lightgbm
+    version: 4.7.0
+    family: boosted_tree_comparator
+    factory: heartshift.models.classical:build_classical_pipeline[lightgbm]
+    dependency_profile: classical
+    devices: [cpu, cuda]
+    capabilities:
+      missing_values: true
+      sample_weight: true
+      unlabelled_target: false
+      labelled_target: false
+    configuration_schema: null
+    output_schema_version: heartshift-prediction-v1
+    provenance:
+      paper_url: https://doi.org/10.5555/3294996.3295074
+      repository_url: https://github.com/microsoft/LightGBM
+      audited_revision: locked-package-4.7.0
+      license: MIT
+      implementation_fidelity: upstream_package
+    evidence_eligibility: locked
+  - method_id: catboost
+    version: 1.2.10
+    family: boosted_tree_comparator
+    factory: heartshift.models.classical:build_classical_pipeline[catboost]
+    dependency_profile: classical
+    devices: [cpu, cuda]
+    capabilities:
+      missing_values: true
+      sample_weight: true
+      unlabelled_target: false
+      labelled_target: false
+    configuration_schema: null
+    output_schema_version: heartshift-prediction-v1
+    provenance:
+      paper_url: https://arxiv.org/abs/1810.11363
+      repository_url: https://github.com/catboost/catboost
+      audited_revision: locked-package-1.2.10
+      license: Apache-2.0
+      implementation_fidelity: upstream_package
+    evidence_eligibility: locked
+  - method_id: ebm
+    version: interpret-0.7.8
+    family: interpretable_additive_comparator
+    factory: heartshift.models.classical:build_classical_pipeline[ebm]
+    dependency_profile: classical
+    devices: [cpu]
+    capabilities:
+      missing_values: true
+      sample_weight: true
+      unlabelled_target: false
+      labelled_target: false
+    configuration_schema: null
+    output_schema_version: heartshift-prediction-v1
+    provenance:
+      paper_url: https://doi.org/10.1145/3375627.3375838
+      repository_url: https://github.com/interpretml/interpret
+      audited_revision: locked-package-0.7.8
+      license: MIT
+      implementation_fidelity: upstream_package
+    evidence_eligibility: locked
+  - method_id: tabm
+    version: pytabkit-1.7.3-tabm-0.0.3
+    family: trained_from_scratch_neural_comparator
+    factory: heartshift.models.classical:build_classical_pipeline[tabm]
+    dependency_profile: foundation-models
+    devices: [cpu, cuda]
+    capabilities:
+      missing_values: true
+      sample_weight: false
+      unlabelled_target: false
+      labelled_target: false
+    configuration_schema: null
+    output_schema_version: heartshift-prediction-v1
+    provenance:
+      paper_url: https://openreview.net/forum?id=Sd4wYYOhmY
+      repository_url: https://github.com/yandex-research/tabm
+      audited_revision: locked-packages-pytabkit-1.7.3-tabm-0.0.3
+      license: Apache-2.0
+      implementation_fidelity: upstream_package
+    evidence_eligibility: locked
+  - method_id: realmlp
+    version: pytabkit-1.7.3
+    family: trained_from_scratch_neural_comparator
+    factory: heartshift.models.classical:build_classical_pipeline[realmlp]
+    dependency_profile: foundation-models
+    devices: [cpu, cuda]
+    capabilities:
+      missing_values: true
+      sample_weight: false
+      unlabelled_target: false
+      labelled_target: false
+    configuration_schema: null
+    output_schema_version: heartshift-prediction-v1
+    provenance:
+      paper_url: https://arxiv.org/abs/2407.04491
+      repository_url: https://github.com/dholzmueller/pytabkit
+      audited_revision: locked-package-1.7.3
+      license: Apache-2.0
+      implementation_fidelity: upstream_package
+    evidence_eligibility: locked
+  - method_id: ft_transformer
+    version: pytabkit-1.7.3
+    family: trained_from_scratch_neural_comparator
+    factory: heartshift.models.classical:build_classical_pipeline[ft_transformer]
+    dependency_profile: foundation-models
+    devices: [cpu, cuda]
+    capabilities:
+      missing_values: true
+      sample_weight: false
+      unlabelled_target: false
+      labelled_target: false
+    configuration_schema: null
+    output_schema_version: heartshift-prediction-v1
+    provenance:
+      paper_url: https://arxiv.org/abs/2106.11959
+      repository_url: https://github.com/dholzmueller/pytabkit
+      audited_revision: locked-package-1.7.3
+      license: Apache-2.0
+      implementation_fidelity: upstream_package
+    evidence_eligibility: locked
+  - method_id: tabpfn_v2_v3
+    version: 8.4.0
+    family: tabular_foundation_model
+    factory: heartshift.models.classical:build_classical_pipeline[tabpfn]
+    dependency_profile: foundation-models
+    devices: [cpu, cuda]
+    capabilities:
+      missing_values: true
+      sample_weight: false
+      unlabelled_target: false
+      labelled_target: false
+    configuration_schema: null
+    output_schema_version: heartshift-prediction-v1
+    provenance:
+      paper_url: https://doi.org/10.1038/s41586-024-08328-6
+      repository_url: https://github.com/PriorLabs/TabPFN
+      audited_revision: locked-package-8.4.0
+      license: Prior-Labs-License-1.2
+      implementation_fidelity: upstream_package
+    evidence_eligibility: locked
+  - method_id: tabicl_v2
+    version: 2.1.1
+    family: tabular_foundation_model
+    factory: heartshift.models.classical:build_classical_pipeline[tabicl]
+    dependency_profile: foundation-models
+    devices: [cpu, cuda]
+    capabilities:
+      missing_values: true
+      sample_weight: false
+      unlabelled_target: false
+      labelled_target: false
+    configuration_schema: null
+    output_schema_version: heartshift-prediction-v1
+    provenance:
+      paper_url: https://arxiv.org/abs/2602.11139
+      repository_url: https://github.com/soda-inria/tabicl
+      audited_revision: locked-package-2.1.1
+      license: BSD-3-Clause
+      implementation_fidelity: upstream_package
+    evidence_eligibility: locked
+  - method_id: mirrams_equation9
+    version: heartshift-0.1.0
+    family: missingness_robust_objective
+    factory: heartshift.models.ps_maskdro:mirrams_objective
+    dependency_profile: neural-cpu
+    devices: [cpu, cuda]
+    capabilities:
+      missing_values: true
+      sample_weight: false
+      unlabelled_target: false
+      labelled_target: false
+    configuration_schema: configs/research/observed_backbones_v1.yaml
+    output_schema_version: heartshift-prediction-v1
+    provenance:
+      paper_url: https://arxiv.org/abs/2507.08280
+      repository_url: https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark
+      audited_revision: release-candidate-0.1.0
+      license: MIT
+      implementation_fidelity: qualified_local_adaptation
+    evidence_eligibility: locked
+  - method_id: prior_separated_observed_set
+    version: heartshift-0.1.0
+    family: missingness_aware_observed_set_model
+    factory: heartshift.models.generic_observed:fit_generic_observed_model[prior_separated]
+    dependency_profile: neural-cpu
+    devices: [cpu, cuda]
+    capabilities:
+      missing_values: true
+      sample_weight: false
+      unlabelled_target: false
+      labelled_target: false
+    configuration_schema: configs/research/observed_backbones_v1.yaml
+    output_schema_version: heartshift-prediction-v1
+    provenance:
+      paper_url: null
+      repository_url: https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark
+      audited_revision: release-candidate-0.1.0
+      license: MIT
+      implementation_fidelity: repository_authored
+    evidence_eligibility: locked
+  - method_id: support_aware_router
+    version: heartshift-0.1.0
+    family: source_selected_shift_router
+    factory: heartshift.models.support_shrinkage:fit_support_aware_router
+    dependency_profile: neural-cpu
+    devices: [cpu, cuda]
+    capabilities:
+      missing_values: true
+      sample_weight: false
+      unlabelled_target: true
+      labelled_target: false
+    configuration_schema: configs/research/support_router_outer_v3.yaml
+    output_schema_version: heartshift-prediction-v1
+    provenance:
+      paper_url: null
+      repository_url: https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark
+      audited_revision: release-candidate-0.1.0
+      license: MIT
+      implementation_fidelity: repository_authored
+    evidence_eligibility: post_outcome_only
+  - method_id: shiftguard
+    version: heartshift-0.1.0
+    family: set_valued_shift_diagnostic
+    factory: heartshift.models.shiftguard:fit_shiftguard
+    dependency_profile: neural-cpu
+    devices: [cpu, cuda]
+    capabilities:
+      missing_values: true
+      sample_weight: false
+      unlabelled_target: true
+      labelled_target: false
+    configuration_schema: configs/research/shiftguard_v1.yaml
+    output_schema_version: heartshift-prediction-v1
+    provenance:
+      paper_url: null
+      repository_url: https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark
+      audited_revision: release-candidate-0.1.0
+      license: MIT
+      implementation_fidelity: repository_authored
+    evidence_eligibility: development_only
+  - method_id: neumiss_neumise
+    version: not-implemented
+    family: named_omission
+    factory: omitted:no_audited_author_implementation
+    dependency_profile: neural-cpu
+    devices: [cpu, cuda]
+    capabilities:
+      missing_values: true
+      sample_weight: false
+      unlabelled_target: false
+      labelled_target: false
+    configuration_schema: null
+    output_schema_version: heartshift-prediction-v1
+    provenance:
+      paper_url: https://arxiv.org/abs/2002.12454
+      repository_url: null
+      audited_revision: omitted-in-0.1.0
+      license: not-audited
+      implementation_fidelity: not_implemented
+    evidence_eligibility: omitted
+  - method_id: distpfn
+    version: not-implemented
+    family: named_omission
+    factory: omitted:no_pinned_release
+    dependency_profile: foundation-models
+    devices: [cpu, cuda]
+    capabilities:
+      missing_values: true
+      sample_weight: false
+      unlabelled_target: true
+      labelled_target: false
+    configuration_schema: null
+    output_schema_version: heartshift-prediction-v1
+    provenance:
+      paper_url: https://arxiv.org/abs/2605.04363
+      repository_url: null
+      audited_revision: omitted-in-0.1.0
+      license: not-audited
+      implementation_fidelity: not_implemented
+    evidence_eligibility: omitted

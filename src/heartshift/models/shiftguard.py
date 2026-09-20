@@ -460,7 +460,7 @@ def _class_means(
     embedding: torch.Tensor,
     labels: torch.Tensor,
 ) -> tuple[torch.Tensor, torch.Tensor]:
-    if set(labels.detach().cpu().unique().tolist()) != {0, 1}:
+    if set(labels.detach().cpu().unique().tolist()) != {0, 1}:  # type: ignore[no-untyped-call]
         raise ValueError("Diagnostic source embedding requires both classes")
     return embedding[labels.eq(0)].mean(dim=0), embedding[labels.eq(1)].mean(dim=0)
 
@@ -695,7 +695,7 @@ def fit_shiftguard(
             anchor_weight=float(parameters.get("anchor_weight", 0.5)),
         )
         optimizer.zero_grad(set_to_none=True)
-        objective.backward()
+        objective.backward()  # type: ignore[no-untyped-call]
         nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
         optimizer.step()
         score = _validation_score(

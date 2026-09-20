@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0.0",
+  "scope": "presentation_of_existing_results_no_new_evaluation",
+  "generator": "tools/build_results_document.py",
+  "sources": [
+    {
+      "path": "artifacts/reports/heart-outer-v5/primary_estimands.csv",
+      "sha256": "20da62b33f26b48e110421855947f46b19794fcac464ab62ede9ebe5a861d50c"
+    },
+    {
+      "path": "artifacts/reports/heart-outer-v5/paired_bootstrap_intervals.csv",
+      "sha256": "a77c3cac665d012f706d0ba6cbcf1654f86d62b323a046cef03297d19fbda692"
+    },
+    {
+      "path": "artifacts/reports/readmission-outer-v3/primary_estimands.csv",
+      "sha256": "bb96f3bed2efa4fbc4995f30d93dc6d914b09e1e494d763f45c6bca1e03d6a5b"
+    },
+    {
+      "path": "artifacts/reports/readmission-outer-v3/patient_cluster_bootstrap_intervals.csv",
+      "sha256": "aa70eb577a1b69b636772f79fc7686fae6ef20b084c30ad71aaee958d2f7dee3"
+    },
+    {
+      "path": "artifacts/reports/heart-research-development-v1/primary_estimands.csv",
+      "sha256": "41ca4129c6e6fd5afacb9683addf5a4099192aa5769bf44dcceda8550a45edb8"
+    },
+    {
+      "path": "artifacts/reports/historical-psmask-ten-seed-sensitivity-v2-stability/primary_estimands.csv",
+      "sha256": "2f3e25a23b150aede5f6fce10fa4b019718db35f9c8cc88d4df0acdbe35ab2b5"
+    },
+    {
+      "path": "artifacts/reports/historical-psmask-ten-seed-sensitivity-v2-stability/three_vs_ten_seed_comparison.csv",
+      "sha256": "e9892d9704cc2e25980fc50dae5c6ea1b6483a75d0b9f3b51752a42d7df9652f"
+    },
+    {
+      "path": "artifacts/reports/historical-psmask-ten-seed-sensitivity-v2-stability/posthoc_multiplicity_sensitivity.csv",
+      "sha256": "d67ddcfea4e289d68a144b7a21b266d59d96266016c4b52be27423730d9455f8"
+    },
+    {
+      "path": "artifacts/reports/shiftguard-revisions-v3-final-development/revision_comparison.csv",
+      "sha256": "55dda06a42f426b157fb7a1c15b0bb038cac47f51e5743f7a7ca33684003f164"
+    },
+    {
+      "path": "artifacts/figures/heartshift-v5-r2/heart_rejected_adaptation.csv",
+      "sha256": "75c2d227bef9462d24fbbc58a8e41f710a84890c5c3ed51672172a2c2d83ab7f"
+    },
+    {
+      "path": "artifacts/reports/heart-outer-v5/report_manifest.json",
+      "sha256": "3461092cd01568d6a5d82406e6dc0a2e83390190f75ef8922cbdf6edf9c607c2"
+    },
+    {
+      "path": "artifacts/reports/readmission-outer-v3/report_manifest.json",
+      "sha256": "507a940fe989d90b585a07fdeb617c339b36b71aeed00fd993a1674294f56718"
+    },
+    {
+      "path": "artifacts/reports/heart-research-development-v1/report_manifest.json",
+      "sha256": "baa710aa45a77086f2aed2a326b64f4f994973d1d603afceba458cf102ecccc1"
+    },
+    {
+      "path": "artifacts/reports/historical-psmask-ten-seed-sensitivity-v2-stability/report_manifest.json",
+      "sha256": "8bc728025a699a9d0621321d1f7f014fd2ea1bbde5cf453571c57c0fa0809ed4"
+    },
+    {
+      "path": "artifacts/runs/synthetic-mechanism-v3/acceptance_gate.json",
+      "sha256": "86fd90643533e9f0f2f396b8af5ae5c68554359cac8a361363e8f5d69ad70502"
+    },
+    {
+      "path": "artifacts/runs/support-router-outer-development-v1/router_gates.json",
+      "sha256": "767adbd631f84c066a84f2c79b13faeb831ef344366b4d7270c43bbd719d66d1"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "docs/RESULTS.md",
+      "sha256": "44fde80da976f602462c44af0ead1b33a3bb8d605171630a6dd1a81f31d84000"
+    }
+  ],
+  "readme_findings_sha256": "3d85e4211b52a47abdeb460bf74710d164404782165450c4457605f1022230a2",
+  "readme_section_normalization": "utf8_lf_without_trailing_newline",
+  "expected_rows": {
+    "artifacts/reports/heart-outer-v5/primary_estimands.csv": 45,
+    "artifacts/reports/heart-outer-v5/paired_bootstrap_intervals.csv": 16,
+    "artifacts/reports/readmission-outer-v3/primary_estimands.csv": 9,
+    "artifacts/reports/readmission-outer-v3/patient_cluster_bootstrap_intervals.csv": 5,
+    "artifacts/reports/heart-research-development-v1/primary_estimands.csv": 16,
+    "artifacts/reports/historical-psmask-ten-seed-sensitivity-v2-stability/primary_estimands.csv": 22,
+    "artifacts/reports/historical-psmask-ten-seed-sensitivity-v2-stability/three_vs_ten_seed_comparison.csv": 10,
+    "artifacts/reports/historical-psmask-ten-seed-sensitivity-v2-stability/posthoc_multiplicity_sensitivity.csv": 10,
+    "artifacts/reports/shiftguard-revisions-v3-final-development/revision_comparison.csv": 5,
+    "artifacts/figures/heartshift-v5-r2/heart_rejected_adaptation.csv": 8
+  }
+}

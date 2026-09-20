@@ -1,0 +1,40 @@
+{
+  "bound_run_manifests": [
+    {
+      "path": "artifacts/runs/classical-outer-v3/run_manifest.json",
+      "sha256": "7f8233048bf1b2a67537f546da74fb1a6118d31ecc84ae49f55ca41616b77141",
+      "size_bytes": 1424
+    }
+  ],
+  "cpu": {
+    "logical_processors": 16,
+    "model": "Intel(R) Core(TM) Ultra 9 285H",
+    "physical_cores": 16
+  },
+  "environment_id": "confirmatory-machine-20260824",
+  "gpu": {
+    "compute_capability": "12.0",
+    "driver_cuda_compatibility": "13.2",
+    "driver_version": "596.72",
+    "memory_mib": 12227,
+    "model": "NVIDIA RTX PRO 3000 Blackwell Generation Laptop GPU"
+  },
+  "memory": {
+    "physical_bytes": 68137205760
+  },
+  "observed_date": "2026-08-24",
+  "operating_system": "Windows-10-10.0.26200-SP0",
+  "privacy": {
+    "hostname_included": false,
+    "serial_numbers_included": false,
+    "username_included": false
+  },
+  "python": "3.11.9",
+  "record_kind": "hardware_environment",
+  "record_sha256": "663916ea3f1779f8c3a1088f1c1afa7a9b05d2edf0585dd205837f86cc83527e",
+  "schema_version": "1.0.0",
+  "software_runtime": {
+    "torch": "2.13.0+cu130",
+    "torch_cuda_runtime": "13.0"
+  }
+}

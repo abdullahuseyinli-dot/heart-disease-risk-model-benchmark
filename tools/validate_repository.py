@@ -23,11 +23,32 @@ REQUIRED_FILES = (
     "THIRD_PARTY_NOTICES.md",
     ".zenodo.json",
     "docs/ARTIFACTS.md",
+    "docs/ARCHITECTURE.md",
     "docs/BENCHMARK_CARD.md",
+    "docs/DATA_ACQUISITION_RUNBOOK.md",
+    "docs/HARDWARE.md",
     "docs/PROJECT_STATUS.md",
+    "docs/RESULTS.md",
+    "docs/research/result_presentation_manifest.json",
+    "docs/RELEASE_EVIDENCE_GATE.md",
     "docs/USAGE.md",
+    "docs/VERSIONING.md",
     "docs/legacy/LEGACY_BENCHMARK.md",
     "configs/research/method_registry_v2.yaml",
+    "configs/research/method_registry_v3.yaml",
+    "configs/coverage/source-only.coveragerc",
+    "configs/release/release_gate_policy_v1.json",
+    "configs/schema/release_gate_policy.schema.json",
+    "manifests/datasets/uci_heart_v1.json",
+    "manifests/datasets/uci_diabetes_readmission_v1.json",
+    "manifests/datasets/eicu_crd_demo_v2.0.1.json",
+    "manifests/environment/confirmatory_machine_20260824.json",
+    "manifests/evidence/heart_prediction_table_v1.json",
+    "manifests/evidence/heart_primary_estimands_v1.json",
+    "manifests/evidence/heart_outer_v5_report_v1.json",
+    "paper/OUTLINE.md",
+    "paper/CLAIM_EVIDENCE_CROSSWALK.md",
+    "paper/references.bib",
     "data/splits/uci_heart_loho_v2.json",
     "data/raw/eicu-crd-demo/2.0.1/LICENSE-ODbL-1.0.md",
     "data/processed/eicu-demo-shiftguard-smoke-v1/LICENSE-ODbL-1.0.md",
@@ -171,7 +192,11 @@ def validate_document_links(relative_path: str) -> None:
     document = ROOT / relative_path
     text = document.read_text(encoding="utf-8")
     for target in re.findall(r"!?(?:\[[^]]*\])\(([^)]+)\)", text):
-        target = target.strip().split(maxsplit=1)[0].strip("<>")
+        target = target.strip()
+        if target.startswith("<"):
+            target = target[1:].split(">", 1)[0]
+        else:
+            target = target.split(maxsplit=1)[0]
         if target.startswith(("http://", "https://", "#", "mailto:")):
             continue
         local = unquote(target.split("#", 1)[0])
@@ -209,9 +234,23 @@ def validate_public_documentation() -> None:
         "README.md",
         "docs/README.md",
         "docs/BENCHMARK_CARD.md",
+        "docs/ARCHITECTURE.md",
+        "docs/DATA_ACQUISITION_RUNBOOK.md",
+        "docs/HARDWARE.md",
+        "docs/RELEASE_EVIDENCE_GATE.md",
         "docs/USAGE.md",
+        "docs/VERSIONING.md",
+        "docs/RESEARCH_ATLAS.md",
+        "docs/RESULTS.md",
+        "docs/research/EXPERIMENT_LEDGER.md",
+        "docs/legacy/COURSEWORK_PROVENANCE.md",
+        "docs/audit/2026-09-20/REPOSITORY_AUDIT.md",
+        "docs/audit/2026-09-20/VALIDATION.md",
+        "results/legacy_coursework_2025/README.md",
         "docs/legacy/LEGACY_BENCHMARK.md",
         "paper/README.md",
+        "paper/OUTLINE.md",
+        "paper/CLAIM_EVIDENCE_CROSSWALK.md",
     ):
         validate_document_links(relative_path)
 
@@ -233,6 +272,7 @@ def validate_licensing() -> None:
         "heart+disease",
         "Open Database License",
         "10.13026/4mxk-na84",
+        "Prior Labs License 1.2",
     ):
         require(marker in notices, f"dataset notice is missing: {marker}")
 
@@ -282,6 +322,9 @@ def validate_public_paths() -> None:
 def validate_release_metadata() -> None:
     citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
     zenodo = json.loads((ROOT / ".zenodo.json").read_text(encoding="utf-8"))
+    release_policy = json.loads(
+        (ROOT / "configs/release/release_gate_policy_v1.json").read_text(encoding="utf-8")
+    )
     package = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
 
     version_match = re.search(r'^version = "([^"]+)"$', package, flags=re.MULTILINE)
@@ -290,6 +333,21 @@ def validate_release_metadata() -> None:
     require(f"version: {version}" in citation, "CITATION.cff version does not match package")
     require(zenodo.get("version") == version, ".zenodo.json version does not match package")
     require("doi" not in zenodo, ".zenodo.json must not invent an unpublished DOI")
+    require(
+        release_policy.get("schema_version") == "1.0.0",
+        "release gate policy schema version is unsupported",
+    )
+
+
+def validate_workflow_pins() -> None:
+    for workflow in sorted((ROOT / ".github/workflows").glob("*.yml")):
+        for action in re.findall(r"uses:\s*([^\s]+)", workflow.read_text(encoding="utf-8")):
+            if action.startswith("./"):
+                continue
+            require(
+                bool(re.fullmatch(r"[^@]+@[0-9a-f]{40}", action)),
+                f"{workflow.name}: action must use a 40-character commit pin: {action}",
+            )
 
 
 def main() -> None:
@@ -300,6 +358,7 @@ def main() -> None:
     validate_licensing()
     validate_public_paths()
     validate_release_metadata()
+    validate_workflow_pins()
     print("Repository validation passed.")
 
 

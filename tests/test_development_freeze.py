@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 import pytest
 
@@ -8,7 +9,7 @@ from heartshift.research.development_freeze import freeze_development_candidate
 
 
 def test_development_freeze_hashes_declared_files_and_refuses_overwrite(
-    tmp_path,
+    tmp_path: Path,
 ) -> None:
     source = tmp_path / "method.py"
     source.write_text("METHOD = 1\n", encoding="utf-8")

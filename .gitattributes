@@ -4,6 +4,18 @@ data/raw/** -text -diff
 # Columnar evidence is binary and must never receive line-ending conversion.
 *.parquet -text
 
+# Recovered coursework outputs retain the exact bytes of the local originals.
+results/legacy_coursework_2025/** -text -whitespace
+docs/legacy/notebook_sources/** -text -whitespace
+assets/research/** -text -whitespace
+
+# Published result text is hashed after deterministic UTF-8/LF rendering.
+docs/RESULTS.md text eol=lf
+docs/research/result_presentation_manifest.json text eol=lf
+
+# The exact-candidate scanner compares this policy byte-for-byte with its Git blob.
+configs/release/release_gate_policy_v1.json -text
+
 # Generated run evidence is hashed byte-for-byte. Do not normalize line endings
 # or ask textual-diff whitespace checks to reinterpret Windows CSV/JSON records.
 artifacts/runs/** -text -diff

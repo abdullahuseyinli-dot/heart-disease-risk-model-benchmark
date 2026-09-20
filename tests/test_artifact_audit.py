@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 import pandas as pd
 import pytest
@@ -11,7 +12,7 @@ from heartshift.research.artifact_audit import (
 )
 
 
-def _source_only_run(tmp_path):
+def _source_only_run(tmp_path: Path) -> Path:
     run_dir = tmp_path / "source-run"
     run_dir.mkdir()
     config_hash = "config-hash"
@@ -46,7 +47,7 @@ def _source_only_run(tmp_path):
     return run_dir
 
 
-def test_source_inner_artifact_audit_hashes_the_exact_tree(tmp_path) -> None:
+def test_source_inner_artifact_audit_hashes_the_exact_tree(tmp_path: Path) -> None:
     run_dir = _source_only_run(tmp_path)
     output = write_source_inner_artifact_audit(run_dir)
     payload = json.loads(output.read_text(encoding="utf-8"))
@@ -58,7 +59,7 @@ def test_source_inner_artifact_audit_hashes_the_exact_tree(tmp_path) -> None:
         write_source_inner_artifact_audit(run_dir)
 
 
-def test_source_inner_artifact_audit_detects_changed_evidence(tmp_path) -> None:
+def test_source_inner_artifact_audit_detects_changed_evidence(tmp_path: Path) -> None:
     run_dir = _source_only_run(tmp_path)
     write_source_inner_artifact_audit(run_dir)
     (run_dir / "prediction_shards/preserved.txt").write_text("changed\n", encoding="utf-8")

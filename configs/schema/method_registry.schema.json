@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark/schemas/method_registry.schema.json",
+  "title": "HeartShift typed method registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "record_kind", "status", "methods"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_kind": {"const": "method_registry"},
+    "status": {"const": "release_method_inventory_not_a_result"},
+    "methods": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["method_id", "version", "family", "factory", "dependency_profile", "devices", "capabilities", "output_schema_version", "provenance", "evidence_eligibility"],
+        "properties": {
+          "method_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]+$"},
+          "version": {"type": "string", "minLength": 1},
+          "family": {"type": "string", "minLength": 1},
+          "factory": {"type": "string", "minLength": 1},
+          "dependency_profile": {"enum": ["core", "classical", "neural-cpu", "neural-cuda", "foundation-models"]},
+          "devices": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["cpu", "cuda"]}},
+          "capabilities": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["missing_values", "sample_weight", "unlabelled_target", "labelled_target"],
+            "properties": {
+              "missing_values": {"type": "boolean"},
+              "sample_weight": {"type": "boolean"},
+              "unlabelled_target": {"type": "boolean"},
+              "labelled_target": {"type": "boolean"}
+            }
+          },
+          "configuration_schema": {"type": ["string", "null"]},
+          "output_schema_version": {"type": "string", "minLength": 1},
+          "provenance": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["paper_url", "repository_url", "audited_revision", "license", "implementation_fidelity"],
+            "properties": {
+              "paper_url": {"type": ["string", "null"], "format": "uri"},
+              "repository_url": {"type": ["string", "null"], "format": "uri"},
+              "audited_revision": {"type": "string", "minLength": 1},
+              "license": {"type": "string", "minLength": 1},
+              "implementation_fidelity": {"enum": ["repository_authored", "upstream_package", "faithful_local_equation", "qualified_local_adaptation", "not_implemented"]}
+            }
+          },
+          "evidence_eligibility": {"enum": ["locked", "post_outcome_only", "development_only", "smoke_only", "omitted"]}
+        }
+      }
+    }
+  }
+}
