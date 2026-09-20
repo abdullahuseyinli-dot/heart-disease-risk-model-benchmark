@@ -6,6 +6,7 @@ Original protocols and execution records retain their historical status.
 
 ## Start here
 
+- [Understanding the metrics](METRICS.md): the research question, accuracy and probability scores, and why balanced log loss is primary.
 - [Experiment results](RESULTS.md): complete method tables, paired intervals, figures, and interpretation by evidence track.
 - [Research atlas](RESEARCH_ATLAS.md): hypotheses, implementation, development decisions, and prior-work attribution.
 - [Complete experiment ledger](research/EXPERIMENT_LEDGER.md): every retained run/report, with evidence scope and recorded failures.

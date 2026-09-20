@@ -11,6 +11,7 @@ assets/research/** -text -whitespace
 
 # Published result text is hashed after deterministic UTF-8/LF rendering.
 docs/RESULTS.md text eol=lf
+docs/research/heart_natural_metrics.csv text eol=lf
 docs/research/result_presentation_manifest.json text eol=lf
 
 # The exact-candidate scanner compares this policy byte-for-byte with its Git blob.

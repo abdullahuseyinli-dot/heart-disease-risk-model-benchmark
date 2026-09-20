@@ -6,10 +6,16 @@
 [![Python](https://img.shields.io/badge/Python-3.11%20%7C%203.12-3776AB.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/code%20license-MIT-2ea44f.svg)](LICENSE)
 
-HeartShift studies how prediction changes when a model moves between hospitals
-and the available measurements change. It combines nested source-only model
-selection, controlled feature-deletion policies, and prediction-level result
-reconstruction.
+**Can a disease classifier trained in some hospitals work in an unseen hospital,
+even when fewer measurements are available?** HeartShift investigates this
+question by comparing standard classifiers with methods that separate disease
+evidence from hospital prevalence and train for missing measurements.
+
+The evaluation trains and selects models using three hospitals, tests on the
+fourth, and repeats this for every hospital. It measures both classification
+with the recorded measurements and probability quality when additional
+measurements are deliberately hidden. Saved predictions make the results
+reproducible.
 
 The main task uses **920 records from four UCI Heart Disease cohorts**. The
 endpoint is historical angiographic disease status (`num > 0`).
@@ -17,11 +23,28 @@ Hospital identity defines the evaluation splits and is excluded from model
 features. All preprocessing, tuning, calibration, and threshold selection use
 source hospitals only.
 
-[Results](docs/RESULTS.md) · [Methods and development](docs/RESEARCH_ATLAS.md) ·
+[Results](docs/RESULTS.md) · [Understanding the metrics](docs/METRICS.md) ·
+[Methods and development](docs/RESEARCH_ATLAS.md) ·
 [Setup and verification](docs/USAGE.md) · [Documentation](docs/README.md)
 
 > Research software, not a medical device. This benchmark does not estimate
 > prospective cardiovascular risk or support individual clinical decisions.
+
+## Classification results
+
+How well do the models classify disease at an unseen hospital using the measurements as recorded? The table below answers this complementary question. **Natural measurements; decision threshold 0.5; equal weight for each of the four hospitals.**
+
+| Model | Accuracy ↑ | Balanced accuracy ↑ | Precision ↑ | Recall ↑ | F1 ↑ | AUROC ↑ | Brier ↓ |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| V2 · prior separation | 77.57% | 72.59% | 82.88% | 78.71% | 80.35% | 0.8183 | 0.154621 |
+| V0 · pooled ERM | 77.36% | 72.30% | 77.99% | 85.73% | 80.74% | 0.8286 | 0.152071 |
+| V5 · mask-axis DRO (preselected) | 75.98% | 72.55% | 81.31% | 77.05% | 78.77% | 0.8015 | 0.159715 |
+| Random forest | 75.10% | 71.77% | 81.87% | 77.12% | 78.78% | 0.8046 | 0.177834 |
+| Logistic regression | 73.59% | 70.74% | 83.20% | 71.03% | 76.40% | 0.7989 | 0.176660 |
+
+These five methods illustrate prior separation, pooled training (ERM), the preselected measurement-robust candidate (DRO), and two classical references. The classical references use site/class-balanced training. Values are descriptive point estimates, not a new model-selection result. AUROC and Brier use probabilities without a decision threshold; Brier here is unweighted within each hospital.
+
+[All 45 methods and downloadable table](docs/RESULTS.md#natural-measurement-metrics) · [Metric definitions and why log loss is primary](docs/METRICS.md).
 
 ## Findings
 

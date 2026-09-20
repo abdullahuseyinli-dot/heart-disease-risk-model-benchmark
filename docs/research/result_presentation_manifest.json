@@ -1,11 +1,15 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "scope": "presentation_of_existing_results_no_new_evaluation",
   "generator": "tools/build_results_document.py",
   "sources": [
     {
       "path": "artifacts/reports/heart-outer-v5/primary_estimands.csv",
       "sha256": "20da62b33f26b48e110421855947f46b19794fcac464ab62ede9ebe5a861d50c"
+    },
+    {
+      "path": "artifacts/reports/heart-outer-v5/site_policy_metrics.csv",
+      "sha256": "ba06bb0520ef5225115e381a7bc46018fc9c8f3a98bd930aa8a6154d3d630aa4"
     },
     {
       "path": "artifacts/reports/heart-outer-v5/paired_bootstrap_intervals.csv",
@@ -71,13 +75,42 @@
   "outputs": [
     {
       "path": "docs/RESULTS.md",
-      "sha256": "44fde80da976f602462c44af0ead1b33a3bb8d605171630a6dd1a81f31d84000"
+      "sha256": "5ad87e7e83e6fe73843adcd40d92f8e79f9523939b39f9e3f59f221220f72721"
+    },
+    {
+      "path": "docs/research/heart_natural_metrics.csv",
+      "sha256": "9194afcca51b0e800fd7e7b358dc190e80aa6390a7831af9c7cc0e0aa240c5d3"
     }
   ],
   "readme_findings_sha256": "3d85e4211b52a47abdeb460bf74710d164404782165450c4457605f1022230a2",
+  "readme_classification_sha256": "0402d3af84165f0297cb5176c7051c36c0c7cf83ca8f71706961b0965d449351",
   "readme_section_normalization": "utf8_lf_without_trailing_newline",
+  "natural_metrics": {
+    "source": "artifacts/reports/heart-outer-v5/site_policy_metrics.csv",
+    "track": "dg_zero_shot",
+    "policy": "natural",
+    "mask_replicate": 0,
+    "decision_threshold": 0.5,
+    "thresholded_metrics": [
+      "accuracy",
+      "balanced_accuracy",
+      "precision",
+      "recall",
+      "f1"
+    ],
+    "aggregation": "arithmetic_mean_of_four_hospital_metrics",
+    "hospital_records": {
+      "cleveland": 303,
+      "hungary": 294,
+      "switzerland": 123,
+      "va_long_beach": 200
+    },
+    "within_hospital_brier_weighting": "unweighted",
+    "method_count": 45
+  },
   "expected_rows": {
     "artifacts/reports/heart-outer-v5/primary_estimands.csv": 45,
+    "artifacts/reports/heart-outer-v5/site_policy_metrics.csv": 9720,
     "artifacts/reports/heart-outer-v5/paired_bootstrap_intervals.csv": 16,
     "artifacts/reports/readmission-outer-v3/primary_estimands.csv": 9,
     "artifacts/reports/readmission-outer-v3/patient_cluster_bootstrap_intervals.csv": 5,

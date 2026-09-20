@@ -1,6 +1,6 @@
 # Experiment results
 
-These tables reproduce the retained report aggregates. Values are rounded to six decimal places for reading; source CSVs retain their stored precision. Method IDs match the report keys, including training weights, calibration, and seed count. Each primary table includes its complete reported method set.
+These tables reproduce the retained report aggregates. Losses and registered aggregates use six decimal places; classification rates use two percentage decimals and the natural-metric table uses four for AUROC. Source CSVs retain their stored precision. Method IDs match the report keys, including training weights, calibration, and seed count. Each primary table includes its complete reported method set.
 
 [Heart](#locked-heart-evaluation) · [Readmission](#independent-readmission-task) · [Backbones and routing](#backbones-and-routing) · [Seed stability](#seed-stability) · [Adaptation](#adaptation-and-diagnostics) · [Legacy work](#legacy-and-systems-experiments)
 
@@ -91,6 +91,67 @@ The figure shows nine named methods for readability, including the preselected c
 [Source table](../artifacts/reports/heart-outer-v5/primary_estimands.csv)
 
 </details>
+
+### Natural measurement metrics
+
+These scores describe the naturally recorded measurements, including their existing missingness, with no additional feature deletion. They use the same 45 frozen zero-shot methods as the primary table. Accuracy, balanced accuracy, precision, recall, and F1 use the report's fixed probability threshold of **0.5**; AUROC and Brier do not require a threshold. Positive means angiographic disease (`num > 0`).
+
+Each value is the arithmetic mean of four separately computed hospital scores: Cleveland (303 records), Hungary (294), Switzerland (123), and VA Long Beach (200). Every hospital receives equal weight regardless of size. F1 is averaged after calculation within each hospital. Brier is unweighted within each hospital. These are not pooled-patient metrics or worst-deletion-policy results. The point estimates are descriptive and retain the original report order. [How to interpret the metrics](METRICS.md).
+
+<details>
+<summary>All 45 methods: accuracy, precision, recall, F1, AUROC, and Brier</summary>
+
+| Method ID | Accuracy ↑ | Balanced accuracy ↑ | Precision ↑ | Recall ↑ | F1 ↑ | AUROC ↑ | Brier ↓ |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `psmask:v2_prior_separated` | 77.57% | 72.59% | 82.88% | 78.71% | 80.35% | 0.8183 | 0.154621 |
+| `psmask:v3_mcar_augmentation` | 76.63% | 72.02% | 81.23% | 77.07% | 78.77% | 0.8040 | 0.157583 |
+| `psmask:v5_site_mask_dro_brier` | 77.26% | 73.30% | 83.45% | 77.04% | 79.91% | 0.8121 | 0.155445 |
+| `psmask:v4_structured_policy_bank` | 78.01% | 73.48% | 80.66% | 81.17% | 80.65% | 0.8065 | 0.150587 |
+| `psmask:v5_site_mask_dro` | 75.28% | 71.88% | 81.85% | 74.99% | 77.97% | 0.8019 | 0.159518 |
+| `psmask:v5_mask_only_dro` | 75.98% | 72.55% | 81.31% | 77.05% | 78.77% | 0.8015 | 0.159715 |
+| `psmask:v7_ane` | 76.55% | 73.42% | 84.72% | 74.77% | 79.15% | 0.8049 | 0.170067 |
+| `classical:random_forest:site_class_balanced` | 75.10% | 71.77% | 81.87% | 77.12% | 78.78% | 0.8046 | 0.177834 |
+| `classical:logistic:site_class_balanced` | 73.59% | 70.74% | 83.20% | 71.03% | 76.40% | 0.7989 | 0.176660 |
+| `classical:logistic:site_class_balanced:source_oof_platt` | 75.27% | 72.48% | 83.94% | 72.22% | 77.51% | 0.7989 | 0.173122 |
+| `classical:random_forest:site_class_balanced:source_oof_platt` | 74.63% | 71.66% | 82.72% | 73.91% | 77.56% | 0.8047 | 0.172878 |
+| `psmask:v5_site_only_dro` | 78.33% | 71.38% | 83.16% | 78.19% | 80.37% | 0.8065 | 0.151090 |
+| `classical:xgboost:site_class_balanced:source_oof_platt` | 72.57% | 72.05% | 81.88% | 70.61% | 75.10% | 0.7944 | 0.182957 |
+| `psmask:v0_pooled_erm` | 77.36% | 72.30% | 77.99% | 85.73% | 80.74% | 0.8286 | 0.152071 |
+| `classical:hist_gradient_boosting:site_class_balanced:source_oof_platt` | 72.17% | 69.82% | 82.09% | 68.12% | 73.92% | 0.7891 | 0.185302 |
+| `classical:logistic:pooled:source_oof_platt` | 75.55% | 71.77% | 85.02% | 71.43% | 77.46% | 0.8137 | 0.163103 |
+| `classical:lightgbm:site_class_balanced:source_oof_platt` | 73.33% | 72.17% | 81.63% | 71.82% | 75.59% | 0.7841 | 0.183612 |
+| `classical:xgboost:site_class_balanced` | 72.94% | 72.23% | 81.15% | 73.59% | 76.32% | 0.7944 | 0.181239 |
+| `classical:catboost:site_class_balanced:source_oof_platt` | 75.73% | 71.91% | 84.07% | 72.29% | 76.79% | 0.7971 | 0.173477 |
+| `modern_2026:ft_transformer:pooled:source_oof_platt` | 76.48% | 72.03% | 85.73% | 70.89% | 77.31% | 0.8054 | 0.168316 |
+| `psmask:v1_site_balanced` | 77.32% | 71.14% | 75.57% | 89.21% | 80.97% | 0.8036 | 0.163243 |
+| `classical:core_logistic:pooled:source_oof_platt` | 75.33% | 70.32% | 81.99% | 70.43% | 75.70% | 0.7816 | 0.167164 |
+| `mirrams:mirrams_equation9` | 63.17% | 63.91% | 68.87% | 86.72% | 72.98% | 0.7939 | 0.211073 |
+| `classical:elastic_net_logistic:site_class_balanced:source_oof_platt` | 65.64% | 55.31% | 66.44% | 77.54% | 70.22% | 0.5415 | 0.245512 |
+| `tabpfn_v3:tabpfn:pooled:source_oof_platt` | 78.22% | 72.62% | 86.15% | 73.57% | 79.17% | 0.8103 | 0.158543 |
+| `classical:catboost:site_class_balanced` | 76.46% | 72.70% | 81.29% | 78.18% | 79.14% | 0.7971 | 0.168861 |
+| `classical:mask_logistic:pooled:source_oof_platt` | 55.12% | 52.62% | 64.81% | 84.67% | 67.89% | 0.5277 | 0.249696 |
+| `modern_2026:tabicl:pooled:source_oof_platt` | 78.10% | 74.88% | 86.45% | 73.61% | 79.33% | 0.8072 | 0.160421 |
+| `modern_2026:tabm:pooled:source_oof_platt` | 77.83% | 73.31% | 89.46% | 68.38% | 77.02% | 0.8047 | 0.164185 |
+| `classical:lightgbm:site_class_balanced` | 73.08% | 72.15% | 80.76% | 74.21% | 76.43% | 0.7841 | 0.183788 |
+| `classical:hist_gradient_boosting:site_class_balanced` | 74.63% | 73.76% | 82.25% | 74.92% | 77.83% | 0.7891 | 0.183945 |
+| `modern_v2:tabpfn:pooled:source_oof_platt` | 77.20% | 73.83% | 84.30% | 75.22% | 79.18% | 0.8066 | 0.162492 |
+| `modern_v2:ebm:site_class_balanced:source_oof_platt` | 77.43% | 70.19% | 85.43% | 70.94% | 76.81% | 0.7963 | 0.171379 |
+| `classical:logistic:pooled` | 75.29% | 72.72% | 79.17% | 81.49% | 79.21% | 0.8137 | 0.168642 |
+| `classical:core_logistic:pooled` | 75.66% | 71.13% | 77.33% | 81.77% | 78.96% | 0.7816 | 0.167882 |
+| `modern_2026:realmlp:pooled:source_oof_platt` | 77.88% | 71.87% | 85.80% | 72.93% | 78.60% | 0.7972 | 0.159639 |
+| `modern_v2:ebm:site_class_balanced` | 73.97% | 71.44% | 81.29% | 74.32% | 77.10% | 0.7962 | 0.168579 |
+| `modern_2026:ft_transformer:pooled` | 75.31% | 72.08% | 79.40% | 79.54% | 78.61% | 0.8055 | 0.169668 |
+| `tabpfn_v3:tabpfn:pooled` | 76.93% | 74.71% | 79.81% | 82.80% | 80.43% | 0.8103 | 0.162490 |
+| `modern_2026:tabicl:pooled` | 77.09% | 75.62% | 80.06% | 83.37% | 80.61% | 0.8073 | 0.167184 |
+| `modern_v2:tabpfn:pooled` | 76.27% | 73.91% | 77.67% | 86.36% | 80.55% | 0.8066 | 0.170688 |
+| `classical:elastic_net_logistic:site_class_balanced` | 51.61% | 51.65% | 68.06% | 48.39% | 51.69% | 0.5394 | 0.284810 |
+| `modern_2026:realmlp:pooled` | 76.58% | 72.11% | 78.96% | 81.96% | 79.86% | 0.8004 | 0.162079 |
+| `classical:mask_logistic:pooled` | 55.93% | 51.61% | 64.68% | 85.93% | 68.47% | 0.5277 | 0.284251 |
+| `modern_2026:tabm:pooled` | 77.65% | 75.16% | 81.64% | 80.87% | 80.62% | 0.8089 | 0.158441 |
+
+</details>
+
+[Download all 45 rows](research/heart_natural_metrics.csv) · [Original hospital/policy scores](../artifacts/reports/heart-outer-v5/site_policy_metrics.csv) · [Metric implementation](../src/heartshift/metrics.py). The export records the condition, threshold, and averaging convention. The generator checks all four hospitals, the complete method set, and agreement with the frozen natural AUROC aggregate.
 
 ### Registered comparisons
 
