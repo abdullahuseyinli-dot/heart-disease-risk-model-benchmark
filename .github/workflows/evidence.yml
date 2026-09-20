@@ -54,3 +54,9 @@ jobs:
 
       - name: Validate archived v1 evidence
         run: uv run python tools/validate_repository.py
+
+      - name: Verify public result tables and figures
+        run: |
+          uv run python tools/build_results_document.py --check
+          uv run python tools/build_research_atlas.py --check
+          uv run python tools/plot_research_overview.py --check

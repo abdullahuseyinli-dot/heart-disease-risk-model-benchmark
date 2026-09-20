@@ -1,17 +1,14 @@
 # Research atlas
 
-HeartShift developed from a coursework model comparison into an auditable study of
-hospital and measurement-policy shift. Its strongest contribution is the
-benchmark design, preservation of prediction evidence, and analysis of where
-proposed methods fail. Several project-developed ideas were implemented and
-tested. The available evidence does not establish a novel, generally superior
-architecture or a clinical risk model.
+HeartShift investigates whether source-trained models retain useful probability
+estimates when both the hospital population and recorded measurements change.
+The study developed from a coursework comparison into a hospital-held-out
+benchmark, followed by experiments on adaptation, model selection, and ensembling.
 
-This atlas connects ideas to implementation, trials, and conclusions. The
-[complete experiment ledger](research/EXPERIMENT_LEDGER.md) covers every retained
-run and report, including pilots, failures, and smoke tests. The
-[local/Git reconciliation](audit/2026-09-20/REPOSITORY_AUDIT.md) explains what was
-recovered in September 2026.
+This page connects each hypothesis to its implementation, evaluation, and
+outcome. The [results](RESULTS.md) contain the complete method tables and
+registered comparisons. The [experiment ledger](research/EXPERIMENT_LEDGER.md)
+also records pilots, failed runs, recovery events, and pipeline smoke tests.
 
 ## Development and evidence flow
 
@@ -38,9 +35,9 @@ The heart sample remains 920 records at four historical hospitals. Repeated
 methods, policies, and seeds do not increase that sample. The heart endpoint is
 angiographic disease status, as defined by the [UCI source](https://archive.ics.uci.edu/dataset/45/heart+disease).
 
-## Ideas, ownership, and outcomes
+## Methods and experimental decisions
 
-| Idea or workstream | What this project developed | Implementation and evidence | Supported conclusion |
+| Workstream | Implementation | Evidence | Outcome |
 | --- | --- | --- | --- |
 | Hospital-by-policy benchmark | Explicit hospital identity, nested source-only selection, deletion-only policies, balanced proper scores, sample-level reconstruction | [Benchmark card](BENCHMARK_CARD.md), [masks](../src/heartshift/masks.py), [outer report](HEART_OUTER_V5_RESULT.md) | A reusable, auditable evaluation design for this dataset and policy bank. |
 | Prior separation | Equal class and hospital weighting, with a controlled V0-V2 ladder | [PS-MaskDRO implementation](../src/heartshift/models/ps_maskdro.py), [method specification](METHOD_SPECIFICATION.md) | V2 had the lowest locked primary point estimate, 0.602509. This is an observed benchmark result. |
@@ -100,10 +97,9 @@ of existing results; they do not create new registered comparisons.
 
 ## Relationship to prior work
 
-This is a bounded attribution check, not an exhaustive novelty search.
-Project naming alone does not establish an invention. The project's specific
-combinations and experimental infrastructure can be credited while keeping the
-following foundations attributed to their original authors.
+The method families build on established work in distribution shift, robust
+optimization, and prevalence estimation. The table distinguishes those
+foundations from the combinations and evaluations implemented in this project.
 
 | Foundation | Existing work | HeartShift's relationship |
 | --- | --- | --- |
@@ -113,16 +109,17 @@ following foundations attributed to their original authors.
 | Robust tabular prediction under missingness shifts | [MIRRAMS](https://arxiv.org/abs/2507.08280) | An external method control on the common backbone; it is not a HeartShift invention. |
 | Black-box label-shift estimation | [Lipton, Wang and Smola](https://proceedings.mlr.press/v80/lipton18a.html) | BBSE is an attributed estimator, not a newly invented component of the compatibility gate. |
 
-The supported project-level claim is an auditable benchmark and a set of
-tested methodological hypotheses with informative negative results. An untouched
-external evaluation and a fuller prior-art analysis would be needed to argue a
-broader method contribution. No external experiment is implied by an access
-template, configuration file, or public-demo smoke run.
+The contribution supported by the experiments is an auditable benchmark and
+evidence about ensemble stability, adaptation assumptions, and source-only
+selection. Broader method novelty and clinical validity remain unestablished.
+The independent readmission task and eICU pipeline smoke test retain their
+separate endpoints and evidence scopes.
 
 ## Rebuild and verify the presentation
 
 ```powershell
 uv run python tools/build_research_atlas.py --check
+uv run python tools/build_results_document.py --check
 uv run python tools/plot_research_overview.py --check
 ```
 

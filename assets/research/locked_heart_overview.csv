@@ -1,0 +1,10 @@
+method,label,primary_bll,natural_macro_auroc,evidence_scope
+psmask:v2_prior_separated,V2 prior separation,0.6025088335421755,0.8183222613744907,locked_zero_shot_descriptive_selection
+psmask:v3_mcar_augmentation,V3 MCAR augmentation,0.6159557678546476,0.803982814141414,locked_zero_shot_descriptive_selection
+psmask:v5_site_mask_dro_brier,V5 joint DRO + Brier,0.6164417529017989,0.8120545766088467,locked_zero_shot_descriptive_selection
+psmask:v4_structured_policy_bank,V4 structured policies,0.6180713536874614,0.8064506454991865,locked_zero_shot_descriptive_selection
+psmask:v5_mask_only_dro,V5 mask-axis DRO *,0.6259485409171809,0.8014861030595164,locked_zero_shot_descriptive_selection
+classical:random_forest:site_class_balanced,Random forest,0.6270313025175467,0.8046285995304854,locked_zero_shot_descriptive_selection
+classical:logistic:site_class_balanced,Logistic reference,0.6345911813700964,0.798880674017341,locked_zero_shot_descriptive_selection
+psmask:v0_pooled_erm,V0 pooled ERM,0.6477786383237008,0.8286153359350468,locked_zero_shot_descriptive_selection
+mirrams:mirrams_equation9,MIRRAMS Equation 9,0.6866180276640077,0.7938519911644666,locked_zero_shot_descriptive_selection

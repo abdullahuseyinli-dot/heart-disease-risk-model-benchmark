@@ -22,6 +22,10 @@
     {
       "path": "artifacts/reports/shiftguard-revisions-v3-final-development/revision_comparison.csv",
       "sha256": "55dda06a42f426b157fb7a1c15b0bb038cac47f51e5743f7a7ca33684003f164"
+    },
+    {
+      "path": "artifacts/reports/heart-outer-v5/primary_estimands.csv",
+      "sha256": "20da62b33f26b48e110421855947f46b19794fcac464ab62ede9ebe5a861d50c"
     }
   ],
   "outputs": [
@@ -31,11 +35,23 @@
     },
     {
       "path": "assets/research/ensemble_stability.png",
-      "sha256": "dd62260cb24a94e6bf1ed3b66180d4dc957c6428595c8e47802764ad761fb23b"
+      "sha256": "67aec5f58d044b8d20324e1d88b955770312a7c5316b221cdc5b313ab1a83a60"
     },
     {
       "path": "assets/research/ensemble_stability.svg",
-      "sha256": "0ba256cf91961b566200f398d620c3106fa24859ae7ec0d5d1262273862fca2f"
+      "sha256": "231bcc27a22600f2dce9f0f0ef2f21e2d6f64fe30019c627116072defbf5db84"
+    },
+    {
+      "path": "assets/research/locked_heart_overview.csv",
+      "sha256": "352c143c93d2d03c264d384c9b683f766521496062a90546d1f7ebd2cc2903c0"
+    },
+    {
+      "path": "assets/research/locked_heart_overview.png",
+      "sha256": "6834c1b09dc29f90d6007453333e9cce1ce93e9c9fd0e31bb87c3ac0ce5a9423"
+    },
+    {
+      "path": "assets/research/locked_heart_overview.svg",
+      "sha256": "1f60bad8983568a10b271062b0400831588af56d9ecf5df3d48350b3b57e4e29"
     },
     {
       "path": "assets/research/shiftguard_revision_limits.csv",
@@ -43,11 +59,11 @@
     },
     {
       "path": "assets/research/shiftguard_revision_limits.png",
-      "sha256": "37dfe44292e7c5623f229957d67686adfa095c73d276bb5c36fdcbef4b58392f"
+      "sha256": "554dd6e1c712f24f4c13a08361e7036055f6380a920a8b16a7ca628937322de9"
     },
     {
       "path": "assets/research/shiftguard_revision_limits.svg",
-      "sha256": "f338d38fa1ba72646c3af41e7d3371f9f8959ffeaae309cbdc0d2ab6bbf48806"
+      "sha256": "05068fe0c1cafdf7eaf43c5a299d0fadc7ce1da27987f9b70d905ad7660ba7fb"
     },
     {
       "path": "assets/research/v4_interval_context.csv",

@@ -1,4 +1,4 @@
-"""Plot the complete seed extension and full ShiftGuard revisions from saved tables."""
+"""Plot locked heart results, seed stability, and ShiftGuard from saved tables."""
 
 from __future__ import annotations
 
@@ -20,7 +20,19 @@ SOURCES = [
     f"{STABILITY}/paired_bootstrap_intervals.csv",
     f"{STABILITY}/posthoc_multiplicity_sensitivity.csv",
     f"{SHIFTGUARD}/revision_comparison.csv",
+    "artifacts/reports/heart-outer-v5/primary_estimands.csv",
 ]
+HEART_SELECTION = {
+    "psmask:v2_prior_separated": "V2 prior separation",
+    "psmask:v3_mcar_augmentation": "V3 MCAR augmentation",
+    "psmask:v5_site_mask_dro_brier": "V5 joint DRO + Brier",
+    "psmask:v4_structured_policy_bank": "V4 structured policies",
+    "psmask:v5_mask_only_dro": "V5 mask-axis DRO *",
+    "classical:random_forest:site_class_balanced": "Random forest",
+    "classical:logistic:site_class_balanced": "Logistic reference",
+    "psmask:v0_pooled_erm": "V0 pooled ERM",
+    "mirrams:mirrams_equation9": "MIRRAMS Equation 9",
+}
 LABELS = {
     "v0_pooled_erm": "V0 pooled ERM",
     "v1_site_balanced": "V1 site balanced",
@@ -123,6 +135,23 @@ def csv_text(rows: list[dict[str, Any]]) -> str:
     return output.getvalue()
 
 
+def heart_overview_data(root: Path) -> list[dict[str, Any]]:
+    rows = read_rows(root, SOURCES[5])
+    if len(rows) != 45 or len({row["method"] for row in rows}) != 45:
+        raise ValueError("Locked heart figure requires the complete 45-method source table")
+    return [
+        {
+            "method": method,
+            "label": label,
+            "primary_bll": float(row["macro_site_worst_mask_balanced_log_loss"]),
+            "natural_macro_auroc": float(row["macro_natural_roc_auc"]),
+            "evidence_scope": "locked_zero_shot_descriptive_selection",
+        }
+        for method, label in HEART_SELECTION.items()
+        for row in [exactly_one(rows, method=method)]
+    ]
+
+
 def plot(root: Path) -> None:
     import matplotlib
 
@@ -154,11 +183,73 @@ def plot(root: Path) -> None:
         fig.savefig(out / f"{name}.svg", metadata={"Date": None}, facecolor="white")
         plt.close(fig)
 
+    heart = heart_overview_data(root)
+    fig, axes = plt.subplots(1, 2, figsize=(13, 6.8), sharey=True)
+    fig.subplots_adjust(left=0.26, right=0.955, top=0.77, bottom=0.22, wspace=0.40)
+    fig.text(0.04, 0.94, "Heart benchmark results", fontsize=23, weight="bold")
+    fig.text(
+        0.04,
+        0.885,
+        "LOCKED ZERO-SHOT EVALUATION  |  920 records  |  Four historical hospitals",
+        color="#586d7e",
+    )
+    for ax, key, title, limits, ticks, color in [
+        (
+            axes[0],
+            "primary_bll",
+            "Worst-policy balanced log loss",
+            (0.59, 0.712),
+            [0.60, 0.64, 0.68],
+            "#087f75",
+        ),
+        (
+            axes[1],
+            "natural_macro_auroc",
+            "Natural-policy AUROC",
+            (0.78, 0.853),
+            [0.78, 0.80, 0.82, 0.84],
+            "#327aa2",
+        ),
+    ]:
+        for index, row in enumerate(heart):
+            selected = row["method"] == "psmask:v5_mask_only_dro"
+            if index % 2 == 0:
+                ax.axhspan(index - 0.46, index + 0.46, color="#f2f5f7", zorder=0)
+            ax.scatter(
+                row[key], index, s=62, color=color, marker="D" if selected else "o", zorder=3
+            )
+            ax.annotate(
+                f"{row[key]:.4f}",
+                (row[key], index),
+                xytext=(9, 0),
+                textcoords="offset points",
+                va="center",
+                fontsize=10,
+            )
+        ax.set_xlim(*limits)
+        ax.set_xticks(ticks)
+        ax.set_title(title, loc="left", fontsize=12, pad=17)
+        ax.set_xlabel("Lower is better" if ax is axes[0] else "Higher is better", labelpad=10)
+        ax.grid(axis="x", color="#dce4eb", linewidth=0.8)
+        ax.set_axisbelow(True)
+        ax.tick_params(axis="y", length=0, pad=12)
+    axes[0].set_yticks(range(len(heart)), [row["label"] for row in heart])
+    axes[0].set_ylim(len(heart) - 0.4, -0.6)
+    fig.text(
+        0.04,
+        0.085,
+        "* Preselected mask-axis candidate. Its registered interval against logistic regression "
+        "crosses zero.\nNine descriptive selections from 45 reported methods; dots are point "
+        "estimates, without uncertainty intervals.",
+        fontsize=10,
+        color="#586d7e",
+    )
+    finish(fig, "locked_heart_overview")
+    (out / "locked_heart_overview.csv").write_text(csv_text(heart), encoding="utf-8", newline="\n")
+
     fig, axes = plt.subplots(1, 2, figsize=(15, 7), gridspec_kw={"width_ratios": [1.25, 1]})
     fig.subplots_adjust(left=0.22, right=0.97, top=0.79, bottom=0.30, wspace=0.55)
-    fig.text(
-        0.04, 0.94, "Averaging helped; superiority remains unconfirmed", fontsize=21, weight="bold"
-    )
+    fig.text(0.04, 0.94, "Seed ensemble stability", fontsize=21, weight="bold")
     fig.text(
         0.04,
         0.89,
@@ -230,7 +321,7 @@ def plot(root: Path) -> None:
     fig.text(
         0.04,
         0.94,
-        "ShiftGuard improved, then failed its acceptance gate",
+        "ShiftGuard development outcomes",
         fontsize=21,
         weight="bold",
     )
@@ -308,7 +399,7 @@ def check(root: Path) -> None:
         raise ValueError("Figure input set changed")
     expected_outputs = {
         f"{OUTPUT}/{name}.{suffix}"
-        for name in ("ensemble_stability", "shiftguard_revision_limits")
+        for name in ("ensemble_stability", "shiftguard_revision_limits", "locked_heart_overview")
         for suffix in ("png", "svg", "csv")
     } | {f"{OUTPUT}/v4_interval_context.csv"}
     if {row["path"] for row in manifest["outputs"]} != expected_outputs:
@@ -326,6 +417,10 @@ def check(root: Path) -> None:
         root / SOURCES[4]
     ).read_bytes():
         raise ValueError("Revision figure data changed")
+    if (root / OUTPUT / "locked_heart_overview.csv").read_text(encoding="utf-8") != csv_text(
+        heart_overview_data(root)
+    ):
+        raise ValueError("Locked heart figure data changed")
     print("Figure input hashes, plotted tables, and output hashes verified.")
 
 

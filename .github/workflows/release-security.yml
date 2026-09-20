@@ -81,6 +81,7 @@ jobs:
           report_dir=".audit/release/${GITHUB_SHA}"
           uv run python tools/validate_repository.py 2>&1 | tee "${report_dir}/repository.log"
           uv run python tools/build_research_atlas.py --check
+          uv run python tools/build_results_document.py --check
           uv run python tools/plot_research_overview.py --check
           uv run heartshift release record-gate \
             --candidate "${GITHUB_SHA}" --gate repository --status pass \

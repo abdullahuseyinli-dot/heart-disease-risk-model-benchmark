@@ -18,6 +18,10 @@ Manuscript preparation starts with the [section outline](OUTLINE.md), the
 claim scope; unsupported architecture, state-of-the-art, or clinical-use claims
 must not be inferred from point estimates.
 
+The [result tables](../docs/RESULTS.md) include every method from the locked heart,
+readmission, development, and stability reports. Their generator verifies the
+source bindings and keeps the README findings synchronized with the saved values.
+
 Primary sources include current reports and frozen study records:
 
 - `docs/RESEARCH_PROTOCOL.md`

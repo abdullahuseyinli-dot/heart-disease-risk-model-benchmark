@@ -17,7 +17,7 @@ Python 3.11.9 development environment on Windows.
 | Figure provenance | Input-table hashes, complete plotted-data exports, and PNG/SVG output hashes verified. |
 | Visual inspection | Both new figures inspected as PNGs; label/legend spacing corrected and final images rechecked. |
 
-The source tree now contains 157 tests. The full local run preceded the last
+The preservation change contained 157 tests. The full local run preceded the last
 workflow-pin test; that test and the five other audit tests then passed together.
 Remote workflows rerun the applicable complete suite on the pushed candidate.
 The [PR checks](https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark/pull/2/checks)
@@ -70,3 +70,27 @@ were changed.
 Validation log files remain under the ignored local `.audit/verification/`
 directory. The current [audit](REPOSITORY_AUDIT.md), manifests, and figure
 sidecars are the compact public evidence for this preservation work.
+
+## Result-presentation verification
+
+The subsequent presentation pass added complete result tables, synchronized
+README findings, and a locked-heart overview figure. It also shortened the
+public overview and clarified the method-development narrative.
+
+| Check | Result |
+| --- | --- |
+| Final full local suite | 169 passed; 55.36% full-profile coverage. |
+| Focused presentation and preservation checks | 18 passed, including missing/duplicate methods, altered references, mixed adaptation tracks, stale values, changed source bytes, and relabelled post-outcome evidence. |
+| Static checks | Ruff and formatting passed for 129 Python files; mypy passed for 122 source/test files. |
+| Data and contracts | Unified validation passed; all nine declared contracts verified with materialized bindings; registry validated 18 entries. |
+| Result coverage | All 45 locked-heart, 9 readmission, 16 development, and 22 stability-report methods represented; all 16 heart and 5 readmission registered contrasts included. |
+| Presentation bindings | Sixteen source tables/manifests/gate records bound to the result page; complete figure input/output hashes and recovery inventory verified. |
+| Distribution | Wheel/sdist build, content validation, and clean-wheel installation passed. |
+| Visual review | All six figures embedded in the result page inspected as images; current PNG/SVG exports checked. |
+| Markdown rendering | GitHub's Markdown API rendered the README, result page, atlas, and architecture guide. Result-page output contained 13 tables and five expandable sections. Browser viewport inspection was unavailable in this session. |
+
+The final local suite is recorded in
+`.audit/verification/presentation-final-pytest.log`. Commit-specific remote
+results are available through the [PR checks](https://github.com/abdullahuseyinli-dot/heart-disease-risk-model-benchmark/pull/2/checks).
+No raw data, model code, frozen configurations, predictions, or historical
+report results were changed in this presentation pass.

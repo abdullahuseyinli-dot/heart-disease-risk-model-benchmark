@@ -1,14 +1,27 @@
 # Architecture
 
-HeartShift is organized around an evidence pipeline rather than a notebook
-pipeline. Each transition has an explicit contract, and no model-selection
-component can read a locked outer label.
+HeartShift separates data acquisition, source-only model selection, fixed outer
+prediction, and independent result reconstruction. The zero-shot evaluation
+keeps held-out labels outside the selection and prediction paths.
 
-```text
-official source -> raw manifest -> create-only canonicalization -> split contract
-       -> source-only selection/freeze -> locked prediction rows
-       -> independent aggregation/audit -> report sidecar -> release gate
+```mermaid
+flowchart TD
+    A[Official source and raw manifest] --> B[Canonical data and split contract]
+    B --> C[Source hospitals: nested selection]
+    B --> D[Held-out features and deletion policies]
+    B --> E[Held-out labels: evaluation only]
+    C --> F[Frozen model and configuration]
+    F --> G[Fixed outer prediction]
+    D --> G
+    G --> H[Immutable sample-level probabilities]
+    H --> I[Metrics and paired uncertainty]
+    E --> I
+    I --> J[Independent reconstruction and report bindings]
+    J --> K[Tables, figures, and release checks]
 ```
+
+The diagram describes zero-shot evaluation. Unlabelled and labelled adaptation
+have separate target-information contracts and result tracks.
 
 ## Trust boundaries
 

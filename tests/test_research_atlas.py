@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import importlib.util
 import json
+import shutil
 from pathlib import Path
 from types import ModuleType
 from typing import Any
@@ -144,3 +145,114 @@ def test_workflow_validator_rejects_malformed_action_pins(
     workflow.write_text("steps:\n  - uses: actions/checkout@" + "a" * 41 + "\n")
     with pytest.raises(SystemExit, match="40-character commit"):
         validator.validate_workflow_pins()
+
+
+@pytest.fixture
+def results_workspace(tmp_path: Path) -> Path:
+    results = tool("build_results_document")
+    paths = [
+        *results.TABLES,
+        *results.JSON_SOURCES,
+        results.DOCUMENT,
+        results.MANIFEST,
+        "README.md",
+    ]
+    for relative in paths:
+        destination = tmp_path / relative
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(ROOT / relative, destination)
+    return tmp_path
+
+
+@pytest.mark.parametrize("duplicate", [False, True])
+def test_result_tables_reject_missing_or_duplicated_methods(
+    results_workspace: Path, duplicate: bool
+) -> None:
+    results = tool("build_results_document")
+    path = results_workspace / results.HEART / "primary_estimands.csv"
+    lines = path.read_text().splitlines()
+    if duplicate:
+        lines[-1] = lines[-2]
+    else:
+        lines.pop()
+    path.write_text("\n".join(lines) + "\n")
+    with pytest.raises(ValueError, match="Incomplete or duplicate result set"):
+        results.read_tables(results_workspace)
+
+
+def test_result_table_method_set_must_match_frozen_report(results_workspace: Path) -> None:
+    results = tool("build_results_document")
+    path = results_workspace / results.HEART / "primary_estimands.csv"
+    path.write_text(path.read_text().replace("psmask:v2_prior_separated", "unknown:method"))
+    with pytest.raises(ValueError, match="Method set differs from the frozen report"):
+        results.read_tables(results_workspace)
+
+
+def test_result_tables_cannot_silently_include_an_adaptation_track(results_workspace: Path) -> None:
+    results = tool("build_results_document")
+    path = results_workspace / results.HEART / "report_manifest.json"
+    payload = json.loads(path.read_text())
+    payload["tracks"].append("uda")
+    write_json(path, payload)
+    with pytest.raises(ValueError, match="Automatic adaptation cannot be pooled"):
+        results.read_tables(results_workspace)
+
+
+def test_comparison_reference_must_match_caption(results_workspace: Path) -> None:
+    results = tool("build_results_document")
+    path = results_workspace / results.READMISSION / "patient_cluster_bootstrap_intervals.csv"
+    path.write_text(path.read_text().replace("logistic_environment_class_balanced", "pooled_erm"))
+    with pytest.raises(ValueError, match="Registered comparison reference changed"):
+        results.read_tables(results_workspace)
+
+
+@pytest.mark.parametrize("report", ["DEVELOPMENT", "STABILITY"])
+def test_post_outcome_results_cannot_be_relabelled_confirmatory(
+    results_workspace: Path, report: str
+) -> None:
+    results = tool("build_results_document")
+    path = results_workspace / getattr(results, report) / "report_manifest.json"
+    payload = json.loads(path.read_text())
+    payload["new_confirmatory_claim_allowed"] = True
+    write_json(path, payload)
+    with pytest.raises(ValueError, match="Development scope or method count changed"):
+        results.read_tables(results_workspace)
+
+
+def test_result_presentation_rejects_stale_headlines_and_changed_source_bytes(
+    results_workspace: Path,
+) -> None:
+    results = tool("build_results_document")
+    results.build(results_workspace, check=True)
+    readme = results_workspace / "README.md"
+    original = readme.read_text(encoding="utf-8")
+    readme.write_text(original.replace("0.602509", "0.123456", 1), encoding="utf-8")
+    with pytest.raises(ValueError, match="README findings do not match"):
+        results.build(results_workspace, check=True)
+    readme.write_text(original, encoding="utf-8")
+    report = results_workspace / results.HEART / "primary_estimands.csv"
+    report.write_bytes(report.read_bytes() + b"\n")
+    with pytest.raises(ValueError, match="source bindings changed"):
+        results.build(results_workspace, check=True)
+
+
+def test_comparison_table_uses_bootstrap_mean_not_point_estimate_subtraction() -> None:
+    results = tool("build_results_document")
+    rows = [
+        {
+            "method": "candidate",
+            "mean_difference": "-0.04",
+            "observed_difference": "-0.01",
+            "ci_025": "-0.06",
+            "ci_975": "-0.02",
+        }
+    ]
+    rendered = results.comparisons(rows, "method")
+    assert "-0.040000" in rendered
+    assert "-0.010000" not in rendered
+
+
+@pytest.mark.parametrize("value", ["nan", "inf", "-inf"])
+def test_nonfinite_result_is_not_presented_as_a_completed_metric(value: str) -> None:
+    with pytest.raises(ValueError, match="Non-finite metric"):
+        tool("build_results_document").number(value)

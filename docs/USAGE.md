@@ -38,6 +38,9 @@ uv run mypy
 uv run heartshift --version
 uv run heartshift contracts validate --repo-root .
 uv run python tools/validate_repository.py
+uv run python tools/build_results_document.py --check
+uv run python tools/build_research_atlas.py --check
+uv run python tools/plot_research_overview.py --check
 uv build
 uv run python tools/validate_distribution.py
 uv run python tools/smoke_install_distribution.py

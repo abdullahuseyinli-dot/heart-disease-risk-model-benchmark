@@ -1,14 +1,14 @@
 # Documentation
 
-HeartShift documentation is organized by purpose. Result documents are derived
-from the tracked prediction evidence; protocol and audit records retain the
-status under which each result was produced.
+Start with the results for the experimental findings, the research atlas for
+the development decisions, or the setup guide to run the software checks.
+Original protocols and execution records retain their historical status.
 
 ## Start here
 
-- [Research atlas](RESEARCH_ATLAS.md): ideas, attribution, development flow, figures, and supported conclusions.
-- [Complete experiment ledger](research/EXPERIMENT_LEDGER.md): every retained run/report, with explicit evidence scope and recorded failures.
-- [Local/Git reconciliation](audit/2026-09-20/REPOSITORY_AUDIT.md): branch integration, recovered outputs, and preservation gaps.
+- [Experiment results](RESULTS.md): complete method tables, paired intervals, figures, and interpretation by evidence track.
+- [Research atlas](RESEARCH_ATLAS.md): hypotheses, implementation, development decisions, and prior-work attribution.
+- [Complete experiment ledger](research/EXPERIMENT_LEDGER.md): every retained run/report, with evidence scope and recorded failures.
 - [Benchmark card](BENCHMARK_CARD.md): reusable task, split, metric, and evidence contract.
 - [Project status](PROJECT_STATUS.md): current evidence classes and completed evaluations.
 - [Installation and verification](USAGE.md): lightweight checkout and complete evidence audit.
@@ -21,6 +21,10 @@ status under which each result was produced.
 - [Versioning](VERSIONING.md): software, evidence, tags, releases, and DOI boundaries.
 
 ## Results
+
+The [results page](RESULTS.md) brings the saved report tables together without
+combining their endpoints or evidence classes. Report-specific interpretation
+and execution details remain in the following records:
 
 - [Locked heart evaluation](HEART_OUTER_V5_RESULT.md)
 - [Ten-seed stability and routing study](HEART_RESEARCH_DEVELOPMENT_RESULT.md)
@@ -51,6 +55,8 @@ historical context, not the current repository status or a public roadmap.
 
 ## Audit history
 
+- [Local/Git reconciliation](audit/2026-09-20/REPOSITORY_AUDIT.md): branch integration, recovered outputs, and preservation gaps.
+- [Presentation source bindings](research/result_presentation_manifest.json): input hashes and complete table counts.
 - [Outer evidence audit](OUTER_EVIDENCE_AUDIT.md)
 - [v3 execution failure and v4 recovery](OUTER_V3_FAILURE_AND_V4_RECOVERY.md)
 - [v4 aggregation failure and v5 recovery](OUTER_V4_FAILURE_AND_V5_RECOVERY.md)

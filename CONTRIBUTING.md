@@ -13,6 +13,7 @@ uv run ruff check src tests tools
 uv run ruff format --check src tests tools
 uv run mypy src/heartshift
 uv run python tools/validate_repository.py
+uv run python tools/build_results_document.py --check
 uv run python tools/build_research_atlas.py --check
 uv run python tools/plot_research_overview.py --check
 uv build
@@ -71,6 +72,13 @@ New run or report directories also need an explicit evidence-scope entry in
 `docs/research/trial_classification.json`. Rebuild the ledger with
 `uv run python tools/build_research_atlas.py`; keep failed and superseded records
 visible. New plots must retain source tables, plotted data, and hash bindings.
+
+Public result tables and the README findings are maintained by
+`tools/build_results_document.py`. Rebuild them from the saved reports and run
+`--check` before committing. Include complete comparison sets, distinguish
+point estimates from bootstrap means, and keep failed gates and post-outcome
+analyses labelled. A documentation update does not authorize refitting a model
+or changing a frozen report.
 
 Keep changes focused and include:
 

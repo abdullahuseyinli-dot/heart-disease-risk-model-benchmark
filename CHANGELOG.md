@@ -12,6 +12,12 @@ release or archive DOI is claimed here.
 
 ### Added
 
+- Complete result tables for the locked heart, readmission, matched-development,
+  and seed-stability reports, including every reported method and registered
+  heart/readmission contrast, familywise sensitivity intervals, and failed gates.
+- A report-bound README summary, a locked-heart comparison figure in PNG/SVG with
+  plotted-data CSV, and checks against missing methods, changed references, mixed
+  adaptation tracks, and stale public values.
 - A local/Git reconciliation, complete 56-run / 12-report ledger, explicit
   research-attribution atlas, and source-bound seed-stability and ShiftGuard figures.
 - 121 byte-preserved coursework outputs, a 152-file source manifest, group-project
@@ -46,6 +52,10 @@ release or archive DOI is claimed here.
 
 ### Changed
 
+- Shortened the README, organized documentation around research questions and
+  results, and added the evaluation data flow to the architecture guide.
+- Standardized current figure titles and kept the original publication bundle
+  and all raw, failed, and historical evidence in place.
 - Corrected the ten-seed claim-to-evidence link and clarified the archived
   latency-derived throughput proxy. Frozen metrics and protocols are unchanged.
 - Corrected the release workflow's malformed checkout pin and aligned
